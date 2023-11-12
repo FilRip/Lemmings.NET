@@ -11,7 +11,7 @@ namespace Lemmings.NET
         readonly Door[] varDoor = new Door[9];
         readonly Exit[] varExit = new Exit[11];
 
-        partial void VariablesLevels()
+        private void VariablesLevels()
         {
             varDoor[1].xWidth = 96; //96x500 -- 10 frames
             varDoor[1].yWidth = 50;

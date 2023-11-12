@@ -385,7 +385,7 @@ namespace Lemmings.NET
             }
         }
 
-        partial void Menu_draw()
+        private void Menu_draw()
         {
             rectangleFill.X = 0;
             rectangleFill.Y = 513;
@@ -445,14 +445,14 @@ namespace Lemmings.NET
             rectangleFill2.Height = cuadrado_menu.Height;
             spriteBatch.Draw(cuadrado_menu, rectangleFill, rectangleFill2, Color.White, 0f, Vector2.Zero, SpriteEffects.None, 0.2f);
             vectorFill.X = 0;
-            vectorFill.Y = graphics.PreferredBackBufferHeight - 188;
-            vectorFill2.X = graphics.PreferredBackBufferWidth;
-            vectorFill2.Y = graphics.PreferredBackBufferHeight - 188;
+            vectorFill.Y = gameResolution.Y - 188;
+            vectorFill2.X = gameResolution.X;
+            vectorFill2.Y = gameResolution.Y - 188;
             DrawLine(spriteBatch, vectorFill, vectorFill2, Color.White, 2, 0.1f);
             vectorFill.X = 0;
-            vectorFill.Y = graphics.PreferredBackBufferHeight - 2;
-            vectorFill2.X = graphics.PreferredBackBufferWidth;
-            vectorFill2.Y = graphics.PreferredBackBufferHeight - 2;
+            vectorFill.Y = gameResolution.Y - 2;
+            vectorFill2.X = gameResolution.X;
+            vectorFill2.Y = gameResolution.Y - 2;
             DrawLine(spriteBatch, vectorFill, vectorFill2, Color.White, 2, 0.1f);
             vectorFill.X = 741;
             vectorFill.Y = 572;
@@ -903,7 +903,7 @@ namespace Lemmings.NET
                 spriteBatch.Draw(avanzar, vectorFill, rectangleFill2, sombramenu, 0f, Vector2.Zero, 1.3f, SpriteEffects.None, 0.11f);
             }
         }
-        partial void Menu_logic()
+        private void Menu_logic()
         {
             if (r1 == 0)
             {
@@ -921,15 +921,15 @@ namespace Lemmings.NET
                 xscale = (float)336 / earth.Width;
             else
                 xscale = (float)336 / 1100;
-            if (earth.Height > graphics.PreferredBackBufferHeight - 188)
+            if (earth.Height > gameResolution.Y - 188)
                 yscale = (float)84 / earth.Height;
             else
-                yscale = (float)84 / (graphics.PreferredBackBufferHeight - 188);
+                yscale = (float)84 / (gameResolution.Y - 188);
             // float scale = Math.Min(xscale, yscale);  // scale from voth axis for real size
             mmscale = (xscroll) * xscale;
             mmscale2 = (xscroll + 1100) * xscale;
             mmscaley = (yscroll) * yscale;
-            mmscaley2 = (yscroll + graphics.PreferredBackBufferHeight - 188) * yscale;
+            mmscaley2 = (yscroll + gameResolution.Y - 188) * yscale;
             mmscale = (int)mmscale;
             mmscale2 = (int)mmscale2;
             mmscaley = (int)mmscaley;
@@ -1051,23 +1051,7 @@ namespace Lemmings.NET
             // medium position for bucle medx medy
             if (rectop1.Contains(x) && mouseActState.LeftButton == ButtonState.Pressed)
             {
-                changeopInstance.Pitch = -1f + numerofrecuencia * 0.02f;
-                changeopInstance.Volume = 0.25f + numerofrecuencia * 0.005f;
-                if (changeopInstance.State == SoundState.Stopped)
-                    try
-                    {
-                        changeopInstance.Play();
-                    }
-                    catch (InstancePlayLimitException) { /* Ignore errors */ }
-                if (numerofrecuencia == numerominfrecuencia)
-                {
-                    changeopInstance.Stop();
-                }
-                op1 = true;
-                if (dibuja2)
-                    numerofrecuencia -= 1; // on monogame 3.6 crash if frecuencia -1 only puto puto
-                if (numerofrecuencia < numerominfrecuencia)
-                    numerofrecuencia = numerominfrecuencia;
+                DecreaseComming();
             }
             else
             {
@@ -1075,23 +1059,7 @@ namespace Lemmings.NET
             }
             if (rectop2.Contains(x) && mouseActState.LeftButton == ButtonState.Pressed)
             {
-                changeopInstance.Pitch = -1f + numerofrecuencia * 0.02f;
-                changeopInstance.Volume = 0.25f + numerofrecuencia * 0.005f;
-                if (changeopInstance.State == SoundState.Stopped)
-                    try
-                    {
-                        changeopInstance.Play();
-                    }
-                    catch (InstancePlayLimitException) { /* Ignore errors */ }
-                if (numerofrecuencia == 99)
-                {
-                    changeopInstance.Stop();
-                }
-                op2 = true;
-                if (dibuja2)
-                    numerofrecuencia += 1; // on monogame 3.6 crash if frecuencia +1 only
-                if (numerofrecuencia > 99)
-                    numerofrecuencia = 99;
+                IncreaseComming();
             }
             else
             {
@@ -1204,24 +1172,24 @@ namespace Lemmings.NET
                 mmscale = (float)(xscroll) * xscale;
                 mmscale2 = (float)(xscroll + 1100) * xscale;
                 mmscaley = (float)(yscroll) * yscale;
-                mmscaley2 = (float)(yscroll + graphics.PreferredBackBufferHeight - 188) * yscale;
+                mmscaley2 = (float)(yscroll + gameResolution.Y - 188) * yscale;
                 mxscale = (float)earth.Width / 336;
                 myscale = (float)earth.Height / 84;
-                mousexscale = ((mouseActState.Position.X - posm + 14) * mxscale) - (graphics.PreferredBackBufferWidth / 2); // center x axis in minimap (xscroll)
+                mousexscale = ((mouseActState.Position.X - posm + 14) * mxscale) - (gameResolution.X / 2); // center x axis in minimap (xscroll)
                 mouseyscale = ((mouseActState.Position.Y - posy) + 28) * myscale;
                 xscroll = (int)mousexscale;
-                if (xscroll + graphics.PreferredBackBufferWidth > earth.Width)
+                if (xscroll + gameResolution.X > earth.Width)
                 {
-                    xscroll = earth.Width - graphics.PreferredBackBufferWidth;
+                    xscroll = earth.Width - gameResolution.X;
                 }
                 if (xscroll < 0)
                 {
                     xscroll = 0;
                 }
-                yscroll = (int)mouseyscale - graphics.PreferredBackBufferHeight - 188;
-                if (yscroll + graphics.PreferredBackBufferHeight - 188 > earth.Height)
+                yscroll = (int)mouseyscale - gameResolution.Y - 188;
+                if (yscroll + gameResolution.Y - 188 > earth.Height)
                 {
-                    yscroll = earth.Height - graphics.PreferredBackBufferHeight - 188;
+                    yscroll = earth.Height - gameResolution.Y - 188;
                 }
                 if (yscroll < 0)
                 {

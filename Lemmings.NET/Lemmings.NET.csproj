@@ -46,6 +46,7 @@
     <StartupObject>Lemmings.NET.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Constants\ECurrentSkill.cs" />
     <Compile Include="LemmingsNetGame.cs" />
     <Compile Include="Menu.cs" />
     <Compile Include="Models\Door.cs" />

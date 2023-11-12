@@ -7,7 +7,7 @@ namespace Lemmings.NET
 {
     partial class LemmingsNetGame : Game
     {
-        partial void VariablesTraps()
+        private void VariablesTraps()
         {
             switch (levelNumber)
             {

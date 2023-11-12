@@ -14,7 +14,7 @@ namespace Lemmings.NET
         private Point x;
         private bool debug = false; // ACTIVE DEBUG MODE //be careful with spritebacht begin---end debug mode fails
         private const int numTotalLevels = 182;
-        partial void Puerta()
+        private void Puerta()
         {
             salida_rect.X = salida1x - 5;
             salida_rect.Y = salida1y - 5;
