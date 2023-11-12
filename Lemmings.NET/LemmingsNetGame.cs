@@ -118,7 +118,7 @@ namespace Lemmings.NET
         const float sale_size = 0.65f;
         const int pico_frames = 67, pico_height = 120, pico_with = 10720 / pico_frames, pico_ypos = -13, pico_xpos = -25;
         const float pico_size = 0.45f;
-
+        private bool decreaseOn, increaseOn;
         public int Numerodentro { get; set; } = 0;
         public int Contador { get; set; } = 1;
         public int Contador2 { get; set; } = 0;
@@ -2900,48 +2900,6 @@ namespace Lemmings.NET
         }
 #pragma warning restore S125 // Sections of code should not be commented out
 
-        private void IncreaseComming()
-        {
-            changeopInstance.Pitch = -1f + numerofrecuencia * 0.02f;
-            changeopInstance.Volume = 0.25f + numerofrecuencia * 0.005f;
-            if (changeopInstance.State == SoundState.Stopped)
-                try
-                {
-                    changeopInstance.Play();
-                }
-                catch (InstancePlayLimitException) { /* Ignore errors */ }
-            if (numerofrecuencia == 99)
-            {
-                changeopInstance.Stop();
-            }
-            op2 = true;
-            if (dibuja2)
-                numerofrecuencia += 1; // on monogame 3.6 crash if frecuencia +1 only
-            if (numerofrecuencia > 99)
-                numerofrecuencia = 99;
-        }
-
-        private void DecreaseComming()
-        {
-            changeopInstance.Pitch = -1f + numerofrecuencia * 0.02f;
-            changeopInstance.Volume = 0.25f + numerofrecuencia * 0.005f;
-            if (changeopInstance.State == SoundState.Stopped)
-                try
-                {
-                    changeopInstance.Play();
-                }
-                catch (InstancePlayLimitException) { /* Ignore errors */ }
-            if (numerofrecuencia == numerominfrecuencia)
-            {
-                changeopInstance.Stop();
-            }
-            op1 = true;
-            if (dibuja2)
-                numerofrecuencia -= 1; // on monogame 3.6 crash if frecuencia -1 only puto puto
-            if (numerofrecuencia < numerominfrecuencia)
-                numerofrecuencia = numerominfrecuencia;
-        }
-
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
@@ -3032,7 +2990,7 @@ namespace Lemmings.NET
             {
                 if (songInstance.State == SoundState.Playing)
                     songInstance.Pause();
-                else
+                else if (songInstance.State == SoundState.Paused)
                     songInstance.Resume();
             }
             if (oldK.IsKeyDown(Keys.Left))
@@ -3057,16 +3015,16 @@ namespace Lemmings.NET
             }
             if (oldK.IsKeyDown(Keys.D1))
             {
-                DecreaseComming();
+                decreaseOn = true;
             }
             else if (oldK.IsKeyUp(Keys.D1))
-                op1 = false;
+                decreaseOn = false;
             if (oldK.IsKeyDown(Keys.D2))
             {
-                IncreaseComming();
+                increaseOn = true;
             }
             else if (oldK.IsKeyUp(Keys.D2))
-                op2 = false;
+                increaseOn = false;
             if (numeroescalan > 0 && oldK.IsKeyDown(Keys.D3) && actK.IsKeyUp(Keys.D3))
             {
                 PlaySoundMenu();

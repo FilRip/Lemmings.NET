@@ -1049,17 +1049,49 @@ namespace Lemmings.NET
             x.X = mouseActState.Position.X + 14;
             x.Y = mouseActState.Position.Y + 14;
             // medium position for bucle medx medy
-            if (rectop1.Contains(x) && mouseActState.LeftButton == ButtonState.Pressed)
+            if ((rectop1.Contains(x) && mouseActState.LeftButton == ButtonState.Pressed) || decreaseOn)
             {
-                DecreaseComming();
+                changeopInstance.Pitch = -1f + numerofrecuencia * 0.02f;
+                changeopInstance.Volume = 0.25f + numerofrecuencia * 0.005f;
+                if (changeopInstance.State == SoundState.Stopped)
+                    try
+                    {
+                        changeopInstance.Play();
+                    }
+                    catch (InstancePlayLimitException) { /* Ignore errors */ }
+                if (numerofrecuencia == numerominfrecuencia)
+                {
+                    changeopInstance.Stop();
+                }
+                op1 = true;
+                if (dibuja2)
+                    numerofrecuencia -= 1; // on monogame 3.6 crash if frecuencia -1 only puto puto
+                if (numerofrecuencia < numerominfrecuencia)
+                    numerofrecuencia = numerominfrecuencia;
             }
             else
             {
                 op1 = false;
             }
-            if (rectop2.Contains(x) && mouseActState.LeftButton == ButtonState.Pressed)
+            if ((rectop2.Contains(x) && mouseActState.LeftButton == ButtonState.Pressed) || increaseOn)
             {
-                IncreaseComming();
+                changeopInstance.Pitch = -1f + numerofrecuencia * 0.02f;
+                changeopInstance.Volume = 0.25f + numerofrecuencia * 0.005f;
+                if (changeopInstance.State == SoundState.Stopped)
+                    try
+                    {
+                        changeopInstance.Play();
+                    }
+                    catch (InstancePlayLimitException) { /* Ignore errors */ }
+                if (numerofrecuencia == 99)
+                {
+                    changeopInstance.Stop();
+                }
+                op2 = true;
+                if (dibuja2)
+                    numerofrecuencia += 1; // on monogame 3.6 crash if frecuencia +1 only
+                if (numerofrecuencia > 99)
+                    numerofrecuencia = 99;
             }
             else
             {
