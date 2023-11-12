@@ -54,6 +54,7 @@ namespace Lemmings.NET
         public bool LevelEnded { get; set; } = false;
         public bool ExitLevel { get; set; } = false;
         public bool ExitBad { get; set; } = false;
+        private bool _endSongPlayed;
         // Paused Lemmings update vars,time counter,door open,bombers countdown,traps
         public string LemSkill { get; set; } = "";
         // 38 * 53 size of mask exploder BE CAREFUL WITH NEW() FOR MASK SYSTEM-OUT OF MEMORY CRASHES
@@ -82,9 +83,9 @@ namespace Lemmings.NET
         Particle[,] Explosion { get; set; } = new Particle[totalExplosions, 24];
         private int xExp, yExp, actItem = 0;
         Particles[] particle;
-        private SoundEffect init, doorwav, oing, die, song, splat, ohno, explo, chink, strap, sfire, sglug, sting, smousepre, schangeop;
+        private SoundEffect init, doorwav, oing, die, song, splat, ohno, explo, chink, strap, sfire, sglug, sting, smousepre, schangeop, winSong;
         private SoundEffectInstance doorInstance, oingInstance, dieInstance, songInstance, splatInstance, ohnoInstance, exploInstance,
-            chinkInstance, strapInstance, fireInstance, glugInstance, tingInstance, mousepreInstance, changeopInstance;
+            chinkInstance, strapInstance, fireInstance, glugInstance, tingInstance, mousepreInstance, changeopInstance, winSongInstance;
         private bool doorwavOn = false;
         private float rparticle1;
         private bool rightparticle;
@@ -2669,6 +2670,7 @@ namespace Lemmings.NET
                 SteelON = false;
                 numTOTsteel = 0;
                 LevelEnded = false;
+                _endSongPlayed = false;
                 ExitLevel = false;
                 ExitBad = false;
                 earth = Content.Load<Texture2D>(level[levelNumber].nameLev);
@@ -2893,6 +2895,9 @@ namespace Lemmings.NET
                         break;
                 }
                 songInstance = song.CreateInstance();
+                winSong = Content.Load<SoundEffect>("music/title");
+                winSongInstance = winSong.CreateInstance();
+                winSongInstance.IsLooped = true;
             }
             lemfont = Content.Load<Texture2D>("lemmfont");
             //numfont = Content.Load<Texture2D>("nummfont");
@@ -3179,7 +3184,7 @@ namespace Lemmings.NET
                         //LevelEnd[za] = false; // first time create all the levels vars to false --> not finished
                         writer.Write(LevelEnd[Za]);
                     }
-                    writer.Write("(c) 2016 Oskar Oskar LEMMINGS c#");
+                    writer.Write("(c) 2016-2023 Oskar Oskar LEMMINGS c#. 2023 FilRip from CoolBytes");
                     writer.Close();
                     MustReadFile = true;
                     LevelOn = true;
@@ -3653,6 +3658,16 @@ namespace Lemmings.NET
                 //menu for ending level or not
                 if (LevelEnded)
                 {
+                    if (!_endSongPlayed)
+                    {
+                        if (songInstance.State == SoundState.Playing)
+                            songInstance.Stop();
+                        if (ExitBad && ohnoInstance.State != SoundState.Playing)
+                            ohnoInstance.Play();
+                        else if (!ExitBad && winSongInstance.State != SoundState.Playing)
+                            winSongInstance.Play();
+                    }
+                    _endSongPlayed = true;
                     colorFill.R = 0; //color.black for this change to see differents options
                     colorFill.G = 0;
                     colorFill.B = 0;
