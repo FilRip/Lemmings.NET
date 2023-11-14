@@ -63,7 +63,7 @@ namespace Lemmings.NET
         private Color colorFill;
         private bool _alreadyPlayed;
 
-        void DrawLine(SpriteBatch sb, Vector2 start, Vector2 end, Color pintado, Int32 grosor, float layer)
+        private void DrawLine(SpriteBatch sb, Vector2 start, Vector2 end, Color pintado, Int32 grosor, float layer)
         {
             edge = end - start;// calculate angle to rotate line
             angle = (float)Math.Atan2(edge.Y, edge.X);
@@ -73,7 +73,7 @@ namespace Lemmings.NET
             rectangleFill.Height = grosor;
             sb.Draw(texture1pixel, rectangleFill, null, pintado, angle, Vector2.Zero, SpriteEffects.None, layer);
         }
-        void PlaySoundMenu()
+        private void PlaySoundMenu()
         {
             if (changeopInstance.State == SoundState.Playing)
             {
@@ -86,7 +86,7 @@ namespace Lemmings.NET
             catch (InstancePlayLimitException) { /* Ignore errors */ }
         }
 
-        void TextLem(string txt, Vector2 start, Color pinta, float size, float layer)
+        private void TextLem(string txt, Vector2 start, Color pinta, float size, float layer)
         {
             for (i = 0; i <= txt.Length - 1; i++)
             {
@@ -94,295 +94,8 @@ namespace Lemmings.NET
                 start.X += 19 * size;  // ancho de lemfont (18X26) 18+1 para dejar espacio entre chars
                 if (A == 32)
                     continue;
-                switch (A)
-                {
-                    case 57:
-                        A = 24;
-                        break;
-                    case 56:
-                        A = 23;
-                        break;
-                    case 55:
-                        A = 22;
-                        break;
-                    case 54:
-                        A = 21;
-                        break;
-                    case 53:
-                        A = 20;
-                        break;
-                    case 52:
-                        A = 19;
-                        break;
-                    case 51:
-                        A = 18;
-                        break;
-                    case 50:
-                        A = 17;
-                        break;
-                    case 49:
-                        A = 16;
-                        break;
-                    case 48:
-                        A = 15;
-                        break;
-                    case 65:
-                        A = 32;
-                        break;
-                    case 66:
-                        A = 33;
-                        break;
-                    case 67:
-                        A = 34;
-                        break;
-                    case 68:
-                        A = 35;
-                        break;
-                    case 69:
-                        A = 36;
-                        break;
-                    case 70:
-                        A = 37;
-                        break;
-                    case 71:
-                        A = 38;
-                        break;
-                    case 72:
-                        A = 39;
-                        break;
-                    case 73:
-                        A = 40;
-                        break;
-                    case 74:
-                        A = 41;
-                        break;
-                    case 75:
-                        A = 42;
-                        break;
-                    case 76:
-                        A = 43;
-                        break;
-                    case 77:
-                        A = 44;
-                        break;
-                    case 78:
-                        A = 45;
-                        break;
-                    case 79:
-                        A = 46;
-                        break;
-                    case 80:
-                        A = 47;
-                        break;
-                    case 81:
-                        A = 48;
-                        break;
-                    case 82:
-                        A = 49;
-                        break;
-                    case 83:
-                        A = 50;
-                        break;
-                    case 84:
-                        A = 51;
-                        break;
-                    case 85:
-                        A = 52;
-                        break;
-                    case 86:
-                        A = 53;
-                        break;
-                    case 87:
-                        A = 54;
-                        break;
-                    case 88:
-                        A = 55;
-                        break;
-                    case 89:
-                        A = 56;
-                        break;
-                    case 90:
-                        A = 57;
-                        break;
-                    case 97:
-                        A = 64;
-                        break;
-                    case 98:
-                        A = 65;
-                        break;
-                    case 99:
-                        A = 66;
-                        break;
-                    case 100:
-                        A = 67;
-                        break;
-                    case 101:
-                        A = 68;
-                        break;
-                    case 102:
-                        A = 69;
-                        break;
-                    case 103:
-                        A = 70;
-                        break;
-                    case 104:
-                        A = 71;
-                        break;
-                    case 105:
-                        A = 72;
-                        break;
-                    case 106:
-                        A = 73;
-                        break;
-                    case 107:
-                        A = 74;
-                        break;
-                    case 108:
-                        A = 75;
-                        break;
-                    case 109:
-                        A = 76;
-                        break;
-                    case 110:
-                        A = 77;
-                        break;
-                    case 111:
-                        A = 78;
-                        break;
-                    case 112:
-                        A = 79;
-                        break;
-                    case 113:
-                        A = 80;
-                        break;
-                    case 114:
-                        A = 81;
-                        break;
-                    case 115:
-                        A = 82;
-                        break;
-                    case 116:
-                        A = 83;
-                        break;
-                    case 117:
-                        A = 84;
-                        break;
-                    case 118:
-                        A = 85;
-                        break;
-                    case 119:
-                        A = 86;
-                        break;
-                    case 120:
-                        A = 87;
-                        break;
-                    case 121:
-                        A = 88;
-                        break;
-                    case 122:
-                        A = 89;
-                        break;
-                    case 33:
-                        A = 0;
-                        break;
-                    case 34:
-                        A = 1;
-                        break;
-                    case 35:
-                        A = 2;
-                        break;
-                    case 36:
-                        A = 3;
-                        break;
-                    case 37:
-                        A = 4;
-                        break;
-                    case 38:
-                        A = 5;
-                        break;
-                    case 39:
-                        A = 6;
-                        break;
-                    case 40:
-                        A = 7;
-                        break;
-                    case 41:
-                        A = 8;
-                        break;
-                    case 42:
-                        A = 9;
-                        break;
-                    case 43:
-                        A = 10;
-                        break;
-                    case 44:
-                        A = 11;
-                        break;
-                    case 45:
-                        A = 12;
-                        break;
-                    case 46:
-                        A = 13;
-                        break;
-                    case 47:
-                        A = 14;
-                        break;
-                    case 58:
-                        A = 25;
-                        break;
-                    case 59:
-                        A = 26;
-                        break;
-                    case 60:
-                        A = 27;
-                        break;
-                    case 61:
-                        A = 28;
-                        break;
-                    case 62:
-                        A = 29;
-                        break;
-                    case 63:
-                        A = 30;
-                        break;
-                    case 64:
-                        A = 31;
-                        break;
-                    case 91:
-                        A = 58;
-                        break;
-                    case 92:
-                        A = 59;
-                        break;
-                    case 93:
-                        A = 60;
-                        break;
-                    case 94:
-                        A = 61;
-                        break;
-                    case 95:
-                        A = 62;
-                        break;
-                    case 180:
-                        A = 63;
-                        break;
-                    case 123:
-                        A = 90;
-                        break;
-                    case 124:
-                        A = 91;
-                        break;
-                    case 125:
-                        A = 92;
-                        break;
-                    case 126:
-                        A = 93;
-                        break;
-                    default:
-                        break;
-                }
                 rectangleFill.X = 0;
-                rectangleFill.Y = 26 * A;
+                rectangleFill.Y = 26 * (A - 33);
                 rectangleFill.Width = 18;
                 rectangleFill.Height = 26;
                 spriteBatch.Draw(lemfont, start, rectangleFill, pinta, 0f, Vector2.Zero, size, SpriteEffects.None, layer);
