@@ -1,5 +1,7 @@
 ﻿using System;
 
+using Lemmings.NET.Constants;
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
@@ -12,9 +14,9 @@ namespace Lemmings.NET
         private readonly int posm = 742;
         private readonly int posy = 572;
         int i;
-        float clickTimer2 = 0, clickTimer1 = 0, angle, lemxscale, lemyscale, mousexscale, mouseyscale, max, min;
+        float angle, lemxscale, lemyscale, mousexscale, mouseyscale;
+        private double clickTimer1 = 0;
         float mxscale, myscale;
-        bool click1 = false;
         Vector2 edge;
         float mmscale, mmscale2, xscale, yscale, mmscaley, mmscaley2;
         private int framecae = 0; // 0--3
@@ -27,7 +29,8 @@ namespace Lemmings.NET
         private int framepared = 0; //0--31
         private int framepico = 0; //0--23
         private int framblink1 = 0, framblink2 = 0, framblink3 = 0;
-        private bool op1 = false, op2 = false, op3 = false, op4 = false, op5 = false, op6 = false, op7 = false, op8 = false, op9 = false, op10 = false, op11 = false, op12 = false, op13 = false;
+        private ECurrentSkill _currentSelectedSkill;
+        private bool op1 = false, op2 = false, op12 = false, op13 = false;
         private int numeroescalan = 99, numeroparaguas = 88, numeroexplotan = 77, numeroblockers = 66,
             numeropuentes = 55, numeropared = 44, numeropico = 33, numerocavan = 99, r1 = 0, r2 = 0, r3 = 0;
         private float cosa = 0f;
@@ -88,300 +91,301 @@ namespace Lemmings.NET
             for (i = 0; i <= txt.Length - 1; i++)
             {
                 A = Convert.ToInt32(txt[i]);
+                start.X += 19 * size;  // ancho de lemfont (18X26) 18+1 para dejar espacio entre chars
+                if (A == 32)
+                    continue;
                 switch (A)
                 {
                     case 57:
-                        A = 26 * 24;
+                        A = 24;
                         break;
                     case 56:
-                        A = 26 * 23;
+                        A = 23;
                         break;
                     case 55:
-                        A = 26 * 22;
+                        A = 22;
                         break;
                     case 54:
-                        A = 26 * 21;
+                        A = 21;
                         break;
                     case 53:
-                        A = 26 * 20;
+                        A = 20;
                         break;
                     case 52:
-                        A = 26 * 19;
+                        A = 19;
                         break;
                     case 51:
-                        A = 26 * 18;
+                        A = 18;
                         break;
                     case 50:
-                        A = 26 * 17;
+                        A = 17;
                         break;
                     case 49:
-                        A = 26 * 16;
+                        A = 16;
                         break;
                     case 48:
-                        A = 26 * 15;
+                        A = 15;
                         break;
                     case 65:
-                        A = 26 * 32;
+                        A = 32;
                         break;
                     case 66:
-                        A = 26 * 33;
+                        A = 33;
                         break;
                     case 67:
-                        A = 26 * 34;
+                        A = 34;
                         break;
                     case 68:
-                        A = 26 * 35;
+                        A = 35;
                         break;
                     case 69:
-                        A = 26 * 36;
+                        A = 36;
                         break;
                     case 70:
-                        A = 26 * 37;
+                        A = 37;
                         break;
                     case 71:
-                        A = 26 * 38;
+                        A = 38;
                         break;
                     case 72:
-                        A = 26 * 39;
+                        A = 39;
                         break;
                     case 73:
-                        A = 26 * 40;
+                        A = 40;
                         break;
                     case 74:
-                        A = 26 * 41;
+                        A = 41;
                         break;
                     case 75:
-                        A = 26 * 42;
+                        A = 42;
                         break;
                     case 76:
-                        A = 26 * 43;
+                        A = 43;
                         break;
                     case 77:
-                        A = 26 * 44;
+                        A = 44;
                         break;
                     case 78:
-                        A = 26 * 45;
+                        A = 45;
                         break;
                     case 79:
-                        A = 26 * 46;
+                        A = 46;
                         break;
                     case 80:
-                        A = 26 * 47;
+                        A = 47;
                         break;
                     case 81:
-                        A = 26 * 48;
+                        A = 48;
                         break;
                     case 82:
-                        A = 26 * 49;
+                        A = 49;
                         break;
                     case 83:
-                        A = 26 * 50;
+                        A = 50;
                         break;
                     case 84:
-                        A = 26 * 51;
+                        A = 51;
                         break;
                     case 85:
-                        A = 26 * 52;
+                        A = 52;
                         break;
                     case 86:
-                        A = 26 * 53;
+                        A = 53;
                         break;
                     case 87:
-                        A = 26 * 54;
+                        A = 54;
                         break;
                     case 88:
-                        A = 26 * 55;
+                        A = 55;
                         break;
                     case 89:
-                        A = 26 * 56;
+                        A = 56;
                         break;
                     case 90:
-                        A = 26 * 57;
+                        A = 57;
                         break;
                     case 97:
-                        A = 26 * 64;
+                        A = 64;
                         break;
                     case 98:
-                        A = 26 * 65;
+                        A = 65;
                         break;
                     case 99:
-                        A = 26 * 66;
+                        A = 66;
                         break;
                     case 100:
-                        A = 26 * 67;
+                        A = 67;
                         break;
                     case 101:
-                        A = 26 * 68;
+                        A = 68;
                         break;
                     case 102:
-                        A = 26 * 69;
+                        A = 69;
                         break;
                     case 103:
-                        A = 26 * 70;
+                        A = 70;
                         break;
                     case 104:
-                        A = 26 * 71;
+                        A = 71;
                         break;
                     case 105:
-                        A = 26 * 72;
+                        A = 72;
                         break;
                     case 106:
-                        A = 26 * 73;
+                        A = 73;
                         break;
                     case 107:
-                        A = 26 * 74;
+                        A = 74;
                         break;
                     case 108:
-                        A = 26 * 75;
+                        A = 75;
                         break;
                     case 109:
-                        A = 26 * 76;
+                        A = 76;
                         break;
                     case 110:
-                        A = 26 * 77;
+                        A = 77;
                         break;
                     case 111:
-                        A = 26 * 78;
+                        A = 78;
                         break;
                     case 112:
-                        A = 26 * 79;
+                        A = 79;
                         break;
                     case 113:
-                        A = 26 * 80;
+                        A = 80;
                         break;
                     case 114:
-                        A = 26 * 81;
+                        A = 81;
                         break;
                     case 115:
-                        A = 26 * 82;
+                        A = 82;
                         break;
                     case 116:
-                        A = 26 * 83;
+                        A = 83;
                         break;
                     case 117:
-                        A = 26 * 84;
+                        A = 84;
                         break;
                     case 118:
-                        A = 26 * 85;
+                        A = 85;
                         break;
                     case 119:
-                        A = 26 * 86;
+                        A = 86;
                         break;
                     case 120:
-                        A = 26 * 87;
+                        A = 87;
                         break;
                     case 121:
-                        A = 26 * 88;
+                        A = 88;
                         break;
                     case 122:
-                        A = 26 * 89;
+                        A = 89;
                         break;
                     case 33:
                         A = 0;
                         break;
                     case 34:
-                        A = 26;
+                        A = 1;
                         break;
                     case 35:
-                        A = 26 * 2;
+                        A = 2;
                         break;
                     case 36:
-                        A = 26 * 3;
+                        A = 3;
                         break;
                     case 37:
-                        A = 26 * 4;
+                        A = 4;
                         break;
                     case 38:
-                        A = 26 * 5;
+                        A = 5;
                         break;
                     case 39:
-                        A = 26 * 6;
+                        A = 6;
                         break;
                     case 40:
-                        A = 26 * 7;
+                        A = 7;
                         break;
                     case 41:
-                        A = 26 * 8;
+                        A = 8;
                         break;
                     case 42:
-                        A = 26 * 9;
+                        A = 9;
                         break;
                     case 43:
-                        A = 26 * 10;
+                        A = 10;
                         break;
                     case 44:
-                        A = 26 * 11;
+                        A = 11;
                         break;
                     case 45:
-                        A = 26 * 12;
+                        A = 12;
                         break;
                     case 46:
-                        A = 26 * 13;
+                        A = 13;
                         break;
                     case 47:
-                        A = 26 * 14;
+                        A = 14;
                         break;
                     case 58:
-                        A = 26 * 25;
+                        A = 25;
                         break;
                     case 59:
-                        A = 26 * 26;
+                        A = 26;
                         break;
                     case 60:
-                        A = 26 * 27;
+                        A = 27;
                         break;
                     case 61:
-                        A = 26 * 28;
+                        A = 28;
                         break;
                     case 62:
-                        A = 26 * 29;
+                        A = 29;
                         break;
                     case 63:
-                        A = 26 * 30;
+                        A = 30;
                         break;
                     case 64:
-                        A = 26 * 31;
+                        A = 31;
                         break;
                     case 91:
-                        A = 26 * 58;
+                        A = 58;
                         break;
                     case 92:
-                        A = 26 * 59;
+                        A = 59;
                         break;
                     case 93:
-                        A = 26 * 60;
+                        A = 60;
                         break;
                     case 94:
-                        A = 26 * 61;
+                        A = 61;
                         break;
                     case 95:
-                        A = 26 * 62;
+                        A = 62;
                         break;
                     case 180:
-                        A = 26 * 63;
+                        A = 63;
                         break;
                     case 123:
-                        A = 26 * 90;
+                        A = 90;
                         break;
                     case 124:
-                        A = 26 * 91;
+                        A = 91;
                         break;
                     case 125:
-                        A = 26 * 92;
+                        A = 92;
                         break;
                     case 126:
-                        A = 26 * 93;
+                        A = 93;
                         break;
                     default:
                         break;
                 }
-                start.X += 19 * size;  // ancho de lemfont (18X26) 18+1 para dejar espacio entre chars
                 rectangleFill.X = 0;
-                rectangleFill.Y = A;
+                rectangleFill.Y = 26 * A;
                 rectangleFill.Width = 18;
                 rectangleFill.Height = 26;
-                if (A != 32)
-                    spriteBatch.Draw(lemfont, start, rectangleFill, pinta, 0f, Vector2.Zero, size, SpriteEffects.None, layer);
+                spriteBatch.Draw(lemfont, start, rectangleFill, pinta, 0f, Vector2.Zero, size, SpriteEffects.None, layer);
             }
         }
 
@@ -493,8 +497,8 @@ namespace Lemmings.NET
             {
                 if (!lemming[i].Dead)
                 {
-                    lemxscale = (float)(lemming[i].Posx + 12) * xscale;
-                    lemyscale = (float)(lemming[i].Posy + 20) * yscale;
+                    lemxscale = (lemming[i].Posx + 12) * xscale;
+                    lemyscale = (lemming[i].Posy + 20) * yscale;
                     vectorFill.X = posm + lemxscale;
                     vectorFill.Y = 572 + lemyscale;
                     vectorFill2.X = posm + lemxscale + 2;
@@ -564,345 +568,151 @@ namespace Lemmings.NET
             rectangleFill.Height = circulo_led.Height;
             vectorFill2.X = circulo_led.Width / 2.0f;
             vectorFill2.Y = circulo_led.Height / 2.0f;
-            if (op1)
-            {
-                vectorFill.X = 45;
-                vectorFill.Y = posymenu + 31;
-                spriteBatch.Draw(circulo_led, vectorFill, rectangleFill, Color.White, cosa, vectorFill2, 1f, SpriteEffects.None, 0.1f);
-                vectorFill.X = 24;
-                vectorFill.Y = posymenu + 6;
-                rectangleFill2.X = 0;
-                rectangleFill2.Y = 40;
-                rectangleFill2.Width = 32;
-                rectangleFill2.Height = 40;
-                spriteBatch.Draw(menos, vectorFill, rectangleFill2, Color.White, 0f, Vector2.Zero, 1.3f, SpriteEffects.None, 0.11f);
-            }
-            else
-            {
-                vectorFill.X = 45;
-                vectorFill.Y = posymenu + 31;
-                spriteBatch.Draw(circulo_led, vectorFill, rectangleFill, sombramenu, 0f, vectorFill2, 1f, SpriteEffects.None, 0.1f);
-                vectorFill.X = 24;
-                vectorFill.Y = posymenu + 6;
-                rectangleFill2.X = 0;
-                rectangleFill2.Y = 0;
-                rectangleFill2.Width = 32;
-                rectangleFill2.Height = 40;
-                spriteBatch.Draw(menos, vectorFill, rectangleFill2, sombramenu, 0f, Vector2.Zero, 1.3f, SpriteEffects.None, 0.11f);
-            }
-            if (op2)
-            {
-                vectorFill.X = 45 + 55;
-                vectorFill.Y = posymenu + 31;
-                spriteBatch.Draw(circulo_led, vectorFill, rectangleFill, Color.White, cosa, vectorFill2, 1f, SpriteEffects.None, 0.1f);
-                vectorFill.X = 24 + 55;
-                vectorFill.Y = posymenu + 6;
-                rectangleFill2.X = 0;
-                rectangleFill2.Y = 40;
-                rectangleFill2.Width = 32;
-                rectangleFill2.Height = 40;
-                spriteBatch.Draw(mas, vectorFill, rectangleFill2, Color.White, 0f, Vector2.Zero, 1.3f, SpriteEffects.None, 0.11f);
-            }
-            else
-            {
-                vectorFill.X = 45 + 55;
-                vectorFill.Y = posymenu + 31;
-                spriteBatch.Draw(circulo_led, vectorFill, rectangleFill, sombramenu, 0f, vectorFill2, 1f, SpriteEffects.None, 0.1f);
-                vectorFill.X = 24 + 55;
-                vectorFill.Y = posymenu + 6;
-                rectangleFill2.X = 0;
-                rectangleFill2.Y = 0;
-                rectangleFill2.Width = 32;
-                rectangleFill2.Height = 40;
-                spriteBatch.Draw(mas, vectorFill, rectangleFill2, sombramenu, 0f, Vector2.Zero, 1.3f, SpriteEffects.None, 0.11f);
-            }
-            if (op3)  //climber
-            {
-                vectorFill.X = 45 + 2 * 55;
-                vectorFill.Y = posymenu + 31;
-                spriteBatch.Draw(circulo_led, vectorFill, rectangleFill, Color.White, cosa, vectorFill2, 1f, SpriteEffects.None, 0.11f);
-                vectorFill.X = 10 + 2 * 55;
-                vectorFill.Y = posymenu;
-                rectangleFill2.X = frameescala * climber_with;
-                rectangleFill2.Y = 0;
-                rectangleFill2.Width = climber_with;
-                rectangleFill2.Height = climber_height;
-                spriteBatch.Draw(escala, vectorFill, rectangleFill2, Color.White, 0f, Vector2.Zero, climber_size, SpriteEffects.None, 0.1f);
-            }
-            else
-            {
-                vectorFill.X = 45 + 2 * 55;
-                vectorFill.Y = posymenu + 31;
-                spriteBatch.Draw(circulo_led, vectorFill, rectangleFill, sombramenu, 0f, vectorFill2, 1f, SpriteEffects.None, 0.11f);
-                vectorFill.X = 10 + 2 * 55;
-                vectorFill.Y = posymenu;
-                rectangleFill2.X = 0;
-                rectangleFill2.Y = 0;
-                rectangleFill2.Width = climber_with;
-                rectangleFill2.Height = climber_height;
-                spriteBatch.Draw(escala, vectorFill, rectangleFill2, sombramenu, 0f, Vector2.Zero, climber_size, SpriteEffects.None, 0.1f);
-            }
-            if (op4)
-            {
-                vectorFill.X = 45 + 3 * 55;
-                vectorFill.Y = posymenu + 31;
-                spriteBatch.Draw(circulo_led, vectorFill, rectangleFill, Color.White, cosa, vectorFill2, 1f, SpriteEffects.None, 0.11f);
-                vectorFill.X = 5 + 3 * 55;
-                vectorFill.Y = posymenu;
-                rectangleFill2.X = frameparaguas * floater_with;
-                rectangleFill2.Y = 0;
-                rectangleFill2.Width = floater_with;
-                rectangleFill2.Height = floater_height;
-                spriteBatch.Draw(paraguas, vectorFill, rectangleFill2, Color.White, 0f, Vector2.Zero, 0.55f, SpriteEffects.None, 0.1f);
-            }
-            else
-            {
-                vectorFill.X = 45 + 3 * 55;
-                vectorFill.Y = posymenu + 31;
-                spriteBatch.Draw(circulo_led, vectorFill, rectangleFill, sombramenu, 0f, vectorFill2, 1f, SpriteEffects.None, 0.11f);
-                vectorFill.X = 5 + 3 * 55;
-                vectorFill.Y = posymenu;
-                rectangleFill2.X = floater_with * 4;
-                rectangleFill2.Y = 0;
-                rectangleFill2.Width = floater_with;
-                rectangleFill2.Height = floater_height;
-                spriteBatch.Draw(paraguas, vectorFill, rectangleFill2, sombramenu, 0f, Vector2.Zero, 0.55f, SpriteEffects.None, 0.1f);
-            }
-            if (op5)
-            {
-                vectorFill.X = 45 + 4 * 55;
-                vectorFill.Y = posymenu + 31;
-                spriteBatch.Draw(circulo_led, vectorFill, rectangleFill, Color.White, cosa, vectorFill2, 1f, SpriteEffects.None, 0.11f);
-                vectorFill.X = -5 + 4 * 55;
-                vectorFill.Y = posymenu - 20;
-                rectangleFill2.X = frameexplota * bomber_with;
-                rectangleFill2.Y = 0;
-                rectangleFill2.Width = bomber_with;
-                rectangleFill2.Height = bomber_height;
-                spriteBatch.Draw(explota, vectorFill, rectangleFill2, Color.White, 0f, Vector2.Zero, bomber_size, SpriteEffects.None, 0.1f);
-            }
-            else
-            {
-                vectorFill.X = 45 + 4 * 55;
-                vectorFill.Y = posymenu + 31;
-                spriteBatch.Draw(circulo_led, vectorFill, rectangleFill, sombramenu, 0f, vectorFill2, 1f, SpriteEffects.None, 0.11f);
-                vectorFill.X = -5 + 4 * 55;
-                vectorFill.Y = posymenu - 20;
-                rectangleFill2.X = bomber_with * 7;
-                rectangleFill2.Y = 0;
-                rectangleFill2.Width = bomber_with;
-                rectangleFill2.Height = bomber_height;
-                spriteBatch.Draw(explota, vectorFill, rectangleFill2, sombramenu, 0f, Vector2.Zero, bomber_size, SpriteEffects.None, 0.1f);
-            }
-            if (op6)
-            {
-                vectorFill.X = 45 + 5 * 55;
-                vectorFill.Y = posymenu + 31;
-                spriteBatch.Draw(circulo_led, vectorFill, rectangleFill, Color.White, cosa, vectorFill2, 1f, SpriteEffects.None, 0.11f);
-                vectorFill.X = 10 + 5 * 55;
-                vectorFill.Y = posymenu;
-                rectangleFill2.X = frameblocker * blocker_with;
-                rectangleFill2.Y = 0;
-                rectangleFill2.Width = blocker_with;
-                rectangleFill2.Height = blocker_height;
-                spriteBatch.Draw(blocker, vectorFill, rectangleFill2, Color.White, 0f, Vector2.Zero, blocker_size, SpriteEffects.None, 0.1f);
-            }
-            else
-            {
-                vectorFill.X = 45 + 5 * 55;
-                vectorFill.Y = posymenu + 31;
-                spriteBatch.Draw(circulo_led, vectorFill, rectangleFill, sombramenu, 0f, vectorFill2, 1f, SpriteEffects.None, 0.11f);
-                vectorFill.X = 10 + 5 * 55;
-                vectorFill.Y = posymenu;
-                rectangleFill2.X = 0;
-                rectangleFill2.Y = 0;
-                rectangleFill2.Width = blocker_with;
-                rectangleFill2.Height = blocker_height;
-                spriteBatch.Draw(blocker, vectorFill, rectangleFill2, sombramenu, 0f, Vector2.Zero, blocker_size, SpriteEffects.None, 0.1f);
-            }
-            if (op7)
-            {
-                vectorFill.X = 45 + 6 * 55;
-                vectorFill.Y = posymenu + 31;
-                spriteBatch.Draw(circulo_led, vectorFill, rectangleFill, Color.White, cosa, vectorFill2, 1f, SpriteEffects.None, 0.11f);
-                vectorFill.X = 6 + 6 * 55;
-                vectorFill.Y = posymenu;
-                rectangleFill2.X = framepuente * builder_with;
-                rectangleFill2.Y = 0;
-                rectangleFill2.Width = builder_with;
-                rectangleFill2.Height = builder_height;
-                spriteBatch.Draw(puente, vectorFill, rectangleFill2, Color.White, 0f, Vector2.Zero, builder_size, SpriteEffects.None, 0.1f);
-            }
-            else
-            {
-                vectorFill.X = 45 + 6 * 55;
-                vectorFill.Y = posymenu + 31;
-                spriteBatch.Draw(circulo_led, vectorFill, rectangleFill, sombramenu, 0f, vectorFill2, 1f, SpriteEffects.None, 0.11f);
-                vectorFill.X = 6 + 6 * 55;
-                vectorFill.Y = posymenu;
-                rectangleFill2.X = builder_with * 12;
-                rectangleFill2.Y = 0;
-                rectangleFill2.Width = builder_with;
-                rectangleFill2.Height = builder_height;
-                spriteBatch.Draw(puente, vectorFill, rectangleFill2, sombramenu, 0f, Vector2.Zero, builder_size, SpriteEffects.None, 0.1f);
-            }
-            if (op8)
-            {
-                vectorFill.X = 45 + 7 * 55;
-                vectorFill.Y = posymenu + 31;
-                spriteBatch.Draw(circulo_led, vectorFill, rectangleFill, Color.White, cosa, vectorFill2, 1f, SpriteEffects.None, 0.11f);
-                vectorFill.X = 10 + 7 * 55;
-                vectorFill.Y = posymenu;
-                rectangleFill2.X = framepared * basher_with;
-                rectangleFill2.Y = 0;
-                rectangleFill2.Width = basher_with;
-                rectangleFill2.Height = basher_height;
-                spriteBatch.Draw(pared, vectorFill, rectangleFill2, Color.White, 0f, Vector2.Zero, basher_size, SpriteEffects.FlipHorizontally, 0.1f);
-            }
-            else
-            {
-                vectorFill.X = 45 + 7 * 55;
-                vectorFill.Y = posymenu + 31;
-                spriteBatch.Draw(circulo_led, vectorFill, rectangleFill, sombramenu, 0f, vectorFill2, 1f, SpriteEffects.None, 0.11f);
-                vectorFill.X = 20 + 7 * 55;
-                vectorFill.Y = posymenu;
-                rectangleFill2.X = 0;
-                rectangleFill2.Y = 0;
-                rectangleFill2.Width = basher_with;
-                rectangleFill2.Height = basher_height;
-                spriteBatch.Draw(pared, vectorFill, rectangleFill2, sombramenu, 0f, Vector2.Zero, basher_size, SpriteEffects.FlipHorizontally, 0.1f);
-            }
-            if (op9) //PICO PICO
-            {
-                vectorFill.X = 45 + 8 * 55;
-                vectorFill.Y = posymenu + 31;
-                spriteBatch.Draw(circulo_led, vectorFill, rectangleFill, Color.White, cosa, vectorFill2, 1f, SpriteEffects.None, 0.11f);
-                vectorFill.X = 10 + 8 * 55;
-                vectorFill.Y = posymenu + 7;
-                rectangleFill2.X = framepico * pico_with;
-                rectangleFill2.Y = 0;
-                rectangleFill2.Width = pico_with;
-                rectangleFill2.Height = pico_height;
-                spriteBatch.Draw(pico, vectorFill, rectangleFill2, Color.White, 0f, Vector2.Zero, pico_size, SpriteEffects.None, 0.1f);
-            }
-            else
-            {
-                vectorFill.X = 45 + 8 * 55;
-                vectorFill.Y = posymenu + 31;
-                spriteBatch.Draw(circulo_led, vectorFill, rectangleFill, sombramenu, 0f, vectorFill2, 1f, SpriteEffects.None, 0.11f);
-                vectorFill.X = 10 + 8 * 55;
-                vectorFill.Y = posymenu + 7;
-                rectangleFill2.X = pico_with * 30;
-                rectangleFill2.Y = 0;
-                rectangleFill2.Width = pico_with;
-                rectangleFill2.Height = pico_height;
-                spriteBatch.Draw(pico, vectorFill, rectangleFill2, sombramenu, 0f, Vector2.Zero, pico_size, SpriteEffects.None, 0.1f);
-            }
-            if (op10)
-            {
-                vectorFill.X = 45 + 9 * 55;
-                vectorFill.Y = posymenu + 31;
-                spriteBatch.Draw(circulo_led, vectorFill, rectangleFill, Color.White, cosa, vectorFill2, 1f, SpriteEffects.None, 0.11f);
-                vectorFill.X = 505;
-                vectorFill.Y = posymenu;
-                rectangleFill2.X = framecava * digger_with;
-                rectangleFill2.Y = 0;
-                rectangleFill2.Width = digger_with;
-                rectangleFill2.Height = digger_height;
-                spriteBatch.Draw(digger, vectorFill, rectangleFill2, Color.White, 0f, Vector2.Zero, digger_size, SpriteEffects.None, 0.1f);
-            }
-            else
-            {
-                vectorFill.X = 45 + 9 * 55;
-                vectorFill.Y = posymenu + 31;
-                spriteBatch.Draw(circulo_led, vectorFill, rectangleFill, sombramenu, 0f, vectorFill2, 1f, SpriteEffects.None, 0.11f);
-                vectorFill.X = 505;
-                vectorFill.Y = posymenu;
-                rectangleFill2.X = 0;
-                rectangleFill2.Y = 0;
-                rectangleFill2.Width = digger_with;
-                rectangleFill2.Height = digger_height;
-                spriteBatch.Draw(digger, vectorFill, rectangleFill2, sombramenu, 0f, Vector2.Zero, digger_size, SpriteEffects.None, 0.1f);
-            }
-            if (op11)
-            {
-                vectorFill.X = 45 + 10 * 55;
-                vectorFill.Y = posymenu + 31;
-                spriteBatch.Draw(circulo_led, vectorFill, rectangleFill, Color.White, cosa, vectorFill2, 1f, SpriteEffects.None, 0.1f);
-                vectorFill.X = 24 + 10 * 55;
-                vectorFill.Y = posymenu + 6;
-                rectangleFill2.X = 0;
-                rectangleFill2.Y = 40;
-                rectangleFill2.Width = 32;
-                rectangleFill2.Height = 40;
-                spriteBatch.Draw(pausa, vectorFill, rectangleFill2, Color.White, 0f, Vector2.Zero, 1.3f, SpriteEffects.None, 0.11f);
-            }
-            else
-            {
-                vectorFill.X = 45 + 10 * 55;
-                vectorFill.Y = posymenu + 31;
-                spriteBatch.Draw(circulo_led, vectorFill, rectangleFill, sombramenu, 0f, vectorFill2, 1f, SpriteEffects.None, 0.1f);
-                vectorFill.X = 24 + 10 * 55;
-                vectorFill.Y = posymenu + 6;
-                rectangleFill2.X = 0;
-                rectangleFill2.Y = 0;
-                rectangleFill2.Width = 32;
-                rectangleFill2.Height = 40;
-                spriteBatch.Draw(pausa, vectorFill, rectangleFill2, sombramenu, 0f, Vector2.Zero, 1.3f, SpriteEffects.None, 0.11f);
-            }
-            if (op12)
-            {
-                vectorFill.X = 45 + 11 * 55;
-                vectorFill.Y = posymenu + 31;
-                spriteBatch.Draw(circulo_led, vectorFill, rectangleFill, Color.White, cosa, vectorFill2, 1f, SpriteEffects.None, 0.1f);
-                vectorFill.X = 24 + 11 * 55;
-                vectorFill.Y = posymenu + 6;
-                rectangleFill2.X = 0;
-                rectangleFill2.Y = 40;
-                rectangleFill2.Width = 32;
-                rectangleFill2.Height = 40;
-                spriteBatch.Draw(bomba, vectorFill, rectangleFill2, Color.White, 0f, Vector2.Zero, 1.3f, SpriteEffects.None, 0.11f);
-            }
-            else
-            {
-                vectorFill.X = 45 + 11 * 55;
-                vectorFill.Y = posymenu + 31;
-                spriteBatch.Draw(circulo_led, vectorFill, rectangleFill, sombramenu, 0f, vectorFill2, 1f, SpriteEffects.None, 0.1f);
-                vectorFill.X = 24 + 11 * 55;
-                vectorFill.Y = posymenu + 6;
-                rectangleFill2.X = 0;
-                rectangleFill2.Y = 0;
-                rectangleFill2.Width = 32;
-                rectangleFill2.Height = 40;
-                spriteBatch.Draw(bomba, vectorFill, rectangleFill2, sombramenu, 0f, Vector2.Zero, 1.3f, SpriteEffects.None, 0.11f);
-            }
-            if (op13)
-            {
-                vectorFill.X = 45 + 12 * 55;
-                vectorFill.Y = posymenu + 31;
-                spriteBatch.Draw(circulo_led, vectorFill, rectangleFill, Color.White, cosa, vectorFill2, 1f, SpriteEffects.None, 0.1f);
-                vectorFill.X = 24 + 12 * 55;
-                vectorFill.Y = posymenu + 6;
-                rectangleFill2.X = 0;
-                rectangleFill2.Y = 40;
-                rectangleFill2.Width = 32;
-                rectangleFill2.Height = 40;
-                spriteBatch.Draw(avanzar, vectorFill, rectangleFill2, Color.White, 0f, Vector2.Zero, 1.3f, SpriteEffects.None, 0.11f);
-            }
-            else
-            {
-                vectorFill.X = 45 + 12 * 55;
-                vectorFill.Y = posymenu + 31;
-                spriteBatch.Draw(circulo_led, vectorFill, rectangleFill, sombramenu, 0f, vectorFill2, 1f, SpriteEffects.None, 0.1f);
-                vectorFill.X = 24 + 12 * 55;
-                vectorFill.Y = posymenu + 6;
-                rectangleFill2.X = 0;
-                rectangleFill2.Y = 0;
-                rectangleFill2.Width = 32;
-                rectangleFill2.Height = 40;
-                spriteBatch.Draw(avanzar, vectorFill, rectangleFill2, sombramenu, 0f, Vector2.Zero, 1.3f, SpriteEffects.None, 0.11f);
-            }
+
+            vectorFill.X = 45;
+            vectorFill.Y = posymenu + 31;
+            spriteBatch.Draw(circulo_led, vectorFill, rectangleFill, (op1 ? Color.White : sombramenu), (op1 ? cosa : 0), vectorFill2, 1f, SpriteEffects.None, 0.1f);
+            vectorFill.X = 24;
+            vectorFill.Y = posymenu + 6;
+            rectangleFill2.X = 0;
+            rectangleFill2.Y = 40;
+            rectangleFill2.Width = 32;
+            rectangleFill2.Height = 40;
+            spriteBatch.Draw(menos, vectorFill, rectangleFill2, (op1 ? Color.White : sombramenu), 0f, Vector2.Zero, 1.3f, SpriteEffects.None, 0.11f);
+
+            vectorFill.X = 45 + 55;
+            vectorFill.Y = posymenu + 31;
+            spriteBatch.Draw(circulo_led, vectorFill, rectangleFill, (op2 ? Color.White : sombramenu), (op2 ? cosa : 0), vectorFill2, 1f, SpriteEffects.None, 0.1f);
+            vectorFill.X = 24 + 55;
+            vectorFill.Y = posymenu + 6;
+            rectangleFill2.X = 0;
+            rectangleFill2.Y = 40;
+            rectangleFill2.Width = 32;
+            rectangleFill2.Height = 40;
+            spriteBatch.Draw(mas, vectorFill, rectangleFill2, (op2 ? Color.White : sombramenu), 0f, Vector2.Zero, 1.3f, SpriteEffects.None, 0.11f);
+
+            vectorFill.X = 45 + 2 * 55;
+            vectorFill.Y = posymenu + 31;
+            spriteBatch.Draw(circulo_led, vectorFill, rectangleFill, (_currentSelectedSkill == ECurrentSkill.CLIMBER ? Color.White : sombramenu), (_currentSelectedSkill == ECurrentSkill.CLIMBER ? cosa : 0), vectorFill2, 1f, SpriteEffects.None, 0.11f);
+            vectorFill.X = 10 + 2 * 55;
+            vectorFill.Y = posymenu;
+            rectangleFill2.X = frameescala * (_currentSelectedSkill == ECurrentSkill.CLIMBER ? climber_with : 0);
+            rectangleFill2.Y = 0;
+            rectangleFill2.Width = climber_with;
+            rectangleFill2.Height = climber_height;
+            spriteBatch.Draw(escala, vectorFill, rectangleFill2, (_currentSelectedSkill == ECurrentSkill.CLIMBER ? Color.White : sombramenu), 0, Vector2.Zero, climber_size, SpriteEffects.None, 0.1f);
+
+            vectorFill.X = 45 + 3 * 55;
+            vectorFill.Y = posymenu + 31;
+            spriteBatch.Draw(circulo_led, vectorFill, rectangleFill, (_currentSelectedSkill == ECurrentSkill.FLOATER ? Color.White : sombramenu), (_currentSelectedSkill == ECurrentSkill.FLOATER ? cosa : 0), vectorFill2, 1f, SpriteEffects.None, 0.11f);
+            vectorFill.X = 5 + 3 * 55;
+            vectorFill.Y = posymenu;
+            rectangleFill2.X = floater_with * (_currentSelectedSkill == ECurrentSkill.FLOATER ? frameparaguas : 4);
+            rectangleFill2.Y = 0;
+            rectangleFill2.Width = floater_with;
+            rectangleFill2.Height = floater_height;
+            spriteBatch.Draw(paraguas, vectorFill, rectangleFill2, (_currentSelectedSkill == ECurrentSkill.FLOATER ? Color.White : sombramenu), 0f, Vector2.Zero, 0.55f, SpriteEffects.None, 0.1f);
+
+            vectorFill.X = 45 + 4 * 55;
+            vectorFill.Y = posymenu + 31;
+            spriteBatch.Draw(circulo_led, vectorFill, rectangleFill, (_currentSelectedSkill == ECurrentSkill.EXPLODER ? Color.White : sombramenu), (_currentSelectedSkill == ECurrentSkill.EXPLODER ? cosa : 0), vectorFill2, 1f, SpriteEffects.None, 0.11f);
+            vectorFill.X = -5 + 4 * 55;
+            vectorFill.Y = posymenu - 20;
+            rectangleFill2.X = bomber_with * (_currentSelectedSkill == ECurrentSkill.EXPLODER ? frameexplota : 7);
+            rectangleFill2.Y = 0;
+            rectangleFill2.Width = bomber_with;
+            rectangleFill2.Height = bomber_height;
+            spriteBatch.Draw(explota, vectorFill, rectangleFill2, (_currentSelectedSkill == ECurrentSkill.EXPLODER ? Color.White : sombramenu), 0f, Vector2.Zero, bomber_size, SpriteEffects.None, 0.1f);
+
+            vectorFill.X = 45 + 5 * 55;
+            vectorFill.Y = posymenu + 31;
+            spriteBatch.Draw(circulo_led, vectorFill, rectangleFill, (_currentSelectedSkill == ECurrentSkill.BLOCKER ? Color.White : sombramenu), (_currentSelectedSkill == ECurrentSkill.BLOCKER ? cosa : 0), vectorFill2, 1f, SpriteEffects.None, 0.11f);
+            vectorFill.X = 10 + 5 * 55;
+            vectorFill.Y = posymenu;
+            rectangleFill2.X = blocker_with * (_currentSelectedSkill == ECurrentSkill.BLOCKER ? frameblocker : 0);
+            rectangleFill2.Y = 0;
+            rectangleFill2.Width = blocker_with;
+            rectangleFill2.Height = blocker_height;
+            spriteBatch.Draw(blocker, vectorFill, rectangleFill2, (_currentSelectedSkill == ECurrentSkill.BLOCKER ? Color.White : sombramenu), 0f, Vector2.Zero, blocker_size, SpriteEffects.None, 0.1f);
+
+            vectorFill.X = 45 + 6 * 55;
+            vectorFill.Y = posymenu + 31;
+            spriteBatch.Draw(circulo_led, vectorFill, rectangleFill, (_currentSelectedSkill == ECurrentSkill.BUILDER ? Color.White : sombramenu), (_currentSelectedSkill == ECurrentSkill.BUILDER ? cosa : 0), vectorFill2, 1f, SpriteEffects.None, 0.11f);
+            vectorFill.X = 6 + 6 * 55;
+            vectorFill.Y = posymenu;
+            rectangleFill2.X = builder_with * (_currentSelectedSkill == ECurrentSkill.BUILDER ? framepuente : 12);
+            rectangleFill2.Y = 0;
+            rectangleFill2.Width = builder_with;
+            rectangleFill2.Height = builder_height;
+            spriteBatch.Draw(puente, vectorFill, rectangleFill2, (_currentSelectedSkill == ECurrentSkill.BUILDER ? Color.White : sombramenu), 0f, Vector2.Zero, builder_size, SpriteEffects.None, 0.1f);
+
+            vectorFill.X = 45 + 7 * 55;
+            vectorFill.Y = posymenu + 31;
+            spriteBatch.Draw(circulo_led, vectorFill, rectangleFill, (_currentSelectedSkill == ECurrentSkill.BASHER ? Color.White : sombramenu), (_currentSelectedSkill == ECurrentSkill.BASHER ? cosa : 0), vectorFill2, 1f, SpriteEffects.None, 0.11f);
+            vectorFill.X = 10 + 7 * 55;
+            vectorFill.Y = posymenu;
+            rectangleFill2.X = basher_with * (_currentSelectedSkill == ECurrentSkill.BASHER ? framepared : 0);
+            rectangleFill2.Y = 0;
+            rectangleFill2.Width = basher_with;
+            rectangleFill2.Height = basher_height;
+            spriteBatch.Draw(pared, vectorFill, rectangleFill2, (_currentSelectedSkill == ECurrentSkill.BASHER ? Color.White : sombramenu), 0f, Vector2.Zero, basher_size, SpriteEffects.FlipHorizontally, 0.1f);
+
+            vectorFill.X = 45 + 8 * 55;
+            vectorFill.Y = posymenu + 31;
+            spriteBatch.Draw(circulo_led, vectorFill, rectangleFill, (_currentSelectedSkill == ECurrentSkill.MINER ? Color.White : sombramenu), (_currentSelectedSkill == ECurrentSkill.MINER ? cosa : 0), vectorFill2, 1f, SpriteEffects.None, 0.11f);
+            vectorFill.X = 10 + 8 * 55;
+            vectorFill.Y = posymenu + 7;
+            rectangleFill2.X = pico_with * (_currentSelectedSkill == ECurrentSkill.MINER ? framepico : 30);
+            rectangleFill2.Y = 0;
+            rectangleFill2.Width = pico_with;
+            rectangleFill2.Height = pico_height;
+            spriteBatch.Draw(pico, vectorFill, rectangleFill2, (_currentSelectedSkill == ECurrentSkill.MINER ? Color.White : sombramenu), 0f, Vector2.Zero, pico_size, SpriteEffects.None, 0.1f);
+
+            vectorFill.X = 45 + 9 * 55;
+            vectorFill.Y = posymenu + 31;
+            spriteBatch.Draw(circulo_led, vectorFill, rectangleFill, (_currentSelectedSkill == ECurrentSkill.DIGGER ? Color.White : sombramenu), (_currentSelectedSkill == ECurrentSkill.DIGGER ? cosa : 0), vectorFill2, 1f, SpriteEffects.None, 0.11f);
+            vectorFill.X = 505;
+            vectorFill.Y = posymenu;
+            rectangleFill2.X = framecava * (_currentSelectedSkill == ECurrentSkill.DIGGER ? digger_with : 0);
+            rectangleFill2.Y = 0;
+            rectangleFill2.Width = digger_with;
+            rectangleFill2.Height = digger_height;
+            spriteBatch.Draw(digger, vectorFill, rectangleFill2, (_currentSelectedSkill == ECurrentSkill.DIGGER ? Color.White : sombramenu), 0f, Vector2.Zero, digger_size, SpriteEffects.None, 0.1f);
+
+            vectorFill.X = 45 + 10 * 55;
+            vectorFill.Y = posymenu + 31;
+            spriteBatch.Draw(circulo_led, vectorFill, rectangleFill, (Paused ? Color.White : sombramenu), (Paused ? cosa : 0), vectorFill2, 1f, SpriteEffects.None, 0.1f);
+            vectorFill.X = 24 + 10 * 55;
+            vectorFill.Y = posymenu + 6;
+            rectangleFill2.X = 0;
+            rectangleFill2.Y = (Paused ? 40 : 0);
+            rectangleFill2.Width = 32;
+            rectangleFill2.Height = 40;
+            spriteBatch.Draw(pausa, vectorFill, rectangleFill2, (Paused ? Color.White : sombramenu), 0f, Vector2.Zero, 1.3f, SpriteEffects.None, 0.11f);
+
+            vectorFill.X = 45 + 11 * 55;
+            vectorFill.Y = posymenu + 31;
+            spriteBatch.Draw(circulo_led, vectorFill, rectangleFill, (allBlow ? Color.White : sombramenu), (allBlow ? cosa : 0), vectorFill2, 1f, SpriteEffects.None, 0.1f);
+            vectorFill.X = 24 + 11 * 55;
+            vectorFill.Y = posymenu + 6;
+            rectangleFill2.X = 0;
+            rectangleFill2.Y = (op12 ? 40 : 0);
+            rectangleFill2.Width = 32;
+            rectangleFill2.Height = 40;
+            spriteBatch.Draw(bomba, vectorFill, rectangleFill2, (allBlow ? Color.White : sombramenu), 0f, Vector2.Zero, 1.3f, SpriteEffects.None, 0.11f);
+
+            vectorFill.X = 45 + 12 * 55;
+            vectorFill.Y = posymenu + 31;
+            spriteBatch.Draw(circulo_led, vectorFill, rectangleFill, (op13 ? Color.White : sombramenu), (op13 ? cosa : 0), vectorFill2, 1f, SpriteEffects.None, 0.1f);
+            vectorFill.X = 24 + 12 * 55;
+            vectorFill.Y = posymenu + 6;
+            rectangleFill2.X = 0;
+            rectangleFill2.Y = (op13 ? 40 : 0);
+            rectangleFill2.Width = 32;
+            rectangleFill2.Height = 40;
+            spriteBatch.Draw(avanzar, vectorFill, rectangleFill2, (op13 ? Color.White : sombramenu), 0f, Vector2.Zero, 1.3f, SpriteEffects.None, 0.11f);
         }
+
         private void Menu_logic()
         {
             if (r1 == 0)
@@ -1049,7 +859,7 @@ namespace Lemmings.NET
             x.X = mouseActState.Position.X + 14;
             x.Y = mouseActState.Position.Y + 14;
             // medium position for bucle medx medy
-            if ((rectop1.Contains(x) && mouseActState.LeftButton == ButtonState.Pressed) || decreaseOn)
+            if ((rectop1.Contains(x) && mouseActState.LeftButton == ButtonState.Pressed) || _decreaseOn)
             {
                 changeopInstance.Pitch = -1f + numerofrecuencia * 0.02f;
                 changeopInstance.Volume = 0.25f + numerofrecuencia * 0.005f;
@@ -1073,7 +883,7 @@ namespace Lemmings.NET
             {
                 op1 = false;
             }
-            if ((rectop2.Contains(x) && mouseActState.LeftButton == ButtonState.Pressed) || increaseOn)
+            if ((rectop2.Contains(x) && mouseActState.LeftButton == ButtonState.Pressed) || _increaseOn)
             {
                 changeopInstance.Pitch = -1f + numerofrecuencia * 0.02f;
                 changeopInstance.Volume = 0.25f + numerofrecuencia * 0.005f;
@@ -1100,80 +910,58 @@ namespace Lemmings.NET
             if (rectop3.Contains(x) && numeroescalan > 0 && (mouseAntState.LeftButton == ButtonState.Released && mouseActState.LeftButton == ButtonState.Pressed))
             {
                 PlaySoundMenu();
-                op3 = true;
-                op4 = false;
-                op5 = false;
-                op6 = false;
-                op7 = false;
-                op8 = false;
-                op9 = false;
-                op10 = false;
+                _currentSelectedSkill = ECurrentSkill.CLIMBER;
             }
             if (rectop4.Contains(x) && numeroparaguas > 0 && (mouseAntState.LeftButton == ButtonState.Released && mouseActState.LeftButton == ButtonState.Pressed))
             {
                 PlaySoundMenu();
-                op3 = false;
-                op4 = true;
-                op5 = false;
-                op6 = false;
-                op7 = false;
-                op8 = false;
-                op9 = false;
-                op10 = false;
+                _currentSelectedSkill = ECurrentSkill.FLOATER;
             }
             if (rectop5.Contains(x) && numeroexplotan > 0 && (mouseAntState.LeftButton == ButtonState.Released && mouseActState.LeftButton == ButtonState.Pressed))
             {
                 PlaySoundMenu();
-                op3 = false;
-                op4 = false;
-                op5 = true;
-                op6 = false;
-                op7 = false;
-                op8 = false;
-                op9 = false;
-                op10 = false;
+                _currentSelectedSkill = ECurrentSkill.EXPLODER;
             }
             if (rectop6.Contains(x) && numeroblockers > 0 && (mouseAntState.LeftButton == ButtonState.Released && mouseActState.LeftButton == ButtonState.Pressed))
             {
                 PlaySoundMenu();
-                op3 = false;
-                op4 = false;
-                op5 = false;
-                op6 = true;
-                op7 = false;
-                op8 = false;
-                op9 = false;
-                op10 = false;
+                _currentSelectedSkill = ECurrentSkill.BLOCKER;
             }
             if (rectop7.Contains(x) && numeropuentes > 0 && (mouseAntState.LeftButton == ButtonState.Released && mouseActState.LeftButton == ButtonState.Pressed))
-            { PlaySoundMenu(); op3 = false; op4 = false; op5 = false; op6 = false; op7 = true; op8 = false; op9 = false; op10 = false; }
+            {
+                PlaySoundMenu();
+                _currentSelectedSkill = ECurrentSkill.BUILDER;
+            }
             if (rectop8.Contains(x) && numeropared > 0 && (mouseAntState.LeftButton == ButtonState.Released && mouseActState.LeftButton == ButtonState.Pressed))
-            { PlaySoundMenu(); op3 = false; op4 = false; op5 = false; op6 = false; op7 = false; op8 = true; op9 = false; op10 = false; }
+            {
+                PlaySoundMenu();
+                _currentSelectedSkill = ECurrentSkill.BASHER;
+            }
             if (rectop9.Contains(x) && numeropico > 0 && (mouseAntState.LeftButton == ButtonState.Released && mouseActState.LeftButton == ButtonState.Pressed))
-            { PlaySoundMenu(); op3 = false; op4 = false; op5 = false; op6 = false; op7 = false; op8 = false; op9 = true; op10 = false; }
+            {
+                PlaySoundMenu();
+                _currentSelectedSkill = ECurrentSkill.MINER;
+            }
             if (rectop10.Contains(x) && numerocavan > 0 && (mouseAntState.LeftButton == ButtonState.Released && mouseActState.LeftButton == ButtonState.Pressed))
-            { PlaySoundMenu(); op3 = false; op4 = false; op5 = false; op6 = false; op7 = false; op8 = false; op9 = false; op10 = true; }
+            {
+                PlaySoundMenu();
+                _currentSelectedSkill = ECurrentSkill.DIGGER;
+            }
             if (rectop11.Contains(x) && (mouseAntState.LeftButton == ButtonState.Released && mouseActState.LeftButton == ButtonState.Pressed))
-            { PlaySoundMenu(); if (op11) { op11 = false; Paused = false; } else { op11 = true; Paused = true; } }
+            {
+                PlaySoundMenu();
+                Paused = !Paused;
+            }
             if (rectop12.Contains(x) && (mouseAntState.LeftButton == ButtonState.Released && mouseActState.LeftButton == ButtonState.Pressed) && !op12)
             {
-                if (!click1)
-                {
-                    click1 = true;
-                    clickTimer1 = (float)milisegundos;
-                }
-                else
-                {
-                    click1 = false;
-                    clickTimer2 = (float)milisegundos;
-                }
-                max = MathHelper.Max(clickTimer1, clickTimer2);
-                min = MathHelper.Min(clickTimer1, clickTimer2);
-                if (max - min < 300)
+                if (clickTimer1 > 0 && milisegundos - clickTimer1 < 300)
                 {
                     PlaySoundMenu();
-                    op12 = true; allBlow = true;
+                    clickTimer1 = 0;
+                    allBlow = true;
                 }
+                else
+                    clickTimer1 = milisegundos;
             } // BOMBERS ALL
             if (mouseActState.LeftButton == ButtonState.Released)
                 _alreadyPlayed = false;
@@ -1192,7 +980,8 @@ namespace Lemmings.NET
                     }
                 }
                 catch (InstancePlayLimitException) { /* Ignore errors */ }
-                op13 = true; this.TargetElapsedTime = TimeSpan.FromSeconds(1.0f / 180.0f);
+                op13 = true;
+                this.TargetElapsedTime = TimeSpan.FromSeconds(1.0f / 180.0f);
             } // 120--240 van ok mas no lo se depende creo
             else
             {

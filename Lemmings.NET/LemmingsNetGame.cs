@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 
+using Lemmings.NET.Constants;
 using Lemmings.NET.Models;
 
 using Microsoft.Xna.Framework;
@@ -119,7 +120,7 @@ namespace Lemmings.NET
         const float sale_size = 0.65f;
         const int pico_frames = 67, pico_height = 120, pico_with = 10720 / pico_frames, pico_ypos = -13, pico_xpos = -25;
         const float pico_size = 0.45f;
-        private bool decreaseOn, increaseOn;
+        private bool _decreaseOn, _increaseOn;
         public int Numerodentro { get; set; } = 0;
         public int Contador { get; set; } = 1;
         public int Contador2 { get; set; } = 0;
@@ -887,7 +888,7 @@ namespace Lemmings.NET
                 // assign skills to lemmings //////////////////////////////////////////////
                 if (mouseOnLem && (mouseAntState.LeftButton == ButtonState.Released && mouseActState.LeftButton == ButtonState.Pressed))
                 {
-                    if (op10 && !lemming[actLEM].Digger && lemming[actLEM].Onmouse //DIGGER
+                    if (_currentSelectedSkill == ECurrentSkill.DIGGER && !lemming[actLEM].Digger && lemming[actLEM].Onmouse //DIGGER
                         && (lemming[actLEM].Walker || lemming[actLEM].Builder || lemming[actLEM].Basher || lemming[actLEM].Miner))
                     {
                         numerocavan--;
@@ -918,7 +919,7 @@ namespace Lemmings.NET
                             continue;
                         }
                     }
-                    if (op3 && lemming[actLEM].Onmouse && !lemming[actLEM].Escalar) //CLIMBER
+                    if (_currentSelectedSkill == ECurrentSkill.CLIMBER && lemming[actLEM].Onmouse && !lemming[actLEM].Escalar) //CLIMBER
                     {
                         numeroescalan--;
                         if (numeroescalan < 0)
@@ -941,7 +942,7 @@ namespace Lemmings.NET
                             continue;
                         }
                     }
-                    if (op4 && lemming[actLEM].Onmouse && !lemming[actLEM].Umbrella && !lemming[actLEM].Breakfloor) //FLOATER
+                    if (_currentSelectedSkill == ECurrentSkill.FLOATER && lemming[actLEM].Onmouse && !lemming[actLEM].Umbrella && !lemming[actLEM].Breakfloor) //FLOATER
                     {
                         numeroparaguas--;
                         if (numeroparaguas < 0)
@@ -964,7 +965,7 @@ namespace Lemmings.NET
                             continue;
                         }
                     }
-                    if (op5 && lemming[actLEM].Onmouse && !lemming[actLEM].Explota) //BOMBER
+                    if (_currentSelectedSkill == ECurrentSkill.EXPLODER && lemming[actLEM].Onmouse && !lemming[actLEM].Explota) //BOMBER
                     {
                         numeroexplotan--;
                         if (numeroexplotan < 0)
@@ -987,7 +988,7 @@ namespace Lemmings.NET
                             continue;
                         }
                     }
-                    if (op6 && lemming[actLEM].Onmouse && !lemming[actLEM].Blocker //BLOCKER
+                    if (_currentSelectedSkill == ECurrentSkill.BLOCKER && lemming[actLEM].Onmouse && !lemming[actLEM].Blocker //BLOCKER
                         && (lemming[actLEM].Walker || lemming[actLEM].Digger || lemming[actLEM].Builder || lemming[actLEM].Basher || lemming[actLEM].Miner))
                     {
                         numeroblockers--;
@@ -1018,7 +1019,7 @@ namespace Lemmings.NET
                             continue;
                         }
                     }
-                    if (op7 && lemming[actLEM].Onmouse && !lemming[actLEM].Builder //BUILDER
+                    if (_currentSelectedSkill == ECurrentSkill.BUILDER && lemming[actLEM].Onmouse && !lemming[actLEM].Builder //BUILDER
                         && (lemming[actLEM].Walker || lemming[actLEM].Digger || lemming[actLEM].Basher || lemming[actLEM].Miner || lemming[actLEM].Puentenomas))
                     {
                         numeropuentes--;
@@ -1050,7 +1051,7 @@ namespace Lemmings.NET
                             continue;
                         }
                     }
-                    if (op8 && lemming[actLEM].Onmouse && !lemming[actLEM].Basher //BASHER
+                    if (_currentSelectedSkill == ECurrentSkill.BASHER && lemming[actLEM].Onmouse && !lemming[actLEM].Basher //BASHER
                         && (lemming[actLEM].Walker || lemming[actLEM].Digger || lemming[actLEM].Builder || lemming[actLEM].Miner))
                     {
                         numeropared--;
@@ -1080,7 +1081,7 @@ namespace Lemmings.NET
                             continue;
                         }
                     }
-                    if (op9 && lemming[actLEM].Onmouse && !lemming[actLEM].Miner //MINER
+                    if (_currentSelectedSkill == ECurrentSkill.MINER && lemming[actLEM].Onmouse && !lemming[actLEM].Miner //MINER
                         && (lemming[actLEM].Walker || lemming[actLEM].Digger || lemming[actLEM].Basher || lemming[actLEM].Builder))
                     {
                         numeropico--;
@@ -2640,16 +2641,7 @@ namespace Lemmings.NET
                 allBlow = false;
                 actualBlow = 0;
                 exitFrame = 999;
-                bool first = false;
-                op3 = false;
-                op4 = false;
-                op5 = false;
-                op6 = false;
-                op7 = false;
-                op8 = false;
-                op9 = false;
-                op10 = false;
-                op11 = false;
+                _currentSelectedSkill = ECurrentSkill.NONE;
                 op12 = false;
                 moreexits = null;
                 moredoors = null;
@@ -2699,42 +2691,35 @@ namespace Lemmings.NET
                 numerocavan = level[levelNumber].numberDiggers;
                 if (numeroescalan > 0)
                 {
-                    first = true;
-                    op3 = true;
+                    _currentSelectedSkill = ECurrentSkill.CLIMBER;
                 }
-                if (numeroparaguas > 0 && !first)
+                else if (numeroparaguas > 0)
                 {
-                    first = true;
-                    op4 = true;
+                    _currentSelectedSkill = ECurrentSkill.FLOATER;
                 }
-                if (numeroexplotan > 0 && !first)
+                else if (numeroexplotan > 0)
                 {
-                    first = true;
-                    op5 = true;
+                    _currentSelectedSkill = ECurrentSkill.EXPLODER;
                 }
-                if (numeroblockers > 0 && !first)
+                else if (numeroblockers > 0)
                 {
-                    first = true;
-                    op6 = true;
+                    _currentSelectedSkill = ECurrentSkill.BLOCKER;
                 }
-                if (numeropuentes > 0 && !first)
+                else if (numeropuentes > 0)
                 {
-                    first = true;
-                    op7 = true;
+                    _currentSelectedSkill = ECurrentSkill.BUILDER;
                 }
-                if (numeropared > 0 && !first)
+                else if (numeropared > 0)
                 {
-                    first = true;
-                    op8 = true;
+                    _currentSelectedSkill = ECurrentSkill.BASHER;
                 }
-                if (numeropico > 0 && !first)
+                else if (numeropico > 0)
                 {
-                    first = true;
-                    op9 = true;
+                    _currentSelectedSkill = ECurrentSkill.MINER;
                 }
-                if (numerocavan > 0 && !first)
+                else if (numerocavan > 0)
                 {
-                    op10 = true;
+                    _currentSelectedSkill = ECurrentSkill.DIGGER;
                 }
                 numerofrecuencia = level[levelNumber].NumberFrecuency;
                 numerominfrecuencia = level[levelNumber].minNumberFrecuency;
@@ -3020,113 +3005,58 @@ namespace Lemmings.NET
             }
             if (oldK.IsKeyDown(Keys.D1))
             {
-                decreaseOn = true;
+                _decreaseOn = true;
             }
             else if (oldK.IsKeyUp(Keys.D1))
-                decreaseOn = false;
+                _decreaseOn = false;
             if (oldK.IsKeyDown(Keys.D2))
             {
-                increaseOn = true;
+                _increaseOn = true;
             }
             else if (oldK.IsKeyUp(Keys.D2))
-                increaseOn = false;
+                _increaseOn = false;
+
             if (numeroescalan > 0 && oldK.IsKeyDown(Keys.D3) && actK.IsKeyUp(Keys.D3))
             {
                 PlaySoundMenu();
-                op3 = true;
-                op4 = false;
-                op5 = false;
-                op6 = false;
-                op7 = false;
-                op8 = false;
-                op9 = false;
-                op10 = false;
+                _currentSelectedSkill = ECurrentSkill.CLIMBER;
             }
-            if (numeroparaguas > 0 && oldK.IsKeyDown(Keys.D4) && actK.IsKeyUp(Keys.D4))
+            else if (numeroparaguas > 0 && oldK.IsKeyDown(Keys.D4) && actK.IsKeyUp(Keys.D4))
             {
                 PlaySoundMenu();
-                op3 = false;
-                op4 = true;
-                op5 = false;
-                op6 = false;
-                op7 = false;
-                op8 = false;
-                op9 = false;
-                op10 = false;
+                _currentSelectedSkill = ECurrentSkill.FLOATER;
             }
-            if (numeroexplotan > 0 && oldK.IsKeyDown(Keys.D5) && actK.IsKeyUp(Keys.D5))
+            else if (numeroexplotan > 0 && oldK.IsKeyDown(Keys.D5) && actK.IsKeyUp(Keys.D5))
             {
                 PlaySoundMenu();
-                op3 = false;
-                op4 = false;
-                op5 = true;
-                op6 = false;
-                op7 = false;
-                op8 = false;
-                op9 = false;
-                op10 = false;
+                _currentSelectedSkill = ECurrentSkill.EXPLODER;
             }
-            if (numeroblockers > 0 && oldK.IsKeyDown(Keys.D6) && actK.IsKeyUp(Keys.D6))
+            else if (numeroblockers > 0 && oldK.IsKeyDown(Keys.D6) && actK.IsKeyUp(Keys.D6))
             {
                 PlaySoundMenu();
-                op3 = false;
-                op4 = false;
-                op5 = false;
-                op6 = true;
-                op7 = false;
-                op8 = false;
-                op9 = false;
-                op10 = false;
+                _currentSelectedSkill = ECurrentSkill.BLOCKER;
             }
-            if (numeropuentes > 0 && oldK.IsKeyDown(Keys.D7) && actK.IsKeyUp(Keys.D7))
+            else if (numeropuentes > 0 && oldK.IsKeyDown(Keys.D7) && actK.IsKeyUp(Keys.D7))
             {
                 PlaySoundMenu();
-                op3 = false;
-                op4 = false;
-                op5 = false;
-                op6 = false;
-                op7 = true;
-                op8 = false;
-                op9 = false;
-                op10 = false;
+                _currentSelectedSkill = ECurrentSkill.BUILDER;
             }
-            if (numeropared > 0 && oldK.IsKeyDown(Keys.D8) && actK.IsKeyUp(Keys.D8))
+            else if (numeropared > 0 && oldK.IsKeyDown(Keys.D8) && actK.IsKeyUp(Keys.D8))
             {
                 PlaySoundMenu();
-                op3 = false;
-                op4 = false;
-                op5 = false;
-                op6 = false;
-                op7 = false;
-                op8 = true;
-                op9 = false;
-                op10 = false;
+                _currentSelectedSkill = ECurrentSkill.BASHER;
             }
-            if (numeropico > 0 && oldK.IsKeyDown(Keys.D9) && actK.IsKeyUp(Keys.D9))
+            else if (numeropico > 0 && oldK.IsKeyDown(Keys.D9) && actK.IsKeyUp(Keys.D9))
             {
                 PlaySoundMenu();
-                op3 = false;
-                op4 = false;
-                op5 = false;
-                op6 = false;
-                op7 = false;
-                op8 = false;
-                op9 = true;
-                op10 = false;
+                _currentSelectedSkill = ECurrentSkill.MINER;
             }
-            if (numerocavan > 0 && oldK.IsKeyDown(Keys.D0) && actK.IsKeyUp(Keys.D0))
+            else if (numerocavan > 0 && oldK.IsKeyDown(Keys.D0) && actK.IsKeyUp(Keys.D0))
             {
                 PlaySoundMenu();
-                op3 = false;
-                op4 = false;
-                op5 = false;
-                op6 = false;
-                op7 = false;
-                op8 = false;
-                op9 = false;
-                op10 = true;
+                _currentSelectedSkill = ECurrentSkill.DIGGER;
             }
-            if (oldK.IsKeyDown(Keys.Escape) && actK.IsKeyUp(Keys.Escape))
+            else if (oldK.IsKeyDown(Keys.Escape) && actK.IsKeyUp(Keys.Escape))
             {
                 if (MainMenu)
                     Exit();
@@ -3140,6 +3070,7 @@ namespace Lemmings.NET
                     {
                         if (!LevelEnded)
                         {
+                            ExitBad = true;
                             LevelEnded = true;
                             Paused = true;
                         }
@@ -3269,16 +3200,8 @@ namespace Lemmings.NET
 
             if (oldK.IsKeyDown(Keys.P) && actK.IsKeyUp(Keys.P))
             {
-                if (Paused)
-                {
-                    Paused = false;
-                    op11 = false;
-                }
-                else
-                {
-                    Paused = true;
-                    op11 = true;
-                }
+                PlaySoundMenu();
+                Paused = !Paused;
             }
             if (allBlow && actualBlow < numerosaca) // crash crash TEST TEST
             {
