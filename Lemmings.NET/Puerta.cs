@@ -1,110 +1,112 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 
+using static Lemmings.NET.Constants.SizeSprites;
+
 namespace Lemmings.NET
 {
     partial class LemmingsNetGame : Game
     {
-        private bool puertaon = true, allBlow = false, sacalem = false;
-        private int puerta1x, puerta1y;
-        private int salida1x, salida1y, ex11;
-        private int framepuerta = 0, framesalida = 0; // 0--10   0--6
-        private int exitFrame = 999, numerosaca = 0, numerofrecuencia = 50, numerominfrecuencia = 50; // frecuency lemmings go in
-        private Rectangle salida_rect; // rectangle exit
+        private bool doorOn = true, allBlow = false, pullLemmings = false;
+        private int door1X, door1Y;
+        private int output1X, output1Y, ex11;
+        private int frameDoor = 0, frameExit = 0; // 0--10   0--6
+        private int exitFrame = 999, numLemmings = 0, frequencyNumber = 50, numerominfrecuencia = 50; // frecuency lemmings go in
+        private Rectangle exit_rect; // rectangle exit
         private Point x;
         private bool debug = false; // ACTIVE DEBUG MODE //be careful with spritebacht begin---end debug mode fails
         private const int numTotalLevels = 182;
-        private void Puerta()
+        private void Door()
         {
-            salida_rect.X = salida1x - 5;
-            salida_rect.Y = salida1y - 5;
-            salida_rect.Width = 10;
-            salida_rect.Height = 10;
-            if (dibuja2 && puertaon && Frame > 30)
+            exit_rect.X = output1X - 5;
+            exit_rect.Y = output1Y - 5;
+            exit_rect.Width = 10;
+            exit_rect.Height = 10;
+            if (draw2 && doorOn && Frame > 30)
             {
-                tiempototal = 0;
+                totalTime = 0;
                 xx55 = varDoor[level[levelNumber].typeOfDoor].numFram - 1;
-                framepuerta++;
-                if (framepuerta == 1 && doorInstance.State == SoundState.Stopped && !doorwavOn)
+                frameDoor++;
+                if (frameDoor == 1 && doorInstance.State == SoundState.Stopped && !doorWaveOn)
                 {
                     doorInstance.Play();
-                    doorwavOn = true;
+                    doorWaveOn = true;
                 }
-                if (framepuerta > xx55)
+                if (frameDoor > xx55)
                 {
                     songInstance.IsLooped = true;
                     songInstance.Play();
-                    puertaon = false;
-                    framepuerta = xx55;
+                    doorOn = false;
+                    frameDoor = xx55;
                 }
             }
-            sacalem = false;
-            retardoporcien = 27 - numerofrecuencia * 0.26f; // see to fix speed of lemmings release on door only when change frecuency (not so good)
-            if (dibuja && !puertaon)
+            pullLemmings = false;
+            delayPercent = 27 - frequencyNumber * 0.26f; // see to fix speed of lemmings release on door only when change frecuency (not so good)
+            if (dibuja && !doorOn)
             {
                 exitFrame++;
-                if (exitFrame >= (int)retardoporcien)
+                if (exitFrame >= (int)delayPercent)
                 {
                     exitFrame = 0;
-                    sacalem = true;
+                    pullLemmings = true;
                 }
             }
             //test to see difference with anterior process
-            if (sacalem && numerosaca != Numlems && !allBlow)
+            if (pullLemmings && numLemmings != Numlems && !allBlow)
             {
-                if (numTOTdoors > 1 && moredoors != null) // more than 1 door is different calculation
+                if (numTOTdoors > 1 && moreDoors != null) // more than 1 door is different calculation
                 {
-                    puerta1y = (int)moredoors[numACTdoor].doormorexy.Y;
-                    puerta1x = (int)moredoors[numACTdoor].doormorexy.X;
+                    door1Y = (int)moreDoors[numACTdoor].doorMoreXY.Y;
+                    door1X = (int)moreDoors[numACTdoor].doorMoreXY.X;
                     numACTdoor++;
                     if (numACTdoor >= numTOTdoors)
                         numACTdoor = 0;
-                    lemming[numerosaca].Posy = puerta1y;
-                    lemming[numerosaca].Posx = puerta1x + 35;
+                    lemming[numLemmings].PosY = door1Y;
+                    lemming[numLemmings].PosX = door1X + 35;
                 }
                 else
                 {
-                    lemming[numerosaca].Posy = puerta1y;
-                    lemming[numerosaca].Posx = puerta1x + 35;
+                    lemming[numLemmings].PosY = door1Y;
+                    lemming[numLemmings].PosX = door1X + 35;
                 }
-                lemming[numerosaca].Posy = puerta1y;
-                lemming[numerosaca].Posx = puerta1x + 35;
-                lemming[numerosaca].Numframes = 0;
-                lemming[numerosaca].Right = true;
-                lemming[numerosaca].Fall = true;
-                lemming[numerosaca].Walker = false;
-                lemming[numerosaca].Pixelscaida = 0;
-                lemming[numerosaca].Numframes = faller_frames;
-                lemming[numerosaca].Actualframe = 0;
-                lemming[numerosaca].Onmouse = false;
-                lemming[numerosaca].Activo = true;
-                lemming[numerosaca].Exit = false;
-                lemming[numerosaca].Dead = false;
-                lemming[numerosaca].Digger = false;
-                lemming[numerosaca].Escalar = false;
-                lemming[numerosaca].Escalando = false;
-                lemming[numerosaca].Umbrella = false;
-                lemming[numerosaca].Falling = false;
-                lemming[numerosaca].Framescut = false;
-                lemming[numerosaca].Breakfloor = false;
-                lemming[numerosaca].Explota = false;
-                lemming[numerosaca].Explotando = false;
-                lemming[numerosaca].Time = 0;
-                lemming[numerosaca].Blocker = false;
-                lemming[numerosaca].Builder = false;
-                lemming[numerosaca].Basher = false;
-                lemming[numerosaca].Miner = false;
-                lemming[numerosaca].Puentenomas = false;
-                lemming[numerosaca].Quemado = false;
-                lemming[numerosaca].Ahoga = false;
-                numerosaca++;
+                lemming[numLemmings].PosY = door1Y;
+                lemming[numLemmings].PosX = door1X + 35;
+                lemming[numLemmings].Numframes = 0;
+                lemming[numLemmings].Right = true;
+                lemming[numLemmings].Fall = true;
+                lemming[numLemmings].Walker = false;
+                lemming[numLemmings].Pixelscaida = 0;
+                lemming[numLemmings].Numframes = faller_frames;
+                lemming[numLemmings].Actualframe = 0;
+                lemming[numLemmings].Onmouse = false;
+                lemming[numLemmings].Active = true;
+                lemming[numLemmings].Exit = false;
+                lemming[numLemmings].Dead = false;
+                lemming[numLemmings].Digger = false;
+                lemming[numLemmings].Climber = false;
+                lemming[numLemmings].Climbing = false;
+                lemming[numLemmings].Umbrella = false;
+                lemming[numLemmings].Falling = false;
+                lemming[numLemmings].Framescut = false;
+                lemming[numLemmings].Breakfloor = false;
+                lemming[numLemmings].Exploser = false;
+                lemming[numLemmings].Explode = false;
+                lemming[numLemmings].Time = 0;
+                lemming[numLemmings].Blocker = false;
+                lemming[numLemmings].Builder = false;
+                lemming[numLemmings].Basher = false;
+                lemming[numLemmings].Miner = false;
+                lemming[numLemmings].Bridge = false;
+                lemming[numLemmings].Burned = false;
+                lemming[numLemmings].Drown = false;
+                numLemmings++;
                 numlemnow++;
             }
 
-            for (actLEM2 = 0; actLEM2 < numerosaca; actLEM2++)
+            for (actLEM2 = 0; actLEM2 < numLemmings; actLEM2++)
             {
-                x.X = lemming[actLEM2].Posx + 14;
-                x.Y = lemming[actLEM2].Posy + 25;
+                x.X = lemming[actLEM2].PosX + 14;
+                x.Y = lemming[actLEM2].PosY + 25;
                 if (lemming[actLEM2].Exit && lemming[actLEM2].Actualframe == 13) // change frame of yipee sound, old frame was init or 0 now different for frames
                 {
                     if (oingInstance.State == SoundState.Playing)
@@ -119,11 +121,11 @@ namespace Lemmings.NET
                 }
                 if (moreexits == null)
                 {
-                    if (salida_rect.Contains(x) && !lemming[actLEM2].Exit && !lemming[actLEM2].Explotando)
+                    if (exit_rect.Contains(x) && !lemming[actLEM2].Exit && !lemming[actLEM2].Explode)
                     {
-                        lemming[actLEM2].Posx = salida1x - 19;
-                        lemming[actLEM2].Posy = salida1y - 30;
-                        lemming[actLEM2].Activo = false;
+                        lemming[actLEM2].PosX = output1X - 19;
+                        lemming[actLEM2].PosY = output1Y - 30;
+                        lemming[actLEM2].Active = false;
                         lemming[actLEM2].Walker = false;
                         lemming[actLEM2].Fall = false;
                         lemming[actLEM2].Falling = false;
@@ -136,17 +138,17 @@ namespace Lemmings.NET
                 {
                     for (ex11 = 0; ex11 < numTOTexits; ex11++) // more than one EXIT place
                     {
-                        salida1x = (int)moreexits[ex11].exitmorexy.X;
-                        salida1y = (int)moreexits[ex11].exitmorexy.Y;
-                        salida_rect.X = salida1x - 5;
-                        salida_rect.Y = salida1y - 5;
-                        salida_rect.Width = 10;
-                        salida_rect.Height = 10;
-                        if (salida_rect.Contains(x) && !lemming[actLEM2].Exit && !lemming[actLEM2].Explotando)
+                        output1X = (int)moreexits[ex11].exitMoreXY.X;
+                        output1Y = (int)moreexits[ex11].exitMoreXY.Y;
+                        exit_rect.X = output1X - 5;
+                        exit_rect.Y = output1Y - 5;
+                        exit_rect.Width = 10;
+                        exit_rect.Height = 10;
+                        if (exit_rect.Contains(x) && !lemming[actLEM2].Exit && !lemming[actLEM2].Explode)
                         {
-                            lemming[actLEM2].Posx = salida1x - 19; //14+5 middle of the exit rect
-                            lemming[actLEM2].Posy = salida1y - 30; //25+5
-                            lemming[actLEM2].Activo = false;
+                            lemming[actLEM2].PosX = output1X - 19; //14+5 middle of the exit rect
+                            lemming[actLEM2].PosY = output1Y - 30; //25+5
+                            lemming[actLEM2].Active = false;
                             lemming[actLEM2].Walker = false;
                             lemming[actLEM2].Fall = false;
                             lemming[actLEM2].Falling = false;

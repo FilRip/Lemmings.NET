@@ -7,6 +7,8 @@ using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
+using static Lemmings.NET.Constants.SizeSprites;
+
 namespace Lemmings.NET
 {
     partial class LemmingsNetGame : Game
@@ -43,20 +45,20 @@ namespace Lemmings.NET
         const int rrx = 20;
         const int rhy = 51;
         const int rhx = 50;
-        private Rectangle rectop1 = new Rectangle(rrx, rry, rhx, rhy);
-        private Rectangle rectop2 = new Rectangle(rrx + 55, rry, rhx, rhy);
-        private Rectangle rectop3 = new Rectangle(rrx + 2 * 55, rry, rhx, rhy);
-        private Rectangle rectop4 = new Rectangle(rrx + 3 * 55, rry, rhx, rhy);
-        private Rectangle rectop5 = new Rectangle(rrx + 4 * 55, rry, rhx, rhy);
-        private Rectangle rectop6 = new Rectangle(rrx + 5 * 55, rry, rhx, rhy);
-        private Rectangle rectop7 = new Rectangle(rrx + 6 * 55, rry, rhx, rhy);
-        private Rectangle rectop8 = new Rectangle(rrx + 7 * 55, rry, rhx, rhy);
-        private Rectangle rectop9 = new Rectangle(rrx + 8 * 55, rry, rhx, rhy);
-        private Rectangle rectop10 = new Rectangle(rrx + 9 * 55, rry, rhx, rhy);
-        private Rectangle rectop11 = new Rectangle(rrx + 10 * 55, rry, rhx, rhy);
-        private Rectangle rectop12 = new Rectangle(rrx + 11 * 55, rry, rhx, rhy);
-        private Rectangle rectop13 = new Rectangle(rrx + 12 * 55, rry, rhx, rhy);
-        private Rectangle rectminimenu = new Rectangle(742, 572, 336, 84);
+        private Rectangle rectop1 = new(rrx, rry, rhx, rhy);
+        private Rectangle rectop2 = new(rrx + 55, rry, rhx, rhy);
+        private Rectangle rectop3 = new(rrx + 2 * 55, rry, rhx, rhy);
+        private Rectangle rectop4 = new(rrx + 3 * 55, rry, rhx, rhy);
+        private Rectangle rectop5 = new(rrx + 4 * 55, rry, rhx, rhy);
+        private Rectangle rectop6 = new(rrx + 5 * 55, rry, rhx, rhy);
+        private Rectangle rectop7 = new(rrx + 6 * 55, rry, rhx, rhy);
+        private Rectangle rectop8 = new(rrx + 7 * 55, rry, rhx, rhy);
+        private Rectangle rectop9 = new(rrx + 8 * 55, rry, rhx, rhy);
+        private Rectangle rectop10 = new(rrx + 9 * 55, rry, rhx, rhy);
+        private Rectangle rectop11 = new(rrx + 10 * 55, rry, rhx, rhy);
+        private Rectangle rectop12 = new(rrx + 11 * 55, rry, rhx, rhy);
+        private Rectangle rectop13 = new(rrx + 12 * 55, rry, rhx, rhy);
+        private Rectangle rectminimenu = new(742, 572, 336, 84);
 
         private Vector2 vectorFill, vectorFill2;
         private Rectangle rectangleFill, rectangleFill2;
@@ -106,11 +108,11 @@ namespace Lemmings.NET
         {
             rectangleFill.X = 0;
             rectangleFill.Y = 513;
-            rectangleFill.Width = 1100;
+            rectangleFill.Width = gameResolution.X;
             rectangleFill.Height = 184;
             rectangleFill2.X = 0;
             rectangleFill2.Y = 0;
-            rectangleFill2.Width = 1100;
+            rectangleFill2.Width = gameResolution.X;
             rectangleFill2.Height = 184;
             spriteBatch.Draw(backmenu2, rectangleFill, rectangleFill2, backmenu, 0f, Vector2.Zero, SpriteEffects.None, 0.251f);
             rectangleFill.X = 0;
@@ -133,25 +135,25 @@ namespace Lemmings.NET
             spriteBatch.Draw(backlogo, vectorFill, rectangleFill, Color.White, 0f, Vector2.Zero, 0.75f, SpriteEffects.None, 0.115f);  // logo del menu
             rectangleFill.X = 0;
             rectangleFill.Y = framblink1 * 12;
-            rectangleFill.Width = blink1.Width;
+            rectangleFill.Width = eyeBlink1.Width;
             rectangleFill.Height = 12;
             vectorFill.X = 158;
             vectorFill.Y = 654;
-            spriteBatch.Draw(blink1, vectorFill, rectangleFill, Color.White, 0f, Vector2.Zero, 0.75f, SpriteEffects.None, 0.104f);
+            spriteBatch.Draw(eyeBlink1, vectorFill, rectangleFill, Color.White, 0f, Vector2.Zero, 0.75f, SpriteEffects.None, 0.104f);
             rectangleFill.X = 0;
             rectangleFill.Y = framblink2 * 12;
-            rectangleFill.Width = blink2.Width;
+            rectangleFill.Width = eyeBlink2.Width;
             rectangleFill.Height = 12;
             vectorFill.X = 329;
             vectorFill.Y = 654;
-            spriteBatch.Draw(blink2, vectorFill, rectangleFill, Color.White, 0f, Vector2.Zero, 0.75f, SpriteEffects.None, 0.104f);
+            spriteBatch.Draw(eyeBlink2, vectorFill, rectangleFill, Color.White, 0f, Vector2.Zero, 0.75f, SpriteEffects.None, 0.104f);
             rectangleFill.X = 0;
             rectangleFill.Y = framblink3 * 12;
-            rectangleFill.Width = blink3.Width;
+            rectangleFill.Width = eyeBlink3.Width;
             rectangleFill.Height = 12;
             vectorFill.X = 506;
             vectorFill.Y = 648;
-            spriteBatch.Draw(blink3, vectorFill, rectangleFill, Color.White, 0f, Vector2.Zero, 0.75f, SpriteEffects.None, 0.104f);
+            spriteBatch.Draw(eyeBlink3, vectorFill, rectangleFill, Color.White, 0f, Vector2.Zero, 0.75f, SpriteEffects.None, 0.104f);
             rectangleFill.X = 735;
             rectangleFill.Y = 564;
             rectangleFill.Width = 350;
@@ -206,12 +208,12 @@ namespace Lemmings.NET
             vectorFill2.X = posm + mmscale2;
             vectorFill2.Y = posy + mmscaley2;
             DrawLine(spriteBatch, vectorFill, vectorFill2, Color.Yellow, 1, 0.007f);
-            for (i = 0; i < numerosaca; i++)
+            for (i = 0; i < numLemmings; i++)
             {
                 if (!lemming[i].Dead)
                 {
-                    lemxscale = (lemming[i].Posx + 12) * xscale;
-                    lemyscale = (lemming[i].Posy + 20) * yscale;
+                    lemxscale = (lemming[i].PosX + 12) * xscale;
+                    lemyscale = (lemming[i].PosY + 20) * yscale;
                     vectorFill.X = posm + lemxscale;
                     vectorFill.Y = 572 + lemyscale;
                     vectorFill2.X = posm + lemxscale + 2;
@@ -223,7 +225,7 @@ namespace Lemmings.NET
             vectorFill.Y = 560;
             TextLem(string.Format("{0,2:D2}", numerominfrecuencia), vectorFill, Color.LimeGreen, 0.5f, 0.1f);
             vectorFill.X = 80;
-            TextLem(string.Format("{0,2:D2}", numerofrecuencia), vectorFill, Color.LimeGreen, 0.5f, 0.1f);
+            TextLem(string.Format("{0,2:D2}", frequencyNumber), vectorFill, Color.LimeGreen, 0.5f, 0.1f);
             vectorFill.X = 80 + 55;
             TextLem(string.Format("{0,2:D2}", numeroescalan), vectorFill, Color.LimeGreen, 0.5f, 0.1f);
             vectorFill.X = 80 + 2 * 55;
@@ -243,7 +245,7 @@ namespace Lemmings.NET
             vectorFill.X = 890;
             vectorFill.Y = 518;
             TextLem("Time", vectorFill, Color.Yellow, 1f, 0.1f);
-            zvTime = (level[levelNumber].totalTime * 60) - (int)tiempototal;
+            zvTime = (level[levelNumber].totalTime * 60) - (int)totalTime;
             if (zvTime < 0)
                 zvTime = -1; //see that -1 is necesary for end by time -- it test (zvtime < 0)
             vectorFill.X = 982;
@@ -254,10 +256,10 @@ namespace Lemmings.NET
             TextLem(string.Format("{0,2:D2}", zv / 60) + ":" + string.Format("{0,2:D2}", zv % 60), vectorFill, Color.Green, 0.5f, 0.1f);
             vectorFill.X = 650;
             vectorFill.Y = 518;
-            TextLem("Home:" + string.Format("{0}", Numerodentro) + "/" + string.Format("{0}", Lemsneeded), vectorFill, Color.Cyan, 1f, 0.1f);
+            TextLem("Home:" + string.Format("{0}", _numSaved) + "/" + string.Format("{0}", Lemsneeded), vectorFill, Color.Cyan, 1f, 0.1f);
             vectorFill.X = 320;
             vectorFill.Y = 518;
-            TextLem("Out:" + string.Format("{0}", numerosaca) + "/" + string.Format("{0}", Numlems), vectorFill, Color.Magenta, 1f, 0.1f);
+            TextLem("Out:" + string.Format("{0}", numLemmings) + "/" + string.Format("{0}", Numlems), vectorFill, Color.Magenta, 1f, 0.1f);
             vectorFill.X = 530;
             vectorFill.Y = 518;
             TextLem("In:" + string.Format("{0}", numlemnow), vectorFill, Color.AliceBlue, 1f, 0.1f);
@@ -440,19 +442,19 @@ namespace Lemmings.NET
             {
                 r3 = rnd.Next(40, 90);
             }
-            if (earth.Width > 1100)
+            if (earth.Width > gameResolution.X)
                 xscale = (float)336 / earth.Width;
             else
-                xscale = (float)336 / 1100;
+                xscale = (float)336 / gameResolution.X;
             if (earth.Height > gameResolution.Y - 188)
                 yscale = (float)84 / earth.Height;
             else
                 yscale = (float)84 / (gameResolution.Y - 188);
             // float scale = Math.Min(xscale, yscale);  // scale from voth axis for real size
-            mmscale = (xscroll) * xscale;
-            mmscale2 = (xscroll + 1100) * xscale;
-            mmscaley = (yscroll) * yscale;
-            mmscaley2 = (yscroll + gameResolution.Y - 188) * yscale;
+            mmscale = (_scrollX) * xscale;
+            mmscale2 = (_scrollX + gameResolution.X) * xscale;
+            mmscaley = (_scrollY) * yscale;
+            mmscaley2 = (_scrollY + gameResolution.Y - 188) * yscale;
             mmscale = (int)mmscale;
             mmscale2 = (int)mmscale2;
             mmscaley = (int)mmscaley;
@@ -499,13 +501,13 @@ namespace Lemmings.NET
                     r3 = 0;
                 }
             }
-            zv = (int)tiempototal;
+            zv = (int)totalTime;
             if (fade)
             {
                 zv = 0;
                 Contadortime = 0;
             }
-            if (dibuja2)
+            if (draw2)
             {
                 framecae++;
                 if (framecae > 3)
@@ -556,8 +558,8 @@ namespace Lemmings.NET
             if (changeopInstance.State == SoundState.Playing && (op1 || op2))
             {
                 changeopInstance.Stop();
-                changeopInstance.Pitch = -1f + numerofrecuencia * 0.02f;
-                changeopInstance.Volume = 0.25f + numerofrecuencia * 0.005f;
+                changeopInstance.Pitch = -1f + frequencyNumber * 0.02f;
+                changeopInstance.Volume = 0.25f + frequencyNumber * 0.005f;
             }
             else
             {
@@ -574,23 +576,23 @@ namespace Lemmings.NET
             // medium position for bucle medx medy
             if ((rectop1.Contains(x) && mouseActState.LeftButton == ButtonState.Pressed) || _decreaseOn)
             {
-                changeopInstance.Pitch = -1f + numerofrecuencia * 0.02f;
-                changeopInstance.Volume = 0.25f + numerofrecuencia * 0.005f;
+                changeopInstance.Pitch = -1f + frequencyNumber * 0.02f;
+                changeopInstance.Volume = 0.25f + frequencyNumber * 0.005f;
                 if (changeopInstance.State == SoundState.Stopped)
                     try
                     {
                         changeopInstance.Play();
                     }
                     catch (InstancePlayLimitException) { /* Ignore errors */ }
-                if (numerofrecuencia == numerominfrecuencia)
+                if (frequencyNumber == numerominfrecuencia)
                 {
                     changeopInstance.Stop();
                 }
                 op1 = true;
-                if (dibuja2)
-                    numerofrecuencia -= 1; // on monogame 3.6 crash if frecuencia -1 only puto puto
-                if (numerofrecuencia < numerominfrecuencia)
-                    numerofrecuencia = numerominfrecuencia;
+                if (draw2)
+                    frequencyNumber -= 1; // on monogame 3.6 crash if frecuencia -1 only puto puto
+                if (frequencyNumber < numerominfrecuencia)
+                    frequencyNumber = numerominfrecuencia;
             }
             else
             {
@@ -598,23 +600,23 @@ namespace Lemmings.NET
             }
             if ((rectop2.Contains(x) && mouseActState.LeftButton == ButtonState.Pressed) || _increaseOn)
             {
-                changeopInstance.Pitch = -1f + numerofrecuencia * 0.02f;
-                changeopInstance.Volume = 0.25f + numerofrecuencia * 0.005f;
+                changeopInstance.Pitch = -1f + frequencyNumber * 0.02f;
+                changeopInstance.Volume = 0.25f + frequencyNumber * 0.005f;
                 if (changeopInstance.State == SoundState.Stopped)
                     try
                     {
                         changeopInstance.Play();
                     }
                     catch (InstancePlayLimitException) { /* Ignore errors */ }
-                if (numerofrecuencia == 99)
+                if (frequencyNumber == 99)
                 {
                     changeopInstance.Stop();
                 }
                 op2 = true;
-                if (dibuja2)
-                    numerofrecuencia += 1; // on monogame 3.6 crash if frecuencia +1 only
-                if (numerofrecuencia > 99)
-                    numerofrecuencia = 99;
+                if (draw2)
+                    frequencyNumber += 1; // on monogame 3.6 crash if frecuencia +1 only
+                if (frequencyNumber > 99)
+                    frequencyNumber = 99;
             }
             else
             {
@@ -667,14 +669,14 @@ namespace Lemmings.NET
             }
             if (rectop12.Contains(x) && (mouseAntState.LeftButton == ButtonState.Released && mouseActState.LeftButton == ButtonState.Pressed) && !op12)
             {
-                if (clickTimer1 > 0 && milisegundos - clickTimer1 < 300)
+                if (clickTimer1 > 0 && millisecondsElapsed - clickTimer1 < 300)
                 {
                     PlaySoundMenu();
                     clickTimer1 = 0;
                     allBlow = true;
                 }
                 else
-                    clickTimer1 = milisegundos;
+                    clickTimer1 = millisecondsElapsed;
             } // BOMBERS ALL
             if (mouseActState.LeftButton == ButtonState.Released)
                 _alreadyPlayed = false;
@@ -703,31 +705,31 @@ namespace Lemmings.NET
             }
             if (rectminimenu.Contains(x) && mouseActState.LeftButton == ButtonState.Pressed)
             {
-                mmscale = (float)(xscroll) * xscale;
-                mmscale2 = (float)(xscroll + 1100) * xscale;
-                mmscaley = (float)(yscroll) * yscale;
-                mmscaley2 = (float)(yscroll + gameResolution.Y - 188) * yscale;
+                mmscale = (float)(_scrollX) * xscale;
+                mmscale2 = (float)(_scrollX + gameResolution.X) * xscale;
+                mmscaley = (float)(_scrollY) * yscale;
+                mmscaley2 = (float)(_scrollY + gameResolution.Y - 188) * yscale;
                 mxscale = (float)earth.Width / 336;
                 myscale = (float)earth.Height / 84;
                 mousexscale = ((mouseActState.Position.X - posm + 14) * mxscale) - (gameResolution.X / 2); // center x axis in minimap (xscroll)
                 mouseyscale = ((mouseActState.Position.Y - posy) + 28) * myscale;
-                xscroll = (int)mousexscale;
-                if (xscroll + gameResolution.X > earth.Width)
+                _scrollX = (int)mousexscale;
+                if (_scrollX + gameResolution.X > earth.Width)
                 {
-                    xscroll = earth.Width - gameResolution.X;
+                    _scrollX = earth.Width - gameResolution.X;
                 }
-                if (xscroll < 0)
+                if (_scrollX < 0)
                 {
-                    xscroll = 0;
+                    _scrollX = 0;
                 }
-                yscroll = (int)mouseyscale - gameResolution.Y - 188;
-                if (yscroll + gameResolution.Y - 188 > earth.Height)
+                _scrollY = (int)mouseyscale - gameResolution.Y - 188;
+                if (_scrollY + gameResolution.Y - 188 > earth.Height)
                 {
-                    yscroll = earth.Height - gameResolution.Y - 188;
+                    _scrollY = earth.Height - gameResolution.Y - 188;
                 }
-                if (yscroll < 0)
+                if (_scrollY < 0)
                 {
-                    yscroll = 0;
+                    _scrollY = 0;
                 }
                 mmscale = (int)mmscale;
                 mmscale2 = (int)mmscale2;

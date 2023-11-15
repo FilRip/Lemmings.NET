@@ -4,6 +4,6 @@ namespace Lemmings.NET.Models
 {
     internal struct Varmoredoors
     {
-        internal Vector2 doormorexy;
+        internal Vector2 doorMoreXY;
     }
 }

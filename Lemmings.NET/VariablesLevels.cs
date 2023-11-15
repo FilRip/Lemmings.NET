@@ -2276,7 +2276,7 @@ namespace Lemmings.NET
             level[98].lemsToSave = 90;
             level[98].totalTime = 7;
             level[99].numTotalLem = 100;
-            level[99].initXpos = 1100; // Init xscroll
+            level[99].initXpos = gameResolution.X; // Init xscroll
             level[99].nameLev = "levels/may/cao009";
             level[99].nameOfLevel = "Maldition of the Pharaons";
             level[99].typeOfDoor = 1; // 1-egypt 2-hell 3-greek 4-l2 egypt

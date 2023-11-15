@@ -14,7 +14,7 @@
     <FileAlignment>512</FileAlignment>
     <MonoGamePlatform>DesktopGL</MonoGamePlatform>
     <TargetFrameworkVersion>v4.8.1</TargetFrameworkVersion>
-    <TargetFrameworkProfile />
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
     <DebugSymbols>true</DebugSymbols>
@@ -47,6 +47,14 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Constants\ECurrentSkill.cs" />
+    <Compile Include="Constants\SizeSprites.cs" />
+    <Compile Include="Datatables\Fonts.cs" />
+    <Compile Include="Datatables\Levels.cs" />
+    <Compile Include="Datatables\Music.cs" />
+    <Compile Include="Datatables\Particles.cs" />
+    <Compile Include="Datatables\Sfx.cs" />
+    <Compile Include="Datatables\Sprites.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="LemmingsNetGame.cs" />
     <Compile Include="Menu.cs" />
     <Compile Include="Models\Door.cs" />

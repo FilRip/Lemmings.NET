@@ -269,8 +269,8 @@ namespace Lemmings.NET
                     NumTotTraps = 4;
                     TrapsON = true;
                     trap = new Vartraps[NumTotTraps];
-                    trap[0].areaDraw = new Rectangle(0, 462, 1100, 40);
-                    trap[0].areaTrap = new Rectangle(0, 470, 1100, 10);
+                    trap[0].areaDraw = new Rectangle(0, 462, gameResolution.X, 40);
+                    trap[0].areaTrap = new Rectangle(0, 470, gameResolution.X, 10);
                     trap[0].numFrames = 8;
                     trap[0].actFrame = 0;
                     trap[0].type = 1;
@@ -464,11 +464,11 @@ namespace Lemmings.NET
                 case 17:
                 case 66:
                     numTOTdoors = 4; numACTdoor = 0;
-                    moredoors = new Varmoredoors[numTOTdoors];
-                    moredoors[0].doormorexy = new Vector2(level[17].doorX, level[17].doorY);
-                    moredoors[1].doormorexy = new Vector2(level[17].doorX + 220, level[17].doorY);
-                    moredoors[2].doormorexy = new Vector2(level[17].doorX + 430, level[17].doorY);
-                    moredoors[3].doormorexy = new Vector2(level[17].doorX + 640, level[17].doorY);//IMPORTANT LEVEL[??] SAME AS CASE: FOR FUTURE BUGS
+                    moreDoors = new Varmoredoors[numTOTdoors];
+                    moreDoors[0].doorMoreXY = new Vector2(level[17].doorX, level[17].doorY);
+                    moreDoors[1].doorMoreXY = new Vector2(level[17].doorX + 220, level[17].doorY);
+                    moreDoors[2].doorMoreXY = new Vector2(level[17].doorX + 430, level[17].doorY);
+                    moreDoors[3].doorMoreXY = new Vector2(level[17].doorX + 640, level[17].doorY);//IMPORTANT LEVEL[??] SAME AS CASE: FOR FUTURE BUGS
                     SteelON = true; numTOTsteel = 2;
                     steel = new Varsteel[numTOTsteel];
                     steel[0].area = new Rectangle(261, 373, 1154 - 261, 450 - 373);
@@ -689,8 +689,8 @@ namespace Lemmings.NET
                 case 23:
                     numTOTexits = 2;
                     moreexits = new Varmoreexits[numTOTexits];
-                    moreexits[0].exitmorexy = new Vector2(level[23].exitX, level[23].exitY); //73,460 ----- LEVEL 23 TWO EXITS
-                    moreexits[1].exitmorexy = new Vector2(level[23].exitX, 180);//73,180 //IMPORTANT LEVEL[??] SAME AS CASE: FOR FUTURE BUGS
+                    moreexits[0].exitMoreXY = new Vector2(level[23].exitX, level[23].exitY); //73,460 ----- LEVEL 23 TWO EXITS
+                    moreexits[1].exitMoreXY = new Vector2(level[23].exitX, 180);//73,180 //IMPORTANT LEVEL[??] SAME AS CASE: FOR FUTURE BUGS
                     NumTotTraps = 2;
                     TrapsON = true;
                     trap = new Vartraps[NumTotTraps];
@@ -1103,9 +1103,9 @@ namespace Lemmings.NET
                 case 40:
                 case 105:
                     numTOTdoors = 2; numACTdoor = 0;
-                    moredoors = new Varmoredoors[numTOTdoors];
-                    moredoors[0].doormorexy = new Vector2(level[40].doorX, level[40].doorY);
-                    moredoors[1].doormorexy = new Vector2(2240, level[40].doorY);
+                    moreDoors = new Varmoredoors[numTOTdoors];
+                    moreDoors[0].doorMoreXY = new Vector2(level[40].doorX, level[40].doorY);
+                    moreDoors[1].doorMoreXY = new Vector2(2240, level[40].doorY);
                     NumTotTraps = 1;
                     TrapsON = true;
                     trap = new Vartraps[NumTotTraps];
@@ -1385,10 +1385,10 @@ namespace Lemmings.NET
                     break;
                 case 59:
                     numTOTdoors = 3; numACTdoor = 0;
-                    moredoors = new Varmoredoors[numTOTdoors];
-                    moredoors[0].doormorexy = new Vector2(level[59].doorX, level[59].doorY);
-                    moredoors[1].doormorexy = new Vector2(459, 150);
-                    moredoors[2].doormorexy = new Vector2(770, 46);
+                    moreDoors = new Varmoredoors[numTOTdoors];
+                    moreDoors[0].doorMoreXY = new Vector2(level[59].doorX, level[59].doorY);
+                    moreDoors[1].doorMoreXY = new Vector2(459, 150);
+                    moreDoors[2].doorMoreXY = new Vector2(770, 46);
                     NumTotTraps = 7;
                     TrapsON = true;
                     trap = new Vartraps[NumTotTraps];
@@ -1498,9 +1498,9 @@ namespace Lemmings.NET
                 // TAXING LEVELS TAXING //////////////////////////////////////////////////////////////////////////
                 case 62:
                     numTOTdoors = 2; numACTdoor = 0;
-                    moredoors = new Varmoredoors[numTOTdoors];
-                    moredoors[0].doormorexy = new Vector2(level[62].doorX, level[62].doorY);
-                    moredoors[1].doormorexy = new Vector2(1962, level[62].doorY);
+                    moreDoors = new Varmoredoors[numTOTdoors];
+                    moreDoors[0].doorMoreXY = new Vector2(level[62].doorX, level[62].doorY);
+                    moreDoors[1].doorMoreXY = new Vector2(1962, level[62].doorY);
                     SteelON = true; numTOTsteel = 1;
                     steel = new Varsteel[numTOTsteel];
                     steel[0].area = new Rectangle(1614, 129, 1967 - 1614, 253 - 129);
@@ -1546,9 +1546,9 @@ namespace Lemmings.NET
                     break;
                 case 64:
                     numTOTdoors = 2; numACTdoor = 0;
-                    moredoors = new Varmoredoors[numTOTdoors];
-                    moredoors[0].doormorexy = new Vector2(level[64].doorX, level[64].doorY);
-                    moredoors[1].doormorexy = new Vector2(1174, level[64].doorY);
+                    moreDoors = new Varmoredoors[numTOTdoors];
+                    moreDoors[0].doorMoreXY = new Vector2(level[64].doorX, level[64].doorY);
+                    moreDoors[1].doorMoreXY = new Vector2(1174, level[64].doorY);
                     SteelON = true; numTOTsteel = 2;
                     steel = new Varsteel[numTOTsteel];
                     steel[0].area = new Rectangle(1000, 272, 1507 - 1000, 318 - 272);
@@ -1596,8 +1596,8 @@ namespace Lemmings.NET
                 case 65:
                     numTOTexits = 2;
                     moreexits = new Varmoreexits[numTOTexits];
-                    moreexits[0].exitmorexy = new Vector2(level[65].exitX, level[65].exitY);
-                    moreexits[1].exitmorexy = new Vector2(level[65].exitX, 461);
+                    moreexits[0].exitMoreXY = new Vector2(level[65].exitX, level[65].exitY);
+                    moreexits[1].exitMoreXY = new Vector2(level[65].exitX, 461);
                     SteelON = true; numTOTsteel = 2;
                     steel = new Varsteel[numTOTsteel];
                     steel[0].area = new Rectangle(161, 436, 390 - 161, 488 - 436);
@@ -1913,8 +1913,8 @@ namespace Lemmings.NET
                 case 77:
                     numTOTexits = 2;
                     moreexits = new Varmoreexits[numTOTexits];
-                    moreexits[0].exitmorexy = new Vector2(level[77].exitX, level[77].exitY);
-                    moreexits[1].exitmorexy = new Vector2(level[77].exitX, 180);
+                    moreexits[0].exitMoreXY = new Vector2(level[77].exitX, level[77].exitY);
+                    moreexits[1].exitMoreXY = new Vector2(level[77].exitX, 180);
                     NumTotTraps = 2;
                     TrapsON = true;
                     trap = new Vartraps[NumTotTraps];
@@ -2012,10 +2012,10 @@ namespace Lemmings.NET
                     break;
                 case 86:
                     numTOTdoors = 3; numACTdoor = 0;
-                    moredoors = new Varmoredoors[numTOTdoors];
-                    moredoors[0].doormorexy = new Vector2(level[86].doorX, level[86].doorY);
-                    moredoors[1].doormorexy = new Vector2(930, 382);
-                    moredoors[2].doormorexy = new Vector2(500, 56);
+                    moreDoors = new Varmoredoors[numTOTdoors];
+                    moreDoors[0].doorMoreXY = new Vector2(level[86].doorX, level[86].doorY);
+                    moreDoors[1].doorMoreXY = new Vector2(930, 382);
+                    moreDoors[2].doorMoreXY = new Vector2(500, 56);
                     NumTotTraps = 4;
                     TrapsON = true;
                     trap = new Vartraps[NumTotTraps];
@@ -2385,11 +2385,11 @@ namespace Lemmings.NET
                     break;
                 case 108:
                     numTOTdoors = 4; numACTdoor = 0;
-                    moredoors = new Varmoredoors[numTOTdoors];
-                    moredoors[0].doormorexy = new Vector2(level[108].doorX, level[108].doorY);
-                    moredoors[1].doormorexy = new Vector2(1500, level[108].doorY);
-                    moredoors[2].doormorexy = new Vector2(level[108].doorX, 376);
-                    moredoors[3].doormorexy = new Vector2(1500, 376);
+                    moreDoors = new Varmoredoors[numTOTdoors];
+                    moreDoors[0].doorMoreXY = new Vector2(level[108].doorX, level[108].doorY);
+                    moreDoors[1].doorMoreXY = new Vector2(1500, level[108].doorY);
+                    moreDoors[2].doorMoreXY = new Vector2(level[108].doorX, 376);
+                    moreDoors[3].doorMoreXY = new Vector2(1500, 376);
                     break;
                 case 113:
                     NumTotTraps = 1;
@@ -2440,9 +2440,9 @@ namespace Lemmings.NET
                     break;
                 case 120:
                     numTOTdoors = 2; numACTdoor = 0;
-                    moredoors = new Varmoredoors[numTOTdoors];
-                    moredoors[0].doormorexy = new Vector2(level[120].doorX, level[120].doorY);
-                    moredoors[1].doormorexy = new Vector2(4094, level[120].doorY);
+                    moreDoors = new Varmoredoors[numTOTdoors];
+                    moreDoors[0].doorMoreXY = new Vector2(level[120].doorX, level[120].doorY);
+                    moreDoors[1].doorMoreXY = new Vector2(4094, level[120].doorY);
                     NumTotTraps = 3;
                     TrapsON = true;
                     trap = new Vartraps[NumTotTraps];
@@ -2615,9 +2615,9 @@ namespace Lemmings.NET
                     break;
                 case 134:
                     numTOTdoors = 2; numACTdoor = 0;
-                    moredoors = new Varmoredoors[numTOTdoors];
-                    moredoors[0].doormorexy = new Vector2(level[134].doorX, level[134].doorY);
-                    moredoors[1].doormorexy = new Vector2(160, 92);
+                    moreDoors = new Varmoredoors[numTOTdoors];
+                    moreDoors[0].doorMoreXY = new Vector2(level[134].doorX, level[134].doorY);
+                    moreDoors[1].doorMoreXY = new Vector2(160, 92);
                     NumTotTraps = 2;
                     TrapsON = true;
                     trap = new Vartraps[NumTotTraps];
@@ -2700,9 +2700,9 @@ namespace Lemmings.NET
                     break;
                 case 138:
                     numTOTdoors = 2; numACTdoor = 0;
-                    moredoors = new Varmoredoors[numTOTdoors];
-                    moredoors[0].doormorexy = new Vector2(level[138].doorX, level[138].doorY);
-                    moredoors[1].doormorexy = new Vector2(level[138].doorX - 300, level[138].doorY);
+                    moreDoors = new Varmoredoors[numTOTdoors];
+                    moreDoors[0].doorMoreXY = new Vector2(level[138].doorX, level[138].doorY);
+                    moreDoors[1].doorMoreXY = new Vector2(level[138].doorX - 300, level[138].doorY);
                     //moredoors[1].doormorexy = new Vector2(1110,220); TEST THIS OPTION -- BASHER TO LEFT FAILS??????
                     ArrowsON = true; NumTotArrow = 1;
                     arrow = new Vararrows[NumTotArrow];
@@ -2761,9 +2761,9 @@ namespace Lemmings.NET
                     break;
                 case 141:
                     numTOTdoors = 2; numACTdoor = 0;
-                    moredoors = new Varmoredoors[numTOTdoors];
-                    moredoors[0].doormorexy = new Vector2(level[141].doorX, level[141].doorY);
-                    moredoors[1].doormorexy = new Vector2(level[141].doorX + 400, level[141].doorY);
+                    moreDoors = new Varmoredoors[numTOTdoors];
+                    moreDoors[0].doorMoreXY = new Vector2(level[141].doorX, level[141].doorY);
+                    moreDoors[1].doorMoreXY = new Vector2(level[141].doorX + 400, level[141].doorY);
                     NumTotTraps = 1;
                     TrapsON = true;
                     trap = new Vartraps[NumTotTraps];
@@ -2799,9 +2799,9 @@ namespace Lemmings.NET
                     break;
                 case 144:
                     numTOTdoors = 2; numACTdoor = 0;
-                    moredoors = new Varmoredoors[numTOTdoors];
-                    moredoors[0].doormorexy = new Vector2(134, 326);
-                    moredoors[1].doormorexy = new Vector2(level[144].doorX, level[144].doorY);
+                    moreDoors = new Varmoredoors[numTOTdoors];
+                    moreDoors[0].doorMoreXY = new Vector2(134, 326);
+                    moreDoors[1].doorMoreXY = new Vector2(level[144].doorX, level[144].doorY);
                     NumTotTraps = 1;
                     TrapsON = true;
                     trap = new Vartraps[NumTotTraps];
@@ -3178,11 +3178,11 @@ namespace Lemmings.NET
                     break;
                 case 159:
                     numTOTdoors = 4; numACTdoor = 0;
-                    moredoors = new Varmoredoors[numTOTdoors];
-                    moredoors[0].doormorexy = new Vector2(level[159].doorX, level[159].doorY);
-                    moredoors[1].doormorexy = new Vector2(559, 131);
-                    moredoors[2].doormorexy = new Vector2(96, 327);
-                    moredoors[3].doormorexy = new Vector2(1033, 419);
+                    moreDoors = new Varmoredoors[numTOTdoors];
+                    moreDoors[0].doorMoreXY = new Vector2(level[159].doorX, level[159].doorY);
+                    moreDoors[1].doorMoreXY = new Vector2(559, 131);
+                    moreDoors[2].doorMoreXY = new Vector2(96, 327);
+                    moreDoors[3].doorMoreXY = new Vector2(1033, 419);
                     NumTotTraps = 2;
                     TrapsON = true;
                     trap = new Vartraps[NumTotTraps];
@@ -3246,9 +3246,9 @@ namespace Lemmings.NET
                     break;
                 case 160:
                     numTOTdoors = 2; numACTdoor = 0;
-                    moredoors = new Varmoredoors[numTOTdoors];
-                    moredoors[0].doormorexy = new Vector2(level[160].doorX, level[160].doorY);
-                    moredoors[1].doormorexy = new Vector2(1280, 462);
+                    moreDoors = new Varmoredoors[numTOTdoors];
+                    moreDoors[0].doorMoreXY = new Vector2(level[160].doorX, level[160].doorY);
+                    moreDoors[1].doorMoreXY = new Vector2(1280, 462);
                     NumTotTraps = 2;
                     TrapsON = true;
                     trap = new Vartraps[NumTotTraps];
@@ -3309,10 +3309,10 @@ namespace Lemmings.NET
                     break;
                 case 162:
                     numTOTdoors = 3; numACTdoor = 0;
-                    moredoors = new Varmoredoors[numTOTdoors];
-                    moredoors[0].doormorexy = new Vector2(level[162].doorX, level[162].doorY);
-                    moredoors[1].doormorexy = new Vector2(level[162].doorX + 180, level[162].doorY);
-                    moredoors[2].doormorexy = new Vector2(level[162].doorX, 345);
+                    moreDoors = new Varmoredoors[numTOTdoors];
+                    moreDoors[0].doorMoreXY = new Vector2(level[162].doorX, level[162].doorY);
+                    moreDoors[1].doorMoreXY = new Vector2(level[162].doorX + 180, level[162].doorY);
+                    moreDoors[2].doorMoreXY = new Vector2(level[162].doorX, 345);
                     SteelON = true; numTOTsteel = 2;
                     steel = new Varsteel[numTOTsteel];
                     steel[0].area = new Rectangle(458, 0, 501 - 458, 319);
@@ -3321,10 +3321,10 @@ namespace Lemmings.NET
                 case 163:
                     numTOTdoors = 3;
                     numACTdoor = 0;
-                    moredoors = new Varmoredoors[numTOTdoors];
-                    moredoors[0].doormorexy = new Vector2(level[163].doorX, level[163].doorY);
-                    moredoors[1].doormorexy = new Vector2(level[163].doorX, 220);
-                    moredoors[2].doormorexy = new Vector2(level[163].doorX, 382);
+                    moreDoors = new Varmoredoors[numTOTdoors];
+                    moreDoors[0].doorMoreXY = new Vector2(level[163].doorX, level[163].doorY);
+                    moreDoors[1].doorMoreXY = new Vector2(level[163].doorX, 220);
+                    moreDoors[2].doorMoreXY = new Vector2(level[163].doorX, 382);
                     NumTotTraps = 2;
                     TrapsON = true;
                     trap = new Vartraps[NumTotTraps];
@@ -3407,8 +3407,8 @@ namespace Lemmings.NET
                     NumTotTraps = 1;
                     TrapsON = true;
                     trap = new Vartraps[NumTotTraps];
-                    trap[0].areaDraw = new Rectangle(0, 480, 1100, 32);
-                    trap[0].areaTrap = new Rectangle(0, 485, 1100, 10);
+                    trap[0].areaDraw = new Rectangle(0, 480, gameResolution.X, 32);
+                    trap[0].areaTrap = new Rectangle(0, 485, gameResolution.X, 10);
                     trap[0].numFrames = 8;
                     trap[0].actFrame = 0;
                     trap[0].type = 1;
@@ -3689,10 +3689,10 @@ namespace Lemmings.NET
                     break;
                 case 179:
                     numTOTdoors = 3; numACTdoor = 0;
-                    moredoors = new Varmoredoors[numTOTdoors];
-                    moredoors[0].doormorexy = new Vector2(level[179].doorX, level[179].doorY);
-                    moredoors[1].doormorexy = new Vector2(level[179].doorX + 100, level[179].doorY + 160);
-                    moredoors[2].doormorexy = new Vector2(level[179].doorX + 190, level[179].doorY + 330);
+                    moreDoors = new Varmoredoors[numTOTdoors];
+                    moreDoors[0].doorMoreXY = new Vector2(level[179].doorX, level[179].doorY);
+                    moreDoors[1].doorMoreXY = new Vector2(level[179].doorX + 100, level[179].doorY + 160);
+                    moreDoors[2].doorMoreXY = new Vector2(level[179].doorX + 190, level[179].doorY + 330);
                     break;
                 default:
                     ArrowsON = false;
