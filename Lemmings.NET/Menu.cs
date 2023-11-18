@@ -15,7 +15,6 @@ namespace Lemmings.NET
     {
         private readonly int posm = 742;
         private readonly int posy = 572;
-        int i;
         float angle, lemxscale, lemyscale, mousexscale, mouseyscale;
         private double clickTimer1 = 0;
         float mxscale, myscale;
@@ -77,30 +76,30 @@ namespace Lemmings.NET
         }
         private void PlaySoundMenu()
         {
-            if (changeopInstance.State == SoundState.Playing)
+            if (_sfx.ChangeOp.State == SoundState.Playing)
             {
-                changeopInstance.Stop();
+                _sfx.ChangeOp.Stop();
             }
             try
             {
-                changeopInstance.Play();
+                _sfx.ChangeOp.Play();
             }
             catch (InstancePlayLimitException) { /* Ignore errors */ }
         }
 
         private void TextLem(string txt, Vector2 start, Color pinta, float size, float layer)
         {
-            for (i = 0; i <= txt.Length - 1; i++)
+            for (int i = 0; i <= txt.Length - 1; i++)
             {
-                A = Convert.ToInt32(txt[i]);
+                int j = Convert.ToInt32(txt[i]);
                 start.X += 19 * size;  // ancho de lemfont (18X26) 18+1 para dejar espacio entre chars
-                if (A == 32)
+                if (j == 32)
                     continue;
                 rectangleFill.X = 0;
-                rectangleFill.Y = 26 * (A - 33);
+                rectangleFill.Y = 26 * (j - 33);
                 rectangleFill.Width = 18;
                 rectangleFill.Height = 26;
-                spriteBatch.Draw(lemfont, start, rectangleFill, pinta, 0f, Vector2.Zero, size, SpriteEffects.None, layer);
+                spriteBatch.Draw(_fonts.Lemmings, start, rectangleFill, pinta, 0f, Vector2.Zero, size, SpriteEffects.None, layer);
             }
         }
 
@@ -208,7 +207,7 @@ namespace Lemmings.NET
             vectorFill2.X = posm + mmscale2;
             vectorFill2.Y = posy + mmscaley2;
             DrawLine(spriteBatch, vectorFill, vectorFill2, Color.Yellow, 1, 0.007f);
-            for (i = 0; i < numLemmings; i++)
+            for (int i = 0; i < numLemmings; i++)
             {
                 if (!lemming[i].Dead)
                 {
@@ -267,7 +266,7 @@ namespace Lemmings.NET
             vectorFill.X = 0;
             vectorFill.Y = 518;
             TextLem(LemSkill, vectorFill, Color.GreenYellow, 1f, 0.1f);
-            for (i = 0; i <= 12; i++)
+            for (int i = 0; i <= 12; i++)
             {
                 vectorFill.X = 12 + i * 55;
                 vectorFill.Y = posymenu;
@@ -555,16 +554,16 @@ namespace Lemmings.NET
                     framepico = 0;
                 }
             }
-            if (changeopInstance.State == SoundState.Playing && (op1 || op2))
+            if (_sfx.ChangeOp.State == SoundState.Playing && (op1 || op2))
             {
-                changeopInstance.Stop();
-                changeopInstance.Pitch = -1f + frequencyNumber * 0.02f;
-                changeopInstance.Volume = 0.25f + frequencyNumber * 0.005f;
+                _sfx.ChangeOp.Stop();
+                _sfx.ChangeOp.Pitch = -1f + frequencyNumber * 0.02f;
+                _sfx.ChangeOp.Volume = 0.25f + frequencyNumber * 0.005f;
             }
             else
             {
-                changeopInstance.Pitch = 0;
-                changeopInstance.Volume = 1f;
+                _sfx.ChangeOp.Pitch = 0;
+                _sfx.ChangeOp.Volume = 1f;
             }
             cosa += 0.05f;
             if (cosa > 12.5)
@@ -576,17 +575,17 @@ namespace Lemmings.NET
             // medium position for bucle medx medy
             if ((rectop1.Contains(x) && mouseActState.LeftButton == ButtonState.Pressed) || _decreaseOn)
             {
-                changeopInstance.Pitch = -1f + frequencyNumber * 0.02f;
-                changeopInstance.Volume = 0.25f + frequencyNumber * 0.005f;
-                if (changeopInstance.State == SoundState.Stopped)
+                _sfx.ChangeOp.Pitch = -1f + frequencyNumber * 0.02f;
+                _sfx.ChangeOp.Volume = 0.25f + frequencyNumber * 0.005f;
+                if (_sfx.ChangeOp.State == SoundState.Stopped)
                     try
                     {
-                        changeopInstance.Play();
+                        _sfx.ChangeOp.Play();
                     }
                     catch (InstancePlayLimitException) { /* Ignore errors */ }
                 if (frequencyNumber == numerominfrecuencia)
                 {
-                    changeopInstance.Stop();
+                    _sfx.ChangeOp.Stop();
                 }
                 op1 = true;
                 if (draw2)
@@ -600,17 +599,17 @@ namespace Lemmings.NET
             }
             if ((rectop2.Contains(x) && mouseActState.LeftButton == ButtonState.Pressed) || _increaseOn)
             {
-                changeopInstance.Pitch = -1f + frequencyNumber * 0.02f;
-                changeopInstance.Volume = 0.25f + frequencyNumber * 0.005f;
-                if (changeopInstance.State == SoundState.Stopped)
+                _sfx.ChangeOp.Pitch = -1f + frequencyNumber * 0.02f;
+                _sfx.ChangeOp.Volume = 0.25f + frequencyNumber * 0.005f;
+                if (_sfx.ChangeOp.State == SoundState.Stopped)
                     try
                     {
-                        changeopInstance.Play();
+                        _sfx.ChangeOp.Play();
                     }
                     catch (InstancePlayLimitException) { /* Ignore errors */ }
                 if (frequencyNumber == 99)
                 {
-                    changeopInstance.Stop();
+                    _sfx.ChangeOp.Stop();
                 }
                 op2 = true;
                 if (draw2)
@@ -682,15 +681,15 @@ namespace Lemmings.NET
                 _alreadyPlayed = false;
             if (rectop13.Contains(x) && mouseActState.LeftButton == ButtonState.Pressed)  //FAST FORWARD
             {
-                if (changeopInstance.State == SoundState.Playing)
+                if (_sfx.ChangeOp.State == SoundState.Playing)
                 {
-                    changeopInstance.Resume();
+                    _sfx.ChangeOp.Resume();
                 }
                 try
                 {
                     if (!_alreadyPlayed)
                     {
-                        changeopInstance.Play();
+                        _sfx.ChangeOp.Play();
                         _alreadyPlayed = true;
                     }
                 }

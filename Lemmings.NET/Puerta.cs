@@ -27,9 +27,9 @@ namespace Lemmings.NET
                 totalTime = 0;
                 xx55 = varDoor[_level[_currentLevelNumber].TypeOfDoor].numFram - 1;
                 frameDoor++;
-                if (frameDoor == 1 && doorInstance.State == SoundState.Stopped && !doorWaveOn)
+                if (frameDoor == 1 && _sfx.EntryLemmings.State == SoundState.Stopped && !doorWaveOn)
                 {
-                    doorInstance.Play();
+                    _sfx.EntryLemmings.Play();
                     doorWaveOn = true;
                 }
                 if (frameDoor > xx55)
@@ -109,13 +109,13 @@ namespace Lemmings.NET
                 x.Y = lemming[actLEM2].PosY + 25;
                 if (lemming[actLEM2].Exit && lemming[actLEM2].Actualframe == 13) // change frame of yipee sound, old frame was init or 0 now different for frames
                 {
-                    if (oingInstance.State == SoundState.Playing)
+                    if (_sfx.Yippe.State == SoundState.Playing)
                     {
-                        oingInstance.Stop();
+                        _sfx.Yippe.Stop();
                     }
                     try
                     {
-                        oingInstance.Play();
+                        _sfx.Yippe.Play();
                     }
                     catch (InstancePlayLimitException) { /* Ignore errors */ }
                 }

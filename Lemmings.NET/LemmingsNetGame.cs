@@ -22,7 +22,7 @@ namespace Lemmings.NET
         Rectangle renderTargetDestination;
         bool scaled;
         private bool _lockMouse;
-        private SoundEffectInstance initInstance;
+
         double actWaves444 = 0, actWaves333 = 0, frameWaves = 0, actWaves = 0;
         private bool initON = false;
         RenderTarget2D colors88, normals;
@@ -38,6 +38,8 @@ namespace Lemmings.NET
 
         private Sprites _sprites;
         private Music _music;
+        private Sfx _sfx;
+        private Fonts _fonts;
 
         RenderTarget2D lighting;
         private Texture2D rainbowpic;
@@ -47,7 +49,6 @@ namespace Lemmings.NET
         const string fileName = "LevelStats.txt"; // savegame
         public int Qexplo { get; set; }
         public int Iexplo { get; set; }
-        public int Za { get; set; } = 0;
         public int TopY { get; set; }
         public int NumberAlive { get; set; }
         public int TotalExploding { get; set; }
@@ -90,9 +91,8 @@ namespace Lemmings.NET
         Particle[,] Explosion { get; set; } = new Particle[totalExplosions, 24];
         private int xExp, yExp, actItem = 0;
         Models.Particles[] particle;
-        private SoundEffect init, doorwav, oing, die, song, splat, ohno, explo, chink, strap, sfire, sglug, sting, smousepre, schangeop;
-        private SoundEffectInstance doorInstance, oingInstance, dieInstance, songInstance, splatInstance, ohnoInstance, exploInstance,
-            chinkInstance, strapInstance, fireInstance, glugInstance, tingInstance, mousepreInstance, changeopInstance;
+        private SoundEffect song, strap;
+        private SoundEffectInstance songInstance, strapInstance;
         private bool doorWaveOn = false;
         private float rparticle1;
         private bool rightparticle;
@@ -106,7 +106,6 @@ namespace Lemmings.NET
         public int Contador2 { get; set; } = 0;
         public int Frente { get; set; } = 0;
         public int Frente2 { get; set; } = 0;
-        public int A { get; set; } = 0;
         public float Lem_depth { get; set; } = 0.300f;
         public float Contadortime { get; set; } = 0;
         public float Contadortime2 { get; set; } = 0;
@@ -153,9 +152,9 @@ namespace Lemmings.NET
         private Texture2D myTexture, circulo_led;
         private Texture2D puerta_ani;
         private Texture2D salida_ani1, salida_ani1_1, sale;
-        private Texture2D lemfont, backmenu2, backlogo;
+        private Texture2D backmenu2, backlogo;
         private Texture2D avanzar, cuadrado_menu, logo_fondo, nubes_2, nubes, agua2;
-        SpriteFont Font1;
+        
         private string strPositionMouse;
         private int _scrollX = 0;  // scroll X of the entire level
         private int _scrollY = 0;
@@ -315,36 +314,36 @@ namespace Lemmings.NET
             }
             if (PlatsON && !Paused)
             {
-                for (A = 0; A < numTOTplats; A++)
+                for (int i = 0; i < numTOTplats; i++)
                 {
-                    if (plats[A].frame > plats[A].framesecond)
+                    if (plats[i].frame > plats[i].framesecond)
                     {
-                        bool goUP = plats[A].up;
-                        plats[A].frame = 0;
+                        bool goUP = plats[i].up;
+                        plats[i].frame = 0;
                         if (goUP)
-                            plats[A].actStep++;
+                            plats[i].actStep++;
                         else
-                            plats[A].actStep--;
+                            plats[i].actStep--;
                         if (goUP)
-                            plats[A].areaDraw.Y -= plats[A].step;
+                            plats[i].areaDraw.Y -= plats[i].step;
                         else
-                            plats[A].areaDraw.Y += plats[A].step;
-                        if (plats[A].actStep >= plats[A].numSteps - 1)
-                            plats[A].up = false;
-                        if (plats[A].actStep < 1)
-                            plats[A].up = true;
-                        px = plats[A].areaDraw.X - (plats[A].areaDraw.Width / 2);
-                        py = plats[A].areaDraw.Y;
-                        ancho = plats[A].areaDraw.Width;
+                            plats[i].areaDraw.Y += plats[i].step;
+                        if (plats[i].actStep >= plats[i].numSteps - 1)
+                            plats[i].up = false;
+                        if (plats[i].actStep < 1)
+                            plats[i].up = true;
+                        px = plats[i].areaDraw.X - (plats[i].areaDraw.Width / 2);
+                        py = plats[i].areaDraw.Y;
+                        ancho = plats[i].areaDraw.Width;
                         amount = ancho * 1; // *height
-                        alto = plats[A].step * plats[A].numSteps;
-                        positioYOrig = plats[A].areaDraw.Y + (plats[A].actStep * plats[A].step);
+                        alto = plats[i].step * plats[i].numSteps;
+                        positioYOrig = plats[i].areaDraw.Y + (plats[i].actStep * plats[i].step);
                         bool realLine = false;
                         for (y55 = 0; y55 < alto; y55++)
                         {
-                            for (x55 = 0; x55 < plats[A].areaDraw.Width; x55++)
+                            for (x55 = 0; x55 < plats[i].areaDraw.Width; x55++)
                             {
-                                if (y55 == (alto - 1) - plats[A].actStep * plats[A].step)
+                                if (y55 == (alto - 1) - plats[i].actStep * plats[i].step)
                                     realLine = true;
                                 if (realLine)
                                 {
@@ -360,7 +359,7 @@ namespace Lemmings.NET
                         if (debug)
                             earth.SetData(C25, 0, earth.Width * earth.Height); //set this only for debugger and see the real c25 redraw
                     }
-                    plats[A].frame++;
+                    plats[i].frame++;
                 }
             }
 
@@ -770,13 +769,13 @@ namespace Lemmings.NET
                                     strapInstance.Play();
                                     break;
                                 default:
-                                    if (dieInstance.State == SoundState.Playing)
+                                    if (_sfx.Die.State == SoundState.Playing)
                                     {
-                                        dieInstance.Stop();
+                                        _sfx.Die.Stop();
                                     }
                                     try
                                     {
-                                        dieInstance.Play();
+                                        _sfx.Die.Play();
                                     }
                                     catch (InstancePlayLimitException) { /* Ignore errors */ }
                                     break;
@@ -796,13 +795,13 @@ namespace Lemmings.NET
                                 case "traps/fuego2":
                                 case "traps/fuego3":
                                 case "traps/fuego4":
-                                    if (fireInstance.State == SoundState.Playing)
+                                    if (_sfx.Fire.State == SoundState.Playing)
                                     {
-                                        fireInstance.Stop();
+                                        _sfx.Fire.Stop();
                                     }
                                     try
                                     {
-                                        fireInstance.Play();
+                                        _sfx.Fire.Play();
                                     }
                                     catch (InstancePlayLimitException) { /* Ignore errors */ }
                                     lemming[actLEM].Burned = true;
@@ -822,13 +821,13 @@ namespace Lemmings.NET
                                 case "traps/ice_water2":
                                 case "traps/water_blue":
                                 case "traps/water_bubbles":
-                                    if (glugInstance.State == SoundState.Playing)
+                                    if (_sfx.Glup.State == SoundState.Playing)
                                     {
-                                        glugInstance.Stop();
+                                        _sfx.Glup.Stop();
                                     }
                                     try
                                     {
-                                        glugInstance.Play();
+                                        _sfx.Glup.Play();
                                     }
                                     catch (InstancePlayLimitException) { /* Ignore errors */ }
                                     lemming[actLEM].Drown = true;
@@ -843,13 +842,13 @@ namespace Lemmings.NET
                                     lemming[actLEM].Walker = false;
                                     break;
                                 default:
-                                    if (dieInstance.State == SoundState.Playing)
+                                    if (_sfx.Die.State == SoundState.Playing)
                                     {
-                                        dieInstance.Stop();
+                                        _sfx.Die.Stop();
                                     }
                                     try
                                     {
-                                        dieInstance.Play();
+                                        _sfx.Die.Play();
                                     }
                                     catch (InstancePlayLimitException) { /* Ignore errors */ }
                                     lemming[actLEM].Explode = false;
@@ -873,19 +872,19 @@ namespace Lemmings.NET
                         if (_nbDiggerRemaining < 0)
                         {
                             _nbDiggerRemaining = 0;
-                            if (tingInstance.State == SoundState.Playing)
+                            if (_sfx.Ting.State == SoundState.Playing)
                             {
-                                tingInstance.Stop();
+                                _sfx.Ting.Stop();
                             }
-                            tingInstance.Play();
+                            _sfx.Ting.Play();
                         }
                         else
                         {
-                            if (mousepreInstance.State == SoundState.Playing)
+                            if (_sfx.MousePre.State == SoundState.Playing)
                             {
-                                mousepreInstance.Stop();
+                                _sfx.MousePre.Stop();
                             }
-                            mousepreInstance.Play();
+                            _sfx.MousePre.Play();
                             lemming[actLEM].Digger = true;
                             lemming[actLEM].Fall = false;
                             lemming[actLEM].Builder = false;
@@ -903,19 +902,19 @@ namespace Lemmings.NET
                         if (_nbClimberRemaining < 0)
                         {
                             _nbClimberRemaining = 0;
-                            if (tingInstance.State == SoundState.Playing)
+                            if (_sfx.Ting.State == SoundState.Playing)
                             {
-                                tingInstance.Stop();
+                                _sfx.Ting.Stop();
                             }
-                            tingInstance.Play();
+                            _sfx.Ting.Play();
                         }
                         else
                         {
-                            if (mousepreInstance.State == SoundState.Playing)
+                            if (_sfx.MousePre.State == SoundState.Playing)
                             {
-                                mousepreInstance.Stop();
+                                _sfx.MousePre.Stop();
                             }
-                            mousepreInstance.Play();
+                            _sfx.MousePre.Play();
                             lemming[actLEM].Climber = true;
                             continue;
                         }
@@ -926,19 +925,19 @@ namespace Lemmings.NET
                         if (_nbFloaterRemaining < 0)
                         {
                             _nbFloaterRemaining = 0;
-                            if (tingInstance.State == SoundState.Playing)
+                            if (_sfx.Ting.State == SoundState.Playing)
                             {
-                                tingInstance.Stop();
+                                _sfx.Ting.Stop();
                             }
-                            tingInstance.Play();
+                            _sfx.Ting.Play();
                         }
                         else
                         {
-                            if (mousepreInstance.State == SoundState.Playing)
+                            if (_sfx.MousePre.State == SoundState.Playing)
                             {
-                                mousepreInstance.Stop();
+                                _sfx.MousePre.Stop();
                             }
-                            mousepreInstance.Play();
+                            _sfx.MousePre.Play();
                             lemming[actLEM].Umbrella = true;
                             continue;
                         }
@@ -949,19 +948,19 @@ namespace Lemmings.NET
                         if (_nbExploderRemaining < 0)
                         {
                             _nbExploderRemaining = 0;
-                            if (tingInstance.State == SoundState.Playing)
+                            if (_sfx.Ting.State == SoundState.Playing)
                             {
-                                tingInstance.Stop();
+                                _sfx.Ting.Stop();
                             }
-                            tingInstance.Play();
+                            _sfx.Ting.Play();
                         }
                         else
                         {
-                            if (mousepreInstance.State == SoundState.Playing)
+                            if (_sfx.MousePre.State == SoundState.Playing)
                             {
-                                mousepreInstance.Stop();
+                                _sfx.MousePre.Stop();
                             }
-                            mousepreInstance.Play();
+                            _sfx.MousePre.Play();
                             lemming[actLEM].Exploser = true;
                             continue;
                         }
@@ -973,19 +972,19 @@ namespace Lemmings.NET
                         if (_nbBlockerRemaining < 0)
                         {
                             _nbBlockerRemaining = 0;
-                            if (tingInstance.State == SoundState.Playing)
+                            if (_sfx.Ting.State == SoundState.Playing)
                             {
-                                tingInstance.Stop();
+                                _sfx.Ting.Stop();
                             }
-                            tingInstance.Play();
+                            _sfx.Ting.Play();
                         }
                         else
                         {
-                            if (mousepreInstance.State == SoundState.Playing)
+                            if (_sfx.MousePre.State == SoundState.Playing)
                             {
-                                mousepreInstance.Stop();
+                                _sfx.MousePre.Stop();
                             }
-                            mousepreInstance.Play();
+                            _sfx.MousePre.Play();
                             lemming[actLEM].Blocker = true;
                             lemming[actLEM].Builder = false;
                             lemming[actLEM].Basher = false;
@@ -1004,19 +1003,19 @@ namespace Lemmings.NET
                         if (_nbBuilderRemaining < 0)
                         {
                             _nbBuilderRemaining = 0;
-                            if (tingInstance.State == SoundState.Playing)
+                            if (_sfx.Ting.State == SoundState.Playing)
                             {
-                                tingInstance.Stop();
+                                _sfx.Ting.Stop();
                             }
-                            tingInstance.Play();
+                            _sfx.Ting.Play();
                         }
                         else
                         {
-                            if (mousepreInstance.State == SoundState.Playing)
+                            if (_sfx.MousePre.State == SoundState.Playing)
                             {
-                                mousepreInstance.Stop();
+                                _sfx.MousePre.Stop();
                             }
-                            mousepreInstance.Play();
+                            _sfx.MousePre.Play();
                             lemming[actLEM].Bridge = false;
                             lemming[actLEM].Builder = true;
                             lemming[actLEM].Actualframe = 0;
@@ -1036,19 +1035,19 @@ namespace Lemmings.NET
                         if (_nbBasherRemaining < 0)
                         {
                             _nbBasherRemaining = 0;
-                            if (tingInstance.State == SoundState.Playing)
+                            if (_sfx.Ting.State == SoundState.Playing)
                             {
-                                tingInstance.Stop();
+                                _sfx.Ting.Stop();
                             }
-                            tingInstance.Play();
+                            _sfx.Ting.Play();
                         }
                         else
                         {
-                            if (mousepreInstance.State == SoundState.Playing)
+                            if (_sfx.MousePre.State == SoundState.Playing)
                             {
-                                mousepreInstance.Stop();
+                                _sfx.MousePre.Stop();
                             }
-                            mousepreInstance.Play();
+                            _sfx.MousePre.Play();
                             lemming[actLEM].Basher = true;
                             lemming[actLEM].Actualframe = 0;
                             lemming[actLEM].Walker = false;
@@ -1066,19 +1065,19 @@ namespace Lemmings.NET
                         if (_nbMinerRemaining < 0)
                         {
                             _nbMinerRemaining = 0;
-                            if (tingInstance.State == SoundState.Playing)
+                            if (_sfx.Ting.State == SoundState.Playing)
                             {
-                                tingInstance.Stop();
+                                _sfx.Ting.Stop();
                             }
-                            tingInstance.Play();
+                            _sfx.Ting.Play();
                         }
                         else
                         {
-                            if (mousepreInstance.State == SoundState.Playing)
+                            if (_sfx.MousePre.State == SoundState.Playing)
                             {
-                                mousepreInstance.Stop();
+                                _sfx.MousePre.Stop();
                             }
-                            mousepreInstance.Play();
+                            _sfx.MousePre.Play();
                             lemming[actLEM].Miner = true;
                             lemming[actLEM].Actualframe = 0;
                             lemming[actLEM].Walker = false;
@@ -1164,13 +1163,13 @@ namespace Lemmings.NET
                         numlemnow--;
                         lemming[actLEM].Explode = false;
                         lemming[actLEM].Exploser = false;
-                        if (dieInstance.State == SoundState.Playing)
+                        if (_sfx.Die.State == SoundState.Playing)
                         {
-                            dieInstance.Stop();
+                            _sfx.Die.Stop();
                         }
                         try
                         {
-                            dieInstance.Play();
+                            _sfx.Die.Play();
                         }
                         catch (InstancePlayLimitException) { /* Ignore errors */ }
                         break;
@@ -1223,13 +1222,13 @@ namespace Lemmings.NET
                     }
                     else
                     {
-                        if (splatInstance.State == SoundState.Playing)
+                        if (_sfx.Splat.State == SoundState.Playing)
                         {
-                            splatInstance.Stop();
+                            _sfx.Splat.Stop();
                         }
                         try
                         {
-                            splatInstance.Play();
+                            _sfx.Splat.Play();
                         }
                         catch (InstancePlayLimitException) { /* Ignore errors */ }
                         lemming[actLEM].Fall = false;
@@ -1301,11 +1300,11 @@ namespace Lemmings.NET
                         }
                         if (nominer)
                         {
-                            if (tingInstance.State == SoundState.Playing)
+                            if (_sfx.Ting.State == SoundState.Playing)
                             {
-                                tingInstance.Stop();
+                                _sfx.Ting.Stop();
                             }
-                            tingInstance.Play();
+                            _sfx.Ting.Play();
                             lemming[actLEM].Miner = false;
                             lemming[actLEM].Walker = true;
                             lemming[actLEM].Actualframe = 0;
@@ -1548,11 +1547,11 @@ namespace Lemmings.NET
                         }
                         if (nobasher)
                         {
-                            if (tingInstance.State == SoundState.Playing)
+                            if (_sfx.Ting.State == SoundState.Playing)
                             {
-                                tingInstance.Stop();
+                                _sfx.Ting.Stop();
                             }
-                            tingInstance.Play();
+                            _sfx.Ting.Play();
                             lemming[actLEM].Basher = false;
                             lemming[actLEM].Walker = true;
                             lemming[actLEM].Actualframe = 0;
@@ -1871,11 +1870,11 @@ namespace Lemmings.NET
                             lemming[actLEM].PosX += 6;
                             if (lemming[actLEM].Numstairs >= 10)
                             {
-                                if (chinkInstance.State == SoundState.Playing)
+                                if (_sfx.Chink.State == SoundState.Playing)
                                 {
-                                    chinkInstance.Stop();
+                                    _sfx.Chink.Stop();
                                 }
-                                chinkInstance.Play();
+                                _sfx.Chink.Play();
                             }
                             amount = 0;
                             for (ykk = 27; ykk < 31; ykk++)
@@ -1954,11 +1953,11 @@ namespace Lemmings.NET
                             lemming[actLEM].PosX -= 6;
                             if (lemming[actLEM].Numstairs >= 10)
                             {
-                                if (chinkInstance.State == SoundState.Playing)
+                                if (_sfx.Chink.State == SoundState.Playing)
                                 {
-                                    chinkInstance.Stop();
+                                    _sfx.Chink.Stop();
                                 }
-                                chinkInstance.Play();
+                                _sfx.Chink.Play();
                             }
                             //earth.SetData<Color>(c25); //OPTIMIZED BUILDER SETDATA
                             amount = 0;
@@ -2343,13 +2342,13 @@ namespace Lemmings.NET
                     lemming[actLEM].Explode = false;
                     lemming[actLEM].Exploser = false;
                     // luto luto sound fix
-                    if (exploInstance.State == SoundState.Playing)
+                    if (_sfx.Explode.State == SoundState.Playing)
                     {
-                        exploInstance.Stop();
+                        _sfx.Explode.Stop();
                     }
                     try
                     {
-                        exploInstance.Play();
+                        _sfx.Explode.Play();
                     }
                     catch (InstancePlayLimitException) { /* Ignore errors */ }
                     //explosions addons emitter - particles logic add
@@ -2434,13 +2433,13 @@ namespace Lemmings.NET
                     numlemnow--;
                     lemming[actLEM].Explode = false;
                     lemming[actLEM].Exploser = false;
-                    if (dieInstance.State == SoundState.Playing)
+                    if (_sfx.Die.State == SoundState.Playing)
                     {
-                        dieInstance.Stop();
+                        _sfx.Die.Stop();
                     }
                     try
                     {
-                        dieInstance.Play();
+                        _sfx.Die.Play();
                     }
                     catch (InstancePlayLimitException) { /* Ignore errors */ }
                 }
@@ -2451,13 +2450,13 @@ namespace Lemmings.NET
                     numlemnow--;
                     lemming[actLEM].Explode = false;
                     lemming[actLEM].Exploser = false;
-                    if (dieInstance.State == SoundState.Playing)
+                    if (_sfx.Die.State == SoundState.Playing)
                     {
-                        dieInstance.Stop();
+                        _sfx.Die.Stop();
                     }
                     try
                     {
-                        dieInstance.Play();
+                        _sfx.Die.Play();
                     }
                     catch (InstancePlayLimitException) { /* Ignore errors */ }
                 }
@@ -2490,7 +2489,7 @@ namespace Lemmings.NET
             valory += _scrollY;
             mousepos.X = mouseActState.X;
             mousepos.Y = mouseActState.Y;
-            strPositionMouse = valorx.ToString() + " " + valory.ToString();
+            strPositionMouse = valorx.ToString() + ", " + valory.ToString();
         }
 
         protected override void Initialize()
@@ -2646,6 +2645,16 @@ namespace Lemmings.NET
                 _music = new Music();
                 _music.LoadContent(Content);
             }
+            if (_sfx == null)
+            {
+                _sfx = new Sfx();
+                _sfx.LoadContent(Content);
+            }
+            if (_fonts == null)
+            {
+                _fonts = new Fonts();
+                _fonts.LoadContent(Content);
+            }
             renderTarget = new RenderTarget2D(GraphicsDevice, gameResolution.X, gameResolution.Y);
             renderTargetDestination = GetRenderTargetDestination(gameResolution, _graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight);
     
@@ -2697,9 +2706,9 @@ namespace Lemmings.NET
                     if (File.Exists(fileName))
                     {
                         BinaryReader reader = new(File.Open(fileName, FileMode.Open));
-                        for (Za = 0; Za < numTotalLevels; Za++)
+                        for (int i = 0; i < numTotalLevels; i++)
                         {
-                            LevelEnd[Za] = reader.ReadBoolean();
+                            LevelEnd[i] = reader.ReadBoolean();
                         }
                         reader.Close();
                         MustReadFile = false;
@@ -2707,9 +2716,9 @@ namespace Lemmings.NET
                     else
                     {
                         BinaryWriter writer = new(File.Open(fileName, FileMode.Create));
-                        for (Za = 0; Za < numTotalLevels; Za++)
+                        for (int i = 0; i < numTotalLevels; i++)
                         {
-                            writer.Write(LevelEnd[Za]);
+                            writer.Write(LevelEnd[i]);
                         }
                         writer.Write("(c) 2016 Oskar Oskar LEMMINGS c#. (c) 2023 FilRip from CoolBytes");
                         writer.Close();
@@ -2739,7 +2748,6 @@ namespace Lemmings.NET
                 salida_ani1_1 = Content.Load<Texture2D>("salida" + xx455 + "_1");
                 sale = Content.Load<Texture2D>("sale");
                 agua2 = Content.Load<Texture2D>("Animations/water2");
-                lemfont = Content.Load<Texture2D>("lemmfont");
                 //backmenu1 = Content.Load<Texture2D>("background_01");
                 backmenu2 = Content.Load<Texture2D>("background_012");
                 //backmenu3 = Content.Load<Texture2D>("background_02");
@@ -2765,7 +2773,6 @@ namespace Lemmings.NET
                 pico = Content.Load<Texture2D>("pico");
                 pausa = Content.Load<Texture2D>("pausa");
                 bomba = Content.Load<Texture2D>("bomba");
-                init = Content.Load<SoundEffect>("soundfx/letsgo");
                 lohno = Content.Load<Texture2D>("sprite/ohno");
                 //lsplat = Content.Load<Texture2D>("sprite/splat");
                 explosion_particle = Content.Load<Texture2D>("sprite/stater");  //stater nice with rotation too
@@ -2774,36 +2781,8 @@ namespace Lemmings.NET
                 lhiss = Content.Load<Texture2D>("sprite/hiss");
                 lchink = Content.Load<Texture2D>("sprite/chink");
                 squemado = Content.Load<Texture2D>("quemado");
-                doorwav = Content.Load<SoundEffect>("soundfx/door");
-                initInstance = init.CreateInstance();
-                doorInstance = doorwav.CreateInstance();
-                oing = Content.Load<SoundEffect>("soundfx/yippee");
-                oingInstance = oing.CreateInstance();
-                die = Content.Load<SoundEffect>("soundfx/die");
-                dieInstance = die.CreateInstance();
-                splat = Content.Load<SoundEffect>("soundfx/splat");
-                splatInstance = splat.CreateInstance();
-                ohno = Content.Load<SoundEffect>("soundfx/ohno");
-                ohnoInstance = ohno.CreateInstance();
-                chink = Content.Load<SoundEffect>("soundfx/chink");
-                chinkInstance = chink.CreateInstance();
-                explo = Content.Load<SoundEffect>("soundfx/explode");
-                exploInstance = explo.CreateInstance();
-                sfire = Content.Load<SoundEffect>("soundfx/fire");
-                fireInstance = sfire.CreateInstance();
-                sglug = Content.Load<SoundEffect>("soundfx/glug");
-                glugInstance = sglug.CreateInstance();
-                sting = Content.Load<SoundEffect>("soundfx/ting");
-                tingInstance = sting.CreateInstance();
-                smousepre = Content.Load<SoundEffect>("soundfx/mousepre");
-                mousepreInstance = smousepre.CreateInstance();
-                schangeop = Content.Load<SoundEffect>("soundfx/changeop");
-                changeopInstance = schangeop.CreateInstance();
                 songInstance = _music.GetMusic(_currentLevelNumber % 19);
             }
-            lemfont = Content.Load<Texture2D>("lemmfont");
-            //numfont = Content.Load<Texture2D>("nummfont");
-            Font1 = Content.Load<SpriteFont>("spriteFont1");
         }
 #pragma warning restore S125 // Sections of code should not be commented out
 
@@ -3033,10 +3012,10 @@ namespace Lemmings.NET
                 {
                     LevelEnd[mmlevchoose] = true;
                     BinaryWriter writer = new(File.Open(fileName, FileMode.Create));
-                    for (Za = 0; Za < numTotalLevels; Za++)
+                    for (int i = 0; i < numTotalLevels; i++)
                     {
                         //LevelEnd[za] = false; // first time create all the levels vars to false --> not finished
-                        writer.Write(LevelEnd[Za]);
+                        writer.Write(LevelEnd[i]);
                     }
                     writer.Write("(c) 2016 Oskar Oskar LEMMINGS c#. 2023 FilRip from CoolBytes");
                     writer.Close();
@@ -3499,8 +3478,8 @@ namespace Lemmings.NET
                     {
                         if (songInstance.State == SoundState.Playing)
                             songInstance.Stop();
-                        if (ExitBad && ohnoInstance.State != SoundState.Playing)
-                            ohnoInstance.Play();
+                        if (ExitBad && _sfx.OhNo.State != SoundState.Playing)
+                            _sfx.OhNo.Play();
                         else if (!ExitBad && _music.Music20.State != SoundState.Playing)
                             _music.Music20.Play();
                     }
@@ -3597,13 +3576,13 @@ namespace Lemmings.NET
                 }
                 if (PlatsON)
                 {
-                    for (A = 0; A < numTOTplats; A++)
+                    for (int i = 0; i < numTOTplats; i++)
                     {
-                        x2 = plats[A].areaDraw.X - plats[A].areaDraw.Width / 2;
-                        y = plats[A].areaDraw.Y;
-                        w = plats[A].sprite.Width;
-                        h = plats[A].sprite.Height;
-                        spriteBatch.Draw(plats[A].sprite, new Rectangle(x2 - _scrollX, y - _scrollY - 5, plats[A].areaDraw.Width, plats[A].areaDraw.Height),
+                        x2 = plats[i].areaDraw.X - plats[i].areaDraw.Width / 2;
+                        y = plats[i].areaDraw.Y;
+                        w = plats[i].sprite.Width;
+                        h = plats[i].sprite.Height;
+                        spriteBatch.Draw(plats[i].sprite, new Rectangle(x2 - _scrollX, y - _scrollY - 5, plats[i].areaDraw.Width, plats[i].areaDraw.Height),
                             new Rectangle(0, 0, w, h), Color.White, 0f, Vector2.Zero, SpriteEffects.None, 0.56f);
                     }
                 }
@@ -3614,10 +3593,10 @@ namespace Lemmings.NET
                 }
                 else
                 {
-                    for (A = 0; A < numTOTdoors; A++)
+                    for (int i = 0; i < numTOTdoors; i++)
                     {
-                        door1X = (int)moreDoors[A].doorMoreXY.X;
-                        door1Y = (int)moreDoors[A].doorMoreXY.Y;
+                        door1X = (int)moreDoors[i].doorMoreXY.X;
+                        door1Y = (int)moreDoors[i].doorMoreXY.Y;
                         spriteBatch.Draw(puerta_ani, new Vector2(door1X - _scrollX, door1Y - _scrollY), new Rectangle(0, framereal565, xx55, yy55),
                             Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, DoorExitDepth);
                     }
@@ -3663,8 +3642,8 @@ namespace Lemmings.NET
                 // infos various for test only
                 if (debug)
                 {
-                    spriteBatch.DrawString(Font1, string.Format("FPS={0}", _fps), new Vector2(960, 50), Color.White, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0.1f);
-                    spriteBatch.DrawString(Font1, strPositionMouse, new Vector2(940, 10), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0.1f);
+                    spriteBatch.DrawString(_fonts.Standard, string.Format("FPS={0}", _fps), new Vector2(960, 50), Color.White, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0.1f);
+                    spriteBatch.DrawString(_fonts.Standard, strPositionMouse, new Vector2(940, 10), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0.1f);
                 }
 
                 for (actLEM = 0; actLEM < numLemmings; actLEM++) //si lo hace de 100 a cero dibujara los primeros encima y mejorara el aspecto
@@ -3683,13 +3662,13 @@ namespace Lemmings.NET
                         if (crono <= 0)
                         {
                             // luto luto sound monogame 3.2 works ok without catch exception
-                            if (ohnoInstance.State == SoundState.Playing)
+                            if (_sfx.OhNo.State == SoundState.Playing)
                             {
-                                ohnoInstance.Stop();
+                                _sfx.OhNo.Stop();
                             }
                             try
                             {
-                                ohnoInstance.Play();
+                                _sfx.OhNo.Play();
                             }
                             catch (InstancePlayLimitException) { /* Ignore errors */ }
                             lemming[actLEM].Explode = true;
@@ -3833,9 +3812,9 @@ namespace Lemmings.NET
                         fade = false;
                         rest = 0;
                         totalTime = 0;
-                        if (initInstance.State == SoundState.Stopped && !initON)
+                        if (_sfx.Letsgo.State == SoundState.Stopped && !initON)
                         {
-                            initInstance.Play();
+                            _sfx.Letsgo.Play();
                             initON = true;
                         }
                     }
@@ -4010,8 +3989,8 @@ namespace Lemmings.NET
                 spriteBatch.Draw(logo_fondo, new Rectangle(0, 0, gameResolution.X, gameResolution.Y), new Rectangle(0, 0, gameResolution.X, gameResolution.Y), new Color(255, 255, 255, 100));
                 if (debug)
                 {
-                    spriteBatch.DrawString(Font1, string.Format("numero={0}", mmlevchoose), new Vector2(960, 50), Color.White);
-                    spriteBatch.DrawString(Font1, strPositionMouse, new Vector2(940, 10), Color.White);
+                    spriteBatch.DrawString(_fonts.Standard, string.Format("numero={0}", mmlevchoose), new Vector2(960, 50), Color.White);
+                    spriteBatch.DrawString(_fonts.Standard, strPositionMouse, new Vector2(940, 10), Color.White);
                 }
                 spriteBatch.Draw(backlogo, new Vector2(215, 20), Color.White);
                 spriteBatch.Draw(eyeBlink1, new Vector2(239, 58), new Rectangle(0, framblink1 * 12, eyeBlink1.Width, 12), Color.White,
