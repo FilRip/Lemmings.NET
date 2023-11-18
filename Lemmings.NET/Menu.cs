@@ -32,9 +32,9 @@ namespace Lemmings.NET
         private int framepico = 0; //0--23
         private int framblink1 = 0, framblink2 = 0, framblink3 = 0;
         private ECurrentSkill _currentSelectedSkill;
-        private bool op1 = false, op2 = false, op12 = false, op13 = false;
-        private int numeroescalan = 99, numeroparaguas = 88, numeroexplotan = 77, numeroblockers = 66,
-            numeropuentes = 55, numeropared = 44, numeropico = 33, numerocavan = 99, r1 = 0, r2 = 0, r3 = 0;
+        private bool op1 = false, op2 = false, op13 = false;
+        private int _nbClimberRemaining = 99, _nbFloaterRemaining = 88, _nbExploderRemaining = 77, _nbBlockerRemaining = 66,
+            _nbBuilderRemaining = 55, _nbBasherRemaining = 44, _nbMinerRemaining = 33, _nbDiggerRemaining = 99, r1 = 0, r2 = 0, r3 = 0;
         private float cosa = 0f;
         int zvTime = 0, zv = 0;
         private readonly int posymenu = 575;
@@ -227,25 +227,25 @@ namespace Lemmings.NET
             vectorFill.X = 80;
             TextLem(string.Format("{0,2:D2}", frequencyNumber), vectorFill, Color.LimeGreen, 0.5f, 0.1f);
             vectorFill.X = 80 + 55;
-            TextLem(string.Format("{0,2:D2}", numeroescalan), vectorFill, Color.LimeGreen, 0.5f, 0.1f);
+            TextLem(string.Format("{0,2:D2}", _nbClimberRemaining), vectorFill, Color.LimeGreen, 0.5f, 0.1f);
             vectorFill.X = 80 + 2 * 55;
-            TextLem(string.Format("{0,2:D2}", numeroparaguas), vectorFill, Color.LimeGreen, 0.5f, 0.1f);
+            TextLem(string.Format("{0,2:D2}", _nbFloaterRemaining), vectorFill, Color.LimeGreen, 0.5f, 0.1f);
             vectorFill.X = 80 + 3 * 55;
-            TextLem(string.Format("{0,2:D2}", numeroexplotan), vectorFill, Color.LimeGreen, 0.5f, 0.1f);
+            TextLem(string.Format("{0,2:D2}", _nbExploderRemaining), vectorFill, Color.LimeGreen, 0.5f, 0.1f);
             vectorFill.X = 80 + 4 * 55;
-            TextLem(string.Format("{0,2:D2}", numeroblockers), vectorFill, Color.LimeGreen, 0.5f, 0.1f);
+            TextLem(string.Format("{0,2:D2}", _nbBlockerRemaining), vectorFill, Color.LimeGreen, 0.5f, 0.1f);
             vectorFill.X = 80 + 5 * 55;
-            TextLem(string.Format("{0,2:D2}", numeropuentes), vectorFill, Color.LimeGreen, 0.5f, 0.1f);
+            TextLem(string.Format("{0,2:D2}", _nbBuilderRemaining), vectorFill, Color.LimeGreen, 0.5f, 0.1f);
             vectorFill.X = 80 + 6 * 55;
-            TextLem(string.Format("{0,2:D2}", numeropared), vectorFill, Color.LimeGreen, 0.5f, 0.1f);
+            TextLem(string.Format("{0,2:D2}", _nbBasherRemaining), vectorFill, Color.LimeGreen, 0.5f, 0.1f);
             vectorFill.X = 80 + 7 * 55;
-            TextLem(string.Format("{0,2:D2}", numeropico), vectorFill, Color.LimeGreen, 0.5f, 0.1f);
+            TextLem(string.Format("{0,2:D2}", _nbMinerRemaining), vectorFill, Color.LimeGreen, 0.5f, 0.1f);
             vectorFill.X = 80 + 8 * 55;
-            TextLem(string.Format("{0,2:D2}", numerocavan), vectorFill, Color.LimeGreen, 0.5f, 0.1f);
+            TextLem(string.Format("{0,2:D2}", _nbDiggerRemaining), vectorFill, Color.LimeGreen, 0.5f, 0.1f);
             vectorFill.X = 890;
             vectorFill.Y = 518;
             TextLem("Time", vectorFill, Color.Yellow, 1f, 0.1f);
-            zvTime = (level[levelNumber].totalTime * 60) - (int)totalTime;
+            zvTime = (_level[_currentLevelNumber].totalTime * 60) - (int)totalTime;
             if (zvTime < 0)
                 zvTime = -1; //see that -1 is necesary for end by time -- it test (zvtime < 0)
             vectorFill.X = 982;
@@ -315,7 +315,7 @@ namespace Lemmings.NET
             rectangleFill2.Y = 0;
             rectangleFill2.Width = climber_with;
             rectangleFill2.Height = climber_height;
-            spriteBatch.Draw(escala, vectorFill, rectangleFill2, (_currentSelectedSkill == ECurrentSkill.CLIMBER ? Color.White : sombramenu), 0, Vector2.Zero, climber_size, SpriteEffects.None, 0.1f);
+            spriteBatch.Draw(_sprites.Climber, vectorFill, rectangleFill2, (_currentSelectedSkill == ECurrentSkill.CLIMBER ? Color.White : sombramenu), 0, Vector2.Zero, climber_size, SpriteEffects.None, 0.1f);
 
             vectorFill.X = 45 + 3 * 55;
             vectorFill.Y = posymenu + 31;
@@ -337,7 +337,7 @@ namespace Lemmings.NET
             rectangleFill2.Y = 0;
             rectangleFill2.Width = bomber_with;
             rectangleFill2.Height = bomber_height;
-            spriteBatch.Draw(explota, vectorFill, rectangleFill2, (_currentSelectedSkill == ECurrentSkill.EXPLODER ? Color.White : sombramenu), 0f, Vector2.Zero, bomber_size, SpriteEffects.None, 0.1f);
+            spriteBatch.Draw(_sprites.Exploder, vectorFill, rectangleFill2, (_currentSelectedSkill == ECurrentSkill.EXPLODER ? Color.White : sombramenu), 0f, Vector2.Zero, bomber_size, SpriteEffects.None, 0.1f);
 
             vectorFill.X = 45 + 5 * 55;
             vectorFill.Y = posymenu + 31;
@@ -348,7 +348,7 @@ namespace Lemmings.NET
             rectangleFill2.Y = 0;
             rectangleFill2.Width = blocker_with;
             rectangleFill2.Height = blocker_height;
-            spriteBatch.Draw(blocker, vectorFill, rectangleFill2, (_currentSelectedSkill == ECurrentSkill.BLOCKER ? Color.White : sombramenu), 0f, Vector2.Zero, blocker_size, SpriteEffects.None, 0.1f);
+            spriteBatch.Draw(_sprites.Blocker, vectorFill, rectangleFill2, (_currentSelectedSkill == ECurrentSkill.BLOCKER ? Color.White : sombramenu), 0f, Vector2.Zero, blocker_size, SpriteEffects.None, 0.1f);
 
             vectorFill.X = 45 + 6 * 55;
             vectorFill.Y = posymenu + 31;
@@ -392,7 +392,7 @@ namespace Lemmings.NET
             rectangleFill2.Y = 0;
             rectangleFill2.Width = digger_with;
             rectangleFill2.Height = digger_height;
-            spriteBatch.Draw(digger, vectorFill, rectangleFill2, (_currentSelectedSkill == ECurrentSkill.DIGGER ? Color.White : sombramenu), 0f, Vector2.Zero, digger_size, SpriteEffects.None, 0.1f);
+            spriteBatch.Draw(_sprites.Digger, vectorFill, rectangleFill2, (_currentSelectedSkill == ECurrentSkill.DIGGER ? Color.White : sombramenu), 0f, Vector2.Zero, digger_size, SpriteEffects.None, 0.1f);
 
             vectorFill.X = 45 + 10 * 55;
             vectorFill.Y = posymenu + 31;
@@ -407,14 +407,14 @@ namespace Lemmings.NET
 
             vectorFill.X = 45 + 11 * 55;
             vectorFill.Y = posymenu + 31;
-            spriteBatch.Draw(circulo_led, vectorFill, rectangleFill, (allBlow ? Color.White : sombramenu), (allBlow ? cosa : 0), vectorFill2, 1f, SpriteEffects.None, 0.1f);
+            spriteBatch.Draw(circulo_led, vectorFill, rectangleFill, (_allBlow ? Color.White : sombramenu), (_allBlow ? cosa : 0), vectorFill2, 1f, SpriteEffects.None, 0.1f);
             vectorFill.X = 24 + 11 * 55;
             vectorFill.Y = posymenu + 6;
             rectangleFill2.X = 0;
-            rectangleFill2.Y = (op12 ? 40 : 0);
+            rectangleFill2.Y = (_allBlow ? 40 : 0);
             rectangleFill2.Width = 32;
             rectangleFill2.Height = 40;
-            spriteBatch.Draw(bomba, vectorFill, rectangleFill2, (allBlow ? Color.White : sombramenu), 0f, Vector2.Zero, 1.3f, SpriteEffects.None, 0.11f);
+            spriteBatch.Draw(bomba, vectorFill, rectangleFill2, (_allBlow ? Color.White : sombramenu), 0f, Vector2.Zero, 1.3f, SpriteEffects.None, 0.11f);
 
             vectorFill.X = 45 + 12 * 55;
             vectorFill.Y = posymenu + 31;
@@ -622,42 +622,42 @@ namespace Lemmings.NET
             {
                 op2 = false;
             }
-            if (rectop3.Contains(x) && numeroescalan > 0 && (mouseAntState.LeftButton == ButtonState.Released && mouseActState.LeftButton == ButtonState.Pressed))
+            if (rectop3.Contains(x) && _nbClimberRemaining > 0 && (mouseAntState.LeftButton == ButtonState.Released && mouseActState.LeftButton == ButtonState.Pressed))
             {
                 PlaySoundMenu();
                 _currentSelectedSkill = ECurrentSkill.CLIMBER;
             }
-            if (rectop4.Contains(x) && numeroparaguas > 0 && (mouseAntState.LeftButton == ButtonState.Released && mouseActState.LeftButton == ButtonState.Pressed))
+            if (rectop4.Contains(x) && _nbFloaterRemaining > 0 && (mouseAntState.LeftButton == ButtonState.Released && mouseActState.LeftButton == ButtonState.Pressed))
             {
                 PlaySoundMenu();
                 _currentSelectedSkill = ECurrentSkill.FLOATER;
             }
-            if (rectop5.Contains(x) && numeroexplotan > 0 && (mouseAntState.LeftButton == ButtonState.Released && mouseActState.LeftButton == ButtonState.Pressed))
+            if (rectop5.Contains(x) && _nbExploderRemaining > 0 && (mouseAntState.LeftButton == ButtonState.Released && mouseActState.LeftButton == ButtonState.Pressed))
             {
                 PlaySoundMenu();
                 _currentSelectedSkill = ECurrentSkill.EXPLODER;
             }
-            if (rectop6.Contains(x) && numeroblockers > 0 && (mouseAntState.LeftButton == ButtonState.Released && mouseActState.LeftButton == ButtonState.Pressed))
+            if (rectop6.Contains(x) && _nbBlockerRemaining > 0 && (mouseAntState.LeftButton == ButtonState.Released && mouseActState.LeftButton == ButtonState.Pressed))
             {
                 PlaySoundMenu();
                 _currentSelectedSkill = ECurrentSkill.BLOCKER;
             }
-            if (rectop7.Contains(x) && numeropuentes > 0 && (mouseAntState.LeftButton == ButtonState.Released && mouseActState.LeftButton == ButtonState.Pressed))
+            if (rectop7.Contains(x) && _nbBuilderRemaining > 0 && (mouseAntState.LeftButton == ButtonState.Released && mouseActState.LeftButton == ButtonState.Pressed))
             {
                 PlaySoundMenu();
                 _currentSelectedSkill = ECurrentSkill.BUILDER;
             }
-            if (rectop8.Contains(x) && numeropared > 0 && (mouseAntState.LeftButton == ButtonState.Released && mouseActState.LeftButton == ButtonState.Pressed))
+            if (rectop8.Contains(x) && _nbBasherRemaining > 0 && (mouseAntState.LeftButton == ButtonState.Released && mouseActState.LeftButton == ButtonState.Pressed))
             {
                 PlaySoundMenu();
                 _currentSelectedSkill = ECurrentSkill.BASHER;
             }
-            if (rectop9.Contains(x) && numeropico > 0 && (mouseAntState.LeftButton == ButtonState.Released && mouseActState.LeftButton == ButtonState.Pressed))
+            if (rectop9.Contains(x) && _nbMinerRemaining > 0 && (mouseAntState.LeftButton == ButtonState.Released && mouseActState.LeftButton == ButtonState.Pressed))
             {
                 PlaySoundMenu();
                 _currentSelectedSkill = ECurrentSkill.MINER;
             }
-            if (rectop10.Contains(x) && numerocavan > 0 && (mouseAntState.LeftButton == ButtonState.Released && mouseActState.LeftButton == ButtonState.Pressed))
+            if (rectop10.Contains(x) && _nbDiggerRemaining > 0 && (mouseAntState.LeftButton == ButtonState.Released && mouseActState.LeftButton == ButtonState.Pressed))
             {
                 PlaySoundMenu();
                 _currentSelectedSkill = ECurrentSkill.DIGGER;
@@ -667,13 +667,13 @@ namespace Lemmings.NET
                 PlaySoundMenu();
                 Paused = !Paused;
             }
-            if (rectop12.Contains(x) && (mouseAntState.LeftButton == ButtonState.Released && mouseActState.LeftButton == ButtonState.Pressed) && !op12)
+            if (rectop12.Contains(x) && (mouseAntState.LeftButton == ButtonState.Released && mouseActState.LeftButton == ButtonState.Pressed) && !_allBlow)
             {
                 if (clickTimer1 > 0 && millisecondsElapsed - clickTimer1 < 300)
                 {
                     PlaySoundMenu();
                     clickTimer1 = 0;
-                    allBlow = true;
+                    _allBlow = true;
                 }
                 else
                     clickTimer1 = millisecondsElapsed;

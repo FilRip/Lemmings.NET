@@ -1,12 +1,119 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Content;
 
 namespace Lemmings.NET.Datatables
 {
     internal class Music
     {
+        public SoundEffectInstance Music1 { get; private set; }
+        public SoundEffectInstance Music2 { get; private set; }
+        public SoundEffectInstance Music3 { get; private set; }
+        public SoundEffectInstance Music4 { get; private set; }
+        public SoundEffectInstance Music5 { get; private set; }
+        public SoundEffectInstance Music6 { get; private set; }
+        public SoundEffectInstance Music7 { get; private set; }
+        public SoundEffectInstance Music8 { get; private set; }
+        public SoundEffectInstance Music9 { get; private set; }
+        public SoundEffectInstance Music10 { get; private set; }
+        public SoundEffectInstance Music11 { get; private set; }
+        public SoundEffectInstance Music12 { get; private set; }
+        public SoundEffectInstance Music13 { get; private set; }
+        public SoundEffectInstance Music14 { get; private set; }
+        public SoundEffectInstance Music15 { get; private set; }
+        public SoundEffectInstance Music16 { get; private set; }
+        public SoundEffectInstance Music17 { get; private set; }
+        public SoundEffectInstance Music18 { get; private set; }
+        public SoundEffectInstance Music19 { get; private set; }
+        public SoundEffectInstance Music20 { get; private set; }
+
+        public SoundEffectInstance GetMusic(int numMusic)
+        {
+            return numMusic switch
+            {
+                1 => Music2,
+                2 => Music3,
+                3 => Music4,
+                4 => Music5,
+                5 => Music6,
+                6 => Music7,
+                7 => Music8,
+                8 => Music9,
+                9 => Music10,
+                10 => Music11,
+                11 => Music12,
+                12 => Music13,
+                14 => Music15,
+                15 => Music16,
+                16 => Music17,
+                17 => Music18,
+                18 => Music19,
+                _ => Music1,
+            };
+        }
+
+        public void LoadContent(ContentManager Content)
+        {
+            SoundEffect _music1 = Content.Load<SoundEffect>("music/tim1");
+            Music1 = _music1.CreateInstance();
+            Music1.IsLooped = true;
+            SoundEffect _music2 = Content.Load<SoundEffect>("music/lem_intro");
+            Music2 = _music2.CreateInstance();
+            Music2.IsLooped = true;
+            SoundEffect _music3 = Content.Load<SoundEffect>("music/lemming1");
+            Music3 = _music3.CreateInstance();
+            Music3.IsLooped = true;
+            SoundEffect _music4 = Content.Load<SoundEffect>("music/tim2");
+            Music4 = _music4.CreateInstance();
+            Music4.IsLooped = true;
+            SoundEffect _music5 = Content.Load<SoundEffect>("music/lemming2");
+            Music5 = _music5.CreateInstance();
+            Music5.IsLooped = true;
+            SoundEffect _music6 = Content.Load<SoundEffect>("music/tim8");
+            Music6 = _music6.CreateInstance();
+            Music6.IsLooped = true;
+            SoundEffect _music7 = Content.Load<SoundEffect>("music/tim3");
+            Music7 = _music7.CreateInstance();
+            Music7.IsLooped = true;
+            SoundEffect _music8 = Content.Load<SoundEffect>("music/tim5");
+            Music8 = _music8.CreateInstance();
+            Music8.IsLooped = true;
+            SoundEffect _music9 = Content.Load<SoundEffect>("music/doggie");
+            Music9 = _music9.CreateInstance();
+            Music9.IsLooped = true;
+            SoundEffect _music10 = Content.Load<SoundEffect>("music/tim6");
+            Music10 = _music10.CreateInstance();
+            Music10.IsLooped = true;
+            SoundEffect _music11 = Content.Load<SoundEffect>("music/lemming3");
+            Music11 = _music11.CreateInstance();
+            Music11.IsLooped = true;
+            SoundEffect _music12 = Content.Load<SoundEffect>("music/tim7");
+            Music12 = _music12.CreateInstance();
+            Music12.IsLooped = true;
+            SoundEffect _music13 = Content.Load<SoundEffect>("music/tim9");
+            Music13 = _music13.CreateInstance();
+            Music13.IsLooped = true;
+            SoundEffect _music15 = Content.Load<SoundEffect>("music/tim10");
+            Music15 = _music15.CreateInstance();
+            Music15.IsLooped = true;
+            SoundEffect _music16 = Content.Load<SoundEffect>("music/tim4");
+            Music16 = _music16.CreateInstance();
+            Music16.IsLooped = true;
+            SoundEffect _music17 = Content.Load<SoundEffect>("music/tenlemms");
+            Music17 = _music17.CreateInstance();
+            Music17.IsLooped = true;
+            SoundEffect _music18 = Content.Load<SoundEffect>("music/mountain");
+            Music18 = _music18.CreateInstance();
+            Music18.IsLooped = true;
+            SoundEffect _music19 = Content.Load<SoundEffect>("music/cancan");
+            Music19 = _music19.CreateInstance();
+            Music19.IsLooped = true;
+
+            SoundEffect _music20 = Content.Load<SoundEffect>("music/title");
+            Music20 = _music20.CreateInstance();
+            Music20.IsLooped = true;
+            SoundEffect _music14 = Content.Load<SoundEffect>("music/lem_menu");
+            Music14 = _music14.CreateInstance();
+            Music14.IsLooped = true;
+        }
     }
 }

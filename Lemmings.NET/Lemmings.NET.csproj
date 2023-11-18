@@ -49,7 +49,9 @@
     <Compile Include="Constants\ECurrentSkill.cs" />
     <Compile Include="Constants\SizeSprites.cs" />
     <Compile Include="Datatables\Fonts.cs" />
+    <Compile Include="Datatables\InGameMenu.cs" />
     <Compile Include="Datatables\Levels.cs" />
+    <Compile Include="Datatables\MainMenu.cs" />
     <Compile Include="Datatables\Music.cs" />
     <Compile Include="Datatables\Particles.cs" />
     <Compile Include="Datatables\Sfx.cs" />

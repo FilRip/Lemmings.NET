@@ -7,7 +7,7 @@ namespace Lemmings.NET
 {
     partial class LemmingsNetGame : Game
     {
-        private bool doorOn = true, allBlow = false, pullLemmings = false;
+        private bool doorOn = true, _allBlow = false, pullLemmings = false;
         private int door1X, door1Y;
         private int output1X, output1Y, ex11;
         private int frameDoor = 0, frameExit = 0; // 0--10   0--6
@@ -25,7 +25,7 @@ namespace Lemmings.NET
             if (draw2 && doorOn && Frame > 30)
             {
                 totalTime = 0;
-                xx55 = varDoor[level[levelNumber].typeOfDoor].numFram - 1;
+                xx55 = varDoor[_level[_currentLevelNumber].TypeOfDoor].numFram - 1;
                 frameDoor++;
                 if (frameDoor == 1 && doorInstance.State == SoundState.Stopped && !doorWaveOn)
                 {
@@ -52,7 +52,7 @@ namespace Lemmings.NET
                 }
             }
             //test to see difference with anterior process
-            if (pullLemmings && numLemmings != Numlems && !allBlow)
+            if (pullLemmings && numLemmings != Numlems && !_allBlow)
             {
                 if (numTOTdoors > 1 && moreDoors != null) // more than 1 door is different calculation
                 {
