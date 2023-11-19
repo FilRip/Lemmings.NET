@@ -2858,6 +2858,10 @@ namespace Lemmings.NET
             {
                 ToggleScale();
             }
+            else if (oldK.IsKeyDown(Keys.F10) && actK.IsKeyUp(Keys.F10))
+            {
+                ToggleFullScreen();
+            }
             else if (oldK.IsKeyDown(Keys.M) && actK.IsKeyUp(Keys.M) && songInstance != null)
             {
                 if (songInstance.State == SoundState.Playing)
@@ -2894,14 +2898,12 @@ namespace Lemmings.NET
                 Scrolling();
             }
             else if (oldK.IsKeyDown(Keys.D1))
-            {
                 _decreaseOn = true;
-            }
-            else if (oldK.IsKeyUp(Keys.D1))
+            else if (oldK.IsKeyUp(Keys.D1) && _decreaseOn)
                 _decreaseOn = false;
             else if (oldK.IsKeyDown(Keys.D2))
                 _increaseOn = true;
-            else if (oldK.IsKeyUp(Keys.D2))
+            else if (oldK.IsKeyUp(Keys.D2) && _increaseOn)
                 _increaseOn = false;
 
             if (_nbClimberRemaining > 0 && oldK.IsKeyDown(Keys.D3) && actK.IsKeyUp(Keys.D3))
@@ -3244,6 +3246,22 @@ namespace Lemmings.NET
             _graphics.ApplyChanges();
 
             renderTargetDestination = GetRenderTargetDestination(gameResolution, _graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight);
+        }
+
+        private void ToggleFullScreen()
+        {
+            if (_graphics.IsFullScreen)
+            {
+                _graphics.PreferredBackBufferWidth = gameResolution.X;
+                _graphics.PreferredBackBufferHeight = gameResolution.Y;
+            }
+            else
+            {
+                _graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
+                _graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
+            }
+            renderTargetDestination = GetRenderTargetDestination(gameResolution, _graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight);
+            _graphics.ToggleFullScreen();
         }
 
         protected override void Draw(GameTime gameTime)
