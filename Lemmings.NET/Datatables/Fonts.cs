@@ -5,8 +5,8 @@ namespace Lemmings.NET.Datatables
 {
     internal class Fonts
     {
-        public Texture2D Lemmings;
-        public SpriteFont Standard;
+        public Texture2D Lemmings { get; private set; }
+        public SpriteFont Standard { get; private set; }
 
         internal void LoadContent(ContentManager Content)
         {

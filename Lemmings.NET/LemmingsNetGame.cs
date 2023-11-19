@@ -23,6 +23,11 @@ namespace Lemmings.NET
         bool scaled;
         private bool _lockMouse;
         private ELevelCategory _levelCategory;
+        private Sprites _sprites;
+        private Music _music;
+        private Sfx _sfx;
+        private Fonts _fonts;
+        private Datatables.Mouse _mouse;
 
         double actWaves444 = 0, actWaves333 = 0, frameWaves = 0, actWaves = 0;
         private bool initON = false;
@@ -36,11 +41,6 @@ namespace Lemmings.NET
         private Texture2D text;
         float peakheight = 25;
         float frameWater = 0;
-
-        private Sprites _sprites;
-        private Music _music;
-        private Sfx _sfx;
-        private Fonts _fonts;
 
         RenderTarget2D lighting;
         private Texture2D rainbowpic;
@@ -146,8 +146,7 @@ namespace Lemmings.NET
         private Texture2D earth;
         private Texture2D foregroundTexture;
         private Texture2D mainMenuSign, mainMenuSign2, ranksign1, ranksign2, ranksign3, ranksign5, ranksign6;
-        private Texture2D mouseOn;
-        private Texture2D mouseOff, mas, menos, paraguas, puente, pausa, pared, pico, bomba, rompesuelo;
+        private Texture2D mas, menos, paraguas, puente, pausa, pared, pico, bomba, rompesuelo;
         private Texture2D puente_nomas;
         private Texture2D myTexture, circulo_led;
         private Texture2D puerta_ani;
@@ -618,7 +617,7 @@ namespace Lemmings.NET
             if (mousepos.X > gameResolution.X * (scaled ? 2 : 1))
                 mousepos.X = gameResolution.X * (scaled ? 2 : 1);
             if (_lockMouse)
-                Mouse.SetPosition((int)mousepos.X, (int)mousepos.Y); // setposition //this is for my son kids don't know move mouse so good  
+                Microsoft.Xna.Framework.Input.Mouse.SetPosition((int)mousepos.X, (int)mousepos.Y); // setposition //this is for my son kids don't know move mouse so good  
         }
 
         private void MoverLemming() //lemmings logic called every update
@@ -2482,7 +2481,7 @@ namespace Lemmings.NET
         private void ActualizeMouse()
         {
             mouseAntState = mouseActState;
-            mouseActState = Mouse.GetState();
+            mouseActState = Microsoft.Xna.Framework.Input.Mouse.GetState();
             valorx = mouseActState.X;
             valorx += _scrollX;
             valory = mouseActState.Y;
@@ -2655,6 +2654,12 @@ namespace Lemmings.NET
                 _fonts = new Fonts();
                 _fonts.LoadContent(Content);
             }
+            if (_mouse == null)
+            {
+                _mouse = new Datatables.Mouse();
+                _mouse.LoadContent(Content);
+            }
+            Microsoft.Xna.Framework.Input.Mouse.SetPosition(0, 0);
             renderTarget = new RenderTarget2D(GraphicsDevice, gameResolution.X, gameResolution.Y);
             renderTargetDestination = GetRenderTargetDestination(gameResolution, _graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight);
     
@@ -2728,16 +2733,6 @@ namespace Lemmings.NET
             {
                 LoadLevel(_currentLevelNumber);
 
-                //walker = Content.Load<Texture2D>("walker");
-                mouseOn = Content.Load<Texture2D>("raton_on1");
-                if (debug)
-                {
-                    mouseOff = Content.Load<Texture2D>("raton_off1_debugon");
-                }
-                else
-                {
-                    mouseOff = Content.Load<Texture2D>("raton_off1");
-                }
                 circulo_led = Content.Load<Texture2D>("circulo_brillante");
                 puerta_ani = Content.Load<Texture2D>("puerta" + string.Format("{0}", _level[_currentLevelNumber].TypeOfDoor)); // type of door puerta1-2-3-4 etc.
                 string xx455 = string.Format("{0}", _level[_currentLevelNumber].TypeOfExit);
@@ -2786,7 +2781,7 @@ namespace Lemmings.NET
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            lightPosition = new Vector3(Mouse.GetState().X, Mouse.GetState().Y, 10.0f);
+            lightPosition = new Vector3(Microsoft.Xna.Framework.Input.Mouse.GetState().X, Microsoft.Xna.Framework.Input.Mouse.GetState().Y, 10.0f);
             dibujaloop++;
 
             oldK = actK;
@@ -3835,7 +3830,7 @@ namespace Lemmings.NET
                 {
                     LemSkill = "";
                 }
-                spriteBatch.Draw((mouseOnLem ? mouseOn : mouseOff), new Vector2(mousepos.X, mousepos.Y), new Rectangle(0, 0, 34, 34), Color.White, 0f, Vector2.Zero,
+                spriteBatch.Draw((mouseOnLem ? _mouse.MouseOverLemmings : _mouse.MouseCross), new Vector2(mousepos.X, mousepos.Y), new Rectangle(0, 0, 34, 34), Color.White, 0f, Vector2.Zero,
                     1f, SpriteEffects.None, 0f);
                 spriteBatch.End();
 
@@ -3852,6 +3847,7 @@ namespace Lemmings.NET
                 GraphicsDevice.SetRenderTarget(colors88);
                 GraphicsDevice.Clear(ClearOptions.Target, Color.Transparent, 1.0f, 0);
                 spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
+
                 if (dibujaloop % 5 == 0) //surge-rainbowpic is 45x75 px
                 {
                     loopcolor++;
@@ -4278,7 +4274,11 @@ namespace Lemmings.NET
                 spriteBatch.End();
 
                 spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
-                spriteBatch.Draw(lighting, new Vector2(0, 0), new Color(1, 1, 1, 0.01f));
+
+                ActualizeMouse();
+                spriteBatch.Draw(_mouse.MouseCross, new Vector2(mousepos.X - 17, mousepos.Y - 17), new Rectangle(0, 0, 34, 34), Color.White, 0f, Vector2.Zero,
+                    1f, SpriteEffects.None, 0f);
+
                 spriteBatch.End();
             }
 
