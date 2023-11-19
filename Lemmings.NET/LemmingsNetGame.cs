@@ -2492,6 +2492,7 @@ namespace Lemmings.NET
             VariablesLevels();
             if (MainMenu)
                 this.IsMouseVisible = false;
+            SoundEffect.MasterVolume = 1.0f;
             base.Initialize();
         }
 
@@ -2905,7 +2906,24 @@ namespace Lemmings.NET
                 _increaseOn = true;
             else if (oldK.IsKeyUp(Keys.D2) && _increaseOn)
                 _increaseOn = false;
-
+            else if (oldK.IsKeyDown(Keys.PageDown) && actK.IsKeyUp(Keys.PageDown) && SoundEffect.MasterVolume > 0.0f)
+                try
+                {
+                    SoundEffect.MasterVolume -= 0.1f;
+                }
+                catch (Exception)
+                {
+                    SoundEffect.MasterVolume = 0;
+                }
+            else if (oldK.IsKeyDown(Keys.PageUp) && actK.IsKeyUp(Keys.PageUp) && SoundEffect.MasterVolume < 1.0f)
+                try
+                {
+                    SoundEffect.MasterVolume += 0.1f;
+                }
+                catch (Exception)
+                {
+                    SoundEffect.MasterVolume = 1.0f;
+                }
             if (_nbClimberRemaining > 0 && oldK.IsKeyDown(Keys.D3) && actK.IsKeyUp(Keys.D3))
             {
                 PlaySoundMenu();
