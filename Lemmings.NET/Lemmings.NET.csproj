@@ -47,6 +47,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Constants\ECurrentSkill.cs" />
+    <Compile Include="Constants\ELevelCategory.cs" />
     <Compile Include="Constants\SizeSprites.cs" />
     <Compile Include="Datatables\Fonts.cs" />
     <Compile Include="Datatables\InGameMenu.cs" />
@@ -76,6 +77,8 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Puerta.cs" />
+    <Compile Include="Screens\InGame.cs" />
+    <Compile Include="Screens\MainMenu.cs" />
     <Compile Include="VariablesLevels.cs" />
     <Compile Include="VariablesTraps.cs" />
   </ItemGroup>

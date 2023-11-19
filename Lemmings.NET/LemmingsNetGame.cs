@@ -22,6 +22,7 @@ namespace Lemmings.NET
         Rectangle renderTargetDestination;
         bool scaled;
         private bool _lockMouse;
+        private ELevelCategory _levelCategory;
 
         double actWaves444 = 0, actWaves333 = 0, frameWaves = 0, actWaves = 0;
         private bool initON = false;
@@ -134,7 +135,7 @@ namespace Lemmings.NET
         private int maxnumberfalling = 210, useumbrella = 100, NumTotTraps = 0, NumTotArrow = 0, dibujaloop = 1;
         private bool dibuja = true, luzmas = true, luzmas2 = true, draw2 = true, dibuja3 = false, draw_walker = false, draw_builder = false;
         private bool rayLigths;
-        private bool mouseOnLem = false, mmop1 = false, mmop2 = false, mmop3 = false, mmop4 = false, mmop5 = false, mmop6 = false;
+        private bool mouseOnLem = false;
         private bool fade = true, blink1on = false, blink2on = false, blink3on = false, TrapsON = false, ArrowsON = false, AddsON = false, PlatsON = false;
         private bool SteelON = false;
         private double totalTime, millisecondsElapsed = 0;
@@ -148,7 +149,6 @@ namespace Lemmings.NET
         private Texture2D mouseOn;
         private Texture2D mouseOff, mas, menos, paraguas, puente, pausa, pared, pico, bomba, rompesuelo;
         private Texture2D puente_nomas;
-        private Texture2D eyeBlink1, eyeBlink2, eyeBlink3;
         private Texture2D myTexture, circulo_led;
         private Texture2D puerta_ani;
         private Texture2D salida_ani1, salida_ani1_1, sale;
@@ -2661,9 +2661,6 @@ namespace Lemmings.NET
             texture1pixel = new Texture2D(GraphicsDevice, 1, 1);
             texture1pixel.SetData(new Color[] { Color.White });  // texture for DRAWLINE 1x1
             mainMenuSign2 = Content.Load<Texture2D>("cubo");
-            eyeBlink1 = Content.Load<Texture2D>("lem1/blink1");
-            eyeBlink2 = Content.Load<Texture2D>("lem1/blink2");
-            eyeBlink3 = Content.Load<Texture2D>("lem1/blink3");
 
             rainbowpic = Content.Load<Texture2D>("surge-rainbow"); // texture to the effect shine shader // test -> surge-rainbow2 - surge-rainbow3 - surge-rainbow
             rainbowpic.GetData(Looplogo, 0, rainbowpic.Width * rainbowpic.Height);
@@ -3076,12 +3073,7 @@ namespace Lemmings.NET
                 songInstance.Stop();
                 MainMenu = true;
                 LevelOn = false;
-                mmop1 = false;
-                mmop2 = false;
-                mmop3 = false;
-                mmop4 = false;
-                mmop5 = false;
-                mmop6 = false;
+                _levelCategory = ELevelCategory.None;
                 mmlevchoose = 0;
                 this.IsMouseVisible = false; //true without shader
                 LevelEnded = false;
@@ -3923,67 +3915,37 @@ namespace Lemmings.NET
                 Rectangle mm1 = new(mmstartx, mmstarty, mainMenuSign.Width, mainMenuSign.Height);
                 if (mm1.Contains(x))
                 {
-                    mmop1 = true;
-                    mmop2 = false;
-                    mmop3 = false;
-                    mmop4 = false;
-                    mmop5 = false;
-                    mmop6 = false;
+                    _levelCategory = ELevelCategory.Fun;
                     mmlevchoose = 0;
                 }
                 Rectangle mm2 = new(mmstartx, mmstarty + 100, mainMenuSign.Width, mainMenuSign.Height);
                 if (mm2.Contains(x))
                 {
-                    mmop1 = false;
-                    mmop2 = true;
-                    mmop3 = false;
-                    mmop4 = false;
-                    mmop5 = false;
-                    mmop6 = false;
+                    _levelCategory = ELevelCategory.Tricky;
                     mmlevchoose = 0;
                 }
                 Rectangle mm3 = new(mmstartx, mmstarty + 200, mainMenuSign.Width, mainMenuSign.Height);
                 if (mm3.Contains(x))
                 {
-                    mmop1 = false;
-                    mmop2 = false;
-                    mmop3 = true;
-                    mmop4 = false;
-                    mmop5 = false;
-                    mmop6 = false;
+                    _levelCategory = ELevelCategory.Taxing;
                     mmlevchoose = 0;
                 }
                 Rectangle mm4 = new(mmstartx, mmstarty + 300, mainMenuSign.Width, mainMenuSign.Height);
                 if (mm4.Contains(x))
                 {
-                    mmop1 = false;
-                    mmop2 = false;
-                    mmop3 = false;
-                    mmop4 = true;
-                    mmop5 = false;
-                    mmop6 = false;
+                    _levelCategory = ELevelCategory.Mayhem;
                     mmlevchoose = 0;
                 }
                 Rectangle mm5 = new(mmstartx, mmstarty + 400, mainMenuSign.Width, mainMenuSign.Height);
                 if (mm5.Contains(x))
                 {
-                    mmop1 = false;
-                    mmop2 = false;
-                    mmop3 = false;
-                    mmop4 = false;
-                    mmop5 = true;
-                    mmop6 = false;
+                    _levelCategory = ELevelCategory.Bonus;
                     mmlevchoose = 0;
                 }
                 Rectangle mm6 = new(mmstartx, mmstarty + 500, mainMenuSign.Width, mainMenuSign.Height);
                 if (mm6.Contains(x))
                 {
-                    mmop1 = false;
-                    mmop2 = false;
-                    mmop3 = false;
-                    mmop4 = false;
-                    mmop5 = false;
-                    mmop6 = true;
+                    _levelCategory = ELevelCategory.User;
                     mmlevchoose = 0;
                 }
                 spriteBatch.Draw(logo_fondo, new Rectangle(0, 0, gameResolution.X, gameResolution.Y), new Rectangle(0, 0, gameResolution.X, gameResolution.Y), new Color(255, 255, 255, 100));
@@ -3993,11 +3955,11 @@ namespace Lemmings.NET
                     spriteBatch.DrawString(_fonts.Standard, strPositionMouse, new Vector2(940, 10), Color.White);
                 }
                 spriteBatch.Draw(backlogo, new Vector2(215, 20), Color.White);
-                spriteBatch.Draw(eyeBlink1, new Vector2(239, 58), new Rectangle(0, framblink1 * 12, eyeBlink1.Width, 12), Color.White,
+                spriteBatch.Draw(_sprites.EyeBlink1, new Vector2(239, 58), new Rectangle(0, framblink1 * 12, _sprites.EyeBlink1.Width, 12), Color.White,
                     0f, Vector2.Zero, 1f, SpriteEffects.None, 0.104f);
-                spriteBatch.Draw(eyeBlink2, new Vector2(463, 58), new Rectangle(0, framblink2 * 12, eyeBlink2.Width, 12), Color.White,
+                spriteBatch.Draw(_sprites.EyeBlink2, new Vector2(463, 58), new Rectangle(0, framblink2 * 12, _sprites.EyeBlink2.Width, 12), Color.White,
                     0f, Vector2.Zero, 1f, SpriteEffects.None, 0.104f);
-                spriteBatch.Draw(eyeBlink3, new Vector2(703, 50), new Rectangle(0, framblink3 * 12, eyeBlink3.Width, 12), Color.White,
+                spriteBatch.Draw(_sprites.EyeBlink3, new Vector2(703, 50), new Rectangle(0, framblink3 * 12, _sprites.EyeBlink3.Width, 12), Color.White,
                     0f, Vector2.Zero, 1f, SpriteEffects.None, 0.104f);
                 //water effect waves okokok mainMenu
                 frameWater++;
@@ -4069,7 +4031,7 @@ namespace Lemmings.NET
                         spriteBatch.Draw(particle[varParticle].Sprite, particle[varParticle].Pos, rectangleFill, Color.Magenta, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0.90001f);
                     }
                 }
-                if (mmop1)
+                if (_levelCategory == ELevelCategory.Fun)
                 {
                     spriteBatch.Draw(mainMenuSign, new Vector2(mmstartx, mmstarty), new Color(255, 255, 255, 255));
                 }
@@ -4077,7 +4039,7 @@ namespace Lemmings.NET
                 {
                     spriteBatch.Draw(mainMenuSign, new Vector2(mmstartx, mmstarty), new Color(80, 80, 80, 255));
                 }
-                if (mmop2)
+                if (_levelCategory == ELevelCategory.Tricky)
                 {
                     spriteBatch.Draw(mainMenuSign, new Vector2(mmstartx, mmstarty + 100), new Color(255, 255, 255, 255));
                     spriteBatch.Draw(ranksign3, new Vector2(mmstartx + 34, mmstarty + 125), new Color(255, 255, 255, 255));
@@ -4087,7 +4049,7 @@ namespace Lemmings.NET
                     spriteBatch.Draw(mainMenuSign, new Vector2(mmstartx, mmstarty + 100), new Color(80, 80, 80, 255));
                     spriteBatch.Draw(ranksign3, new Vector2(mmstartx + 34, mmstarty + 125), new Color(80, 80, 80, 255));
                 }
-                if (mmop3)
+                if (_levelCategory == ELevelCategory.Taxing)
                 {
                     spriteBatch.Draw(mainMenuSign, new Vector2(mmstartx, mmstarty + 200), new Color(255, 255, 255, 255));
                     spriteBatch.Draw(ranksign2, new Vector2(mmstartx + 34, mmstarty + 225), new Color(255, 255, 255, 255));
@@ -4097,7 +4059,7 @@ namespace Lemmings.NET
                     spriteBatch.Draw(mainMenuSign, new Vector2(mmstartx, mmstarty + 200), new Color(80, 80, 80, 255));
                     spriteBatch.Draw(ranksign2, new Vector2(mmstartx + 34, mmstarty + 225), new Color(80, 80, 80, 255));
                 }
-                if (mmop4)
+                if (_levelCategory == ELevelCategory.Mayhem)
                 {
                     spriteBatch.Draw(mainMenuSign, new Vector2(mmstartx, mmstarty + 300), new Color(255, 255, 255, 255));
                     spriteBatch.Draw(ranksign1, new Vector2(mmstartx + 34, mmstarty + 325), new Color(255, 255, 255, 255));
@@ -4107,7 +4069,7 @@ namespace Lemmings.NET
                     spriteBatch.Draw(mainMenuSign, new Vector2(mmstartx, mmstarty + 300), new Color(80, 80, 80, 255));
                     spriteBatch.Draw(ranksign1, new Vector2(mmstartx + 34, mmstarty + 325), new Color(80, 80, 80, 255));
                 }
-                if (mmop5)
+                if (_levelCategory == ELevelCategory.Bonus)
                 {
                     spriteBatch.Draw(mainMenuSign, new Vector2(mmstartx, mmstarty + 400), new Color(255, 255, 255, 255));
                     spriteBatch.Draw(ranksign5, new Vector2(mmstartx + 34, mmstarty + 425), new Color(255, 255, 255, 255));
@@ -4117,7 +4079,7 @@ namespace Lemmings.NET
                     spriteBatch.Draw(mainMenuSign, new Vector2(mmstartx, mmstarty + 400), new Color(80, 80, 80, 255));
                     spriteBatch.Draw(ranksign5, new Vector2(mmstartx + 34, mmstarty + 425), new Color(80, 80, 80, 255));
                 }
-                if (mmop6)
+                if (_levelCategory == ELevelCategory.User)
                 {
                     spriteBatch.Draw(mainMenuSign, new Vector2(mmstartx, mmstarty + 500), new Color(255, 255, 255, 255));
                     spriteBatch.Draw(ranksign6, new Vector2(mmstartx + 34, mmstarty + 525), new Color(255, 255, 255, 255));
@@ -4127,7 +4089,7 @@ namespace Lemmings.NET
                     spriteBatch.Draw(mainMenuSign, new Vector2(mmstartx, mmstarty + 500), new Color(80, 80, 80, 255));
                     spriteBatch.Draw(ranksign6, new Vector2(mmstartx + 34, mmstarty + 525), new Color(80, 80, 80, 255));
                 }
-                if (mmop1)
+                if ((int)_levelCategory <= (int)ELevelCategory.Mayhem && _levelCategory != ELevelCategory.None)
                 {
                     colorFill.R = 0;  // black with transparency at 170
                     colorFill.G = 0;
@@ -4146,7 +4108,7 @@ namespace Lemmings.NET
                         Rectangle mmlev = new(mmx, mmy, 130, 55);
                         if (mmlev.Contains(x))
                         {
-                            mmlevchoose = s;
+                            mmlevchoose = s + (30 * (((int)_levelCategory) - 1));
                             if (LevelEnd[mmlevchoose])
                                 colorFill = Color.ForestGreen;
                             else
@@ -4162,120 +4124,14 @@ namespace Lemmings.NET
                             mmy += 70;
                         }
                     }
-                    myTexture = Content.Load<Texture2D>("levels/mini_levels1");
-                    spriteBatch.Draw(myTexture, new Vector2(mmX, 130), Color.White);
-                }
-                if (mmop2)
-                {
-                    colorFill.R = 0;  // black with transparency at 170
-                    colorFill.G = 0;
-                    colorFill.B = 0;
-                    colorFill.A = 170;
-                    spriteBatch.Draw(texture1pixel, new Rectangle(mmX - 10, 130, 955, 420), null, // 7 x 6 mini levels maps
-                        colorFill, 0f, Vector2.Zero, SpriteEffects.None, 0.1f);
-                    spriteBatch.Draw(mainMenuSign2, new Rectangle(-110, 15, 1429, 638), null, // 7 x 6 mini levels maps
-                        Color.White, 0f, Vector2.Zero, SpriteEffects.None, 0.1f);
-                    mmx = mmX; mmy = 130; x = new Point(mouseActState.Position.X, mouseActState.Position.Y); mmlevchoose = 0;
-                    for (s = 1; s < 31; s++)
+                    if (myTexture == null || myTexture.Name != "levels/mini_levels" + ((int)_levelCategory).ToString())
                     {
-                        Rectangle mmlev = new(mmx, mmy, 130, 55);
-                        if (mmlev.Contains(x))
-                        {
-                            mmlevchoose = 30 + s;
-                            if (LevelEnd[mmlevchoose])
-                                colorFill = Color.ForestGreen;
-                            else
-                                colorFill = Color.Red;
-                            spriteBatch.Draw(texture1pixel, new Rectangle(mmx, mmy, 130, 55), null, // 7 x 6 mini levels maps
-                                colorFill, 0f, Vector2.Zero, SpriteEffects.None, 0.1f);
-                            break;
-                        }
-                        mmx += 135;
-                        if (s % 7 == 0)
-                        {
-                            mmx = mmX; mmy += 70;
-                        }
+                        Console.WriteLine("Load texture " + (rnd.Next(65535)).ToString());
+                        myTexture = Content.Load<Texture2D>("levels/mini_levels" + ((int)_levelCategory).ToString());
                     }
-                    myTexture = Content.Load<Texture2D>("levels/mini_levels2");
                     spriteBatch.Draw(myTexture, new Vector2(mmX, 130), Color.White);
                 }
-                if (mmop3)
-                {
-                    colorFill.R = 0;  // black with transparency at 170
-                    colorFill.G = 0;
-                    colorFill.B = 0;
-                    colorFill.A = 170;
-                    spriteBatch.Draw(texture1pixel, new Rectangle(mmX - 10, 130, 955, 420), null, // 7 x 6 mini levels maps
-                        colorFill, 0f, Vector2.Zero, SpriteEffects.None, 0.1f);
-                    spriteBatch.Draw(mainMenuSign2, new Rectangle(-110, 15, 1429, 638), null, // 7 x 6 mini levels maps
-                        Color.White, 0f, Vector2.Zero, SpriteEffects.None, 0.1f);
-                    mmx = mmX;
-                    mmy = 130;
-                    x = new Point(mouseActState.Position.X, mouseActState.Position.Y);
-                    mmlevchoose = 0;
-                    for (s = 1; s < 31; s++)
-                    {
-                        Rectangle mmlev = new(mmx, mmy, 130, 55);
-                        if (mmlev.Contains(x))
-                        {
-                            mmlevchoose = 60 + s;
-                            if (LevelEnd[mmlevchoose])
-                                colorFill = Color.ForestGreen;
-                            else
-                                colorFill = Color.Red;
-                            spriteBatch.Draw(texture1pixel, new Rectangle(mmx, mmy, 130, 55), null, // 7 x 6 mini levels maps
-                                colorFill, 0f, Vector2.Zero, SpriteEffects.None, 0.1f);
-                            break;
-                        }
-                        mmx += 135;
-                        if (s % 7 == 0)
-                        {
-                            mmx = mmX;
-                            mmy += 70;
-                        }
-                    }
-                    myTexture = Content.Load<Texture2D>("levels/mini_levels3");
-                    spriteBatch.Draw(myTexture, new Vector2(mmX, 130), Color.White);
-                }
-                if (mmop4)
-                {
-                    colorFill.R = 0;  // black with transparency at 170
-                    colorFill.G = 0;
-                    colorFill.B = 0;
-                    colorFill.A = 170;
-                    spriteBatch.Draw(texture1pixel, new Rectangle(mmX - 10, 130, 955, 420), null, // 7 x 6 mini levels maps
-                        colorFill, 0f, Vector2.Zero, SpriteEffects.None, 0.1f);
-                    spriteBatch.Draw(mainMenuSign2, new Rectangle(-110, 15, 1429, 638), null, // 7 x 6 mini levels maps
-                        Color.White, 0f, Vector2.Zero, SpriteEffects.None, 0.1f);
-                    mmx = mmX;
-                    mmy = 130;
-                    x = new Point(mouseActState.Position.X, mouseActState.Position.Y);
-                    mmlevchoose = 0;
-                    for (s = 1; s < 31; s++)
-                    {
-                        Rectangle mmlev = new(mmx, mmy, 130, 55);
-                        if (mmlev.Contains(x))
-                        {
-                            mmlevchoose = 90 + s;
-                            if (LevelEnd[mmlevchoose])
-                                colorFill = Color.ForestGreen;
-                            else
-                                colorFill = Color.Red;
-                            spriteBatch.Draw(texture1pixel, new Rectangle(mmx, mmy, 130, 55), null, // 7 x 6 mini levels maps
-                                colorFill, 0f, Vector2.Zero, SpriteEffects.None, 0.1f);
-                            break;
-                        }
-                        mmx += 135;
-                        if (s % 7 == 0)
-                        {
-                            mmx = mmX;
-                            mmy += 70;
-                        }
-                    }
-                    myTexture = Content.Load<Texture2D>("levels/mini_levels4");
-                    spriteBatch.Draw(myTexture, new Vector2(mmX, 130), Color.White);
-                }
-                if (mmop5)
+                else if (_levelCategory == ELevelCategory.Bonus)
                 {
                     colorFill.R = 0;  // black with transparency at 170
                     colorFill.G = 0;
@@ -4313,7 +4169,7 @@ namespace Lemmings.NET
                     myTexture = Content.Load<Texture2D>("levels/mini_levels5");
                     spriteBatch.Draw(myTexture, new Vector2(mmX, 130), Color.White);
                 }
-                if (mmop6)
+                else if (_levelCategory == ELevelCategory.User)
                 {
                     colorFill.R = 0;  // black with transparency at 170
                     colorFill.G = 0;
@@ -4348,6 +4204,19 @@ namespace Lemmings.NET
                             mmy += 70;
                         }
                     }
+                    mmx = mmX;
+                    mmy = 130;
+                    for (s = 1; s < 26; s++) //number user levels to show okok be careful
+                    {
+                        myTexture = Content.Load<Texture2D>("levels/user/user" + string.Format("{0,3:D3}", s));
+                        spriteBatch.Draw(myTexture, new Rectangle(mmx, mmy, 130, 55), new Rectangle(0, 0, myTexture.Width, myTexture.Height), Color.White);
+                        mmx += 135;
+                        if (s % 7 == 0)
+                        {
+                            mmx = mmX;
+                            mmy += 70;
+                        }
+                    }
                 }
                 if (mmlevchoose != 0 && mmlevchoose <= numTotalLevels - 1) // MENU SHOW LEVELS DETAILS
                 {
@@ -4355,15 +4224,11 @@ namespace Lemmings.NET
                     mmKY = 555;
                     mmKplusY = 27;
                     levelACT = mmlevchoose;
-                    if (levelACT > 30 && levelACT <= 60)
-                        levelACT -= 30;
-                    if (levelACT > 60 && levelACT <= 90)
-                        levelACT -= 60;
-                    if (levelACT > 90 && levelACT <= 120)
-                        levelACT -= 90;
-                    if (levelACT > 120 && levelACT <= 156)
+                    if ((int)_levelCategory <= (int)ELevelCategory.Mayhem && _levelCategory != ELevelCategory.None)
+                        levelACT -= 30 * (((int)_levelCategory) - 1);
+                    else if (levelACT > 120 && levelACT <= 156)
                         levelACT -= 120;
-                    if (levelACT > 156)
+                    else if (levelACT > 156)
                         levelACT -= 156;
                     TextLem("Level " + string.Format("{0}", levelACT), new Vector2(mmKX, mmKY), Color.Red, 1f, 0.1f);
                     TextLem(_level[mmlevchoose].nameOfLevel, new Vector2(mmKX + 200, mmKY), Color.Red, 1f, 0.1f);
@@ -4371,27 +4236,27 @@ namespace Lemmings.NET
                     TextLem(string.Format("{0}", _level[mmlevchoose].NbLemmingsToSave) + " to be saved", new Vector2(mmKX, mmKY + mmKplusY * 2), Color.Green, 1f, 0.1f);
                     TextLem("Release Rate " + string.Format("{0}", _level[mmlevchoose].MinFrequencyComming), new Vector2(mmKX, mmKY + mmKplusY * 3), Color.Yellow, 1f, 0.1f);
                     TextLem("Time " + string.Format("{0}", _level[mmlevchoose].totalTime) + " Minutes", new Vector2(mmKX, mmKY + mmKplusY * 4), Color.Cyan, 1f, 0.1f);
-                    if (mmlevchoose <= 30)
+                    if (_levelCategory == ELevelCategory.Fun)
                     {
                         TextLem("Rating FUN", new Vector2(mmKX + 470, mmKY + mmKplusY * 4), Color.Magenta, 1f, 0.1f);
                     }
-                    if (mmlevchoose > 30 && mmlevchoose <= 60)
+                    else if (_levelCategory == ELevelCategory.Tricky)
                     {
                         TextLem("Rating TRICKY", new Vector2(mmKX + 470, mmKY + mmKplusY * 4), Color.Magenta, 1f, 0.1f);
                     }
-                    if (mmlevchoose > 60 && mmlevchoose <= 90)
+                    else if (_levelCategory == ELevelCategory.Taxing)
                     {
                         TextLem("Rating TAXING", new Vector2(mmKX + 470, mmKY + mmKplusY * 4), Color.Magenta, 1f, 0.1f);
                     }
-                    if (mmlevchoose > 90 && mmlevchoose <= 120)
+                    else if (_levelCategory == ELevelCategory.Mayhem)
                     {
                         TextLem("Rating MAYHEM", new Vector2(mmKX + 470, mmKY + mmKplusY * 4), Color.Magenta, 1f, 0.1f);
                     }
-                    if (mmlevchoose > 120 && mmlevchoose <= 156)
+                    else if (mmlevchoose > 120 && mmlevchoose <= 156)
                     {
                         TextLem("Rating BONUS", new Vector2(mmKX + 470, mmKY + mmKplusY * 4), Color.Magenta, 1f, 0.1f);
                     }
-                    if (mmlevchoose > 156)
+                    else if (mmlevchoose > 156)
                     {
                         TextLem("Rating USER", new Vector2(mmKX + 470, mmKY + mmKplusY * 4), Color.Magenta, 1f, 0.1f);
                     }
@@ -4408,22 +4273,6 @@ namespace Lemmings.NET
                     TextLem(" Diggers: " + string.Format("{0}", _level[mmlevchoose].numberDiggers), new Vector2(mmKindX, mmKindY + mmPlusy * 7), Color.Tomato, 0.5f, 0.1f);
                 }
 
-                if (mmop6) //6 seconds to load all 30 images  better make a full png image of all mini levels and then use it...
-                {          // the first load is slow then it remains on gpu memory cache and goes really fast
-                    mmx = mmX;
-                    mmy = 130;
-                    for (s = 1; s < 26; s++) //number user levels to show okok be careful
-                    {
-                        myTexture = Content.Load<Texture2D>("levels/user/user" + string.Format("{0,3:D3}", s));
-                        spriteBatch.Draw(myTexture, new Rectangle(mmx, mmy, 130, 55), new Rectangle(0, 0, myTexture.Width, myTexture.Height), Color.White);
-                        mmx += 135;
-                        if (s % 7 == 0)
-                        {
-                            mmx = mmX;
-                            mmy += 70;
-                        }
-                    }
-                }
                 spriteBatch.Draw(colors88, new Vector2(560, 480), new Rectangle(0, 0, colors88.Width, colors88.Height), Color.White, 0f, Vector2.Zero, .8f,
                     SpriteEffects.None, 0.0001f);
                 spriteBatch.End();
