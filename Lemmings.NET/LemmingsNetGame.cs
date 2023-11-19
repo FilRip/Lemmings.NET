@@ -32,17 +32,13 @@ namespace Lemmings.NET
         double actWaves444 = 0, actWaves333 = 0, frameWaves = 0, actWaves = 0;
         private bool initON = false;
         RenderTarget2D colors88, normals;
-        Effect lightEffect, efecto;
-        Vector3 lightPosition;
-        Color lightColor;
+        Effect efecto;
         int loopcolor = 0;
-        float lightIntensity, lightRadius;
         private Texture2D crateNormals;
         private Texture2D text;
         float peakheight = 25;
         float frameWater = 0;
 
-        RenderTarget2D lighting;
         private Texture2D rainbowpic;
         public Color[] Looplogo { get; set; } = new Color[100 * 100];
         public Color[] Looplogo2 { get; set; } = new Color[100 * 100];
@@ -2677,15 +2673,7 @@ namespace Lemmings.NET
             int height = GraphicsDevice.PresentationParameters.BackBufferHeight;
             colors88 = new RenderTarget2D(GraphicsDevice, widthl, height);
             normals = new RenderTarget2D(GraphicsDevice, widthl, height);
-            lightEffect = Content.Load<Effect>("lightEffect");
             efecto = Content.Load<Effect>("efecto");
-            lighting = new RenderTarget2D(GraphicsDevice, widthl, height);
-
-            // Lighting parameters
-            lightColor = Color.Cyan;
-            lightRadius = 350.0f; //250
-            lightIntensity = 0.8f;  //1
-            lightPosition = Vector3.Zero;
 
             if (MainMenu)
             {
@@ -2781,7 +2769,6 @@ namespace Lemmings.NET
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            lightPosition = new Vector3(Microsoft.Xna.Framework.Input.Mouse.GetState().X, Microsoft.Xna.Framework.Input.Mouse.GetState().Y, 10.0f);
             dibujaloop++;
 
             oldK = actK;
@@ -3876,29 +3863,6 @@ namespace Lemmings.NET
                 spriteBatch.Begin();
                 spriteBatch.Draw(crateNormals, cratePosition, Color.White);
                 spriteBatch.End();
-                // Draw the lighting
-                GraphicsDevice.SetRenderTarget(lighting);
-                GraphicsDevice.Clear(ClearOptions.Target, Color.Transparent, 1.0f, 0);
-                spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive);
-                // Set the basic transform matrix from XNA
-                Matrix projection = Matrix.CreateOrthographicOffCenter(0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height, 0, 0, 1);
-                Matrix halfPixelOffset = Matrix.CreateTranslation(-0.5f, -0.5f, 0);
-                lightEffect.Parameters["MatrixTransform"].SetValue(halfPixelOffset * projection);
-                // Set parameters
-                lightEffect.Parameters["screenSize"].SetValue(new Vector2(GraphicsDevice.PresentationParameters.BackBufferWidth, GraphicsDevice.PresentationParameters.BackBufferHeight));
-                lightEffect.Parameters["InverseVP"].SetValue(Matrix.Identity); // Since we have no view matrix, set it to identity
-                lightEffect.Parameters["LightPosition"].SetValue(lightPosition);
-                lightEffect.Parameters["LightRadius"].SetValue(lightRadius);
-                lightEffect.Parameters["LightColor"].SetValue(lightColor.ToVector4());
-                lightEffect.Parameters["LightIntensity"].SetValue(lightIntensity);
-                // Apply the effect
-                lightEffect.CurrentTechnique.Passes[0].Apply();
-                // Create a rectangle around the lightposition
-                Rectangle rect22 = new((int)lightPosition.X - (int)lightRadius, (int)lightPosition.Y - (int)lightRadius, (int)lightRadius * 2, (int)lightRadius * 2);
-                // Draw the normal buffer with every pointlight 
-                // Possible optimization: set the buffer only once, since they all use the same effect.
-                spriteBatch.Draw(normals, rect22, lightColor);
-                spriteBatch.End();
                 GraphicsDevice.SetRenderTarget(null);
 
                 //normal target
@@ -3909,37 +3873,37 @@ namespace Lemmings.NET
                 mmX = 135;
                 x = new Point(mouseActState.Position.X, mouseActState.Position.Y);
                 Rectangle mm1 = new(mmstartx, mmstarty, mainMenuSign.Width, mainMenuSign.Height);
+                Rectangle mm2 = new(mmstartx, mmstarty + 100, mainMenuSign.Width, mainMenuSign.Height);
+                Rectangle mm3 = new(mmstartx, mmstarty + 200, mainMenuSign.Width, mainMenuSign.Height);
+                Rectangle mm4 = new(mmstartx, mmstarty + 300, mainMenuSign.Width, mainMenuSign.Height);
+                Rectangle mm5 = new(mmstartx, mmstarty + 400, mainMenuSign.Width, mainMenuSign.Height);
+                Rectangle mm6 = new(mmstartx, mmstarty + 500, mainMenuSign.Width, mainMenuSign.Height);
                 if (mm1.Contains(x))
                 {
                     _levelCategory = ELevelCategory.Fun;
                     mmlevchoose = 0;
                 }
-                Rectangle mm2 = new(mmstartx, mmstarty + 100, mainMenuSign.Width, mainMenuSign.Height);
-                if (mm2.Contains(x))
+                else if (mm2.Contains(x))
                 {
                     _levelCategory = ELevelCategory.Tricky;
                     mmlevchoose = 0;
                 }
-                Rectangle mm3 = new(mmstartx, mmstarty + 200, mainMenuSign.Width, mainMenuSign.Height);
-                if (mm3.Contains(x))
+                else if (mm3.Contains(x))
                 {
                     _levelCategory = ELevelCategory.Taxing;
                     mmlevchoose = 0;
                 }
-                Rectangle mm4 = new(mmstartx, mmstarty + 300, mainMenuSign.Width, mainMenuSign.Height);
-                if (mm4.Contains(x))
+                else if (mm4.Contains(x))
                 {
                     _levelCategory = ELevelCategory.Mayhem;
                     mmlevchoose = 0;
                 }
-                Rectangle mm5 = new(mmstartx, mmstarty + 400, mainMenuSign.Width, mainMenuSign.Height);
-                if (mm5.Contains(x))
+                else if (mm5.Contains(x))
                 {
                     _levelCategory = ELevelCategory.Bonus;
                     mmlevchoose = 0;
                 }
-                Rectangle mm6 = new(mmstartx, mmstarty + 500, mainMenuSign.Width, mainMenuSign.Height);
-                if (mm6.Contains(x))
+                else if (mm6.Contains(x))
                 {
                     _levelCategory = ELevelCategory.User;
                     mmlevchoose = 0;
