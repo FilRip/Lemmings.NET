@@ -99,7 +99,7 @@ namespace Lemmings.NET
                 rectangleFill.Y = 26 * (j - 33);
                 rectangleFill.Width = 18;
                 rectangleFill.Height = 26;
-                spriteBatch.Draw(_fonts.Lemmings, start, rectangleFill, pinta, 0f, Vector2.Zero, size, SpriteEffects.None, layer);
+                _spriteBatch.Draw(_fonts.Lemmings, start, rectangleFill, pinta, 0f, Vector2.Zero, size, SpriteEffects.None, layer);
             }
         }
 
@@ -113,7 +113,7 @@ namespace Lemmings.NET
             rectangleFill2.Y = 0;
             rectangleFill2.Width = gameResolution.X;
             rectangleFill2.Height = 184;
-            spriteBatch.Draw(backmenu2, rectangleFill, rectangleFill2, backmenu, 0f, Vector2.Zero, SpriteEffects.None, 0.251f);
+            _spriteBatch.Draw(backmenu2, rectangleFill, rectangleFill2, backmenu, 0f, Vector2.Zero, SpriteEffects.None, 0.251f);
             rectangleFill.X = 0;
             rectangleFill.Y = 0;
             rectangleFill.Width = backlogo.Width;
@@ -124,35 +124,35 @@ namespace Lemmings.NET
             colorFill.G = 100;
             colorFill.B = 100;
             colorFill.A = 200;
-            spriteBatch.Draw(backlogo, vectorFill, rectangleFill, colorFill, 0f, Vector2.Zero, 0.78f, SpriteEffects.None, 0.215f);  // logo del menu
+            _spriteBatch.Draw(backlogo, vectorFill, rectangleFill, colorFill, 0f, Vector2.Zero, 0.78f, SpriteEffects.None, 0.215f);  // logo del menu
             rectangleFill.X = 0;
             rectangleFill.Y = 0;
             rectangleFill.Width = backlogo.Width;
             rectangleFill.Height = backlogo.Height;
             vectorFill.X = 140;
             vectorFill.Y = 625;
-            spriteBatch.Draw(backlogo, vectorFill, rectangleFill, Color.White, 0f, Vector2.Zero, 0.75f, SpriteEffects.None, 0.115f);  // logo del menu
+            _spriteBatch.Draw(backlogo, vectorFill, rectangleFill, Color.White, 0f, Vector2.Zero, 0.75f, SpriteEffects.None, 0.115f);  // logo del menu
             rectangleFill.X = 0;
             rectangleFill.Y = framblink1 * 12;
             rectangleFill.Width = _sprites.EyeBlink1.Width;
             rectangleFill.Height = 12;
             vectorFill.X = 158;
             vectorFill.Y = 654;
-            spriteBatch.Draw(_sprites.EyeBlink1, vectorFill, rectangleFill, Color.White, 0f, Vector2.Zero, 0.75f, SpriteEffects.None, 0.104f);
+            _spriteBatch.Draw(_sprites.EyeBlink1, vectorFill, rectangleFill, Color.White, 0f, Vector2.Zero, 0.75f, SpriteEffects.None, 0.104f);
             rectangleFill.X = 0;
             rectangleFill.Y = framblink2 * 12;
             rectangleFill.Width = _sprites.EyeBlink2.Width;
             rectangleFill.Height = 12;
             vectorFill.X = 329;
             vectorFill.Y = 654;
-            spriteBatch.Draw(_sprites.EyeBlink2, vectorFill, rectangleFill, Color.White, 0f, Vector2.Zero, 0.75f, SpriteEffects.None, 0.104f);
+            _spriteBatch.Draw(_sprites.EyeBlink2, vectorFill, rectangleFill, Color.White, 0f, Vector2.Zero, 0.75f, SpriteEffects.None, 0.104f);
             rectangleFill.X = 0;
             rectangleFill.Y = framblink3 * 12;
             rectangleFill.Width = _sprites.EyeBlink3.Width;
             rectangleFill.Height = 12;
             vectorFill.X = 506;
             vectorFill.Y = 648;
-            spriteBatch.Draw(_sprites.EyeBlink3, vectorFill, rectangleFill, Color.White, 0f, Vector2.Zero, 0.75f, SpriteEffects.None, 0.104f);
+            _spriteBatch.Draw(_sprites.EyeBlink3, vectorFill, rectangleFill, Color.White, 0f, Vector2.Zero, 0.75f, SpriteEffects.None, 0.104f);
             rectangleFill.X = 735;
             rectangleFill.Y = 564;
             rectangleFill.Width = 350;
@@ -161,22 +161,22 @@ namespace Lemmings.NET
             rectangleFill2.Y = 0;
             rectangleFill2.Width = cuadrado_menu.Width;
             rectangleFill2.Height = cuadrado_menu.Height;
-            spriteBatch.Draw(cuadrado_menu, rectangleFill, rectangleFill2, Color.White, 0f, Vector2.Zero, SpriteEffects.None, 0.2f);
+            _spriteBatch.Draw(cuadrado_menu, rectangleFill, rectangleFill2, Color.White, 0f, Vector2.Zero, SpriteEffects.None, 0.2f);
             vectorFill.X = 0;
             vectorFill.Y = gameResolution.Y - 188;
             vectorFill2.X = gameResolution.X;
             vectorFill2.Y = gameResolution.Y - 188;
-            DrawLine(spriteBatch, vectorFill, vectorFill2, Color.White, 2, 0.1f);
+            DrawLine(_spriteBatch, vectorFill, vectorFill2, Color.White, 2, 0.1f);
             vectorFill.X = 0;
             vectorFill.Y = gameResolution.Y - 2;
             vectorFill2.X = gameResolution.X;
             vectorFill2.Y = gameResolution.Y - 2;
-            DrawLine(spriteBatch, vectorFill, vectorFill2, Color.White, 2, 0.1f);
+            DrawLine(_spriteBatch, vectorFill, vectorFill2, Color.White, 2, 0.1f);
             vectorFill.X = 741;
             vectorFill.Y = 572;
             vectorFill2.X = 741 + 338;
             vectorFill2.Y = 572;
-            DrawLine(spriteBatch, vectorFill, vectorFill2, Color.Black, 84, 0.1f);
+            DrawLine(_spriteBatch, vectorFill, vectorFill2, Color.Black, 84, 0.1f);
             vectorFill.X = posm;
             vectorFill.Y = 572;
             colorFill.R = 70;
@@ -185,28 +185,28 @@ namespace Lemmings.NET
             colorFill.A = 255;
             vectorFill2.X = xscale;
             vectorFill2.Y = yscale;
-            spriteBatch.Draw(earth, vectorFill, null, colorFill, 0f, Vector2.Zero, vectorFill2, /*scale is the real proportion*/ SpriteEffects.None, 0.090f);
+            _spriteBatch.Draw(earth, vectorFill, null, colorFill, 0f, Vector2.Zero, vectorFill2, /*scale is the real proportion*/ SpriteEffects.None, 0.090f);
             //draw yellow lines on the mini menu
             vectorFill.X = posm + mmscale;
             vectorFill.Y = posy + mmscaley;
             vectorFill2.X = posm + mmscale;
             vectorFill2.Y = posy + mmscaley2 + 1;
-            DrawLine(spriteBatch, vectorFill, vectorFill2, Color.Yellow, 1, 0.007f);
+            DrawLine(_spriteBatch, vectorFill, vectorFill2, Color.Yellow, 1, 0.007f);
             vectorFill.X = posm + mmscale2;
             vectorFill.Y = posy + mmscaley;
             vectorFill2.X = posm + mmscale2;
             vectorFill2.Y = posy + mmscaley2 + 1;
-            DrawLine(spriteBatch, vectorFill, vectorFill2, Color.Yellow, 1, 0.007f);
+            DrawLine(_spriteBatch, vectorFill, vectorFill2, Color.Yellow, 1, 0.007f);
             vectorFill.X = posm + mmscale;
             vectorFill.Y = posy + mmscaley;
             vectorFill2.X = posm + mmscale2;
             vectorFill2.Y = posy + mmscaley;
-            DrawLine(spriteBatch, vectorFill, vectorFill2, Color.Yellow, 1, 0.007f);
+            DrawLine(_spriteBatch, vectorFill, vectorFill2, Color.Yellow, 1, 0.007f);
             vectorFill.X = posm + mmscale;
             vectorFill.Y = posy + mmscaley2;
             vectorFill2.X = posm + mmscale2;
             vectorFill2.Y = posy + mmscaley2;
-            DrawLine(spriteBatch, vectorFill, vectorFill2, Color.Yellow, 1, 0.007f);
+            DrawLine(_spriteBatch, vectorFill, vectorFill2, Color.Yellow, 1, 0.007f);
             for (int i = 0; i < numLemmings; i++)
             {
                 if (!lemming[i].Dead)
@@ -217,7 +217,7 @@ namespace Lemmings.NET
                     vectorFill.Y = 572 + lemyscale;
                     vectorFill2.X = posm + lemxscale + 2;
                     vectorFill2.Y = 572 + lemyscale;
-                    DrawLine(spriteBatch, vectorFill, vectorFill2, Color.Magenta, 2, 0.001f);
+                    DrawLine(_spriteBatch, vectorFill, vectorFill2, Color.Magenta, 2, 0.001f);
                 }
             }
             vectorFill.X = 80 - 55;
@@ -274,7 +274,7 @@ namespace Lemmings.NET
                 rectangleFill.Y = 0;
                 rectangleFill.Width = circulo_led.Width;
                 rectangleFill.Height = circulo_led.Height;
-                spriteBatch.Draw(circulo_led, vectorFill, rectangleFill, sombramenu, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0.2f);
+                _spriteBatch.Draw(circulo_led, vectorFill, rectangleFill, sombramenu, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0.2f);
             } //todas casillas desactivadas
             rectangleFill.X = 0;
             rectangleFill.Y = 0;
@@ -285,146 +285,146 @@ namespace Lemmings.NET
 
             vectorFill.X = 45;
             vectorFill.Y = posymenu + 31;
-            spriteBatch.Draw(circulo_led, vectorFill, rectangleFill, (op1 ? Color.White : sombramenu), (op1 ? cosa : 0), vectorFill2, 1f, SpriteEffects.None, 0.1f);
+            _spriteBatch.Draw(circulo_led, vectorFill, rectangleFill, (op1 ? Color.White : sombramenu), (op1 ? cosa : 0), vectorFill2, 1f, SpriteEffects.None, 0.1f);
             vectorFill.X = 24;
             vectorFill.Y = posymenu + 6;
             rectangleFill2.X = 0;
             rectangleFill2.Y = 40;
             rectangleFill2.Width = 32;
             rectangleFill2.Height = 40;
-            spriteBatch.Draw(menos, vectorFill, rectangleFill2, (op1 ? Color.White : sombramenu), 0f, Vector2.Zero, 1.3f, SpriteEffects.None, 0.11f);
+            _spriteBatch.Draw(menos, vectorFill, rectangleFill2, (op1 ? Color.White : sombramenu), 0f, Vector2.Zero, 1.3f, SpriteEffects.None, 0.11f);
 
             vectorFill.X = 45 + 55;
             vectorFill.Y = posymenu + 31;
-            spriteBatch.Draw(circulo_led, vectorFill, rectangleFill, (op2 ? Color.White : sombramenu), (op2 ? cosa : 0), vectorFill2, 1f, SpriteEffects.None, 0.1f);
+            _spriteBatch.Draw(circulo_led, vectorFill, rectangleFill, (op2 ? Color.White : sombramenu), (op2 ? cosa : 0), vectorFill2, 1f, SpriteEffects.None, 0.1f);
             vectorFill.X = 24 + 55;
             vectorFill.Y = posymenu + 6;
             rectangleFill2.X = 0;
             rectangleFill2.Y = 40;
             rectangleFill2.Width = 32;
             rectangleFill2.Height = 40;
-            spriteBatch.Draw(mas, vectorFill, rectangleFill2, (op2 ? Color.White : sombramenu), 0f, Vector2.Zero, 1.3f, SpriteEffects.None, 0.11f);
+            _spriteBatch.Draw(mas, vectorFill, rectangleFill2, (op2 ? Color.White : sombramenu), 0f, Vector2.Zero, 1.3f, SpriteEffects.None, 0.11f);
 
             vectorFill.X = 45 + 2 * 55;
             vectorFill.Y = posymenu + 31;
-            spriteBatch.Draw(circulo_led, vectorFill, rectangleFill, (_currentSelectedSkill == ECurrentSkill.CLIMBER ? Color.White : sombramenu), (_currentSelectedSkill == ECurrentSkill.CLIMBER ? cosa : 0), vectorFill2, 1f, SpriteEffects.None, 0.11f);
+            _spriteBatch.Draw(circulo_led, vectorFill, rectangleFill, (_currentSelectedSkill == ECurrentSkill.CLIMBER ? Color.White : sombramenu), (_currentSelectedSkill == ECurrentSkill.CLIMBER ? cosa : 0), vectorFill2, 1f, SpriteEffects.None, 0.11f);
             vectorFill.X = 10 + 2 * 55;
             vectorFill.Y = posymenu;
             rectangleFill2.X = frameescala * (_currentSelectedSkill == ECurrentSkill.CLIMBER ? climber_with : 0);
             rectangleFill2.Y = 0;
             rectangleFill2.Width = climber_with;
             rectangleFill2.Height = climber_height;
-            spriteBatch.Draw(_sprites.Climber, vectorFill, rectangleFill2, (_currentSelectedSkill == ECurrentSkill.CLIMBER ? Color.White : sombramenu), 0, Vector2.Zero, climber_size, SpriteEffects.None, 0.1f);
+            _spriteBatch.Draw(_sprites.Climber, vectorFill, rectangleFill2, (_currentSelectedSkill == ECurrentSkill.CLIMBER ? Color.White : sombramenu), 0, Vector2.Zero, climber_size, SpriteEffects.None, 0.1f);
 
             vectorFill.X = 45 + 3 * 55;
             vectorFill.Y = posymenu + 31;
-            spriteBatch.Draw(circulo_led, vectorFill, rectangleFill, (_currentSelectedSkill == ECurrentSkill.FLOATER ? Color.White : sombramenu), (_currentSelectedSkill == ECurrentSkill.FLOATER ? cosa : 0), vectorFill2, 1f, SpriteEffects.None, 0.11f);
+            _spriteBatch.Draw(circulo_led, vectorFill, rectangleFill, (_currentSelectedSkill == ECurrentSkill.FLOATER ? Color.White : sombramenu), (_currentSelectedSkill == ECurrentSkill.FLOATER ? cosa : 0), vectorFill2, 1f, SpriteEffects.None, 0.11f);
             vectorFill.X = 5 + 3 * 55;
             vectorFill.Y = posymenu;
             rectangleFill2.X = floater_with * (_currentSelectedSkill == ECurrentSkill.FLOATER ? frameparaguas : 4);
             rectangleFill2.Y = 0;
             rectangleFill2.Width = floater_with;
             rectangleFill2.Height = floater_height;
-            spriteBatch.Draw(paraguas, vectorFill, rectangleFill2, (_currentSelectedSkill == ECurrentSkill.FLOATER ? Color.White : sombramenu), 0f, Vector2.Zero, 0.55f, SpriteEffects.None, 0.1f);
+            _spriteBatch.Draw(paraguas, vectorFill, rectangleFill2, (_currentSelectedSkill == ECurrentSkill.FLOATER ? Color.White : sombramenu), 0f, Vector2.Zero, 0.55f, SpriteEffects.None, 0.1f);
 
             vectorFill.X = 45 + 4 * 55;
             vectorFill.Y = posymenu + 31;
-            spriteBatch.Draw(circulo_led, vectorFill, rectangleFill, (_currentSelectedSkill == ECurrentSkill.EXPLODER ? Color.White : sombramenu), (_currentSelectedSkill == ECurrentSkill.EXPLODER ? cosa : 0), vectorFill2, 1f, SpriteEffects.None, 0.11f);
+            _spriteBatch.Draw(circulo_led, vectorFill, rectangleFill, (_currentSelectedSkill == ECurrentSkill.EXPLODER ? Color.White : sombramenu), (_currentSelectedSkill == ECurrentSkill.EXPLODER ? cosa : 0), vectorFill2, 1f, SpriteEffects.None, 0.11f);
             vectorFill.X = -5 + 4 * 55;
             vectorFill.Y = posymenu - 20;
             rectangleFill2.X = bomber_with * (_currentSelectedSkill == ECurrentSkill.EXPLODER ? frameexplota : 7);
             rectangleFill2.Y = 0;
             rectangleFill2.Width = bomber_with;
             rectangleFill2.Height = bomber_height;
-            spriteBatch.Draw(_sprites.Exploder, vectorFill, rectangleFill2, (_currentSelectedSkill == ECurrentSkill.EXPLODER ? Color.White : sombramenu), 0f, Vector2.Zero, bomber_size, SpriteEffects.None, 0.1f);
+            _spriteBatch.Draw(_sprites.Exploder, vectorFill, rectangleFill2, (_currentSelectedSkill == ECurrentSkill.EXPLODER ? Color.White : sombramenu), 0f, Vector2.Zero, bomber_size, SpriteEffects.None, 0.1f);
 
             vectorFill.X = 45 + 5 * 55;
             vectorFill.Y = posymenu + 31;
-            spriteBatch.Draw(circulo_led, vectorFill, rectangleFill, (_currentSelectedSkill == ECurrentSkill.BLOCKER ? Color.White : sombramenu), (_currentSelectedSkill == ECurrentSkill.BLOCKER ? cosa : 0), vectorFill2, 1f, SpriteEffects.None, 0.11f);
+            _spriteBatch.Draw(circulo_led, vectorFill, rectangleFill, (_currentSelectedSkill == ECurrentSkill.BLOCKER ? Color.White : sombramenu), (_currentSelectedSkill == ECurrentSkill.BLOCKER ? cosa : 0), vectorFill2, 1f, SpriteEffects.None, 0.11f);
             vectorFill.X = 10 + 5 * 55;
             vectorFill.Y = posymenu;
             rectangleFill2.X = blocker_with * (_currentSelectedSkill == ECurrentSkill.BLOCKER ? frameblocker : 0);
             rectangleFill2.Y = 0;
             rectangleFill2.Width = blocker_with;
             rectangleFill2.Height = blocker_height;
-            spriteBatch.Draw(_sprites.Blocker, vectorFill, rectangleFill2, (_currentSelectedSkill == ECurrentSkill.BLOCKER ? Color.White : sombramenu), 0f, Vector2.Zero, blocker_size, SpriteEffects.None, 0.1f);
+            _spriteBatch.Draw(_sprites.Blocker, vectorFill, rectangleFill2, (_currentSelectedSkill == ECurrentSkill.BLOCKER ? Color.White : sombramenu), 0f, Vector2.Zero, blocker_size, SpriteEffects.None, 0.1f);
 
             vectorFill.X = 45 + 6 * 55;
             vectorFill.Y = posymenu + 31;
-            spriteBatch.Draw(circulo_led, vectorFill, rectangleFill, (_currentSelectedSkill == ECurrentSkill.BUILDER ? Color.White : sombramenu), (_currentSelectedSkill == ECurrentSkill.BUILDER ? cosa : 0), vectorFill2, 1f, SpriteEffects.None, 0.11f);
+            _spriteBatch.Draw(circulo_led, vectorFill, rectangleFill, (_currentSelectedSkill == ECurrentSkill.BUILDER ? Color.White : sombramenu), (_currentSelectedSkill == ECurrentSkill.BUILDER ? cosa : 0), vectorFill2, 1f, SpriteEffects.None, 0.11f);
             vectorFill.X = 6 + 6 * 55;
             vectorFill.Y = posymenu;
             rectangleFill2.X = builder_with * (_currentSelectedSkill == ECurrentSkill.BUILDER ? framepuente : 12);
             rectangleFill2.Y = 0;
             rectangleFill2.Width = builder_with;
             rectangleFill2.Height = builder_height;
-            spriteBatch.Draw(puente, vectorFill, rectangleFill2, (_currentSelectedSkill == ECurrentSkill.BUILDER ? Color.White : sombramenu), 0f, Vector2.Zero, builder_size, SpriteEffects.None, 0.1f);
+            _spriteBatch.Draw(puente, vectorFill, rectangleFill2, (_currentSelectedSkill == ECurrentSkill.BUILDER ? Color.White : sombramenu), 0f, Vector2.Zero, builder_size, SpriteEffects.None, 0.1f);
 
             vectorFill.X = 45 + 7 * 55;
             vectorFill.Y = posymenu + 31;
-            spriteBatch.Draw(circulo_led, vectorFill, rectangleFill, (_currentSelectedSkill == ECurrentSkill.BASHER ? Color.White : sombramenu), (_currentSelectedSkill == ECurrentSkill.BASHER ? cosa : 0), vectorFill2, 1f, SpriteEffects.None, 0.11f);
+            _spriteBatch.Draw(circulo_led, vectorFill, rectangleFill, (_currentSelectedSkill == ECurrentSkill.BASHER ? Color.White : sombramenu), (_currentSelectedSkill == ECurrentSkill.BASHER ? cosa : 0), vectorFill2, 1f, SpriteEffects.None, 0.11f);
             vectorFill.X = 10 + 7 * 55;
             vectorFill.Y = posymenu;
             rectangleFill2.X = basher_with * (_currentSelectedSkill == ECurrentSkill.BASHER ? framepared : 0);
             rectangleFill2.Y = 0;
             rectangleFill2.Width = basher_with;
             rectangleFill2.Height = basher_height;
-            spriteBatch.Draw(pared, vectorFill, rectangleFill2, (_currentSelectedSkill == ECurrentSkill.BASHER ? Color.White : sombramenu), 0f, Vector2.Zero, basher_size, SpriteEffects.FlipHorizontally, 0.1f);
+            _spriteBatch.Draw(pared, vectorFill, rectangleFill2, (_currentSelectedSkill == ECurrentSkill.BASHER ? Color.White : sombramenu), 0f, Vector2.Zero, basher_size, SpriteEffects.FlipHorizontally, 0.1f);
 
             vectorFill.X = 45 + 8 * 55;
             vectorFill.Y = posymenu + 31;
-            spriteBatch.Draw(circulo_led, vectorFill, rectangleFill, (_currentSelectedSkill == ECurrentSkill.MINER ? Color.White : sombramenu), (_currentSelectedSkill == ECurrentSkill.MINER ? cosa : 0), vectorFill2, 1f, SpriteEffects.None, 0.11f);
+            _spriteBatch.Draw(circulo_led, vectorFill, rectangleFill, (_currentSelectedSkill == ECurrentSkill.MINER ? Color.White : sombramenu), (_currentSelectedSkill == ECurrentSkill.MINER ? cosa : 0), vectorFill2, 1f, SpriteEffects.None, 0.11f);
             vectorFill.X = 10 + 8 * 55;
             vectorFill.Y = posymenu + 7;
             rectangleFill2.X = pico_with * (_currentSelectedSkill == ECurrentSkill.MINER ? framepico : 30);
             rectangleFill2.Y = 0;
             rectangleFill2.Width = pico_with;
             rectangleFill2.Height = pico_height;
-            spriteBatch.Draw(pico, vectorFill, rectangleFill2, (_currentSelectedSkill == ECurrentSkill.MINER ? Color.White : sombramenu), 0f, Vector2.Zero, pico_size, SpriteEffects.None, 0.1f);
+            _spriteBatch.Draw(pico, vectorFill, rectangleFill2, (_currentSelectedSkill == ECurrentSkill.MINER ? Color.White : sombramenu), 0f, Vector2.Zero, pico_size, SpriteEffects.None, 0.1f);
 
             vectorFill.X = 45 + 9 * 55;
             vectorFill.Y = posymenu + 31;
-            spriteBatch.Draw(circulo_led, vectorFill, rectangleFill, (_currentSelectedSkill == ECurrentSkill.DIGGER ? Color.White : sombramenu), (_currentSelectedSkill == ECurrentSkill.DIGGER ? cosa : 0), vectorFill2, 1f, SpriteEffects.None, 0.11f);
+            _spriteBatch.Draw(circulo_led, vectorFill, rectangleFill, (_currentSelectedSkill == ECurrentSkill.DIGGER ? Color.White : sombramenu), (_currentSelectedSkill == ECurrentSkill.DIGGER ? cosa : 0), vectorFill2, 1f, SpriteEffects.None, 0.11f);
             vectorFill.X = 505;
             vectorFill.Y = posymenu;
             rectangleFill2.X = framecava * (_currentSelectedSkill == ECurrentSkill.DIGGER ? digger_with : 0);
             rectangleFill2.Y = 0;
             rectangleFill2.Width = digger_with;
             rectangleFill2.Height = digger_height;
-            spriteBatch.Draw(_sprites.Digger, vectorFill, rectangleFill2, (_currentSelectedSkill == ECurrentSkill.DIGGER ? Color.White : sombramenu), 0f, Vector2.Zero, digger_size, SpriteEffects.None, 0.1f);
+            _spriteBatch.Draw(_sprites.Digger, vectorFill, rectangleFill2, (_currentSelectedSkill == ECurrentSkill.DIGGER ? Color.White : sombramenu), 0f, Vector2.Zero, digger_size, SpriteEffects.None, 0.1f);
 
             vectorFill.X = 45 + 10 * 55;
             vectorFill.Y = posymenu + 31;
-            spriteBatch.Draw(circulo_led, vectorFill, rectangleFill, (Paused ? Color.White : sombramenu), (Paused ? cosa : 0), vectorFill2, 1f, SpriteEffects.None, 0.1f);
+            _spriteBatch.Draw(circulo_led, vectorFill, rectangleFill, (Paused ? Color.White : sombramenu), (Paused ? cosa : 0), vectorFill2, 1f, SpriteEffects.None, 0.1f);
             vectorFill.X = 24 + 10 * 55;
             vectorFill.Y = posymenu + 6;
             rectangleFill2.X = 0;
             rectangleFill2.Y = (Paused ? 40 : 0);
             rectangleFill2.Width = 32;
             rectangleFill2.Height = 40;
-            spriteBatch.Draw(pausa, vectorFill, rectangleFill2, (Paused ? Color.White : sombramenu), 0f, Vector2.Zero, 1.3f, SpriteEffects.None, 0.11f);
+            _spriteBatch.Draw(pausa, vectorFill, rectangleFill2, (Paused ? Color.White : sombramenu), 0f, Vector2.Zero, 1.3f, SpriteEffects.None, 0.11f);
 
             vectorFill.X = 45 + 11 * 55;
             vectorFill.Y = posymenu + 31;
-            spriteBatch.Draw(circulo_led, vectorFill, rectangleFill, (_allBlow ? Color.White : sombramenu), (_allBlow ? cosa : 0), vectorFill2, 1f, SpriteEffects.None, 0.1f);
+            _spriteBatch.Draw(circulo_led, vectorFill, rectangleFill, (_allBlow ? Color.White : sombramenu), (_allBlow ? cosa : 0), vectorFill2, 1f, SpriteEffects.None, 0.1f);
             vectorFill.X = 24 + 11 * 55;
             vectorFill.Y = posymenu + 6;
             rectangleFill2.X = 0;
             rectangleFill2.Y = (_allBlow ? 40 : 0);
             rectangleFill2.Width = 32;
             rectangleFill2.Height = 40;
-            spriteBatch.Draw(bomba, vectorFill, rectangleFill2, (_allBlow ? Color.White : sombramenu), 0f, Vector2.Zero, 1.3f, SpriteEffects.None, 0.11f);
+            _spriteBatch.Draw(bomba, vectorFill, rectangleFill2, (_allBlow ? Color.White : sombramenu), 0f, Vector2.Zero, 1.3f, SpriteEffects.None, 0.11f);
 
             vectorFill.X = 45 + 12 * 55;
             vectorFill.Y = posymenu + 31;
-            spriteBatch.Draw(circulo_led, vectorFill, rectangleFill, (op13 ? Color.White : sombramenu), (op13 ? cosa : 0), vectorFill2, 1f, SpriteEffects.None, 0.1f);
+            _spriteBatch.Draw(circulo_led, vectorFill, rectangleFill, (op13 ? Color.White : sombramenu), (op13 ? cosa : 0), vectorFill2, 1f, SpriteEffects.None, 0.1f);
             vectorFill.X = 24 + 12 * 55;
             vectorFill.Y = posymenu + 6;
             rectangleFill2.X = 0;
             rectangleFill2.Y = (op13 ? 40 : 0);
             rectangleFill2.Width = 32;
             rectangleFill2.Height = 40;
-            spriteBatch.Draw(avanzar, vectorFill, rectangleFill2, (op13 ? Color.White : sombramenu), 0f, Vector2.Zero, 1.3f, SpriteEffects.None, 0.11f);
+            _spriteBatch.Draw(avanzar, vectorFill, rectangleFill2, (op13 ? Color.White : sombramenu), 0f, Vector2.Zero, 1.3f, SpriteEffects.None, 0.11f);
         }
 
         private void Menu_logic()
