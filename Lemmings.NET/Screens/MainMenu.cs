@@ -1,13 +1,13 @@
-﻿using Lemmings.NET.Constants;
-using System;
+﻿using System;
 
+using Lemmings.NET.Constants;
+using Lemmings.NET.Datatables;
 using Lemmings.NET.Models;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using Lemmings.NET.Datatables;
 
 namespace Lemmings.NET.Screens
 {

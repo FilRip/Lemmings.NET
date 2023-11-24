@@ -17,7 +17,7 @@ namespace Lemmings.NET.Datatables
         public Texture2D EyeBlink2 { get; private set; }
         public Texture2D EyeBlink3 { get; private set; }
         public Texture2D Circulo_led { get; private set; }
-        public Texture2D Avanzar {  get; private set; }
+        public Texture2D Avanzar { get; private set; }
         public Texture2D Mas, Menos, Paraguas, Puente, Pausa, Pared, Pico, Bomba, Rompesuelo, Agua2, Nubes_2, Nubes;
         public Texture2D Cuadrado_menu, Chink;
         public Texture2D Lohno;

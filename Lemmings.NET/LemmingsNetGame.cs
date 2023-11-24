@@ -113,7 +113,7 @@ namespace Lemmings.NET
         GraphicsDeviceManager _graphics;
         SpriteBatch _spriteBatch;
         //vita touch textures
-        
+
         Vector2 direction_sprite;
         int[] terrainContour;
         int ssi, px, py, ancho, amount, positioYOrig, y55, x55, startposy, framepos, yypos99, cantidad99, yy99, xx99;

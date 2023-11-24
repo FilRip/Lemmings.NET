@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Lemmings.NET.Constants
+﻿namespace Lemmings.NET.Constants
 {
     internal enum ELevelCategory
     {

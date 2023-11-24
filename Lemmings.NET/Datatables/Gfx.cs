@@ -1,9 +1,8 @@
 ﻿using System;
 
-using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
-using System.Collections.Generic;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Lemmings.NET.Datatables
 {
@@ -14,7 +13,7 @@ namespace Lemmings.NET.Datatables
         internal Texture2D Backlogo { get; private set; }
         internal Texture2D Logo_fondo { get; private set; }
         internal Texture2D Explosion_particle { get; private set; }
-        internal Texture2D Lhiss {  get; private set; }
+        internal Texture2D Lhiss { get; private set; }
         internal Texture2D Squemado { get; private set; }
         internal Texture2D Puente_nomas { get; private set; }
         internal Texture2D CrateNormals { get; private set; }

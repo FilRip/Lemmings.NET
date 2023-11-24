@@ -1,16 +1,15 @@
 ﻿using System;
+using System.IO;
 
-using Microsoft.Xna.Framework.Input;
 using Lemmings.NET.Constants;
 using Lemmings.NET.Models;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Audio;
-using Microsoft.Xna.Framework;
 using Lemmings.NET.Structs;
-using System.IO;
+
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
-using System.Diagnostics;
-using Lemmings.NET.Datatables;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 
 namespace Lemmings.NET.Screens
 {
@@ -1481,7 +1480,7 @@ namespace Lemmings.NET.Screens
                         amount = width2 * top2;
                         mascarapared.GetData(Colormask2);
                         //////// optimized for hd3000 laptop ARROWS OPTIMIZED
-                        amount = 0;;
+                        amount = 0; ;
                         for (int yy88 = 0; yy88 < top2; yy88++)
                         {
                             int yypos888 = (yy88 + py) * earth.Width;
@@ -2482,7 +2481,7 @@ namespace Lemmings.NET.Screens
         {
             spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.NonPremultiplied, SamplerState.AnisotropicWrap, null, null, null);
             graphics.Clear(Color.Black);  //BACKGROUND COLOR darkslategray,cornblue,dimgray,black,gray,lighslategray
-                                                //draws back image for all the level
+                                          //draws back image for all the level
             if (LemmingsNetGame.Instance.particle != null)
             {
                 rectangleFill.X = 0;
@@ -3108,7 +3107,7 @@ namespace Lemmings.NET.Screens
             {
                 if (!Paused)
                     rest++;  // var to wait until menu appears gives this way 4 seconds plus more
-                if (rest > 90)
+                if (rest > 180)
                 {
                     Exploding = false;
                     actItem = 0;  //see when finish time and are more particles ON
