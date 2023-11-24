@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Lemmings.NET.Models
+namespace Lemmings.NET.Structs
 {
     internal struct Vartraps
     {

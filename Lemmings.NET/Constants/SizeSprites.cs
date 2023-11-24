@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Lemmings.NET.Constants
+﻿namespace Lemmings.NET.Constants
 {
     internal static class SizeSprites
     {
@@ -34,5 +28,9 @@ namespace Lemmings.NET.Constants
         internal const float sale_size = 0.65f;
         internal const int pico_frames = 67, pico_height = 120, pico_with = 10720 / pico_frames, pico_ypos = -13, pico_xpos = -25;
         internal const float pico_size = 0.45f;
+        internal const double MAX_DX = 3.5; //1.5
+        internal const double MIN_DX = -3.5; //-1.5
+        internal const double MAX_DY = 2; //1
+        internal const double MIN_DY = -8; //-4
     }
 }

@@ -3,15 +3,15 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Lemmings.NET.Datatables
 {
-    internal class Mouse
+    internal class MouseManager
     {
         public Texture2D MouseCross { get; private set; }
         public Texture2D MouseOverLemmings { get; private set; }
 
-        public void LoadContent(ContentManager Content)
+        public void LoadContent(ContentManager content)
         {
-            MouseOverLemmings = Content.Load<Texture2D>("raton_on1");
-            MouseCross = Content.Load<Texture2D>("raton_off1");
+            MouseOverLemmings = content.Load<Texture2D>("raton_on1");
+            MouseCross = content.Load<Texture2D>("raton_off1");
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace Lemmings.NET.Models
+﻿namespace Lemmings.NET.Structs
 {
     public struct Lem //puto
     {

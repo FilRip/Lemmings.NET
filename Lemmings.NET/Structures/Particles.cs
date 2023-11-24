@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 
-namespace Lemmings.NET.Models
+namespace Lemmings.NET.Structs
 {
     public struct Particles
     {

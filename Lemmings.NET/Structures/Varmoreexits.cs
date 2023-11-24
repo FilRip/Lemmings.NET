@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 
-namespace Lemmings.NET.Models
+namespace Lemmings.NET.Structs
 {
     internal struct Varmoreexits
     {

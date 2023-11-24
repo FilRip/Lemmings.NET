@@ -46,42 +46,45 @@
     <StartupObject>Lemmings.NET.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Constants\ECurrentScreen.cs" />
     <Compile Include="Constants\ECurrentSkill.cs" />
     <Compile Include="Constants\ELevelCategory.cs" />
+    <Compile Include="Constants\MyGame.cs" />
     <Compile Include="Constants\SizeSprites.cs" />
     <Compile Include="Datatables\Fonts.cs" />
-    <Compile Include="Datatables\InGameMenu.cs" />
+    <Compile Include="Datatables\Gfx.cs" />
+    <Compile Include="Datatables\InGameMenuGfx.cs" />
     <Compile Include="Datatables\Levels.cs" />
-    <Compile Include="Datatables\MainMenu.cs" />
-    <Compile Include="Datatables\Mouse.cs" />
+    <Compile Include="Datatables\MainMenuGfx.cs" />
+    <Compile Include="Datatables\MouseManager.cs" />
     <Compile Include="Datatables\Music.cs" />
     <Compile Include="Datatables\Particles.cs" />
     <Compile Include="Datatables\Sfx.cs" />
     <Compile Include="Datatables\Sprites.cs" />
+    <Compile Include="Datatables\Vfx.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="LemmingsNetGame.cs" />
-    <Compile Include="Menu.cs" />
-    <Compile Include="Models\Door.cs" />
-    <Compile Include="Models\Exit.cs" />
-    <Compile Include="Models\Lem.cs" />
-    <Compile Include="Models\Particle.cs" />
-    <Compile Include="Models\Particles.cs" />
-    <Compile Include="Models\Varadds.cs" />
-    <Compile Include="Models\Vararrows.cs" />
-    <Compile Include="Models\Varlev.cs" />
-    <Compile Include="Models\Varmoredoors.cs" />
-    <Compile Include="Models\Varmoreexits.cs" />
-    <Compile Include="Models\Varplat.cs" />
-    <Compile Include="Models\Varsprites.cs" />
-    <Compile Include="Models\Varsteel.cs" />
-    <Compile Include="Models\Vartraps.cs" />
+    <Compile Include="Screens\DebugOsd.cs" />
+    <Compile Include="Screens\InGameMenu.cs" />
+    <Compile Include="Structures\Door.cs" />
+    <Compile Include="Structures\Exit.cs" />
+    <Compile Include="Models\Input.cs" />
+    <Compile Include="Structures\Lem.cs" />
+    <Compile Include="Structures\Particle.cs" />
+    <Compile Include="Structures\Particles.cs" />
+    <Compile Include="Structures\Varadds.cs" />
+    <Compile Include="Structures\Vararrows.cs" />
+    <Compile Include="Structures\Varlev.cs" />
+    <Compile Include="Structures\Varmoredoors.cs" />
+    <Compile Include="Structures\Varmoreexits.cs" />
+    <Compile Include="Structures\Varplat.cs" />
+    <Compile Include="Structures\Varsprites.cs" />
+    <Compile Include="Structures\Varsteel.cs" />
+    <Compile Include="Structures\Vartraps.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Puerta.cs" />
     <Compile Include="Screens\InGame.cs" />
     <Compile Include="Screens\MainMenu.cs" />
-    <Compile Include="VariablesLevels.cs" />
-    <Compile Include="VariablesTraps.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">

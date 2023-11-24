@@ -1,4 +1,6 @@
-﻿using Microsoft.Xna.Framework.Audio;
+﻿using System.IO;
+
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 
 namespace Lemmings.NET.Datatables
@@ -18,35 +20,51 @@ namespace Lemmings.NET.Datatables
         public SoundEffectInstance Ting { get; private set; }
         public SoundEffectInstance MousePre { get; private set; }
         public SoundEffectInstance ChangeOp { get; private set; }
+        public SoundEffectInstance StrapTenton { get; private set; }
 
-        internal void LoadContent(ContentManager Content)
+        public void PlaySoundMenu()
         {
-            SoundEffect doorwav = Content.Load<SoundEffect>("soundfx/door");
+            if (ChangeOp.State == SoundState.Playing)
+            {
+                ChangeOp.Stop();
+            }
+            try
+            {
+                ChangeOp.Play();
+            }
+            catch (InstancePlayLimitException) { /* Ignore errors */ }
+        }
+
+        internal void LoadContent(ContentManager content)
+        {
+            SoundEffect doorwav = content.Load<SoundEffect>("soundfx/door");
             EntryLemmings = doorwav.CreateInstance();
-            SoundEffect init = Content.Load<SoundEffect>("soundfx/letsgo");
+            SoundEffect init = content.Load<SoundEffect>("soundfx/letsgo");
             Letsgo = init.CreateInstance();
-            SoundEffect oing = Content.Load<SoundEffect>("soundfx/yippee");
+            SoundEffect oing = content.Load<SoundEffect>("soundfx/yippee");
             Yippe = oing.CreateInstance();
-            SoundEffect die = Content.Load<SoundEffect>("soundfx/die");
+            SoundEffect die = content.Load<SoundEffect>("soundfx/die");
             Die = die.CreateInstance();
-            SoundEffect splat = Content.Load<SoundEffect>("soundfx/splat");
+            SoundEffect splat = content.Load<SoundEffect>("soundfx/splat");
             Splat = splat.CreateInstance();
-            SoundEffect ohno = Content.Load<SoundEffect>("soundfx/ohno");
+            SoundEffect ohno = content.Load<SoundEffect>("soundfx/ohno");
             OhNo = ohno.CreateInstance();
-            SoundEffect chink = Content.Load<SoundEffect>("soundfx/chink");
+            SoundEffect chink = content.Load<SoundEffect>("soundfx/chink");
             Chink = chink.CreateInstance();
-            SoundEffect explo = Content.Load<SoundEffect>("soundfx/explode");
+            SoundEffect explo = content.Load<SoundEffect>("soundfx/explode");
             Explode = explo.CreateInstance();
-            SoundEffect sfire = Content.Load<SoundEffect>("soundfx/fire");
+            SoundEffect sfire = content.Load<SoundEffect>("soundfx/fire");
             Fire = sfire.CreateInstance();
-            SoundEffect sglug = Content.Load<SoundEffect>("soundfx/glug");
+            SoundEffect sglug = content.Load<SoundEffect>("soundfx/glug");
             Glup = sglug.CreateInstance();
-            SoundEffect sting = Content.Load<SoundEffect>("soundfx/ting");
+            SoundEffect sting = content.Load<SoundEffect>("soundfx/ting");
             Ting = sting.CreateInstance();
-            SoundEffect smousepre = Content.Load<SoundEffect>("soundfx/mousepre");
+            SoundEffect smousepre = content.Load<SoundEffect>("soundfx/mousepre");
             MousePre = smousepre.CreateInstance();
-            SoundEffect schangeop = Content.Load<SoundEffect>("soundfx/changeop");
+            SoundEffect schangeop = content.Load<SoundEffect>("soundfx/changeop");
             ChangeOp = schangeop.CreateInstance();
+            SoundEffect strap = content.Load<SoundEffect>("soundfx/tenton");
+            StrapTenton = strap.CreateInstance();
         }
     }
 }

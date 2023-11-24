@@ -1,12 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Lemmings.NET.Models
+namespace Lemmings.NET.Structs
 {
-    internal struct Varplat
+    internal struct Varadds
     {
-        public int frame, framesecond, numSteps, actStep, step;
-        public bool up;
+        public int frame, framesecond, numFrames, actFrame;
         public Rectangle areaDraw;
         public Texture2D sprite;
     }
