@@ -7,7 +7,7 @@ namespace Lemmings.NET.Constants
     internal static class MyGame
     {
         public static Point GameResolution { get; } = new(1100, 700);
-        public static int numParticles { get; } = 300;
+        public static int NumParticles { get; } = 300;
 
         public static Random Rnd { get; } = new(Environment.TickCount);
         public const string SaveGameFileName = "LevelStats.txt";

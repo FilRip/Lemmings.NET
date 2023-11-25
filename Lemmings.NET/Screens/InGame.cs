@@ -28,17 +28,19 @@ namespace Lemmings.NET.Screens
         private Lem[] lemming;
         private Rectangle bloqueo;
         private double frameWaves = 0;
-        private int walker_frame = 0, builder_frame = 0, builder_frame_second = 1;
+        private int walker_frame = 0;
+        private int builder_frame = 0;
+        private readonly int builder_frame_second = 1;
         public int Frame2 = 0, Frame3 = 0;
-        private int Framesecond = 6;
-        private int Framesecond2 = 2;
-        private int Framesecond3 = 1;  // frame speed less all go crazy 6->ok framesecond=6 default framesecond2=3 default
-        public Varsprites[] sprite { get; set; }
+        private readonly int Framesecond = 6;
+        private readonly int Framesecond2 = 2;
+        private readonly int Framesecond3 = 1;  // frame speed less all go crazy 6->ok framesecond=6 default framesecond2=3 default
+        public Varsprites[] Sprite { get; set; }
         private int _nbClimberRemaining = 99, _nbFloaterRemaining = 88, _nbExploderRemaining = 77, _nbBlockerRemaining = 66, _nbBuilderRemaining = 55, _nbBasherRemaining = 44, _nbMinerRemaining = 33, _nbDiggerRemaining = 99;
         private ECurrentSkill _currentSelectedSkill;
         private bool _decreaseOn, _increaseOn;
-        private bool _allBlow = false, pullLemmings = false;
-        private int door1X, door1Y, s, actLEM;
+        private bool _allBlow = false;
+        private int door1X, door1Y, actLEM;
         private int output1X, output1Y, ex11;
         public int frameDoor = 0, frameExit = 0; // 0--10   0--6
         private int exitFrame = 999, frequencyNumber = 50, numerominfrecuencia = 50, actualBlow; // frecuency lemmings go in
@@ -53,14 +55,16 @@ namespace Lemmings.NET.Screens
         Varadds[] adds;
         private bool initON = false;
         public bool SteelON = false, TrapsON = false, PlatsON = false, ArrowsON = false, AddsON = false;
-        private int maxnumberfalling = 210, useumbrella = 100, NumTotTraps = 0, NumTotArrow = 0, framereal565;
+        private readonly int maxnumberfalling = 210;
+        private readonly int useumbrella = 100;
+        private int NumTotTraps = 0;
+        private int NumTotArrow = 0;
+        private int framereal565;
+
         public float DoorExitDepth { get; set; } = 0.403f;  // default value--bigger than 0.5f is behind the terrain (0.6f level 58 for example)
         private readonly int posm = 742;
         private readonly int posy = 572;
-        float angle, lemxscale, lemyscale, mousexscale, mouseyscale;
         private double clickTimer1 = 0;
-        float mxscale, myscale;
-        Vector2 edge;
         float mmscale, mmscale2, xscale, yscale, mmscaley, mmscaley2;
         private int framecae = 0; // 0--3
         private int framecava = 0; //0--15
@@ -111,7 +115,6 @@ namespace Lemmings.NET.Screens
         private int z2 = 0;
         private int z3 = 0;
         public bool dibuja = true, luzmas = true, luzmas2 = true, draw2 = true, draw_walker = false, draw_builder = false;
-        private bool rayLigths;
         public bool blink1on = false, blink2on = false, blink3on = false;
         private double totalTime;
         public int Frame = 0, alto, _below;
@@ -139,16 +142,14 @@ namespace Lemmings.NET.Screens
         public int Frente { get; set; } = 0;
         public int Frente2 { get; set; } = 0;
         private bool doorWaveOn = false;
-        private int xEmpty, xErase, framereal55, frameact, posi_real;
-        float delayPercent = 1f;
+        private int frameact;
         public Texture2D myTexture;
-        private bool _lockMouse;
+        internal bool LockMouse { get; set; }
         public float SizeL { get; set; } = 1.35f; //1.2f was default in the beggining
         private Texture2D salida_ani1, salida_ani1_1, sale;
         public Color[] Colormask33 { get; set; } = new Color[38 * 53]; // explode mask 38*53
         public Color[] Colorsobre33 { get; set; } = new Color[38 * 53];
         private Texture2D puerta_ani;
-        bool nobasher;
 
         internal SoundEffectInstance CurrentMusic { get; set; }
 
@@ -162,7 +163,7 @@ namespace Lemmings.NET.Screens
         internal InGame()
         {
             //_inGameMenu = new InGameMenu();
-            _lockMouse = false;
+            LockMouse = false;
         }
 
         internal void LoadLevel(int newLevel, ContentManager content)
@@ -188,7 +189,7 @@ namespace Lemmings.NET.Screens
             moreDoors = null;
             trap = null;
             arrow = null;
-            sprite = null;
+            Sprite = null;
             numTOTexits = 1;
             numTOTdoors = 1;
             NumTotTraps = 0;
@@ -323,86 +324,86 @@ namespace Lemmings.NET.Screens
                 Paused = true;
             }
             MoverLemming();
-            if (sprite != null) //sprites logic if necessary puto77
+            if (Sprite != null) //sprites logic if necessary puto77
             {
-                for (int ssi = 0; ssi < sprite.Length; ssi++)
+                for (int ssi = 0; ssi < Sprite.Length; ssi++)
                 {
-                    sprite[ssi].frame++;
-                    if (sprite[ssi].sprite.Name == "touch/fire_sprites_other" && sprite[ssi].frame > sprite[ssi].framesecond)
+                    Sprite[ssi].frame++;
+                    if (Sprite[ssi].sprite.Name == "touch/fire_sprites_other" && Sprite[ssi].frame > Sprite[ssi].framesecond)
                     {
-                        sprite[ssi].frame = 0;
-                        if (sprite[ssi].minus)
-                            sprite[ssi].actFrame -= 2;
+                        Sprite[ssi].frame = 0;
+                        if (Sprite[ssi].minus)
+                            Sprite[ssi].actFrame -= 2;
                         else
-                            sprite[ssi].actFrame++; // 2 frames less to return to zero better effect i think
-                        if (sprite[ssi].actFrame > 14 && !sprite[ssi].minus)
+                            Sprite[ssi].actFrame++; // 2 frames less to return to zero better effect i think
+                        if (Sprite[ssi].actFrame > 14 && !Sprite[ssi].minus)
                         {
-                            sprite[ssi].actFrame = 15;
-                            sprite[ssi].minus = true;
+                            Sprite[ssi].actFrame = 15;
+                            Sprite[ssi].minus = true;
                         }
-                        if (sprite[ssi].actFrame < 0 && sprite[ssi].minus)
+                        if (Sprite[ssi].actFrame < 0 && Sprite[ssi].minus)
                         {
-                            sprite[ssi].minus = false;
-                            sprite[ssi].actFrame = 1;
+                            Sprite[ssi].minus = false;
+                            Sprite[ssi].actFrame = 1;
                         }
                         continue;
                     }
-                    if (sprite[ssi].frame > sprite[ssi].framesecond)
+                    if (Sprite[ssi].frame > Sprite[ssi].framesecond)
                     {
-                        sprite[ssi].frame = 0;
-                        sprite[ssi].actFrame++;
-                        if (sprite[ssi].actFrame > (sprite[ssi].axisX * sprite[ssi].axisY) - 1)
-                            sprite[ssi].actFrame = 0;
+                        Sprite[ssi].frame = 0;
+                        Sprite[ssi].actFrame++;
+                        if (Sprite[ssi].actFrame > (Sprite[ssi].axisX * Sprite[ssi].axisY) - 1)
+                            Sprite[ssi].actFrame = 0;
                     }
-                    if (sprite[ssi].speed != 0)  // spider destination puto puto puto
+                    if (Sprite[ssi].speed != 0)  // spider destination puto puto puto
                     {
-                        if (sprite[ssi].calc)
+                        if (Sprite[ssi].calc)
                         {
-                            sprite[ssi].calc = false;
-                            if (!sprite[ssi].minus)
+                            Sprite[ssi].calc = false;
+                            if (!Sprite[ssi].minus)
                             {
-                                sprite[ssi].pos.X = sprite[ssi].path[sprite[ssi].actVect].X;
-                                sprite[ssi].pos.Y = sprite[ssi].path[sprite[ssi].actVect].Y;
-                                sprite[ssi].speed = sprite[ssi].path[sprite[ssi].actVect].Z;
-                                sprite[ssi].dest.X = sprite[ssi].path[sprite[ssi].actVect + 1].X;
-                                sprite[ssi].dest.Y = sprite[ssi].path[sprite[ssi].actVect + 1].Y;
+                                Sprite[ssi].pos.X = Sprite[ssi].path[Sprite[ssi].actVect].X;
+                                Sprite[ssi].pos.Y = Sprite[ssi].path[Sprite[ssi].actVect].Y;
+                                Sprite[ssi].speed = Sprite[ssi].path[Sprite[ssi].actVect].Z;
+                                Sprite[ssi].dest.X = Sprite[ssi].path[Sprite[ssi].actVect + 1].X;
+                                Sprite[ssi].dest.Y = Sprite[ssi].path[Sprite[ssi].actVect + 1].Y;
                             }
                             else
                             {
-                                sprite[ssi].dest.X = sprite[ssi].path[sprite[ssi].actVect].X;
-                                sprite[ssi].dest.Y = sprite[ssi].path[sprite[ssi].actVect].Y;
-                                sprite[ssi].speed = sprite[ssi].path[sprite[ssi].actVect].Z;
-                                sprite[ssi].pos.X = sprite[ssi].path[sprite[ssi].actVect + 1].X;
-                                sprite[ssi].pos.Y = sprite[ssi].path[sprite[ssi].actVect + 1].Y;
+                                Sprite[ssi].dest.X = Sprite[ssi].path[Sprite[ssi].actVect].X;
+                                Sprite[ssi].dest.Y = Sprite[ssi].path[Sprite[ssi].actVect].Y;
+                                Sprite[ssi].speed = Sprite[ssi].path[Sprite[ssi].actVect].Z;
+                                Sprite[ssi].pos.X = Sprite[ssi].path[Sprite[ssi].actVect + 1].X;
+                                Sprite[ssi].pos.Y = Sprite[ssi].path[Sprite[ssi].actVect + 1].Y;
                             }
-                            if (!sprite[ssi].minus)
+                            if (!Sprite[ssi].minus)
                             {
-                                sprite[ssi].actVect++;
+                                Sprite[ssi].actVect++;
                             }
                             else
                             {
-                                sprite[ssi].actVect--;
+                                Sprite[ssi].actVect--;
                             }
-                            if (sprite[ssi].actVect > sprite[ssi].path.Length - 2 && !sprite[ssi].minus)
+                            if (Sprite[ssi].actVect > Sprite[ssi].path.Length - 2 && !Sprite[ssi].minus)
                             {
-                                sprite[ssi].actVect--; sprite[ssi].minus = true;
+                                Sprite[ssi].actVect--; Sprite[ssi].minus = true;
                             }
-                            if (sprite[ssi].actVect < 0 && sprite[ssi].minus)
+                            if (Sprite[ssi].actVect < 0 && Sprite[ssi].minus)
                             {
-                                sprite[ssi].actVect++; sprite[ssi].minus = false;
+                                Sprite[ssi].actVect++; Sprite[ssi].minus = false;
                             }
 
                             continue; // control when arrive to LAST destination point actvect
                         }
-                        Vector2 direction_sprite = Vector2.Normalize(sprite[ssi].dest - sprite[ssi].pos);
-                        sprite[ssi].pos = sprite[ssi].pos + direction_sprite * sprite[ssi].speed;
-                        float distance = Vector2.Distance(sprite[ssi].pos, sprite[ssi].dest);
+                        Vector2 direction_sprite = Vector2.Normalize(Sprite[ssi].dest - Sprite[ssi].pos);
+                        Sprite[ssi].pos = Sprite[ssi].pos + direction_sprite * Sprite[ssi].speed;
+                        float distance = Vector2.Distance(Sprite[ssi].pos, Sprite[ssi].dest);
                         if (distance < 1)
                         {
-                            sprite[ssi].calc = true;
+                            Sprite[ssi].calc = true;
                             continue; // control when arrive to destination point
                         }
-                        sprite[ssi].rotation = (float)Math.Atan2(direction_sprite.X, direction_sprite.Y) * -1;
+                        Sprite[ssi].rotation = (float)Math.Atan2(direction_sprite.X, direction_sprite.Y) * -1;
                     }
                 }
             }
@@ -460,7 +461,7 @@ namespace Lemmings.NET.Screens
             {
                 int startposy = adds[0].sprite.Height / adds[0].numFrames; // height of each frame inside the whole sprite
                 int framepos = startposy * adds[0].actFrame; // actual y position of the frame
-                int ancho = adds[0].sprite.Width;
+                ancho = adds[0].sprite.Width;
                 amount = ancho * startposy; // height frame
                 rectangleFill.X = 0;
                 rectangleFill.Y = framepos;
@@ -474,11 +475,10 @@ namespace Lemmings.NET.Screens
                 earth.SetData(0, rectangleFill, Colormask22, 0, amount);
                 int py = adds[0].areaDraw.Y;
                 int px = adds[0].areaDraw.X;
-                int yypos99 = 0;
                 int cantidad99 = 0;
                 for (int yy99 = 0; yy99 < startposy; yy99++)
                 {
-                    yypos99 = (yy99 + py) * earth.Width;
+                    int yypos99 = (yy99 + py) * earth.Width;
                     for (int xx99 = 0; xx99 < ancho; xx99++)
                     {
                         C25[yypos99 + px + xx99].PackedValue = Colormask22[cantidad99].PackedValue;
@@ -1480,7 +1480,7 @@ namespace Lemmings.NET.Screens
                         amount = width2 * top2;
                         mascarapared.GetData(Colormask2);
                         //////// optimized for hd3000 laptop ARROWS OPTIMIZED
-                        amount = 0; ;
+                        amount = 0;
                         for (int yy88 = 0; yy88 < top2; yy88++)
                         {
                             int yypos888 = (yy88 + py) * earth.Width;
@@ -1560,7 +1560,7 @@ namespace Lemmings.NET.Screens
                 {
                     if (ArrowsON) // basher arrows logic areaTrap Intersects
                     {
-                        nobasher = false;
+                        bool nobasher = false;
                         arrowLem.X = lemming[actLEM].PosX;
                         arrowLem.Y = lemming[actLEM].PosY;
                         arrowLem.Width = 28;
@@ -1626,8 +1626,8 @@ namespace Lemmings.NET.Screens
                                 amount++;
                             }
                         }
-                        xEmpty = 0;
-                        xErase = width2;
+                        int xEmpty = 0;
+                        int xErase = width2;
                         Frente = 0;
                         sx = 0;
                         for (int valX = 0; valX < width2; valX++)
@@ -1743,8 +1743,8 @@ namespace Lemmings.NET.Screens
                                 amount++;
                             }
                         }
-                        xEmpty = width2;
-                        xErase = 0;
+                        int xEmpty = width2;
+                        int xErase = 0;
                         Frente = 0;
                         sx = 0;
                         for (int valX = width2 - 1; valX >= 0; valX--)
@@ -1866,7 +1866,7 @@ namespace Lemmings.NET.Screens
                             }
                             for (int y = 1; y <= 3; y++)  // 14 es la posicion de los pies del lemming[i].posy porque tiene 28 pixels de alto 28/2=14
                             {
-                                posi_real = (lemming[actLEM].PosY + 24 + y) * earth.Width + lemming[actLEM].PosX;
+                                int posi_real = (lemming[actLEM].PosY + 24 + y) * earth.Width + lemming[actLEM].PosX;
                                 for (int xx88 = 14; xx88 <= 28; xx88++)
                                 {
                                     if (C25[posi_real + xx88].R == 0 && C25[posi_real + xx88].G == 0 && C25[posi_real + xx88].B == 0)
@@ -1898,7 +1898,7 @@ namespace Lemmings.NET.Screens
                             amount = 0;
                             for (int ykk = 27; ykk < 31; ykk++)
                             {
-                                posi_real = (lemming[actLEM].PosY + ykk) * earth.Width + lemming[actLEM].PosX;
+                                int posi_real = (lemming[actLEM].PosY + ykk) * earth.Width + lemming[actLEM].PosX;
                                 for (int xkk = 0; xkk < 28; xkk++)
                                 {
                                     Colormask22[amount] = C25[posi_real + xkk];
@@ -1949,7 +1949,7 @@ namespace Lemmings.NET.Screens
                             }
                             for (int y = 1; y <= 3; y++)  // 14 es la posicion de los pies del lemming[i].posy porque tiene 28 pixels de alto 28/2=14
                             {
-                                posi_real = (lemming[actLEM].PosY + 24 + y) * earth.Width + lemming[actLEM].PosX;
+                                int posi_real = (lemming[actLEM].PosY + 24 + y) * earth.Width + lemming[actLEM].PosX;
                                 for (int xx88 = 0; xx88 <= 14; xx88++)
                                 {
                                     if (C25[posi_real + xx88].R == 0 && C25[posi_real + xx88].G == 0 && C25[posi_real + xx88].B == 0)
@@ -2111,7 +2111,7 @@ namespace Lemmings.NET.Screens
                             amount = 0;
                             for (int ykk = 9; ykk <= 18; ykk++)
                             {
-                                posi_real = (lemming[actLEM].PosY + 14 + ykk) * earth.Width + lemming[actLEM].PosX;
+                                int posi_real = (lemming[actLEM].PosY + 14 + ykk) * earth.Width + lemming[actLEM].PosX;
                                 for (int xkk = 0; xkk < 28; xkk++)
                                 {
                                     Colormask22[amount] = C25[posi_real + xkk];
@@ -2482,7 +2482,7 @@ namespace Lemmings.NET.Screens
             spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.NonPremultiplied, SamplerState.AnisotropicWrap, null, null, null);
             graphics.Clear(Color.Black);  //BACKGROUND COLOR darkslategray,cornblue,dimgray,black,gray,lighslategray
                                           //draws back image for all the level
-            if (LemmingsNetGame.Instance.particle != null)
+            if (LemmingsNetGame.Instance.ParticleTab != null)
             {
                 rectangleFill.X = 0;
                 rectangleFill.Y = 0;
@@ -2492,12 +2492,12 @@ namespace Lemmings.NET.Screens
                 colorFill.G = 255;
                 colorFill.B = 255;
                 colorFill.A = 150;
-                for (int varParticle = 0; varParticle < MyGame.numParticles; varParticle++)
+                for (int varParticle = 0; varParticle < MyGame.NumParticles; varParticle++)
                 {
-                    spriteBatch.Draw(LemmingsNetGame.Instance.particle[varParticle].Sprite, LemmingsNetGame.Instance.particle[varParticle].Pos, rectangleFill, colorFill, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0.50001f);
+                    spriteBatch.Draw(LemmingsNetGame.Instance.ParticleTab[varParticle].Sprite, LemmingsNetGame.Instance.ParticleTab[varParticle].Pos, rectangleFill, colorFill, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0.50001f);
                 }
             }
-            rayLigths = true;
+            bool rayLigths = true;
             // logic of background stars moving from -50 to 50
             actWaves333 = 50 * Math.Sin(actWaves / 60);  // 50 height of the wave  // 60 length of it
             actWaves444 = -70 * Math.Sin(actWaves / -80); // 10,100 -70,100
@@ -2703,61 +2703,61 @@ namespace Lemmings.NET.Screens
             int xx55 = varDoor[AllLevel[LemmingsNetGame.Instance.CurrentLevelNumber].TypeOfDoor].xWidth;
             int yy55 = varDoor[AllLevel[LemmingsNetGame.Instance.CurrentLevelNumber].TypeOfDoor].yWidth;
             framereal565 = (frameDoor * yy55);
-            if (sprite != null) //draw sprites
+            if (Sprite != null) //draw sprites
             {
-                for (int ssi = 0; ssi < sprite.Length; ssi++)
+                for (int ssi = 0; ssi < Sprite.Length; ssi++)
                 {
-                    int swidth = sprite[ssi].sprite.Width / sprite[ssi].axisX;
-                    int sheight = sprite[ssi].sprite.Height / sprite[ssi].axisY;
+                    int swidth = Sprite[ssi].sprite.Width / Sprite[ssi].axisX;
+                    int sheight = Sprite[ssi].sprite.Height / Sprite[ssi].axisY;
                     int sx1 = 0;
                     int sy1 = 0;
-                    if (sprite[ssi].actFrame != 0)
+                    if (Sprite[ssi].actFrame != 0)
                     {
-                        sx1 = swidth * (sprite[ssi].actFrame % sprite[ssi].axisX);
-                        sy1 = sheight * (sprite[ssi].actFrame / sprite[ssi].axisX);
+                        sx1 = swidth * (Sprite[ssi].actFrame % Sprite[ssi].axisX);
+                        sy1 = sheight * (Sprite[ssi].actFrame / Sprite[ssi].axisX);
                     }
-                    if (sprite[ssi].typescroll > 0)
+                    if (Sprite[ssi].typescroll > 0)
                     {
-                        sprite[ssi].pos.X -= sprite[ssi].typescroll;
-                        if (sprite[ssi].pos.X < 0 - (sprite[ssi].sprite.Width * sprite[ssi].scale))
-                            sprite[ssi].pos.X = MyGame.GameResolution.X;
-                        if (sprite[ssi].pos.X > MyGame.GameResolution.X)
-                            sprite[ssi].pos.X = -100;
-                        spriteBatch.Draw(sprite[ssi].sprite, new Vector2(sprite[ssi].pos.X, sprite[ssi].pos.Y - ScrollY),
-                            new Rectangle(sx1, sy1, swidth, sheight), new Color(sprite[ssi].R, sprite[ssi].G, sprite[ssi].B, sprite[ssi].transparency),
-                            sprite[ssi].rotation, Vector2.Zero, sprite[ssi].scale, SpriteEffects.None, sprite[ssi].depth);
+                        Sprite[ssi].pos.X -= Sprite[ssi].typescroll;
+                        if (Sprite[ssi].pos.X < 0 - (Sprite[ssi].sprite.Width * Sprite[ssi].scale))
+                            Sprite[ssi].pos.X = MyGame.GameResolution.X;
+                        if (Sprite[ssi].pos.X > MyGame.GameResolution.X)
+                            Sprite[ssi].pos.X = -100;
+                        spriteBatch.Draw(Sprite[ssi].sprite, new Vector2(Sprite[ssi].pos.X, Sprite[ssi].pos.Y - ScrollY),
+                            new Rectangle(sx1, sy1, swidth, sheight), new Color(Sprite[ssi].R, Sprite[ssi].G, Sprite[ssi].B, Sprite[ssi].transparency),
+                            Sprite[ssi].rotation, Vector2.Zero, Sprite[ssi].scale, SpriteEffects.None, Sprite[ssi].depth);
                     }
                     else
                     {
-                        if (sprite[ssi].sprite.Name == "touch/arana") // 64x64 sprite frame size
+                        if (Sprite[ssi].sprite.Name == "touch/arana") // 64x64 sprite frame size
                         {
-                            int xxAnim = 0;
-                            if (sprite[ssi].minusScrollx)
+                            int xxAnim;
+                            if (Sprite[ssi].minusScrollx)
                             {
-                                xxAnim = (int)sprite[ssi].pos.X - ScrollX + 32;
+                                xxAnim = (int)Sprite[ssi].pos.X - ScrollX + 32;
                             }
                             else
                             {
-                                xxAnim = (int)sprite[ssi].pos.X + 32;
+                                xxAnim = (int)Sprite[ssi].pos.X + 32;
                             }
-                            spriteBatch.Draw(sprite[ssi].sprite, new Vector2(xxAnim, sprite[ssi].pos.Y - ScrollY - 32),
-                                new Rectangle(sx1, sy1, swidth, sheight), new Color(sprite[ssi].R, sprite[ssi].G, sprite[ssi].B, sprite[ssi].transparency),
-                                sprite[ssi].rotation, sprite[ssi].center, sprite[ssi].scale, SpriteEffects.None, sprite[ssi].depth);
+                            spriteBatch.Draw(Sprite[ssi].sprite, new Vector2(xxAnim, Sprite[ssi].pos.Y - ScrollY - 32),
+                                new Rectangle(sx1, sy1, swidth, sheight), new Color(Sprite[ssi].R, Sprite[ssi].G, Sprite[ssi].B, Sprite[ssi].transparency),
+                                Sprite[ssi].rotation, Sprite[ssi].center, Sprite[ssi].scale, SpriteEffects.None, Sprite[ssi].depth);
                         }
                         else
                         {
-                            int xxAnim = 0;
-                            if (sprite[ssi].minusScrollx)
+                            int xxAnim;
+                            if (Sprite[ssi].minusScrollx)
                             {
-                                xxAnim = (int)sprite[ssi].pos.X - ScrollX;
+                                xxAnim = (int)Sprite[ssi].pos.X - ScrollX;
                             }
                             else
                             {
-                                xxAnim = (int)sprite[ssi].pos.X;
+                                xxAnim = (int)Sprite[ssi].pos.X;
                             }
-                            spriteBatch.Draw(sprite[ssi].sprite, new Vector2(xxAnim, sprite[ssi].pos.Y - ScrollY),
-                                new Rectangle(sx1, sy1, swidth, sheight), new Color(sprite[ssi].R, sprite[ssi].G, sprite[ssi].B, sprite[ssi].transparency),
-                                sprite[ssi].rotation, Vector2.Zero, sprite[ssi].scale, SpriteEffects.None, sprite[ssi].depth);
+                            spriteBatch.Draw(Sprite[ssi].sprite, new Vector2(xxAnim, Sprite[ssi].pos.Y - ScrollY),
+                                new Rectangle(sx1, sy1, swidth, sheight), new Color(Sprite[ssi].R, Sprite[ssi].G, Sprite[ssi].B, Sprite[ssi].transparency),
+                                Sprite[ssi].rotation, Vector2.Zero, Sprite[ssi].scale, SpriteEffects.None, Sprite[ssi].depth);
                         }
                     }
                 }
@@ -2873,7 +2873,7 @@ namespace Lemmings.NET.Screens
                         lemming[actLEM].Numframes = SizeSprites.bomber_frames;
                     }
                 }
-                framereal55 = (lemming[actLEM].Actualframe * 118);
+                int framereal55 = (lemming[actLEM].Actualframe * 118);
                 if (lemming[actLEM].Burned) // scale POSDraw x+0,y+0 at 1.2f x-5,y+0 at 1.35f
                 {
                     spriteBatch.Draw(LemmingsNetGame.Instance.Gfx.Squemado, new Vector2(lemming[actLEM].PosX - ScrollX - 5, lemming[actLEM].PosY - ScrollY), new Rectangle(0, lemming[actLEM].Actualframe * 28, 32, 28),
@@ -3368,8 +3368,8 @@ namespace Lemmings.NET.Screens
                 mousepos.X = -14;
             if (mousepos.X > MyGame.GameResolution.X * (LemmingsNetGame.Instance.Scaled ? 2 : 1))
                 mousepos.X = MyGame.GameResolution.X * (LemmingsNetGame.Instance.Scaled ? 2 : 1);
-            if (_lockMouse)
-                Mouse.SetPosition((int)mousepos.X, (int)mousepos.Y); // setposition //this is for my son kids don't know move mouse so good  
+            if (LockMouse)
+                Mouse.SetPosition(mousepos.X, mousepos.Y); // setposition //this is for my son kids don't know move mouse so good  
         }
 
         private void Door()
@@ -3396,8 +3396,8 @@ namespace Lemmings.NET.Screens
                     frameDoor = xx55;
                 }
             }
-            pullLemmings = false;
-            delayPercent = 27 - frequencyNumber * 0.26f; // see to fix speed of lemmings release on door only when change frecuency (not so good)
+            bool pullLemmings = false;
+            float delayPercent = 27 - frequencyNumber * 0.26f; // see to fix speed of lemmings release on door only when change frecuency (not so good)
             if (dibuja && !doorOn)
             {
                 exitFrame++;
@@ -3794,14 +3794,14 @@ namespace Lemmings.NET.Screens
             }
             if (rectminimenu.Contains(x) && Input.CurrentMouseState.LeftButton == ButtonState.Pressed)
             {
-                mmscale = (float)(ScrollX) * xscale;
-                mmscale2 = (float)(ScrollX + MyGame.GameResolution.X) * xscale;
-                mmscaley = (float)(ScrollY) * yscale;
-                mmscaley2 = (float)(ScrollY + MyGame.GameResolution.Y - 188) * yscale;
-                mxscale = (float)earth.Width / 336;
-                myscale = (float)earth.Height / 84;
-                mousexscale = ((Input.CurrentMouseState.Position.X - posm + 14) * mxscale) - (MyGame.GameResolution.X / 2); // center x axis in minimap (xscroll)
-                mouseyscale = ((Input.CurrentMouseState.Position.Y - posy) + 28) * myscale;
+                mmscale = (ScrollX) * xscale;
+                mmscale2 = (ScrollX + MyGame.GameResolution.X) * xscale;
+                mmscaley = (ScrollY) * yscale;
+                mmscaley2 = (ScrollY + MyGame.GameResolution.Y - 188) * yscale;
+                float mxscale = (float)earth.Width / 336;
+                float myscale = (float)earth.Height / 84;
+                float mousexscale = ((Input.CurrentMouseState.Position.X - posm + 14) * mxscale) - (MyGame.GameResolution.X / 2); // center x axis in minimap (xscroll)
+                float mouseyscale = ((Input.CurrentMouseState.Position.Y - posy) + 28) * myscale;
                 ScrollX = (int)mousexscale;
                 if (ScrollX + MyGame.GameResolution.X > earth.Width)
                 {
@@ -3832,144 +3832,144 @@ namespace Lemmings.NET.Screens
             switch (LemmingsNetGame.Instance.CurrentLevelNumber)
             {
                 case 1:
-                    sprite = new Varsprites[6];
-                    sprite[0].actFrame = 0;
-                    sprite[0].axisX = 4;
-                    sprite[0].axisY = 4;
-                    sprite[0].depth = 0.806f;
-                    sprite[0].R = 255;
-                    sprite[0].G = 255;
-                    sprite[0].B = 255;
-                    sprite[0].transparency = 200;
-                    sprite[0].pos = new Vector2(0, 0);
-                    sprite[0].scale = 9f; //1f->normal size -- 0.5f->half size -- etc.
-                    sprite[0].rotation = 0f;
-                    sprite[0].framesecond = 4;
-                    sprite[0].frame = 0;
-                    sprite[0].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("sprite/magma_mask");
-                    sprite[0].minusScrollx = false;
-                    sprite[1].actFrame = 0;
-                    sprite[1].axisX = 8;
-                    sprite[1].axisY = 8;
-                    sprite[1].depth = 0.406f;
-                    sprite[1].R = 255;
-                    sprite[1].G = 255;
-                    sprite[1].B = 255;
-                    sprite[1].transparency = 255;
-                    sprite[1].pos = new Vector2(1188, 337); //340
-                    sprite[1].scale = 0.35f; //1f->normal size -- 0.5f->half size -- etc.
-                    sprite[1].rotation = 0.1f;
-                    sprite[1].framesecond = 0;
-                    sprite[1].frame = 0;
-                    sprite[1].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("sprite/flame");
-                    sprite[1].minusScrollx = true;
-                    sprite[2].actFrame = 0;
-                    sprite[2].axisX = 8;
-                    sprite[2].axisY = 8;
-                    sprite[2].depth = 0.405f;
-                    sprite[2].R = 255;
-                    sprite[2].G = 225;
-                    sprite[2].B = 225;
-                    sprite[2].transparency = 255;
-                    sprite[2].pos = new Vector2(1136, 337);
-                    sprite[2].scale = 0.35f; //1f->normal size -- 0.5f->half size -- etc.
-                    sprite[2].rotation = 0.05f;
-                    sprite[2].framesecond = 0;
-                    sprite[2].frame = 0;
-                    sprite[2].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("sprite/flame");
-                    sprite[2].minusScrollx = true;
-                    sprite[3].actFrame = 0;
-                    sprite[3].axisX = 6;
-                    sprite[3].axisY = 1;
-                    sprite[3].depth = 0.405f;
-                    sprite[3].R = 255;
-                    sprite[3].G = 225;
-                    sprite[3].B = 225;
-                    sprite[3].transparency = 255;
-                    sprite[3].pos = new Vector2(0, 0);
-                    sprite[3].scale = 0.5f; //1f->normal size -- 0.5f->half size -- etc.
-                    sprite[3].rotation = 0f;
-                    sprite[3].framesecond = 1;
-                    sprite[3].frame = 0;
-                    sprite[3].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("touch/arana");
-                    sprite[3].calc = true;
-                    sprite[3].minusScrollx = true;
-                    sprite[3].dest = new Vector2(0, 0);
-                    sprite[3].speed = 0.578f;  // this field is important for move logic of sprites != 0
-                    sprite[3].actVect = 0;
-                    sprite[3].center.X = ((sprite[3].sprite.Width / sprite[3].axisX) / 2);
-                    sprite[3].center.Y = ((sprite[3].sprite.Height / sprite[3].axisY) / 2);
-                    sprite[3].path = new Vector3[7];
-                    sprite[3].path[0] = new Vector3(48, 65, 1.5f);
-                    sprite[3].path[1] = new Vector3(200, 140, 1.7f);
-                    sprite[3].path[2] = new Vector3(238, 139, 1.9f);
-                    sprite[3].path[3] = new Vector3(146, 407, 1.6f);
-                    sprite[3].path[4] = new Vector3(326, 475, 2f);
-                    sprite[3].path[5] = new Vector3(405, 322, 1.2f);
-                    sprite[3].path[6] = new Vector3(470, 211, 1.5f);
-                    sprite[4].actFrame = 0;
-                    sprite[4].axisX = 2;
-                    sprite[4].axisY = 10;
-                    sprite[4].depth = 0.505f;
-                    sprite[4].R = 255;
-                    sprite[4].G = 225;
-                    sprite[4].B = 225;
-                    sprite[4].transparency = 255;
-                    sprite[4].pos = new Vector2(120, -190);
-                    sprite[4].scale = 2f; //1f->normal size -- 0.5f->half size -- etc.
-                    sprite[4].rotation = 1.57f;
-                    sprite[4].framesecond = 2;
-                    sprite[4].frame = 0;
-                    sprite[4].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("touch/fire_sprites_other");
-                    sprite[4].minusScrollx = false;
-                    sprite[4].minus = false;
-                    sprite[5].calc = true;
-                    sprite[5].actFrame = 0;
-                    sprite[5].axisX = 6;
-                    sprite[5].axisY = 1;
-                    sprite[5].depth = 0.405f;
-                    sprite[5].R = 255;
-                    sprite[5].G = 225;
-                    sprite[5].B = 225;
-                    sprite[5].transparency = 255;
-                    sprite[5].pos = new Vector2(0, 0);
-                    sprite[5].scale = 0.3f; //1f->normal size -- 0.5f->half size -- etc.
-                    sprite[5].rotation = 0f;
-                    sprite[5].framesecond = 2;
-                    sprite[5].frame = 0;
-                    sprite[5].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("touch/arana");
-                    sprite[5].minusScrollx = true;
-                    sprite[5].dest = new Vector2(0, 0);
-                    sprite[5].speed = 0.578f;  // this field is important for move logic of sprites != 0
-                    sprite[5].actVect = 0;
-                    sprite[5].center.X = ((sprite[3].sprite.Width / sprite[3].axisX) / 2);
-                    sprite[5].center.Y = ((sprite[3].sprite.Height / sprite[3].axisY) / 2);
-                    sprite[5].path = new Vector3[6];
-                    sprite[5].path[0] = new Vector3(1000, 5, 1.5f);
-                    sprite[5].path[1] = new Vector3(1090, 95, 1.7f);
-                    sprite[5].path[2] = new Vector3(1069, 252, 1.9f);
-                    sprite[5].path[3] = new Vector3(1173, 300, 1.6f);
-                    sprite[5].path[4] = new Vector3(1241, 138, 2f);
-                    sprite[5].path[5] = new Vector3(1300, 5, 1.2f);
+                    Sprite = new Varsprites[6];
+                    Sprite[0].actFrame = 0;
+                    Sprite[0].axisX = 4;
+                    Sprite[0].axisY = 4;
+                    Sprite[0].depth = 0.806f;
+                    Sprite[0].R = 255;
+                    Sprite[0].G = 255;
+                    Sprite[0].B = 255;
+                    Sprite[0].transparency = 200;
+                    Sprite[0].pos = new Vector2(0, 0);
+                    Sprite[0].scale = 9f; //1f->normal size -- 0.5f->half size -- etc.
+                    Sprite[0].rotation = 0f;
+                    Sprite[0].framesecond = 4;
+                    Sprite[0].frame = 0;
+                    Sprite[0].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("sprite/magma_mask");
+                    Sprite[0].minusScrollx = false;
+                    Sprite[1].actFrame = 0;
+                    Sprite[1].axisX = 8;
+                    Sprite[1].axisY = 8;
+                    Sprite[1].depth = 0.406f;
+                    Sprite[1].R = 255;
+                    Sprite[1].G = 255;
+                    Sprite[1].B = 255;
+                    Sprite[1].transparency = 255;
+                    Sprite[1].pos = new Vector2(1188, 337); //340
+                    Sprite[1].scale = 0.35f; //1f->normal size -- 0.5f->half size -- etc.
+                    Sprite[1].rotation = 0.1f;
+                    Sprite[1].framesecond = 0;
+                    Sprite[1].frame = 0;
+                    Sprite[1].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("sprite/flame");
+                    Sprite[1].minusScrollx = true;
+                    Sprite[2].actFrame = 0;
+                    Sprite[2].axisX = 8;
+                    Sprite[2].axisY = 8;
+                    Sprite[2].depth = 0.405f;
+                    Sprite[2].R = 255;
+                    Sprite[2].G = 225;
+                    Sprite[2].B = 225;
+                    Sprite[2].transparency = 255;
+                    Sprite[2].pos = new Vector2(1136, 337);
+                    Sprite[2].scale = 0.35f; //1f->normal size -- 0.5f->half size -- etc.
+                    Sprite[2].rotation = 0.05f;
+                    Sprite[2].framesecond = 0;
+                    Sprite[2].frame = 0;
+                    Sprite[2].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("sprite/flame");
+                    Sprite[2].minusScrollx = true;
+                    Sprite[3].actFrame = 0;
+                    Sprite[3].axisX = 6;
+                    Sprite[3].axisY = 1;
+                    Sprite[3].depth = 0.405f;
+                    Sprite[3].R = 255;
+                    Sprite[3].G = 225;
+                    Sprite[3].B = 225;
+                    Sprite[3].transparency = 255;
+                    Sprite[3].pos = new Vector2(0, 0);
+                    Sprite[3].scale = 0.5f; //1f->normal size -- 0.5f->half size -- etc.
+                    Sprite[3].rotation = 0f;
+                    Sprite[3].framesecond = 1;
+                    Sprite[3].frame = 0;
+                    Sprite[3].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("touch/arana");
+                    Sprite[3].calc = true;
+                    Sprite[3].minusScrollx = true;
+                    Sprite[3].dest = new Vector2(0, 0);
+                    Sprite[3].speed = 0.578f;  // this field is important for move logic of sprites != 0
+                    Sprite[3].actVect = 0;
+                    Sprite[3].center.X = ((Sprite[3].sprite.Width / Sprite[3].axisX) / 2);
+                    Sprite[3].center.Y = ((Sprite[3].sprite.Height / Sprite[3].axisY) / 2);
+                    Sprite[3].path = new Vector3[7];
+                    Sprite[3].path[0] = new Vector3(48, 65, 1.5f);
+                    Sprite[3].path[1] = new Vector3(200, 140, 1.7f);
+                    Sprite[3].path[2] = new Vector3(238, 139, 1.9f);
+                    Sprite[3].path[3] = new Vector3(146, 407, 1.6f);
+                    Sprite[3].path[4] = new Vector3(326, 475, 2f);
+                    Sprite[3].path[5] = new Vector3(405, 322, 1.2f);
+                    Sprite[3].path[6] = new Vector3(470, 211, 1.5f);
+                    Sprite[4].actFrame = 0;
+                    Sprite[4].axisX = 2;
+                    Sprite[4].axisY = 10;
+                    Sprite[4].depth = 0.505f;
+                    Sprite[4].R = 255;
+                    Sprite[4].G = 225;
+                    Sprite[4].B = 225;
+                    Sprite[4].transparency = 255;
+                    Sprite[4].pos = new Vector2(120, -190);
+                    Sprite[4].scale = 2f; //1f->normal size -- 0.5f->half size -- etc.
+                    Sprite[4].rotation = 1.57f;
+                    Sprite[4].framesecond = 2;
+                    Sprite[4].frame = 0;
+                    Sprite[4].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("touch/fire_sprites_other");
+                    Sprite[4].minusScrollx = false;
+                    Sprite[4].minus = false;
+                    Sprite[5].calc = true;
+                    Sprite[5].actFrame = 0;
+                    Sprite[5].axisX = 6;
+                    Sprite[5].axisY = 1;
+                    Sprite[5].depth = 0.405f;
+                    Sprite[5].R = 255;
+                    Sprite[5].G = 225;
+                    Sprite[5].B = 225;
+                    Sprite[5].transparency = 255;
+                    Sprite[5].pos = new Vector2(0, 0);
+                    Sprite[5].scale = 0.3f; //1f->normal size -- 0.5f->half size -- etc.
+                    Sprite[5].rotation = 0f;
+                    Sprite[5].framesecond = 2;
+                    Sprite[5].frame = 0;
+                    Sprite[5].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("touch/arana");
+                    Sprite[5].minusScrollx = true;
+                    Sprite[5].dest = new Vector2(0, 0);
+                    Sprite[5].speed = 0.578f;  // this field is important for move logic of sprites != 0
+                    Sprite[5].actVect = 0;
+                    Sprite[5].center.X = ((Sprite[3].sprite.Width / Sprite[3].axisX) / 2);
+                    Sprite[5].center.Y = ((Sprite[3].sprite.Height / Sprite[3].axisY) / 2);
+                    Sprite[5].path = new Vector3[6];
+                    Sprite[5].path[0] = new Vector3(1000, 5, 1.5f);
+                    Sprite[5].path[1] = new Vector3(1090, 95, 1.7f);
+                    Sprite[5].path[2] = new Vector3(1069, 252, 1.9f);
+                    Sprite[5].path[3] = new Vector3(1173, 300, 1.6f);
+                    Sprite[5].path[4] = new Vector3(1241, 138, 2f);
+                    Sprite[5].path[5] = new Vector3(1300, 5, 1.2f);
 
                     break;
                 case 4:
-                    sprite = new Varsprites[1];
-                    sprite[0].actFrame = 0;
-                    sprite[0].axisX = 4;
-                    sprite[0].axisY = 4;
-                    sprite[0].depth = 0.806f;
-                    sprite[0].R = 255;
-                    sprite[0].G = 255;
-                    sprite[0].B = 255;
-                    sprite[0].transparency = 200;
-                    sprite[0].pos = new Vector2(0, 0);
-                    sprite[0].scale = 9f; //1f->normal size -- 0.5f->half size -- etc.
-                    sprite[0].rotation = 0f;
-                    sprite[0].framesecond = 4;
-                    sprite[0].frame = 0;
-                    sprite[0].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("sprite/magma_mask");
-                    sprite[0].minusScrollx = false;
+                    Sprite = new Varsprites[1];
+                    Sprite[0].actFrame = 0;
+                    Sprite[0].axisX = 4;
+                    Sprite[0].axisY = 4;
+                    Sprite[0].depth = 0.806f;
+                    Sprite[0].R = 255;
+                    Sprite[0].G = 255;
+                    Sprite[0].B = 255;
+                    Sprite[0].transparency = 200;
+                    Sprite[0].pos = new Vector2(0, 0);
+                    Sprite[0].scale = 9f; //1f->normal size -- 0.5f->half size -- etc.
+                    Sprite[0].rotation = 0f;
+                    Sprite[0].framesecond = 4;
+                    Sprite[0].frame = 0;
+                    Sprite[0].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("sprite/magma_mask");
+                    Sprite[0].minusScrollx = false;
                     NumTotTraps = 1;
                     TrapsON = true;
                     trap = new Vartraps[NumTotTraps];
@@ -7030,39 +7030,39 @@ namespace Lemmings.NET.Screens
                     trap[1].depth = 0.600000009f;
                     trap[1].transparency = 255;
                     trap[1].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/dead_bombona");
-                    sprite = new Varsprites[2];
-                    sprite[0].actFrame = 0;
-                    sprite[0].axisX = 1;
-                    sprite[0].axisY = 1;
-                    sprite[0].depth = 0.20888886f;
-                    sprite[0].R = 255;
-                    sprite[0].G = 255;
-                    sprite[0].B = 255;
-                    sprite[0].transparency = 200;
-                    sprite[0].pos = new Vector2(100, 100);
-                    sprite[0].scale = 2f; //1f->normal size -- 0.5f->half size -- etc.
-                    sprite[0].rotation = 0f;
-                    sprite[0].framesecond = 0;
-                    sprite[0].frame = 0;
-                    sprite[0].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("sprite/nube1");
-                    sprite[0].minusScrollx = true;
-                    sprite[0].typescroll = 3f;
-                    sprite[1].actFrame = 0;
-                    sprite[1].axisX = 1;
-                    sprite[1].axisY = 1;
-                    sprite[1].depth = 0.28888805f;
-                    sprite[1].R = 255;
-                    sprite[1].G = 225;
-                    sprite[1].B = 225;
-                    sprite[1].transparency = 200;
-                    sprite[1].pos = new Vector2(300, 300);
-                    sprite[1].scale = 2f; //1f->normal size -- 0.5f->half size -- etc.
-                    sprite[1].rotation = 0f;
-                    sprite[1].framesecond = 0;
-                    sprite[1].frame = 0;
-                    sprite[1].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("sprite/nube2");
-                    sprite[1].minusScrollx = true;
-                    sprite[1].typescroll = 2;
+                    Sprite = new Varsprites[2];
+                    Sprite[0].actFrame = 0;
+                    Sprite[0].axisX = 1;
+                    Sprite[0].axisY = 1;
+                    Sprite[0].depth = 0.20888886f;
+                    Sprite[0].R = 255;
+                    Sprite[0].G = 255;
+                    Sprite[0].B = 255;
+                    Sprite[0].transparency = 200;
+                    Sprite[0].pos = new Vector2(100, 100);
+                    Sprite[0].scale = 2f; //1f->normal size -- 0.5f->half size -- etc.
+                    Sprite[0].rotation = 0f;
+                    Sprite[0].framesecond = 0;
+                    Sprite[0].frame = 0;
+                    Sprite[0].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("sprite/nube1");
+                    Sprite[0].minusScrollx = true;
+                    Sprite[0].typescroll = 3f;
+                    Sprite[1].actFrame = 0;
+                    Sprite[1].axisX = 1;
+                    Sprite[1].axisY = 1;
+                    Sprite[1].depth = 0.28888805f;
+                    Sprite[1].R = 255;
+                    Sprite[1].G = 225;
+                    Sprite[1].B = 225;
+                    Sprite[1].transparency = 200;
+                    Sprite[1].pos = new Vector2(300, 300);
+                    Sprite[1].scale = 2f; //1f->normal size -- 0.5f->half size -- etc.
+                    Sprite[1].rotation = 0f;
+                    Sprite[1].framesecond = 0;
+                    Sprite[1].frame = 0;
+                    Sprite[1].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("sprite/nube2");
+                    Sprite[1].minusScrollx = true;
+                    Sprite[1].typescroll = 2;
                     break;
                 case 160:
                     numTOTdoors = 2; numACTdoor = 0;
@@ -7173,52 +7173,52 @@ namespace Lemmings.NET.Screens
                     trap[1].depth = 0.600000009f;
                     trap[1].transparency = 170;
                     trap[1].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/water_blue");
-                    sprite = new Varsprites[3];
-                    sprite[0].actFrame = 0;
-                    sprite[0].axisX = 1;
-                    sprite[0].axisY = 7;
-                    sprite[0].depth = 0.406f;
-                    sprite[0].R = 255;
-                    sprite[0].G = 255;
-                    sprite[0].B = 255;
-                    sprite[0].transparency = 255;
-                    sprite[0].pos = new Vector2(404, 295); //340
-                    sprite[0].scale = 1f; //1f->normal size -- 0.5f->half size -- etc.
-                    sprite[0].rotation = 0f;
-                    sprite[0].framesecond = 4;
-                    sprite[0].frame = 0;
-                    sprite[0].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("antorcha_l2");
-                    sprite[0].minusScrollx = true;
-                    sprite[1].actFrame = 0;
-                    sprite[1].axisX = 1;
-                    sprite[1].axisY = 7;
-                    sprite[1].depth = 0.406f;
-                    sprite[1].R = 255;
-                    sprite[1].G = 255;
-                    sprite[1].B = 255;
-                    sprite[1].transparency = 255;
-                    sprite[1].pos = new Vector2(1615, 387); //340
-                    sprite[1].scale = 1f; //1f->normal size -- 0.5f->half size -- etc.
-                    sprite[1].rotation = 0f;
-                    sprite[1].framesecond = 2;
-                    sprite[1].frame = 0;
-                    sprite[1].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("antorcha_l2");
-                    sprite[1].minusScrollx = true;
-                    sprite[2].actFrame = 0;
-                    sprite[2].axisX = 1;
-                    sprite[2].axisY = 7;
-                    sprite[2].depth = 0.405f;
-                    sprite[2].R = 255;
-                    sprite[2].G = 225;
-                    sprite[2].B = 225;
-                    sprite[2].transparency = 255;
-                    sprite[2].pos = new Vector2(1095, 92);
-                    sprite[2].scale = 1f; //1f->normal size -- 0.5f->half size -- etc.
-                    sprite[2].rotation = 0f;
-                    sprite[2].framesecond = 6;
-                    sprite[2].frame = 0;
-                    sprite[2].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("antorcha_l2");
-                    sprite[2].minusScrollx = true;
+                    Sprite = new Varsprites[3];
+                    Sprite[0].actFrame = 0;
+                    Sprite[0].axisX = 1;
+                    Sprite[0].axisY = 7;
+                    Sprite[0].depth = 0.406f;
+                    Sprite[0].R = 255;
+                    Sprite[0].G = 255;
+                    Sprite[0].B = 255;
+                    Sprite[0].transparency = 255;
+                    Sprite[0].pos = new Vector2(404, 295); //340
+                    Sprite[0].scale = 1f; //1f->normal size -- 0.5f->half size -- etc.
+                    Sprite[0].rotation = 0f;
+                    Sprite[0].framesecond = 4;
+                    Sprite[0].frame = 0;
+                    Sprite[0].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("antorcha_l2");
+                    Sprite[0].minusScrollx = true;
+                    Sprite[1].actFrame = 0;
+                    Sprite[1].axisX = 1;
+                    Sprite[1].axisY = 7;
+                    Sprite[1].depth = 0.406f;
+                    Sprite[1].R = 255;
+                    Sprite[1].G = 255;
+                    Sprite[1].B = 255;
+                    Sprite[1].transparency = 255;
+                    Sprite[1].pos = new Vector2(1615, 387); //340
+                    Sprite[1].scale = 1f; //1f->normal size -- 0.5f->half size -- etc.
+                    Sprite[1].rotation = 0f;
+                    Sprite[1].framesecond = 2;
+                    Sprite[1].frame = 0;
+                    Sprite[1].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("antorcha_l2");
+                    Sprite[1].minusScrollx = true;
+                    Sprite[2].actFrame = 0;
+                    Sprite[2].axisX = 1;
+                    Sprite[2].axisY = 7;
+                    Sprite[2].depth = 0.405f;
+                    Sprite[2].R = 255;
+                    Sprite[2].G = 225;
+                    Sprite[2].B = 225;
+                    Sprite[2].transparency = 255;
+                    Sprite[2].pos = new Vector2(1095, 92);
+                    Sprite[2].scale = 1f; //1f->normal size -- 0.5f->half size -- etc.
+                    Sprite[2].rotation = 0f;
+                    Sprite[2].framesecond = 6;
+                    Sprite[2].frame = 0;
+                    Sprite[2].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("antorcha_l2");
+                    Sprite[2].minusScrollx = true;
                     SteelON = true; numTOTsteel = 1;
                     steel = new Varsteel[numTOTsteel];
                     steel[0].area = new Rectangle(315, 270, 356 - 315, 320 - 270);
@@ -7477,35 +7477,35 @@ namespace Lemmings.NET.Screens
                     steel[1].area = new Rectangle(2526 + 16, 153 + 16, 2592 - 2526, 402 - 153);
                     break;
                 case 177:
-                    sprite = new Varsprites[1];
-                    sprite[0].calc = true;
-                    sprite[0].actFrame = 0;
-                    sprite[0].axisX = 6;
-                    sprite[0].axisY = 1;
-                    sprite[0].depth = 0.405f;
-                    sprite[0].R = 255;
-                    sprite[0].G = 225;
-                    sprite[0].B = 225;
-                    sprite[0].transparency = 255;
-                    sprite[0].pos = new Vector2(0, 0);
-                    sprite[0].scale = 0.5f; //1f->normal size -- 0.5f->half size -- etc.
-                    sprite[0].rotation = 0f;
-                    sprite[0].framesecond = 2;
-                    sprite[0].frame = 0;
-                    sprite[0].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("touch/arana");
-                    sprite[0].minusScrollx = true;
-                    sprite[0].dest = new Vector2(0, 0);
-                    sprite[0].speed = 0.578f;  // this field is important for move logic of sprites != 0
-                    sprite[0].actVect = 0;
-                    sprite[0].center.X = ((sprite[0].sprite.Width / sprite[0].axisX) / 2);
-                    sprite[0].center.Y = ((sprite[0].sprite.Height / sprite[0].axisY) / 2);
-                    sprite[0].path = new Vector3[6];
-                    sprite[0].path[0] = new Vector3(402 - 20, 109 + 50, 1.5f);
-                    sprite[0].path[1] = new Vector3(424 - 20, 231 + 50, 0.3f);
-                    sprite[0].path[2] = new Vector3(461 - 20, 230 + 50, 1.9f);
-                    sprite[0].path[3] = new Vector3(462 - 20, 164 + 50, 1.6f);
-                    sprite[0].path[4] = new Vector3(525 - 20, 162 + 50, 0.7f);
-                    sprite[0].path[5] = new Vector3(525 - 20, 280 + 50, 1.2f);
+                    Sprite = new Varsprites[1];
+                    Sprite[0].calc = true;
+                    Sprite[0].actFrame = 0;
+                    Sprite[0].axisX = 6;
+                    Sprite[0].axisY = 1;
+                    Sprite[0].depth = 0.405f;
+                    Sprite[0].R = 255;
+                    Sprite[0].G = 225;
+                    Sprite[0].B = 225;
+                    Sprite[0].transparency = 255;
+                    Sprite[0].pos = new Vector2(0, 0);
+                    Sprite[0].scale = 0.5f; //1f->normal size -- 0.5f->half size -- etc.
+                    Sprite[0].rotation = 0f;
+                    Sprite[0].framesecond = 2;
+                    Sprite[0].frame = 0;
+                    Sprite[0].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("touch/arana");
+                    Sprite[0].minusScrollx = true;
+                    Sprite[0].dest = new Vector2(0, 0);
+                    Sprite[0].speed = 0.578f;  // this field is important for move logic of sprites != 0
+                    Sprite[0].actVect = 0;
+                    Sprite[0].center.X = ((Sprite[0].sprite.Width / Sprite[0].axisX) / 2);
+                    Sprite[0].center.Y = ((Sprite[0].sprite.Height / Sprite[0].axisY) / 2);
+                    Sprite[0].path = new Vector3[6];
+                    Sprite[0].path[0] = new Vector3(402 - 20, 109 + 50, 1.5f);
+                    Sprite[0].path[1] = new Vector3(424 - 20, 231 + 50, 0.3f);
+                    Sprite[0].path[2] = new Vector3(461 - 20, 230 + 50, 1.9f);
+                    Sprite[0].path[3] = new Vector3(462 - 20, 164 + 50, 1.6f);
+                    Sprite[0].path[4] = new Vector3(525 - 20, 162 + 50, 0.7f);
+                    Sprite[0].path[5] = new Vector3(525 - 20, 280 + 50, 1.2f);
                     break;
                 case 179:
                     numTOTdoors = 3; numACTdoor = 0;
@@ -7633,8 +7633,8 @@ namespace Lemmings.NET.Screens
             {
                 if (!lemming[i].Dead)
                 {
-                    lemxscale = (lemming[i].PosX + 12) * xscale;
-                    lemyscale = (lemming[i].PosY + 20) * yscale;
+                    float lemxscale = (lemming[i].PosX + 12) * xscale;
+                    float lemyscale = (lemming[i].PosY + 20) * yscale;
                     vectorFill.X = posm + lemxscale;
                     vectorFill.Y = 572 + lemyscale;
                     vectorFill2.X = posm + lemxscale + 2;

@@ -14,7 +14,6 @@ namespace Lemmings.NET.Screens
     internal class MainMenu
     {
         private Rectangle rectangleFill, rectangleFill2;
-        private Vector2 vectorFill, vectorFill2;
         private Color colorFill;
         private ELevelCategory _levelCategory;
         private int loopcolor = 0, dibujaloop = 1;
@@ -25,7 +24,6 @@ namespace Lemmings.NET.Screens
         private int framblink1 = 0, framblink2 = 0, framblink3 = 0, mmstartx, mmstarty, mmX;
         public bool Updown { get; set; } = true;
         private int levelACT;
-        private Texture2D foregroundTexture;
 
         internal MainMenu()
         {
@@ -66,7 +64,7 @@ namespace Lemmings.NET.Screens
             }
             LemmingsNetGame.Instance.Vfx.Efecto.Parameters["rainbow"].SetValue(_mainMenuGfx.RainbowPic); //rainbowpic
             LemmingsNetGame.Instance.Vfx.Efecto.CurrentTechnique.Passes[0].Apply();
-            spriteBatch.Draw(LemmingsNetGame.Instance.text, new Vector2(0, 0), Color.White);
+            spriteBatch.Draw(LemmingsNetGame.Instance.Gfx.Text, new Vector2(0, 0), Color.White);
             spriteBatch.End();
 
             // light NMAP effect over lemmings logo with mouse pos into other rendertarget
@@ -79,7 +77,7 @@ namespace Lemmings.NET.Screens
             spriteBatch.Begin();
             spriteBatch.Draw(LemmingsNetGame.Instance.Gfx.CrateNormals, cratePosition, Color.White);
             spriteBatch.End();
-            graphics.SetRenderTarget(LemmingsNetGame.Instance.renderTarget);
+            graphics.SetRenderTarget(LemmingsNetGame.Instance.MainRenderTarget);
 
             //normal target
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.AnisotropicWrap, null, null);
@@ -170,7 +168,7 @@ namespace Lemmings.NET.Screens
                         Updown = true;
                 }
             }
-            foregroundTexture = new Texture2D(LemmingsNetGame.Instance.GraphicsDevice, width, 512, false, SurfaceFormat.Color);
+            Texture2D foregroundTexture = new(LemmingsNetGame.Instance.GraphicsDevice, width, 512, false, SurfaceFormat.Color);
             foregroundTexture.SetData(foregroundColors);
             rectangleFill.X = 0;
             rectangleFill.Y = 0;
@@ -191,15 +189,15 @@ namespace Lemmings.NET.Screens
             rectangleFill2.Height = MyGame.GameResolution.Y;
             colorFill.A = 80;
             spriteBatch.Draw(foregroundTexture, rectangleFill, rectangleFill2, colorFill); // second wave position depth by order of draw
-            if (LemmingsNetGame.Instance.particle != null)
+            if (LemmingsNetGame.Instance.ParticleTab != null)
             {
                 rectangleFill.X = 0;
                 rectangleFill.Y = 0;
                 rectangleFill.Width = 10;
                 rectangleFill.Height = 10;
-                for (int varParticle = 0; varParticle < MyGame.numParticles; varParticle++)
+                for (int varParticle = 0; varParticle < MyGame.NumParticles; varParticle++)
                 {
-                    spriteBatch.Draw(LemmingsNetGame.Instance.particle[varParticle].Sprite, LemmingsNetGame.Instance.particle[varParticle].Pos, rectangleFill, Color.Magenta, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0.90001f);
+                    spriteBatch.Draw(LemmingsNetGame.Instance.ParticleTab[varParticle].Sprite, LemmingsNetGame.Instance.ParticleTab[varParticle].Pos, rectangleFill, Color.Magenta, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0.90001f);
                 }
             }
             if (_levelCategory == ELevelCategory.Fun)

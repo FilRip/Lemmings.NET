@@ -8,11 +8,19 @@ namespace Lemmings.NET.Screens
 {
     internal class DebugOsd
     {
-        private float _elapsed_time = 0.0f;
+        private float _elapsed_time;
         private string strPositionMouse;
-        public bool debug = false; // ACTIVE DEBUG MODE //be careful with spritebacht begin---end debug mode fails
-        private int _fps = 0;
-        private int frameCounter = 0;
+        public bool debug; // ACTIVE DEBUG MODE //be careful with spritebacht begin---end debug mode fails
+        private int _fps;
+        private int frameCounter;
+
+        internal void Init()
+        {
+            _elapsed_time = 0.0f;
+            debug = false;
+            _fps = 0;
+            frameCounter = 0;
+        }
 
         internal void Update(GameTime gameTime)
         {

@@ -4,6 +4,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
+using static System.Net.Mime.MediaTypeNames;
+
 namespace Lemmings.NET.Datatables
 {
     internal class Gfx
@@ -17,6 +19,7 @@ namespace Lemmings.NET.Datatables
         internal Texture2D Squemado { get; private set; }
         internal Texture2D Puente_nomas { get; private set; }
         internal Texture2D CrateNormals { get; private set; }
+        internal Texture2D Text { get; private set; }
 
         internal void Load(GraphicsDevice GraphicsDevice, ContentManager content)
         {
@@ -30,6 +33,7 @@ namespace Lemmings.NET.Datatables
             Squemado = content.Load<Texture2D>("quemado");
             Puente_nomas = content.Load<Texture2D>("puente_nomas");
             CrateNormals = content.Load<Texture2D>("craten");
+            Text = content.Load<Texture2D>("crate");
         }
 
         internal void DrawLine(SpriteBatch sb, Vector2 start, Vector2 end, Color pintado, Int32 grosor, float layer)

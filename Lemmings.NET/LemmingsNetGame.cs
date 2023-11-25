@@ -18,7 +18,7 @@ namespace Lemmings.NET
     {
         #region Fields
         private Color letterboxingColor = new(0, 0, 0);
-        public RenderTarget2D renderTarget;
+        public RenderTarget2D MainRenderTarget { get; private set; }
         private Rectangle renderTargetDestination;
         public bool Scaled { get; set; }
         public static LemmingsNetGame Instance { get; private set; }
@@ -95,32 +95,16 @@ namespace Lemmings.NET
             CurrentScreen = ECurrentScreen.MainMenu;
         }
 
-        public Texture2D text;
         public bool MustReadFile { get; set; } = true;
         public bool LevelEnded { get; set; } = false;
-        public bool ExitLevel { get; set; } = false;
-        public bool ExitBad { get; set; } = false;
-        // Paused Lemmings update vars,time counter,door open,bombers countdown,traps
-        // 38 * 53 size of mask exploder BE CAREFUL WITH NEW() FOR MASK SYSTEM-OUT OF MEMORY CRASHES
-        // this three color mask are for the arrows for now 500*512 size is enough
-        ///////////////////////////////////////////////////////////////////////////////////////////////////////////explosions particles data and definitions
-        public bool Exploding { get; set; } = false; //always start as false - true is when are exploding or active
+
         internal Particle[,] Explosion { get; set; } = new Particle[MyGame.totalExplosions, 24];
-        private int xExp, yExp;
-        public Structs.Particles[] particle;
+        public Structs.Particles[] ParticleTab { get; set; }
         private float rparticle1;
         private bool rightparticle;
-        GraphicsDeviceManager _graphics;
+        private readonly GraphicsDeviceManager _graphics;
         SpriteBatch _spriteBatch;
         //vita touch textures
-
-        Vector2 direction_sprite;
-        int[] terrainContour;
-        int ssi, px, py, ancho, amount, positioYOrig, y55, x55, startposy, framepos, yypos99, cantidad99, yy99, xx99;
-        int xz, yypos888, yy88, xx88, y4, x4, posy456, posx456, arriba, b, ti, pixx;
-        int pos_real, wer3, width2, top2, yypos555, yy33, xx33, valX, valY, y, ykk, xkk, abajo2, pixx2, pos_real2, py2, px2, valorx, valory;
-        public int varParticle, tYheight, vv444, spY, xx55, yy55, swidth, sheight, sx1, sy1, xxAnim, w, h, x2, yy66, ex22;
-        int rest2, width, xwe, xqw, mmx, mmy, mmKX, mmKY, mmKplusY, mmKindX, mmKindY, mmPlusy;
 
         public LemmingsNetGame()
         {
@@ -220,6 +204,7 @@ namespace Lemmings.NET
             if (_debugOsd == null)
             {
                 _debugOsd = new DebugOsd();
+                _debugOsd.Init();
             }
             if (_inGameMenuGfx == null)
             {
@@ -232,11 +217,10 @@ namespace Lemmings.NET
                 _vfx.Load(Content);
             }
             Mouse.SetPosition(0, 0);
-            renderTarget = new RenderTarget2D(GraphicsDevice, MyGame.GameResolution.X, MyGame.GameResolution.Y);
+            MainRenderTarget = new RenderTarget2D(GraphicsDevice, MyGame.GameResolution.X, MyGame.GameResolution.Y);
             renderTargetDestination = GetRenderTargetDestination(MyGame.GameResolution, _graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight);
 
             //background_02  logo  llama  fondos/nubes  crateN
-            text = Content.Load<Texture2D>("crate");
             //Crate = Content.Load<Texture2D>("crate");
             _screenMainMenu.LoadGfx();
 
@@ -354,8 +338,8 @@ namespace Lemmings.NET
             // particle test test test right button mouse
             if ((Input.PreviousMouseState.RightButton == ButtonState.Released && Input.CurrentMouseState.RightButton == ButtonState.Pressed) && !LevelEnded)
             {
-                if (particle != null)
-                    particle = null;
+                if (ParticleTab != null)
+                    ParticleTab = null;
                 else
                 {
                     rightparticle = false;
@@ -364,35 +348,35 @@ namespace Lemmings.NET
                         rightparticle = false;
                     else
                         rightparticle = true;
-                    particle = new Structs.Particles[MyGame.numParticles];
-                    for (varParticle = 0; varParticle < MyGame.numParticles; varParticle++)
+                    ParticleTab = new Structs.Particles[MyGame.NumParticles];
+                    for (int varParticle = 0; varParticle < MyGame.NumParticles; varParticle++)
                     {
                         vectorFill.X = MyGame.Rnd.Next(20, 1080);
                         vectorFill.Y = MyGame.Rnd.Next(5, 650) - 660;
-                        particle[varParticle].Pos = vectorFill;
+                        ParticleTab[varParticle].Pos = vectorFill;
                         vectorFill.X = 1;
                         vectorFill.Y = 2;
-                        particle[varParticle].Direction = vectorFill;
-                        particle[varParticle].Sprite = Content.Load<Texture2D>("sprite/particle");
+                        ParticleTab[varParticle].Direction = vectorFill;
+                        ParticleTab[varParticle].Sprite = Content.Load<Texture2D>("sprite/particle");
                         rparticle1 = (float)MyGame.Rnd.NextDouble() * 3;
-                        particle[varParticle].DirectionTime = rparticle1;
+                        ParticleTab[varParticle].DirectionTime = rparticle1;
                     }
                 }
 
             }
-            if (particle != null)
+            if (ParticleTab != null)
             {
-                for (varParticle = 0; varParticle < MyGame.numParticles; varParticle++)
+                for (int varParticle = 0; varParticle < MyGame.NumParticles; varParticle++)
                 {
-                    particle[varParticle].DirectionTime -= (float)gameTime.ElapsedGameTime.TotalSeconds;
-                    particle[varParticle].Lifetime += (float)gameTime.ElapsedGameTime.TotalSeconds;
-                    particle[varParticle].Pos += particle[0].Direction;
+                    ParticleTab[varParticle].DirectionTime -= (float)gameTime.ElapsedGameTime.TotalSeconds;
+                    ParticleTab[varParticle].Lifetime += (float)gameTime.ElapsedGameTime.TotalSeconds;
+                    ParticleTab[varParticle].Pos += ParticleTab[0].Direction;
                     if (rightparticle)
-                        particle[varParticle].SetPosX(particle[varParticle].DirectionTime);
+                        ParticleTab[varParticle].SetPosX(ParticleTab[varParticle].DirectionTime);
                     else
-                        particle[varParticle].SetPosX(particle[varParticle].Pos.X - particle[varParticle].DirectionTime);
-                    particle[varParticle].SetPosY(particle[varParticle].Pos.Y - (float)MyGame.Rnd.NextDouble());
-                    if (particle[varParticle].DirectionTime < 0)
+                        ParticleTab[varParticle].SetPosX(ParticleTab[varParticle].Pos.X - ParticleTab[varParticle].DirectionTime);
+                    ParticleTab[varParticle].SetPosY(ParticleTab[varParticle].Pos.Y - (float)MyGame.Rnd.NextDouble());
+                    if (ParticleTab[varParticle].DirectionTime < 0)
                     {
                         rightparticle = false;
                         rparticle1 = MyGame.Rnd.Next(0, 1);
@@ -401,10 +385,10 @@ namespace Lemmings.NET
                         else
                             rightparticle = true;
                         rparticle1 = (float)MyGame.Rnd.NextDouble() * 3;
-                        particle[varParticle].DirectionTime = rparticle1;
+                        ParticleTab[varParticle].DirectionTime = rparticle1;
                     }
-                    if (particle[varParticle].Pos.Y > MyGame.GameResolution.Y)
-                        particle[varParticle].SetPosY(0);
+                    if (ParticleTab[varParticle].Pos.Y > MyGame.GameResolution.Y)
+                        ParticleTab[varParticle].SetPosY(0);
                 }
 
             }
@@ -441,7 +425,7 @@ namespace Lemmings.NET
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.SetRenderTarget(renderTarget);
+            GraphicsDevice.SetRenderTarget(MainRenderTarget);
             GraphicsDevice.Clear(letterboxingColor);
 
             if (CurrentScreen == ECurrentScreen.InGame)
@@ -461,7 +445,7 @@ namespace Lemmings.NET
             GraphicsDevice.Clear(letterboxingColor);
 
             _spriteBatch.Begin();
-            _spriteBatch.Draw(renderTarget, renderTargetDestination, Color.White);
+            _spriteBatch.Draw(MainRenderTarget, renderTargetDestination, Color.White);
             _spriteBatch.End();
 
             base.Draw(gameTime);
