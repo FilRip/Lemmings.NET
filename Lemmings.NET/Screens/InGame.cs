@@ -15,57 +15,58 @@ namespace Lemmings.NET.Screens
 {
     internal class InGame
     {
-        double actWaves444 = 0, actWaves333 = 0, actWaves = 0;
+        private double actWaves444 = 0, actWaves333 = 0, actWaves = 0;
         private bool Exploding, dibuja3, Paused, LevelEnded, ExitBad, ExitLevel;
-        public int _numSaved, actItem, Iexplo, cantidad22, ancho66, alto66;
-        public int _totalExploding, numLemmings = 0, medx, medy, sx, sy, rest = 0, numTOTdoors = 1, numACTdoor = 0, numTOTexits = 1, framesale,
-             numTOTsteel = 0, percent = 0, numTOTadds = 0, numTOTplats = 0, ancho, amount, Contador2, Contador = 1, maxluz, maxluz2, actLEM2;
-        float Contadortime2, Contadortime;
+        private int numSaved, actItem, Iexplo, cantidad22;
+        public int numTOTsteel = 0;
+        private int numLemmings = 0, sx, rest = 0, numTOTdoors = 1, numACTdoor = 0, numTOTexits = 1, framesale, numTOTplats = 0, Contador2, Contador = 1, actLEM2;
+        private float Contadortime2, Contadortime;
         public int ScrollX { get; set; }
         public int ScrollY { get; set; }
         private bool mouseOnLem = false;
-        public bool doorOn = true;
+        private bool doorOn = true;
         private Lem[] lemming;
         private Rectangle bloqueo;
         private double frameWaves = 0;
         private int walker_frame = 0;
         private int builder_frame = 0;
         private readonly int builder_frame_second = 1;
-        public int Frame2 = 0, Frame3 = 0;
+        public int Frame2 = 0;
+        private int Frame3 = 0;
         private readonly int Framesecond = 6;
         private readonly int Framesecond2 = 2;
         private readonly int Framesecond3 = 1;  // frame speed less all go crazy 6->ok framesecond=6 default framesecond2=3 default
-        public Varsprites[] Sprite { get; set; }
+        private Varsprites[] Sprite { get; set; }
         private int _nbClimberRemaining = 99, _nbFloaterRemaining = 88, _nbExploderRemaining = 77, _nbBlockerRemaining = 66, _nbBuilderRemaining = 55, _nbBasherRemaining = 44, _nbMinerRemaining = 33, _nbDiggerRemaining = 99;
         private ECurrentSkill _currentSelectedSkill;
         private bool _decreaseOn, _increaseOn;
         private bool _allBlow = false;
         private int door1X, door1Y, actLEM;
         private int output1X, output1Y, ex11;
-        public int frameDoor = 0, frameExit = 0; // 0--10   0--6
+        private int frameDoor, frameExit; // 0--10   0--6
         private int exitFrame = 999, frequencyNumber = 50, numerominfrecuencia = 50, actualBlow; // frecuency lemmings go in
         private Rectangle exit_rect; // rectangle exit
         private Point x;
-        internal double millisecondsElapsed;
-        internal Texture2D earth;
-        public Color[] C25 { get; set; } = new Color[4096 * 4096]; // Maximun size of a color array used for mask all the level
-        public string LemSkill { get; set; } = "";
-        public Vartraps[] trap;
-        Varplat[] plats;
-        Varadds[] adds;
+        private double millisecondsElapsed;
+        private Texture2D earth;
+        private Color[] C25 { get; set; } = new Color[4096 * 4096]; // Maximun size of a color array used for mask all the level
+        private string LemSkill = "";
+        private Vartraps[] trap;
+        private Varplat[] plats;
+        private Varadds[] adds;
         private bool initON = false;
-        public bool SteelON = false, TrapsON = false, PlatsON = false, ArrowsON = false, AddsON = false;
+        public bool SteelON = false;
+        private bool TrapsON = false, PlatsON = false, ArrowsON = false, AddsON = false;
         private readonly int maxnumberfalling = 210;
         private readonly int useumbrella = 100;
         private int NumTotTraps = 0;
         private int NumTotArrow = 0;
         private int framereal565;
-
-        public float DoorExitDepth { get; set; } = 0.403f;  // default value--bigger than 0.5f is behind the terrain (0.6f level 58 for example)
+        private float DoorExitDepth = 0.403f;  // default value--bigger than 0.5f is behind the terrain (0.6f level 58 for example)
         private readonly int posm = 742;
         private readonly int posy = 572;
         private double clickTimer1 = 0;
-        float mmscale, mmscale2, xscale, yscale, mmscaley, mmscaley2;
+        private float mmscale, mmscale2, xscale, yscale, mmscaley, mmscaley2;
         private int framecae = 0; // 0--3
         private int framecava = 0; //0--15
         private int frameescala = 0; //0--7
@@ -79,11 +80,11 @@ namespace Lemmings.NET.Screens
         private bool op1 = false, op2 = false, op13 = false;
         internal int r1 = 0, r2 = 0, r3 = 0;
         private float cosa = 0f;
-        int zvTime = 0, zv = 0;
-        const int rry = 581;
-        const int rrx = 20;
-        const int rhy = 51;
-        const int rhx = 50;
+        private int zvTime = 0, zv = 0;
+        private const int rry = 581;
+        private const int rrx = 20;
+        private const int rhy = 51;
+        private const int rhx = 50;
         private Rectangle rectop1 = new(rrx, rry, rhx, rhy);
         private Rectangle rectop2 = new(rrx + 55, rry, rhx, rhy);
         private Rectangle rectop3 = new(rrx + 2 * 55, rry, rhx, rhy);
@@ -103,52 +104,48 @@ namespace Lemmings.NET.Screens
         private Color colorFill;
         private bool _alreadyPlayed;
         private bool _endSongPlayed;
-        public double GRAVITY { get; set; } = 0.1; //0.1
-        public int Lemsneeded { get; set; } = 1;
-        public bool fade = true;
-        Vararrows[] arrow;
+        private readonly double GRAVITY = 0.1; //0.1
+        private int Lemsneeded = 1;
+        private bool fade = true;
+        private Vararrows[] arrow;
         public Varsteel[] steel;
-        Varmoredoors[] moreDoors;
-        Varmoreexits[] moreexits;
-        public int numlemnow = 0, crono;
+        private Varmoredoors[] moreDoors;
+        private Varmoreexits[] moreexits;
+        private int numlemnow = 0;
         private int z1 = 0;
         private int z2 = 0;
         private int z3 = 0;
-        public bool dibuja = true, luzmas = true, luzmas2 = true, draw2 = true, draw_walker = false, draw_builder = false;
+        public bool dibuja = true;
+        private bool luzmas = true, luzmas2 = true, draw2 = true, draw_walker = false, draw_builder = false;
         public bool blink1on = false, blink2on = false, blink3on = false;
         private double totalTime;
-        public int Frame = 0, alto, _below;
-        public int TopY { get; set; }
-        public int NumberAlive { get; set; }
-        public int LifeCount { get; set; }
-        Point poslem;
+        private int alto, _below;
+        public int Frame;
+        private Point poslem;
         private Color backmenu = Color.MediumSlateBlue;
         private Color sombramenu = Color.SlateGray;
         private readonly int posymenu = 575;
-        Rectangle arrowLem;
-        public int PARTICLE_NUM { get; set; } = 24; //24
-        public int LIFE_COUNTER { get; set; } = 74; //64 original value
-        public int LIFE_VARIANCE { get; set; } = 16; //16
-        public int Numlems { get; set; } = 1;
-        public Color[] Colormask22 { get; set; } = new Color[500 * 512];
-        public float Lem_depth { get; set; } = 0.300f;
-        private SoundEffect strap;
-        private SoundEffectInstance strapInstance;
-        public Color[] Colorsobre22 { get; set; } = new Color[500 * 512];
-        public Color[] Colormasktotal { get; set; } = new Color[500 * 512];
-        public Color[] Colormask2 { get; set; } = new Color[20 * 20];  // miner mask 20*20 && basher too 20*20
-        public Color[] Colorsobre2 { get; set; } = new Color[20 * 20];
-        public Texture2D mascarapared;
-        public int Frente { get; set; } = 0;
-        public int Frente2 { get; set; } = 0;
+        private Rectangle arrowLem;
+        private readonly int PARTICLE_NUM = 24; //24
+        private readonly int LIFE_COUNTER = 74; //64 original value
+        private readonly int LIFE_VARIANCE = 16; //16
+        private int Numlems = 1;
+        private readonly Color[] Colormask22 = new Color[500 * 512];
+        private readonly float Lem_depth = 0.300f;
+        private readonly Color[] Colorsobre22 = new Color[500 * 512];
+        private readonly Color[] Colormasktotal = new Color[500 * 512];
+        private readonly Color[] Colormask2 = new Color[20 * 20];  // miner mask 20*20 && basher too 20*20
+        private readonly Color[] Colorsobre2 = new Color[20 * 20];
+        private int Frente = 0;
+        private int Frente2 = 0;
         private bool doorWaveOn = false;
         private int frameact;
-        public Texture2D myTexture;
-        internal bool LockMouse { get; set; }
-        public float SizeL { get; set; } = 1.35f; //1.2f was default in the beggining
+        internal Texture2D MyTexture { get; set; }
+        private readonly bool LockMouse;
+        private readonly float SizeL = 1.35f; //1.2f was default in the beggining
         private Texture2D salida_ani1, salida_ani1_1, sale;
-        public Color[] Colormask33 { get; set; } = new Color[38 * 53]; // explode mask 38*53
-        public Color[] Colorsobre33 { get; set; } = new Color[38 * 53];
+        private readonly Color[] Colormask33 = new Color[38 * 53]; // explode mask 38*53
+        private readonly Color[] Colorsobre33 = new Color[38 * 53];
         private Texture2D puerta_ani;
 
         internal SoundEffectInstance CurrentMusic { get; set; }
@@ -172,6 +169,15 @@ namespace Lemmings.NET.Screens
                 LemmingsNetGame.Instance.Music.WinMusic.Stop();
             if (LemmingsNetGame.Instance.Music.MenuMusic.State == SoundState.Playing)
                 LemmingsNetGame.Instance.Music.MenuMusic.Stop();
+            numlemnow = 0;
+            numSaved = 0;
+            frameDoor = 0;
+            frameExit = 0;
+            Frame3 = 0;
+            fade = true;
+            doorOn = true;
+            millisecondsElapsed = 0;
+            numLemmings = 0;
             puerta_ani = content.Load<Texture2D>("puerta" + string.Format("{0}", AllLevel[LemmingsNetGame.Instance.CurrentLevelNumber].TypeOfDoor)); // type of door puerta1-2-3-4 etc.
             string xx455 = string.Format("{0}", AllLevel[LemmingsNetGame.Instance.CurrentLevelNumber].TypeOfExit);
             salida_ani1 = content.Load<Texture2D>("salida" + xx455);
@@ -193,7 +199,6 @@ namespace Lemmings.NET.Screens
             numTOTexits = 1;
             numTOTdoors = 1;
             NumTotTraps = 0;
-            numTOTadds = 0;
             NumTotArrow = 0;
             doorWaveOn = false;
             initON = false;
@@ -428,8 +433,6 @@ namespace Lemmings.NET.Screens
                         if (plats[i].actStep < 1)
                             plats[i].up = true;
                         int px = plats[i].areaDraw.X - (plats[i].areaDraw.Width / 2);
-                        ancho = plats[i].areaDraw.Width;
-                        amount = ancho * 1; // *height
                         alto = plats[i].step * plats[i].numSteps;
                         int positioYOrig = plats[i].areaDraw.Y + (plats[i].actStep * plats[i].step);
                         bool realLine = false;
@@ -461,8 +464,8 @@ namespace Lemmings.NET.Screens
             {
                 int startposy = adds[0].sprite.Height / adds[0].numFrames; // height of each frame inside the whole sprite
                 int framepos = startposy * adds[0].actFrame; // actual y position of the frame
-                ancho = adds[0].sprite.Width;
-                amount = ancho * startposy; // height frame
+                int ancho = adds[0].sprite.Width;
+                int amount = ancho * startposy; // height frame
                 rectangleFill.X = 0;
                 rectangleFill.Y = framepos;
                 rectangleFill.Width = ancho;
@@ -528,8 +531,8 @@ namespace Lemmings.NET.Screens
                 Contadortime = 0;
                 totalTime = 0;
             }
-            maxluz = 14; // numero de ciclos de variar el rectangle del EFECTO DE LUCES 50 normalmente
-            maxluz2 = 200;
+            int maxluz = 14; // numero de ciclos de variar el rectangle del EFECTO DE LUCES 50 normalmente
+            int maxluz2 = 200;
             if (luzmas2)
             {
                 Contador2++;
@@ -585,7 +588,7 @@ namespace Lemmings.NET.Screens
             if (!Paused)
                 Door();
             Menu_logic();
-            myTexture = LemmingsNetGame.Instance.Content.Load<Texture2D>("luces/" + Contador);// okokokokokokokok
+            MyTexture = LemmingsNetGame.Instance.Content.Load<Texture2D>("luces/" + Contador);// okokokokokokokok
 
             if (dibuja && NumTotArrow > 0) // dibuja or dibuja2 test performance-- this is the worst part of the code NEED OPTIMIZATION
             {
@@ -596,8 +599,8 @@ namespace Lemmings.NET.Screens
                     //////// optimized for hd3000 laptop ARROWS OPTIMIZED
                     int py = arrow[xz].area.Y;
                     int px = arrow[xz].area.X;
-                    alto66 = arrow[xz].area.Height;
-                    ancho66 = arrow[xz].area.Width;
+                    int alto66 = arrow[xz].area.Height;
+                    int ancho66 = arrow[xz].area.Width;
                     cantidad22 = 0;
                     for (int yy88 = 0; yy88 < alto66; yy88++)
                     {
@@ -675,8 +678,8 @@ namespace Lemmings.NET.Screens
                 if (lemming[actLEM].Dead)
                     continue;
                 // LOGIC BLOCKER BLOCKER BLOQUEO LOGIC bbbbbbbbbbbbbbbbbbbbllllllllloooooooccccccccccckkkkkkkkkkkeeeeeeeeeeeeedddddddddddddddddd
-                medx = 14;
-                medy = 14;
+                int medx = 14;
+                int medy = 14;
                 for (int b = 0; b < numLemmings; b++)
                 {
                     if (lemming[b].Blocker && b != actLEM)
@@ -774,40 +777,32 @@ namespace Lemmings.NET.Screens
                                     LemmingsNetGame.Instance.Sfx.StrapTenton.Play();
                                     break;
                                 case "traps/dead_trampa":
-                                    strap = LemmingsNetGame.Instance.Content.Load<SoundEffect>("soundfx/mantrap");
-                                    strapInstance = strap.CreateInstance();
-                                    if (strapInstance.State == SoundState.Playing)
+                                    if (LemmingsNetGame.Instance.Sfx.StrapMan.State == SoundState.Playing)
                                     {
-                                        strapInstance.Stop();
+                                        LemmingsNetGame.Instance.Sfx.StrapMan.Stop();
                                     }
-                                    strapInstance.Play();
+                                    LemmingsNetGame.Instance.Sfx.StrapMan.Play();
                                     break;
                                 case "traps/dead_soga":
-                                    strap = LemmingsNetGame.Instance.Content.Load<SoundEffect>("soundfx/chain");
-                                    strapInstance = strap.CreateInstance();
-                                    if (strapInstance.State == SoundState.Playing)
+                                    if (LemmingsNetGame.Instance.Sfx.StrapChain.State == SoundState.Playing)
                                     {
-                                        strapInstance.Stop();
+                                        LemmingsNetGame.Instance.Sfx.StrapChain.Stop();
                                     }
-                                    strapInstance.Play();
+                                    LemmingsNetGame.Instance.Sfx.StrapChain.Play();
                                     break;
                                 case "traps/dead_bombona":
-                                    strap = LemmingsNetGame.Instance.Content.Load<SoundEffect>("soundfx/chupar");
-                                    strapInstance = strap.CreateInstance();
-                                    if (strapInstance.State == SoundState.Playing)
+                                    if (LemmingsNetGame.Instance.Sfx.StrapChupar.State == SoundState.Playing)
                                     {
-                                        strapInstance.Stop();
+                                        LemmingsNetGame.Instance.Sfx.StrapChupar.Stop();
                                     }
-                                    strapInstance.Play();
+                                    LemmingsNetGame.Instance.Sfx.StrapChupar.Play();
                                     break;
                                 case "traps/dead_10":
-                                    strap = LemmingsNetGame.Instance.Content.Load<SoundEffect>("soundfx/10tones");
-                                    strapInstance = strap.CreateInstance();
-                                    if (strapInstance.State == SoundState.Playing)
+                                    if (LemmingsNetGame.Instance.Sfx.StrapTenTonnes.State == SoundState.Playing)
                                     {
-                                        strapInstance.Stop();
+                                        LemmingsNetGame.Instance.Sfx.StrapTenTonnes.Stop();
                                     }
-                                    strapInstance.Play();
+                                    LemmingsNetGame.Instance.Sfx.StrapTenTonnes.Play();
                                     break;
                                 default:
                                     if (LemmingsNetGame.Instance.Sfx.Die.State == SoundState.Playing)
@@ -1178,14 +1173,13 @@ namespace Lemmings.NET.Screens
                         lemming[actLEM].Explode = false;
                         lemming[actLEM].Exploser = false;
                         numlemnow--;
-                        _numSaved++;  // here is where the lemming go inside after door animation
+                        numSaved++;  // here is where the lemming go inside after door animation
                     }
                     continue;
                 }
                 int arriba = 0;
                 _below = 0;
                 int pixx = lemming[actLEM].PosX + medx;
-                ancho = earth.Width;
                 for (int x55 = 0; x55 <= 8; x55++)
                 {
                     int pos_real = lemming[actLEM].PosY + x55 + medy + medy;  ///////////// pixel por debajo -> beneath.............
@@ -1375,10 +1369,9 @@ namespace Lemmings.NET.Screens
                         {
                             top2 = earth.Height - py;
                         }
-                        amount = width2 * top2;
-                        mascarapared.GetData(Colormask2);
+                        LemmingsNetGame.Instance.Gfx.Mascarapared.GetData(Colormask2);
                         //////// optimized for hd3000 laptop ARROWS OPTIMIZED
-                        amount = 0;
+                        int amount = 0;
                         for (int yy88 = 0; yy88 < top2; yy88++)
                         {
                             int yypos888 = (yy88 + py) * earth.Width;
@@ -1393,7 +1386,7 @@ namespace Lemmings.NET.Screens
                             if (SteelON)
                             {
                                 sx = r % width2;
-                                sy = r / width2;
+                                int sy = r / width2;
                                 x.X = px + sx;
                                 x.Y = py + sy;
                                 for (int xz = 0; xz < numTOTsteel; xz++)
@@ -1477,10 +1470,9 @@ namespace Lemmings.NET.Screens
                         {
                             top2 = earth.Height - py;
                         }
-                        amount = width2 * top2;
-                        mascarapared.GetData(Colormask2);
+                        LemmingsNetGame.Instance.Gfx.Mascarapared.GetData(Colormask2);
                         //////// optimized for hd3000 laptop ARROWS OPTIMIZED
-                        amount = 0;
+                        int amount = 0;
                         for (int yy88 = 0; yy88 < top2; yy88++)
                         {
                             int yypos888 = (yy88 + py) * earth.Width;
@@ -1495,7 +1487,7 @@ namespace Lemmings.NET.Screens
                             if (SteelON)
                             {
                                 sx = r % width2;
-                                sy = r / width2;
+                                int sy = r / width2;
                                 x.X = px + sx;
                                 x.Y = py + sy;
                                 for (int xz = 0; xz < numTOTsteel; xz++)
@@ -1613,10 +1605,9 @@ namespace Lemmings.NET.Screens
                         {
                             top2 = earth.Height - py;
                         }
-                        amount = width2 * top2;
-                        mascarapared.GetData(Colormask2);
+                        LemmingsNetGame.Instance.Gfx.Mascarapared.GetData(Colormask2);
                         //////// optimized for hd3000 laptop
-                        amount = 0;
+                        int amount = 0;
                         for (int yy88 = 0; yy88 < top2; yy88++)
                         {
                             int yypos888 = (yy88 + py) * earth.Width;
@@ -1731,9 +1722,7 @@ namespace Lemmings.NET.Screens
                         {
                             top2 = earth.Height - py;
                         }
-                        amount = width2 * top2;
-                        //////// optimized for hd3000 laptop
-                        amount = 0;
+                        int amount = 0;
                         for (int yy88 = 0; yy88 < top2; yy88++)
                         {
                             int yypos888 = (yy88 + py) * earth.Width;
@@ -1895,7 +1884,7 @@ namespace Lemmings.NET.Screens
                                 }
                                 LemmingsNetGame.Instance.Sfx.Chink.Play();
                             }
-                            amount = 0;
+                            int amount = 0;
                             for (int ykk = 27; ykk < 31; ykk++)
                             {
                                 int posi_real = (lemming[actLEM].PosY + ykk) * earth.Width + lemming[actLEM].PosX;
@@ -1979,7 +1968,7 @@ namespace Lemmings.NET.Screens
                                 LemmingsNetGame.Instance.Sfx.Chink.Play();
                             }
                             //earth.SetData<Color>(c25); //OPTIMIZED BUILDER SETDATA
-                            amount = 0;
+                            int amount = 0;
                             int px = lemming[actLEM].PosX;
                             if (px < 0)
                                 px = 0;
@@ -2108,7 +2097,7 @@ namespace Lemmings.NET.Screens
                                 }
                             }
                             //earth.SetData<Color>(c25); //OPTIMIZED digger SETDATA
-                            amount = 0;
+                            int amount = 0;
                             for (int ykk = 9; ykk <= 18; ykk++)
                             {
                                 int posi_real = (lemming[actLEM].PosY + 14 + ykk) * earth.Width + lemming[actLEM].PosX;
@@ -2268,8 +2257,8 @@ namespace Lemmings.NET.Screens
                 {
                     ////////////////////////////////////////////////////////////////////////////////////// EXPLODE MASK
                     ///////////////// EXPLODING MASK LIMITS -- SIZE OF AREA ERASEABLE
-                    ancho66 = 38;
-                    alto66 = 53;
+                    int ancho66 = 38;
+                    int alto66 = 53;
                     int px = lemming[actLEM].PosX - 5; //center the big explosion to 28x28 lemming sprite
                     int py = lemming[actLEM].PosY - 2;
                     int py2 = 0;
@@ -2294,12 +2283,12 @@ namespace Lemmings.NET.Screens
                     {
                         alto66 = earth.Height - py;
                     }
-                    amount = ancho66 * alto66;
+                    int amount = ancho66 * alto66;
                     rectangleFill.X = px2;
                     rectangleFill.Y = py2;
                     rectangleFill.Width = ancho66;
                     rectangleFill.Height = alto66;
-                    LemmingsNetGame.Instance.ScreenMainMenu._mainMenuGfx.Mascaraexplosion.GetData(0, rectangleFill, Colormask33, 0, amount);
+                    LemmingsNetGame.Instance.ScreenMainMenu.MainMenuGfx.Mascaraexplosion.GetData(0, rectangleFill, Colormask33, 0, amount);
                     amount = 0;
                     for (int yy88 = 0; yy88 < alto66; yy88++)
                     {
@@ -2315,7 +2304,7 @@ namespace Lemmings.NET.Screens
                         if (SteelON)
                         {
                             sx = r % ancho66;
-                            sy = r / ancho66;
+                            int sy = r / ancho66;
                             x.X = px + sx;
                             x.Y = py + sy;
                             for (int xz = 0; xz < numTOTsteel; xz++)
@@ -2379,7 +2368,7 @@ namespace Lemmings.NET.Screens
                         colorFill.G = colorg;
                         colorFill.B = colorb;
                         colorFill.A = 255;
-                        LifeCount = LIFE_COUNTER + (int)(MyGame.Rnd.NextDouble() * 2 * LIFE_VARIANCE) - LIFE_VARIANCE;
+                        int LifeCount = LIFE_COUNTER + (int)(MyGame.Rnd.NextDouble() * 2 * LIFE_VARIANCE) - LIFE_VARIANCE;
                         if (LifeCount > LemmingsNetGame.Instance.Explosion[actItem, 0].MaxCounter)
                             LemmingsNetGame.Instance.Explosion[0, 0].MaxCounter = LifeCount;
                         LemmingsNetGame.Instance.Explosion[actItem, Iexplo].dx = (MyGame.Rnd.NextDouble() * (SizeSprites.MAX_DX - SizeSprites.MIN_DX) + SizeSprites.MIN_DX);
@@ -2638,8 +2627,8 @@ namespace Lemmings.NET.Screens
             {
                 if (rayLigths)
                 {
-                    spriteBatch.Draw(myTexture, new Vector2(MyGame.GameResolution.X / 2, (MyGame.GameResolution.Y - 188) / 2), new Rectangle(0, 0, myTexture.Width, myTexture.Height), new Color(255, 255, 255, 10 + Contador * 2),
-                        0.4f + Contador2 * 0.001f, new Vector2(myTexture.Width / 2, myTexture.Height / 2), 3f, SpriteEffects.FlipHorizontally, 0.805f); // okokok
+                    spriteBatch.Draw(MyTexture, new Vector2(MyGame.GameResolution.X / 2, (MyGame.GameResolution.Y - 188) / 2), new Rectangle(0, 0, MyTexture.Width, MyTexture.Height), new Color(255, 255, 255, 10 + Contador * 2),
+                        0.4f + Contador2 * 0.001f, new Vector2(MyTexture.Width / 2, MyTexture.Height / 2), 3f, SpriteEffects.FlipHorizontally, 0.805f); // okokok
                 }
                 // rayligts effect
                 spriteBatch.Draw(LemmingsNetGame.Instance.Sprites.Nubes_2, new Rectangle(0, 50 - (int)actWaves444, MyGame.GameResolution.X, LemmingsNetGame.Instance.Sprites.Nubes_2.Height), new Rectangle(z1, 0, MyGame.GameResolution.X, LemmingsNetGame.Instance.Sprites.Nubes_2.Height),
@@ -2677,9 +2666,9 @@ namespace Lemmings.NET.Screens
                 colorFill.B = 0;
                 colorFill.A = 150;
                 spriteBatch.Draw(LemmingsNetGame.Instance.Gfx.Texture1pixel, new Rectangle(45, 32, 1005, 600), null, colorFill, 0f, Vector2.Zero, SpriteEffects.None, 0.001f);
-                spriteBatch.Draw(LemmingsNetGame.Instance.ScreenMainMenu._mainMenuGfx.mainMenuSign2, new Rectangle(-200, -120, 1500, 900), null,
+                spriteBatch.Draw(LemmingsNetGame.Instance.ScreenMainMenu.MainMenuGfx.mainMenuSign2, new Rectangle(-200, -120, 1500, 900), null,
                    Color.White, 0f, Vector2.Zero, SpriteEffects.None, 0.00005f);
-                percent = (100 * _numSaved) / AllLevel[LemmingsNetGame.Instance.ScreenMainMenu.Mmlevchoose].TotalLemmings;
+                int percent = (100 * numSaved) / AllLevel[LemmingsNetGame.Instance.ScreenMainMenu.Mmlevchoose].TotalLemmings;
                 LemmingsNetGame.Instance.Fonts.TextLem("All lemmings accounted for:", new Vector2(150, 100), Color.Cyan, 1.5f, 0.0000000001f, spriteBatch);
                 LemmingsNetGame.Instance.Fonts.TextLem("You rescued " + string.Format("{0}", percent) + "%",
                      new Vector2(270, 160), Color.Violet, 1.5f, 0.0000000001f, spriteBatch);
@@ -2689,7 +2678,7 @@ namespace Lemmings.NET.Screens
                 LemmingsNetGame.Instance.Fonts.TextLem("Press <ESC> or <Left Mouse Button>", new Vector2(70, 400), Color.LightCyan, 1.3f, 0.0000000001f, spriteBatch);
                 if (ExitBad)
                     LemmingsNetGame.Instance.Fonts.TextLem("to retry level...", new Vector2(100, 440), Color.LightCyan, 1.3f, 0.0000000001f, spriteBatch);
-                else if (_numSaved >= Lemsneeded)
+                else if (numSaved >= Lemsneeded)
                 {
                     LemmingsNetGame.Instance.Fonts.TextLem("to next level...", new Vector2(100, 440), Color.LightCyan, 1.3f, 0.0000000001f, spriteBatch);
                 }
@@ -2840,7 +2829,7 @@ namespace Lemmings.NET.Screens
                     if (lemming[actLEM].Time == 0)
                         lemming[actLEM].Time = totalTime;
                     double timez = totalTime - lemming[actLEM].Time;
-                    crono = (int)(6f - (float)timez);
+                    int crono = (int)(6f - (float)timez);
                     LemmingsNetGame.Instance.Fonts.TextLem(string.Format("{0}", crono), new Vector2(lemming[actLEM].PosX + 3 - ScrollX, lemming[actLEM].PosY - 10 - ScrollY), Color.White, 0.4f, 0.000000000004f, spriteBatch);
                     if (crono <= 0)
                     {
@@ -2873,7 +2862,7 @@ namespace Lemmings.NET.Screens
                         lemming[actLEM].Numframes = SizeSprites.bomber_frames;
                     }
                 }
-                int framereal55 = (lemming[actLEM].Actualframe * 118);
+                int framereal55;
                 if (lemming[actLEM].Burned) // scale POSDraw x+0,y+0 at 1.2f x-5,y+0 at 1.35f
                 {
                     spriteBatch.Draw(LemmingsNetGame.Instance.Gfx.Squemado, new Vector2(lemming[actLEM].PosX - ScrollX - 5, lemming[actLEM].PosY - ScrollY), new Rectangle(0, lemming[actLEM].Actualframe * 28, 32, 28),
@@ -3029,7 +3018,7 @@ namespace Lemmings.NET.Screens
 
             vectorFill.X = 650;
             vectorFill.Y = 518;
-            LemmingsNetGame.Instance.Fonts.TextLem("Home:" + string.Format("{0}", _numSaved) + "/" + string.Format("{0}", Lemsneeded), vectorFill, Color.Cyan, 1f, 0.1f, spriteBatch);
+            LemmingsNetGame.Instance.Fonts.TextLem("Home:" + string.Format("{0}", numSaved) + "/" + string.Format("{0}", Lemsneeded), vectorFill, Color.Cyan, 1f, 0.1f, spriteBatch);
             vectorFill.X = 320;
             vectorFill.Y = 518;
             LemmingsNetGame.Instance.Fonts.TextLem("Out:" + string.Format("{0}", numLemmings) + "/" + string.Format("{0}", Numlems), vectorFill, Color.Magenta, 1f, 0.1f, spriteBatch);
@@ -3049,13 +3038,13 @@ namespace Lemmings.NET.Screens
             millisecondsElapsed += gameTime.ElapsedGameTime.Milliseconds;
             if (Exploding && dibuja3 && !Paused)  //logic explosions particles
             {
-                _totalExploding = actItem;
+                int _totalExploding = actItem;
                 for (int Qexplo = 0; Qexplo < actItem; Qexplo++)
                 {
-                    TopY = MyGame.GameResolution.Y;
+                    int TopY = MyGame.GameResolution.Y;
                     if (earth != null)
                         TopY = earth.Height - 2;
-                    NumberAlive = 0;
+                    int NumberAlive = 0;
                     for (Iexplo = 0; Iexplo < PARTICLE_NUM; Iexplo++)
                     {
                         if (LemmingsNetGame.Instance.Explosion[Qexplo, Iexplo].LifeCtr == -100)
@@ -3113,7 +3102,7 @@ namespace Lemmings.NET.Screens
                     actItem = 0;  //see when finish time and are more particles ON
                     LevelEnded = true;
                     Paused = true;
-                    if (_numSaved < Lemsneeded)
+                    if (numSaved < Lemsneeded)
                         ExitBad = true;
                 }
             }
@@ -3149,7 +3138,7 @@ namespace Lemmings.NET.Screens
             {
                 if (ExitBad && LevelEnded)
                     ExitLevel = true;
-                else if (_numSaved >= Lemsneeded && LevelEnded)
+                else if (numSaved >= Lemsneeded && LevelEnded)
                     ExitLevel = true;
                 else
                 {
@@ -3172,7 +3161,7 @@ namespace Lemmings.NET.Screens
             {
                 ExitLevel = true;
                 ExitBad = false;
-                _numSaved = 0;
+                numSaved = 0;
             }
             if ((Input.PreviousMouseState.LeftButton == ButtonState.Released && Input.CurrentMouseState.LeftButton == ButtonState.Pressed) && LevelEnded)
             {
@@ -3183,12 +3172,12 @@ namespace Lemmings.NET.Screens
                 }
                 else
                     ExitLevel = true;
-                if (_numSaved >= Lemsneeded)
+                if (numSaved >= Lemsneeded)
                     ExitLevel = true;
             }
             if (ExitLevel)
             {
-                if (_numSaved >= Lemsneeded) //see here if level is finished or not
+                if (numSaved >= Lemsneeded) //see here if level is finished or not
                 {
                     LevelEnd[LemmingsNetGame.Instance.ScreenMainMenu.Mmlevchoose] = true;
                     BinaryWriter writer = new(File.Open(MyGame.SaveGameFileName, FileMode.Create));
@@ -3205,7 +3194,7 @@ namespace Lemmings.NET.Screens
                         LemmingsNetGame.Instance.CurrentLevelNumber = MyGame.NumTotalLevels - 1;
                     LemmingsNetGame.Instance.ScreenMainMenu.Mmlevchoose = LemmingsNetGame.Instance.CurrentLevelNumber;
                     LemmingsNetGame.Instance.CurrentScreen = ECurrentScreen.InGame;
-                    _numSaved = 0;
+                    numSaved = 0;
                     numlemnow = 0;
                     numLemmings = 0;
                     fade = true;
@@ -3229,7 +3218,7 @@ namespace Lemmings.NET.Screens
                 if (ExitBad) //repeat level
                 {
                     LemmingsNetGame.Instance.CurrentScreen = ECurrentScreen.InGame;
-                    _numSaved = 0;
+                    numSaved = 0;
                     numlemnow = 0;
                     numLemmings = 0;
                     fade = true;
@@ -7431,8 +7420,8 @@ namespace Lemmings.NET.Screens
                     plats[1].step = 1;
                     plats[1].areaDraw = new Rectangle(528, 1216, 200, 35);
                     plats[1].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/elevator");
-                    numTOTadds = 1; AddsON = true;
-                    adds = new Varadds[numTOTadds];
+                    AddsON = true;
+                    adds = new Varadds[1];
                     adds[0].areaDraw = new Rectangle(250, 1271, 100, 50); //y 110 orig
                     adds[0].numFrames = 8;
                     adds[0].actFrame = 0;

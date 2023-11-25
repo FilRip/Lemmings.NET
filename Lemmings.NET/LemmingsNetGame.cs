@@ -254,7 +254,7 @@ namespace Lemmings.NET
                 }
 
             }
-            if (CurrentScreen == ECurrentScreen.InGame) //when level starts all the vars and reset all
+            else if (CurrentScreen == ECurrentScreen.InGame) //when level starts all the vars and reset all
             {
                 _screenInGame.LoadLevel(CurrentLevelNumber, Content);
 
@@ -262,7 +262,6 @@ namespace Lemmings.NET
                 //backmenu3 = Content.Load<Texture2D>("background_02");
                 //lucesfondo = Content.Load<Texture2D>("fondos/luces de fondo guays");
                 //explode = Content.Load<Texture2D>("explode");
-                _screenInGame.mascarapared = Content.Load<Texture2D>("mascara_pared");
                 //mascarapico = Content.Load<Texture2D>("mascara_pico");
                 //mascarapared_left = Content.Load<Texture2D>("mascara_pared_left");
                 //lsplat = Content.Load<Texture2D>("sprite/splat");

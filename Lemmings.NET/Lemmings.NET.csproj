@@ -64,6 +64,7 @@
     <Compile Include="Datatables\Vfx.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="LemmingsNetGame.cs" />
+    <Compile Include="Models\OneLemming.cs" />
     <Compile Include="Screens\DebugOsd.cs" />
     <Compile Include="Screens\InGameMenu.cs" />
     <Compile Include="Structures\Door.cs" />

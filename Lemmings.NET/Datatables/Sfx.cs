@@ -19,6 +19,10 @@ namespace Lemmings.NET.Datatables
         public SoundEffectInstance MousePre { get; private set; }
         public SoundEffectInstance ChangeOp { get; private set; }
         public SoundEffectInstance StrapTenton { get; private set; }
+        public SoundEffectInstance StrapMan { get; private set; }
+        public SoundEffectInstance StrapChain { get; private set; }
+        public SoundEffectInstance StrapChupar { get; private set; }
+        public SoundEffectInstance StrapTenTonnes { get; private set; }
 
         public void PlaySoundMenu()
         {
@@ -61,8 +65,16 @@ namespace Lemmings.NET.Datatables
             MousePre = smousepre.CreateInstance();
             SoundEffect schangeop = content.Load<SoundEffect>("soundfx/changeop");
             ChangeOp = schangeop.CreateInstance();
-            SoundEffect strap = content.Load<SoundEffect>("soundfx/tenton");
-            StrapTenton = strap.CreateInstance();
+            SoundEffect tenton = content.Load<SoundEffect>("soundfx/tenton");
+            StrapTenton = tenton.CreateInstance();
+            SoundEffect manTrap = content.Load<SoundEffect>("soundfx/mantrap");
+            StrapMan = manTrap.CreateInstance();
+            SoundEffect chain = content.Load<SoundEffect>("soundfx/chain");
+            StrapChain = chain.CreateInstance();
+            SoundEffect chupar = content.Load<SoundEffect>("soundfx/chupar");
+            StrapChupar = chupar.CreateInstance();
+            SoundEffect tenTonnes = content.Load<SoundEffect>("soundfx/10tones");
+            StrapTenTonnes = tenTonnes.CreateInstance();
         }
     }
 }

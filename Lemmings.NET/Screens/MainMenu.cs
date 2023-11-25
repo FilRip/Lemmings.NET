@@ -17,13 +17,18 @@ namespace Lemmings.NET.Screens
         private Color colorFill;
         private ELevelCategory _levelCategory;
         private int loopcolor = 0, dibujaloop = 1;
-        internal readonly MainMenuGfx _mainMenuGfx;
+        private readonly MainMenuGfx _mainMenuGfx;
         private float frameWater = 0;
         public int Mmlevchoose { get; set; }
         private float peakheight = 25;
         private int framblink1 = 0, framblink2 = 0, framblink3 = 0, mmstartx, mmstarty, mmX;
-        public bool Updown { get; set; } = true;
+        private bool Updown = true;
         private int levelACT;
+
+        internal MainMenuGfx MainMenuGfx
+        {
+            get { return _mainMenuGfx; }
+        }
 
         internal MainMenu()
         {
@@ -293,12 +298,12 @@ namespace Lemmings.NET.Screens
                         mmy += 70;
                     }
                 }
-                if (LemmingsNetGame.Instance.ScreenInGame.myTexture == null || LemmingsNetGame.Instance.ScreenInGame.myTexture.Name != "levels/mini_levels" + ((int)_levelCategory).ToString())
+                if (LemmingsNetGame.Instance.ScreenInGame.MyTexture == null || LemmingsNetGame.Instance.ScreenInGame.MyTexture.Name != "levels/mini_levels" + ((int)_levelCategory).ToString())
                 {
                     Console.WriteLine("Load texture " + (MyGame.Rnd.Next(65535)).ToString());
-                    LemmingsNetGame.Instance.ScreenInGame.myTexture = LemmingsNetGame.Instance.Content.Load<Texture2D>("levels/mini_levels" + ((int)_levelCategory).ToString());
+                    LemmingsNetGame.Instance.ScreenInGame.MyTexture = LemmingsNetGame.Instance.Content.Load<Texture2D>("levels/mini_levels" + ((int)_levelCategory).ToString());
                 }
-                spriteBatch.Draw(LemmingsNetGame.Instance.ScreenInGame.myTexture, new Vector2(mmX, 130), Color.White);
+                spriteBatch.Draw(LemmingsNetGame.Instance.ScreenInGame.MyTexture, new Vector2(mmX, 130), Color.White);
             }
             else if (_levelCategory == ELevelCategory.Bonus)
             {
@@ -335,8 +340,8 @@ namespace Lemmings.NET.Screens
                         mmy += 70;
                     }
                 }
-                LemmingsNetGame.Instance.ScreenInGame.myTexture = LemmingsNetGame.Instance.Content.Load<Texture2D>("levels/mini_levels5");
-                spriteBatch.Draw(LemmingsNetGame.Instance.ScreenInGame.myTexture, new Vector2(mmX, 130), Color.White);
+                LemmingsNetGame.Instance.ScreenInGame.MyTexture = LemmingsNetGame.Instance.Content.Load<Texture2D>("levels/mini_levels5");
+                spriteBatch.Draw(LemmingsNetGame.Instance.ScreenInGame.MyTexture, new Vector2(mmX, 130), Color.White);
             }
             else if (_levelCategory == ELevelCategory.User)
             {
@@ -377,8 +382,8 @@ namespace Lemmings.NET.Screens
                 mmy = 130;
                 for (int s = 1; s < 26; s++) //number user levels to show okok be careful
                 {
-                    LemmingsNetGame.Instance.ScreenInGame.myTexture = LemmingsNetGame.Instance.Content.Load<Texture2D>("levels/user/user" + string.Format("{0,3:D3}", s));
-                    spriteBatch.Draw(LemmingsNetGame.Instance.ScreenInGame.myTexture, new Rectangle(mmx, mmy, 130, 55), new Rectangle(0, 0, LemmingsNetGame.Instance.ScreenInGame.myTexture.Width, LemmingsNetGame.Instance.ScreenInGame.myTexture.Height), Color.White);
+                    LemmingsNetGame.Instance.ScreenInGame.MyTexture = LemmingsNetGame.Instance.Content.Load<Texture2D>("levels/user/user" + string.Format("{0,3:D3}", s));
+                    spriteBatch.Draw(LemmingsNetGame.Instance.ScreenInGame.MyTexture, new Rectangle(mmx, mmy, 130, 55), new Rectangle(0, 0, LemmingsNetGame.Instance.ScreenInGame.MyTexture.Width, LemmingsNetGame.Instance.ScreenInGame.MyTexture.Height), Color.White);
                     mmx += 135;
                     if (s % 7 == 0)
                     {
@@ -526,17 +531,8 @@ namespace Lemmings.NET.Screens
             {
                 LemmingsNetGame.Instance.CurrentScreen = ECurrentScreen.InGame;
                 LemmingsNetGame.Instance.CurrentLevelNumber = Mmlevchoose;
-                LemmingsNetGame.Instance.ScreenInGame._numSaved = 0;
-                LemmingsNetGame.Instance.ScreenInGame.numlemnow = 0;
-                LemmingsNetGame.Instance.ScreenInGame.numLemmings = 0;
-                LemmingsNetGame.Instance.ScreenInGame.fade = true;
-                LemmingsNetGame.Instance.ScreenInGame.millisecondsElapsed = 0;
-                LemmingsNetGame.Instance.ScreenInGame.doorOn = true;
                 LemmingsNetGame.Instance.ScreenInGame.Frame = 0;
                 LemmingsNetGame.Instance.ScreenInGame.Frame2 = 0;
-                LemmingsNetGame.Instance.ScreenInGame.Frame3 = 0;
-                LemmingsNetGame.Instance.ScreenInGame.frameDoor = 0;
-                LemmingsNetGame.Instance.ScreenInGame.frameExit = 0;
                 LemmingsNetGame.Instance.ReloadContent();
             }
         }
