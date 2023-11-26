@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Runtime.Serialization.Formatters;
 
 using Lemmings.NET.Constants;
 using Lemmings.NET.Datatables;

@@ -15,76 +15,97 @@ namespace Lemmings.NET.Screens;
 
 internal class InGame
 {
-    private double actWaves444 = 0, actWaves333 = 0, actWaves = 0;
+    internal int NumTOTsteel { get; set; }
+    internal int NumLemmings { get; set; }
+    internal int ScrollX { get; set; }
+    internal int NumACTdoor { get; set; }
+    internal int NumTOTdoors { get; set; } = 1;
+    internal int NumTOTplats { get; set; }
+    internal int ScrollY { get; set; }
+    internal int NumTOTexits { get; set; } = 1;
+    internal float Contadortime { get; set; }
+    internal Lem[] Lemming { get; set; }
+    internal int Frame2 { get; set; }
+    internal Varsprites[] Sprite { get; set; }
+    internal int NbClimberRemaining { get; set; }
+    internal int NbFloaterRemaining { get; set; }
+    internal int NbExploderRemaining { get; set; }
+    internal int NbBlockerRemaining { get; set; }
+    internal int NbBuilderRemaining { get; set; }
+    internal int NbBasherRemaining { get; set; }
+    internal int NbMinerRemaining { get; set; }
+    internal int NbDiggerRemaining { get; set; }
+    internal bool AllBlow { get; set; }
+    internal double MillisecondsElapsed { get; set; }
+    internal Texture2D Earth { get; set; }
+    internal string LemSkill { get; set; } = "";
+    internal Vartraps[] Trap { get; set; }
+    internal Varplat[] Plats { get; set; }
+    internal Varadds[] Adds { get; set; }
+    internal bool SteelON { get; set; }
+    internal bool PlatsON { get; set; }
+    internal bool ArrowsON { get; set; }
+    internal bool AddsON { get; set; }
+    internal bool TrapsON { get; set; }
+    internal int NumTotTraps { get; set; }
+    internal int NumTotArrow { get; set; }
+    internal int R1 { get; set; }
+    internal int R2 { get; set; }
+    internal int R3 { get; set; }
+    internal int ZvTime { get; set; }
+    internal bool Fade { get; set; } = true;
+    internal Vararrows[] Arrow { get; set; }
+    internal Varsteel[] Steel { get; set; }
+    internal Varmoredoors[] MoreDoors { get; set; }
+    internal Varmoreexits[] Moreexits { get; set; }
+    internal bool Dibuja { get; set; } = true;
+    internal bool Draw2 { get; set; } = true;
+    internal double TotalTime { get; set; }
+    internal int Frame { get; set; }
+    internal SoundEffectInstance CurrentMusic { get; set; }
+    internal Texture2D MyTexture { get; set; }
+    internal bool[] LevelEnd { get; set; } = new bool[MyGame.NumTotalLevels]; //full number of levels to see which are finished or not
+
+    private float Contadortime2;
+    private double actWaves444, actWaves333, actWaves;
     private bool Exploding, dibuja3, LevelEnded, ExitBad, ExitLevel;
     private int numSaved, actItem, Iexplo, cantidad22;
-    public int numTOTsteel = 0;
-    public int NumLemmings { get; set; } = 0;
-    private int sx, rest = 0, numTOTdoors = 1, numACTdoor = 0, numTOTexits = 1, framesale, numTOTplats = 0, Contador2, Contador = 1, actLEM2;
-    public float Contadortime2, Contadortime;
-    public int ScrollX { get; set; }
-    public int ScrollY { get; set; }
-    private bool mouseOnLem = false;
+    private int sx, rest = 0, framesale, Contador2, Contador = 1, actLEM2;
+    private bool mouseOnLem;
     private bool doorOn = true;
-    public Lem[] Lemming { get; set; }
     private Rectangle bloqueo;
-    private double frameWaves = 0;
-    private int walker_frame = 0;
-    private int builder_frame = 0;
+    private double frameWaves;
+    private int walker_frame;
+    private int builder_frame;
     private readonly int builder_frame_second = 1;
-    public int Frame2 = 0;
-    private int Frame3 = 0;
+    private int Frame3;
     private readonly int Framesecond = 6;
     private readonly int Framesecond2 = 2;
     private readonly int Framesecond3 = 1;  // frame speed less all go crazy 6->ok framesecond=6 default framesecond2=3 default
-    private Varsprites[] Sprite { get; set; }
-    public int _nbClimberRemaining = 99, _nbFloaterRemaining = 88, _nbExploderRemaining = 77, _nbBlockerRemaining = 66, _nbBuilderRemaining = 55, _nbBasherRemaining = 44, _nbMinerRemaining = 33, _nbDiggerRemaining = 99;
-    public bool AllBlow { get; set; } = false;
     private int door1X, door1Y, actLEM;
     private int output1X, output1Y, ex11;
     private int frameDoor, frameExit; // 0--10   0--6
     private int exitFrame = 999, actualBlow; // frecuency lemmings go in
     private Rectangle exit_rect; // rectangle exit
     private Point x;
-    internal double MillisecondsElapsed { get; set; }
-    internal Texture2D Earth { get; set; }
     private Color[] C25 { get; set; } = new Color[4096 * 4096]; // Maximun size of a color array used for mask all the level
-    public string LemSkill { get; set; } = "";
-    private Vartraps[] trap;
-    private Varplat[] plats;
-    private Varadds[] adds;
     private bool initON = false;
-    public bool SteelON = false;
-    private bool TrapsON = false, PlatsON = false, ArrowsON = false, AddsON = false;
     private readonly int maxnumberfalling = 210;
     private readonly int useumbrella = 100;
-    private int NumTotTraps = 0;
-    private int NumTotArrow = 0;
     private int framereal565;
     private float DoorExitDepth = 0.403f;  // default value--bigger than 0.5f is behind the terrain (0.6f level 58 for example)
-    internal int r1 = 0, r2 = 0, r3 = 0;
-    public int ZvTime { get; set; } = 0;
     private Vector2 vectorFill;
     private Rectangle rectangleFill, rectangleFill2;
     private Color colorFill;
     private bool _endSongPlayed;
     private readonly double GRAVITY = 0.1; //0.1
     private int Lemsneeded = 1;
-    public bool fade = true;
-    private Vararrows[] arrow;
-    public Varsteel[] steel;
-    private Varmoredoors[] moreDoors;
-    private Varmoreexits[] moreexits;
-    private int numlemnow = 0;
-    private int z1 = 0;
-    private int z2 = 0;
-    private int z3 = 0;
-    public bool Dibuja { get; set; } = true;
-    private bool luzmas = true, luzmas2 = true, draw_walker = false, draw_builder = false;
-    public bool Draw2 { get; set; } = true;
-    public double TotalTime { get; set; }
+    private int numlemnow;
+    private int z1;
+    private int z2;
+    private int z3;
+    private bool luzmas = true, luzmas2 = true, draw_walker, draw_builder;
     private int alto, _below;
-    public int Frame;
     private Point poslem;
     private Rectangle arrowLem;
     private readonly int PARTICLE_NUM = 24; //24
@@ -97,23 +118,17 @@ internal class InGame
     private readonly Color[] Colormasktotal = new Color[500 * 512];
     private readonly Color[] Colormask2 = new Color[20 * 20];  // miner mask 20*20 && basher too 20*20
     private readonly Color[] Colorsobre2 = new Color[20 * 20];
-    private int Frente = 0;
-    private int Frente2 = 0;
-    private bool doorWaveOn = false;
+    private int Frente;
+    private int Frente2;
+    private bool doorWaveOn;
     private int frameact;
-    internal Texture2D MyTexture { get; set; }
     private readonly bool LockMouse;
     private readonly float SizeL = 1.35f; //1.2f was default in the beggining
     private Texture2D salida_ani1, salida_ani1_1, sale;
     private readonly Color[] Colormask33 = new Color[38 * 53]; // explode mask 38*53
     private readonly Color[] Colorsobre33 = new Color[38 * 53];
     private Texture2D puerta_ani;
-
-    internal SoundEffectInstance CurrentMusic { get; set; }
-
     private readonly InGameMenu _inGameMenu;
-
-    internal readonly bool[] LevelEnd = new bool[MyGame.NumTotalLevels]; //full number of levels to see which are finished or not
 
     internal InGame()
     {
@@ -132,7 +147,7 @@ internal class InGame
         frameDoor = 0;
         frameExit = 0;
         Frame3 = 0;
-        fade = true;
+        Fade = true;
         doorOn = true;
         MillisecondsElapsed = 0;
         NumLemmings = 0;
@@ -149,13 +164,13 @@ internal class InGame
         actualBlow = 0;
         exitFrame = 999;
         _inGameMenu.CurrentSelectedSkill = ECurrentSkill.NONE;
-        moreexits = null;
-        moreDoors = null;
-        trap = null;
-        arrow = null;
+        Moreexits = null;
+        MoreDoors = null;
+        Trap = null;
+        Arrow = null;
         Sprite = null;
-        numTOTexits = 1;
-        numTOTdoors = 1;
+        NumTOTexits = 1;
+        NumTOTdoors = 1;
         NumTotTraps = 0;
         NumTotArrow = 0;
         doorWaveOn = false;
@@ -165,7 +180,7 @@ internal class InGame
         AddsON = false;
         ArrowsON = false;
         SteelON = false;
-        numTOTsteel = 0;
+        NumTOTsteel = 0;
         LevelEnded = false;
         _endSongPlayed = false;
         ExitLevel = false;
@@ -191,43 +206,43 @@ internal class InGame
         {
             DoorExitDepth = 0.403f;
         }
-        _nbClimberRemaining = LemmingsNetGame.Instance.Levels.AllLevel[LemmingsNetGame.Instance.CurrentLevelNumber].numberClimbers;
-        _nbFloaterRemaining = LemmingsNetGame.Instance.Levels.AllLevel[LemmingsNetGame.Instance.CurrentLevelNumber].numberUmbrellas;
-        _nbExploderRemaining = LemmingsNetGame.Instance.Levels.AllLevel[LemmingsNetGame.Instance.CurrentLevelNumber].numberExploders;
-        _nbBlockerRemaining = LemmingsNetGame.Instance.Levels.AllLevel[LemmingsNetGame.Instance.CurrentLevelNumber].numberBlockers;
-        _nbBuilderRemaining = LemmingsNetGame.Instance.Levels.AllLevel[LemmingsNetGame.Instance.CurrentLevelNumber].numberBuilders;
-        _nbBasherRemaining = LemmingsNetGame.Instance.Levels.AllLevel[LemmingsNetGame.Instance.CurrentLevelNumber].numberBashers;
-        _nbMinerRemaining = LemmingsNetGame.Instance.Levels.AllLevel[LemmingsNetGame.Instance.CurrentLevelNumber].numberMiners;
-        _nbDiggerRemaining = LemmingsNetGame.Instance.Levels.AllLevel[LemmingsNetGame.Instance.CurrentLevelNumber].numberDiggers;
-        if (_nbClimberRemaining > 0)
+        NbClimberRemaining = LemmingsNetGame.Instance.Levels.AllLevel[LemmingsNetGame.Instance.CurrentLevelNumber].numberClimbers;
+        NbFloaterRemaining = LemmingsNetGame.Instance.Levels.AllLevel[LemmingsNetGame.Instance.CurrentLevelNumber].numberUmbrellas;
+        NbExploderRemaining = LemmingsNetGame.Instance.Levels.AllLevel[LemmingsNetGame.Instance.CurrentLevelNumber].numberExploders;
+        NbBlockerRemaining = LemmingsNetGame.Instance.Levels.AllLevel[LemmingsNetGame.Instance.CurrentLevelNumber].numberBlockers;
+        NbBuilderRemaining = LemmingsNetGame.Instance.Levels.AllLevel[LemmingsNetGame.Instance.CurrentLevelNumber].numberBuilders;
+        NbBasherRemaining = LemmingsNetGame.Instance.Levels.AllLevel[LemmingsNetGame.Instance.CurrentLevelNumber].numberBashers;
+        NbMinerRemaining = LemmingsNetGame.Instance.Levels.AllLevel[LemmingsNetGame.Instance.CurrentLevelNumber].numberMiners;
+        NbDiggerRemaining = LemmingsNetGame.Instance.Levels.AllLevel[LemmingsNetGame.Instance.CurrentLevelNumber].numberDiggers;
+        if (NbClimberRemaining > 0)
         {
             _inGameMenu.CurrentSelectedSkill = ECurrentSkill.CLIMBER;
         }
-        else if (_nbFloaterRemaining > 0)
+        else if (NbFloaterRemaining > 0)
         {
             _inGameMenu.CurrentSelectedSkill = ECurrentSkill.FLOATER;
         }
-        else if (_nbExploderRemaining > 0)
+        else if (NbExploderRemaining > 0)
         {
             _inGameMenu.CurrentSelectedSkill = ECurrentSkill.EXPLODER;
         }
-        else if (_nbBlockerRemaining > 0)
+        else if (NbBlockerRemaining > 0)
         {
             _inGameMenu.CurrentSelectedSkill = ECurrentSkill.BLOCKER;
         }
-        else if (_nbBuilderRemaining > 0)
+        else if (NbBuilderRemaining > 0)
         {
             _inGameMenu.CurrentSelectedSkill = ECurrentSkill.BUILDER;
         }
-        else if (_nbBasherRemaining > 0)
+        else if (NbBasherRemaining > 0)
         {
             _inGameMenu.CurrentSelectedSkill = ECurrentSkill.BASHER;
         }
-        else if (_nbMinerRemaining > 0)
+        else if (NbMinerRemaining > 0)
         {
             _inGameMenu.CurrentSelectedSkill = ECurrentSkill.MINER;
         }
-        else if (_nbDiggerRemaining > 0)
+        else if (NbDiggerRemaining > 0)
         {
             _inGameMenu.CurrentSelectedSkill = ECurrentSkill.DIGGER;
         }
@@ -237,7 +252,7 @@ internal class InGame
         ScrollX = LemmingsNetGame.Instance.Levels.AllLevel[LemmingsNetGame.Instance.CurrentLevelNumber].InitPosX;
         ScrollY = 0;
         Lemming = new Lem[Numlems];
-        VariablesTraps();
+        LemmingsNetGame.Instance.Levels.VariablesTraps();
     }
 
     private void Update_level()
@@ -371,33 +386,33 @@ internal class InGame
         }
         if (PlatsON && !MyGame.Paused)
         {
-            for (int i = 0; i < numTOTplats; i++)
+            for (int i = 0; i < NumTOTplats; i++)
             {
-                if (plats[i].frame > plats[i].framesecond)
+                if (Plats[i].frame > Plats[i].framesecond)
                 {
-                    bool goUP = plats[i].up;
-                    plats[i].frame = 0;
+                    bool goUP = Plats[i].up;
+                    Plats[i].frame = 0;
                     if (goUP)
-                        plats[i].actStep++;
+                        Plats[i].actStep++;
                     else
-                        plats[i].actStep--;
+                        Plats[i].actStep--;
                     if (goUP)
-                        plats[i].areaDraw.Y -= plats[i].step;
+                        Plats[i].areaDraw.Y -= Plats[i].step;
                     else
-                        plats[i].areaDraw.Y += plats[i].step;
-                    if (plats[i].actStep >= plats[i].numSteps - 1)
-                        plats[i].up = false;
-                    if (plats[i].actStep < 1)
-                        plats[i].up = true;
-                    int px = plats[i].areaDraw.X - (plats[i].areaDraw.Width / 2);
-                    alto = plats[i].step * plats[i].numSteps;
-                    int positioYOrig = plats[i].areaDraw.Y + (plats[i].actStep * plats[i].step);
+                        Plats[i].areaDraw.Y += Plats[i].step;
+                    if (Plats[i].actStep >= Plats[i].numSteps - 1)
+                        Plats[i].up = false;
+                    if (Plats[i].actStep < 1)
+                        Plats[i].up = true;
+                    int px = Plats[i].areaDraw.X - (Plats[i].areaDraw.Width / 2);
+                    alto = Plats[i].step * Plats[i].numSteps;
+                    int positioYOrig = Plats[i].areaDraw.Y + (Plats[i].actStep * Plats[i].step);
                     bool realLine = false;
                     for (int y55 = 0; y55 < alto; y55++)
                     {
-                        for (int x55 = 0; x55 < plats[i].areaDraw.Width; x55++)
+                        for (int x55 = 0; x55 < Plats[i].areaDraw.Width; x55++)
                         {
-                            if (y55 == (alto - 1) - plats[i].actStep * plats[i].step)
+                            if (y55 == (alto - 1) - Plats[i].actStep * Plats[i].step)
                                 realLine = true;
                             if (realLine)
                             {
@@ -413,28 +428,28 @@ internal class InGame
                     if (LemmingsNetGame.Instance.DebugOsd.debug)
                         Earth.SetData(C25, 0, Earth.Width * Earth.Height); //set this only for debugger and see the real c25 redraw
                 }
-                plats[i].frame++;
+                Plats[i].frame++;
             }
         }
 
         if (AddsON && !MyGame.Paused)
         {
-            int startposy = adds[0].sprite.Height / adds[0].numFrames; // height of each frame inside the whole sprite
-            int framepos = startposy * adds[0].actFrame; // actual y position of the frame
-            int ancho = adds[0].sprite.Width;
+            int startposy = Adds[0].sprite.Height / Adds[0].numFrames; // height of each frame inside the whole sprite
+            int framepos = startposy * Adds[0].actFrame; // actual y position of the frame
+            int ancho = Adds[0].sprite.Width;
             int amount = ancho * startposy; // height frame
             rectangleFill.X = 0;
             rectangleFill.Y = framepos;
             rectangleFill.Width = ancho;
             rectangleFill.Height = startposy;
-            adds[0].sprite.GetData(0, rectangleFill, Colormask22, 0, amount);
-            rectangleFill.X = adds[0].areaDraw.X;
-            rectangleFill.Y = adds[0].areaDraw.Y;
+            Adds[0].sprite.GetData(0, rectangleFill, Colormask22, 0, amount);
+            rectangleFill.X = Adds[0].areaDraw.X;
+            rectangleFill.Y = Adds[0].areaDraw.Y;
             rectangleFill.Width = ancho;
             rectangleFill.Height = startposy;
             Earth.SetData(0, rectangleFill, Colormask22, 0, amount);
-            int py = adds[0].areaDraw.Y;
-            int px = adds[0].areaDraw.X;
+            int py = Adds[0].areaDraw.Y;
+            int px = Adds[0].areaDraw.X;
             int cantidad99 = 0;
             for (int yy99 = 0; yy99 < startposy; yy99++)
             {
@@ -445,34 +460,34 @@ internal class InGame
                     cantidad99++;
                 }
             }
-            if (adds[0].frame > adds[0].framesecond)
+            if (Adds[0].frame > Adds[0].framesecond)
             {
-                adds[0].frame = 0;
-                adds[0].actFrame++;
-                if (adds[0].actFrame >= adds[0].numFrames)
-                    adds[0].actFrame = 0;
+                Adds[0].frame = 0;
+                Adds[0].actFrame++;
+                if (Adds[0].actFrame >= Adds[0].numFrames)
+                    Adds[0].actFrame = 0;
             }
-            adds[0].frame++;
+            Adds[0].frame++;
         }
         if (TrapsON && Dibuja && !MyGame.Paused)
         {
             for (int s = 0; s < NumTotTraps; s++)
             {
-                if (!trap[s].isOn)
+                if (!Trap[s].isOn)
                 {
-                    trap[s].actFrame++;
-                    if (trap[s].actFrame > trap[s].numFrames - 1)
-                        trap[s].actFrame = 0;
-                    if (trap[s].type == 666)
-                        trap[s].actFrame = 0;
+                    Trap[s].actFrame++;
+                    if (Trap[s].actFrame > Trap[s].numFrames - 1)
+                        Trap[s].actFrame = 0;
+                    if (Trap[s].type == 666)
+                        Trap[s].actFrame = 0;
                 }
                 else
                 {
-                    trap[s].actFrame++;
-                    if (trap[s].actFrame > trap[s].numFrames - 1)
+                    Trap[s].actFrame++;
+                    if (Trap[s].actFrame > Trap[s].numFrames - 1)
                     {
-                        trap[s].isOn = false;
-                        trap[s].actFrame = 0;
+                        Trap[s].isOn = false;
+                        Trap[s].actFrame = 0;
                     }
                 }
             }
@@ -551,13 +566,13 @@ internal class InGame
         {
             for (int xz = 0; xz < NumTotArrow; xz++)
             {
-                cantidad22 = arrow[xz].area.Width * arrow[xz].area.Height;
-                arrow[xz].flechas.GetData(Colormask22, 0, arrow[xz].flechas.Height * arrow[xz].flechas.Width);
+                cantidad22 = Arrow[xz].area.Width * Arrow[xz].area.Height;
+                Arrow[xz].flechas.GetData(Colormask22, 0, Arrow[xz].flechas.Height * Arrow[xz].flechas.Width);
                 //////// optimized for hd3000 laptop ARROWS OPTIMIZED
-                int py = arrow[xz].area.Y;
-                int px = arrow[xz].area.X;
-                int alto66 = arrow[xz].area.Height;
-                int ancho66 = arrow[xz].area.Width;
+                int py = Arrow[xz].area.Y;
+                int px = Arrow[xz].area.X;
+                int alto66 = Arrow[xz].area.Height;
+                int ancho66 = Arrow[xz].area.Width;
                 cantidad22 = 0;
                 for (int yy88 = 0; yy88 < alto66; yy88++)
                 {
@@ -568,21 +583,21 @@ internal class InGame
                         cantidad22++;
                     }
                 }
-                if (!arrow[xz].right) //left arrows
+                if (!Arrow[xz].right) //left arrows
                 {
-                    arrow[xz].desplaza++;
-                    if (arrow[xz].desplaza < 0)
+                    Arrow[xz].desplaza++;
+                    if (Arrow[xz].desplaza < 0)
                     {
-                        arrow[xz].desplaza = arrow[xz].flechas.Width - 1;
+                        Arrow[xz].desplaza = Arrow[xz].flechas.Width - 1;
                     }
-                    for (int y4 = 0; y4 < arrow[xz].area.Height; y4++)
+                    for (int y4 = 0; y4 < Arrow[xz].area.Height; y4++)
                     {
-                        for (int x4 = 0; x4 < arrow[xz].area.Width; x4++)
+                        for (int x4 = 0; x4 < Arrow[xz].area.Width; x4++)
                         {
-                            int posy456 = y4 % arrow[xz].flechas.Height;
-                            int posx456 = x4 % arrow[xz].flechas.Width;
-                            posx456 = (arrow[xz].flechas.Width - 1) - ((posx456 + arrow[xz].desplaza) % arrow[xz].flechas.Width); // left perfecto
-                            Colormasktotal[(y4 * arrow[xz].area.Width) + x4].PackedValue = Colormask22[(posy456 * arrow[xz].flechas.Width) + posx456].PackedValue;
+                            int posy456 = y4 % Arrow[xz].flechas.Height;
+                            int posx456 = x4 % Arrow[xz].flechas.Width;
+                            posx456 = (Arrow[xz].flechas.Width - 1) - ((posx456 + Arrow[xz].desplaza) % Arrow[xz].flechas.Width); // left perfecto
+                            Colormasktotal[(y4 * Arrow[xz].area.Width) + x4].PackedValue = Colormask22[(posy456 * Arrow[xz].flechas.Width) + posx456].PackedValue;
                         }
                     }
                     for (int r = 0; r < cantidad22; r++)
@@ -592,23 +607,23 @@ internal class InGame
                             Colorsobre22[r].PackedValue = Colormasktotal[r].PackedValue;
                         }
                     }
-                    arrow[xz].flechassobre.SetData(Colorsobre22, 0, arrow[xz].flechassobre.Height * arrow[xz].flechassobre.Width);
+                    Arrow[xz].flechassobre.SetData(Colorsobre22, 0, Arrow[xz].flechassobre.Height * Arrow[xz].flechassobre.Width);
                 }
                 else //right arrows
                 {
-                    arrow[xz].desplaza--;
-                    if (arrow[xz].desplaza < 0)
+                    Arrow[xz].desplaza--;
+                    if (Arrow[xz].desplaza < 0)
                     {
-                        arrow[xz].desplaza = arrow[xz].flechas.Width - 1;
+                        Arrow[xz].desplaza = Arrow[xz].flechas.Width - 1;
                     }
-                    for (int y4 = 0; y4 < arrow[xz].area.Height; y4++)
+                    for (int y4 = 0; y4 < Arrow[xz].area.Height; y4++)
                     {
-                        for (int x4 = 0; x4 < arrow[xz].area.Width; x4++)
+                        for (int x4 = 0; x4 < Arrow[xz].area.Width; x4++)
                         {
-                            int posy456 = y4 % arrow[xz].flechas.Height;
-                            int posx456 = x4 % arrow[xz].flechas.Width;
-                            posx456 = ((posx456 + arrow[xz].desplaza) % arrow[xz].flechas.Width);  //Left okok
-                            Colormasktotal[(y4 * arrow[xz].area.Width) + x4].PackedValue = Colormask22[(posy456 * arrow[xz].flechas.Width) + posx456].PackedValue;
+                            int posy456 = y4 % Arrow[xz].flechas.Height;
+                            int posx456 = x4 % Arrow[xz].flechas.Width;
+                            posx456 = ((posx456 + Arrow[xz].desplaza) % Arrow[xz].flechas.Width);  //Left okok
+                            Colormasktotal[(y4 * Arrow[xz].area.Width) + x4].PackedValue = Colormask22[(posy456 * Arrow[xz].flechas.Width) + posx456].PackedValue;
                         }
                     }
                     for (int r = 0; r < cantidad22; r++)
@@ -618,7 +633,7 @@ internal class InGame
                             Colorsobre22[r].PackedValue = Colormasktotal[r].PackedValue;
                         }
                     }
-                    arrow[xz].flechassobre.SetData(Colorsobre22, 0, arrow[xz].flechassobre.Height * arrow[xz].flechassobre.Width);
+                    Arrow[xz].flechassobre.SetData(Colorsobre22, 0, Arrow[xz].flechassobre.Height * Arrow[xz].flechassobre.Width);
                 }
             }
         }
@@ -714,16 +729,16 @@ internal class InGame
                 {
                     x.X = Lemming[actLEM].PosX + 14;
                     x.Y = Lemming[actLEM].PosY + 25;
-                    if (trap[ti].areaTrap.Contains(x) && !trap[ti].isOn && trap[ti].type == 666)
+                    if (Trap[ti].areaTrap.Contains(x) && !Trap[ti].isOn && Trap[ti].type == 666)
                     {
-                        trap[ti].isOn = true;
+                        Trap[ti].isOn = true;
                         Lemming[actLEM].Active = false;
                         Lemming[actLEM].Walker = false;
                         Lemming[actLEM].Dead = true;
                         numlemnow--;
                         Lemming[actLEM].Explode = false;
                         Lemming[actLEM].Exploser = false;
-                        switch (trap[ti].sprite.Name)
+                        switch (Trap[ti].sprite.Name)
                         {
                             case "traps/dead_marble":
                             case "traps/dead_marble2_fix":
@@ -779,9 +794,9 @@ internal class InGame
                     rectangleFill.Y = Lemming[actLEM].PosY;
                     rectangleFill.Width = 1;
                     rectangleFill.Height = 28;
-                    if (trap[ti].areaTrap.Intersects(rectangleFill) && !Lemming[actLEM].Burned && !Lemming[actLEM].Drown && trap[ti].type != 666)
+                    if (Trap[ti].areaTrap.Intersects(rectangleFill) && !Lemming[actLEM].Burned && !Lemming[actLEM].Drown && Trap[ti].type != 666)
                     {
-                        switch (trap[ti].sprite.Name)
+                        switch (Trap[ti].sprite.Name)
                         {
                             case "traps/dead_spin":
                             case "traps/fuego1":
@@ -861,10 +876,10 @@ internal class InGame
                 if (_inGameMenu.CurrentSelectedSkill == ECurrentSkill.DIGGER && !Lemming[actLEM].Digger && Lemming[actLEM].Onmouse //DIGGER
                     && (Lemming[actLEM].Walker || Lemming[actLEM].Builder || Lemming[actLEM].Basher || Lemming[actLEM].Miner))
                 {
-                    _nbDiggerRemaining--;
-                    if (_nbDiggerRemaining < 0)
+                    NbDiggerRemaining--;
+                    if (NbDiggerRemaining < 0)
                     {
-                        _nbDiggerRemaining = 0;
+                        NbDiggerRemaining = 0;
                         if (LemmingsNetGame.Instance.Sfx.Ting.State == SoundState.Playing)
                         {
                             LemmingsNetGame.Instance.Sfx.Ting.Stop();
@@ -891,10 +906,10 @@ internal class InGame
                 }
                 if (_inGameMenu.CurrentSelectedSkill == ECurrentSkill.CLIMBER && Lemming[actLEM].Onmouse && !Lemming[actLEM].Climber) //CLIMBER
                 {
-                    _nbClimberRemaining--;
-                    if (_nbClimberRemaining < 0)
+                    NbClimberRemaining--;
+                    if (NbClimberRemaining < 0)
                     {
-                        _nbClimberRemaining = 0;
+                        NbClimberRemaining = 0;
                         if (LemmingsNetGame.Instance.Sfx.Ting.State == SoundState.Playing)
                         {
                             LemmingsNetGame.Instance.Sfx.Ting.Stop();
@@ -914,10 +929,10 @@ internal class InGame
                 }
                 if (_inGameMenu.CurrentSelectedSkill == ECurrentSkill.FLOATER && Lemming[actLEM].Onmouse && !Lemming[actLEM].Umbrella && !Lemming[actLEM].Breakfloor) //FLOATER
                 {
-                    _nbFloaterRemaining--;
-                    if (_nbFloaterRemaining < 0)
+                    NbFloaterRemaining--;
+                    if (NbFloaterRemaining < 0)
                     {
-                        _nbFloaterRemaining = 0;
+                        NbFloaterRemaining = 0;
                         if (LemmingsNetGame.Instance.Sfx.Ting.State == SoundState.Playing)
                         {
                             LemmingsNetGame.Instance.Sfx.Ting.Stop();
@@ -937,10 +952,10 @@ internal class InGame
                 }
                 if (_inGameMenu.CurrentSelectedSkill == ECurrentSkill.EXPLODER && Lemming[actLEM].Onmouse && !Lemming[actLEM].Exploser) //BOMBER
                 {
-                    _nbExploderRemaining--;
-                    if (_nbExploderRemaining < 0)
+                    NbExploderRemaining--;
+                    if (NbExploderRemaining < 0)
                     {
-                        _nbExploderRemaining = 0;
+                        NbExploderRemaining = 0;
                         if (LemmingsNetGame.Instance.Sfx.Ting.State == SoundState.Playing)
                         {
                             LemmingsNetGame.Instance.Sfx.Ting.Stop();
@@ -961,10 +976,10 @@ internal class InGame
                 if (_inGameMenu.CurrentSelectedSkill == ECurrentSkill.BLOCKER && Lemming[actLEM].Onmouse && !Lemming[actLEM].Blocker //BLOCKER
                     && (Lemming[actLEM].Walker || Lemming[actLEM].Digger || Lemming[actLEM].Builder || Lemming[actLEM].Basher || Lemming[actLEM].Miner))
                 {
-                    _nbBlockerRemaining--;
-                    if (_nbBlockerRemaining < 0)
+                    NbBlockerRemaining--;
+                    if (NbBlockerRemaining < 0)
                     {
-                        _nbBlockerRemaining = 0;
+                        NbBlockerRemaining = 0;
                         if (LemmingsNetGame.Instance.Sfx.Ting.State == SoundState.Playing)
                         {
                             LemmingsNetGame.Instance.Sfx.Ting.Stop();
@@ -992,10 +1007,10 @@ internal class InGame
                 if (_inGameMenu.CurrentSelectedSkill == ECurrentSkill.BUILDER && Lemming[actLEM].Onmouse && !Lemming[actLEM].Builder //BUILDER
                     && (Lemming[actLEM].Walker || Lemming[actLEM].Digger || Lemming[actLEM].Basher || Lemming[actLEM].Miner || Lemming[actLEM].Bridge))
                 {
-                    _nbBuilderRemaining--;
-                    if (_nbBuilderRemaining < 0)
+                    NbBuilderRemaining--;
+                    if (NbBuilderRemaining < 0)
                     {
-                        _nbBuilderRemaining = 0;
+                        NbBuilderRemaining = 0;
                         if (LemmingsNetGame.Instance.Sfx.Ting.State == SoundState.Playing)
                         {
                             LemmingsNetGame.Instance.Sfx.Ting.Stop();
@@ -1024,10 +1039,10 @@ internal class InGame
                 if (_inGameMenu.CurrentSelectedSkill == ECurrentSkill.BASHER && Lemming[actLEM].Onmouse && !Lemming[actLEM].Basher //BASHER
                     && (Lemming[actLEM].Walker || Lemming[actLEM].Digger || Lemming[actLEM].Builder || Lemming[actLEM].Miner))
                 {
-                    _nbBasherRemaining--;
-                    if (_nbBasherRemaining < 0)
+                    NbBasherRemaining--;
+                    if (NbBasherRemaining < 0)
                     {
-                        _nbBasherRemaining = 0;
+                        NbBasherRemaining = 0;
                         if (LemmingsNetGame.Instance.Sfx.Ting.State == SoundState.Playing)
                         {
                             LemmingsNetGame.Instance.Sfx.Ting.Stop();
@@ -1054,10 +1069,10 @@ internal class InGame
                 if (_inGameMenu.CurrentSelectedSkill == ECurrentSkill.MINER && Lemming[actLEM].Onmouse && !Lemming[actLEM].Miner //MINER
                     && (Lemming[actLEM].Walker || Lemming[actLEM].Digger || Lemming[actLEM].Basher || Lemming[actLEM].Builder))
                 {
-                    _nbMinerRemaining--;
-                    if (_nbMinerRemaining < 0)
+                    NbMinerRemaining--;
+                    if (NbMinerRemaining < 0)
                     {
-                        _nbMinerRemaining = 0;
+                        NbMinerRemaining = 0;
                         if (LemmingsNetGame.Instance.Sfx.Ting.State == SoundState.Playing)
                         {
                             LemmingsNetGame.Instance.Sfx.Ting.Stop();
@@ -1280,12 +1295,12 @@ internal class InGame
                     arrowLem.Height = 28;
                     for (int wer3 = 0; wer3 < NumTotArrow; wer3++)
                     {
-                        if (arrow[wer3].area.Intersects(arrowLem) && Lemming[actLEM].Right && !arrow[wer3].right)
+                        if (Arrow[wer3].area.Intersects(arrowLem) && Lemming[actLEM].Right && !Arrow[wer3].right)
                         {
                             nominer = true;
                             continue;
                         }
-                        if (arrow[wer3].area.Intersects(arrowLem) && Lemming[actLEM].Left && arrow[wer3].right)
+                        if (Arrow[wer3].area.Intersects(arrowLem) && Lemming[actLEM].Left && Arrow[wer3].right)
                         {
                             nominer = true;
                         }
@@ -1346,9 +1361,9 @@ internal class InGame
                             int sy = r / width2;
                             x.X = px + sx;
                             x.Y = py + sy;
-                            for (int xz = 0; xz < numTOTsteel; xz++)
+                            for (int xz = 0; xz < NumTOTsteel; xz++)
                             {
-                                if (steel[xz].area.Contains(x))
+                                if (Steel[xz].area.Contains(x))
                                 {
                                     sx = -777;
                                     break;
@@ -1447,9 +1462,9 @@ internal class InGame
                             int sy = r / width2;
                             x.X = px + sx;
                             x.Y = py + sy;
-                            for (int xz = 0; xz < numTOTsteel; xz++)
+                            for (int xz = 0; xz < NumTOTsteel; xz++)
                             {
-                                if (steel[xz].area.Contains(x))
+                                if (Steel[xz].area.Contains(x))
                                 {
                                     sx = -777;
                                     break;
@@ -1516,12 +1531,12 @@ internal class InGame
                     arrowLem.Height = 28;
                     for (int wer3 = 0; wer3 < NumTotArrow; wer3++)
                     {
-                        if (arrow[wer3].area.Intersects(arrowLem) && Lemming[actLEM].Right && !arrow[wer3].right)
+                        if (Arrow[wer3].area.Intersects(arrowLem) && Lemming[actLEM].Right && !Arrow[wer3].right)
                         {
                             nobasher = true;
                             continue;
                         }
-                        if (arrow[wer3].area.Intersects(arrowLem) && Lemming[actLEM].Left && arrow[wer3].right)
+                        if (Arrow[wer3].area.Intersects(arrowLem) && Lemming[actLEM].Left && Arrow[wer3].right)
                         {
                             nobasher = true;
                         }
@@ -1587,9 +1602,9 @@ internal class InGame
                             {
                                 x.X = px + valX;
                                 x.Y = py + valY;
-                                for (int xz = 0; xz < numTOTsteel; xz++)
+                                for (int xz = 0; xz < NumTOTsteel; xz++)
                                 {
-                                    if (steel[xz].area.Contains(x))
+                                    if (Steel[xz].area.Contains(x))
                                     {
                                         sx = -777;
                                         break;
@@ -1702,9 +1717,9 @@ internal class InGame
                             {
                                 x.X = px + valX;
                                 x.Y = py + valY;
-                                for (int xz = 0; xz < numTOTsteel; xz++)
+                                for (int xz = 0; xz < NumTOTsteel; xz++)
                                 {
-                                    if (steel[xz].area.Contains(x))
+                                    if (Steel[xz].area.Contains(x))
                                     {
                                         sx = -777;
                                         break;
@@ -2028,9 +2043,9 @@ internal class InGame
                                 {
                                     x.X = Lemming[actLEM].PosX + xx88;
                                     x.Y = Lemming[actLEM].PosY + 14 + y;
-                                    for (int xz = 0; xz < numTOTsteel; xz++)
+                                    for (int xz = 0; xz < NumTOTsteel; xz++)
                                     {
-                                        if (steel[xz].area.Contains(x))
+                                        if (Steel[xz].area.Contains(x))
                                         {
                                             sx = -777; break;
                                         }
@@ -2264,9 +2279,9 @@ internal class InGame
                         int sy = r / ancho66;
                         x.X = px + sx;
                         x.Y = py + sy;
-                        for (int xz = 0; xz < numTOTsteel; xz++)
+                        for (int xz = 0; xz < NumTOTsteel; xz++)
                         {
-                            if (steel[xz].area.Contains(x))
+                            if (Steel[xz].area.Contains(x))
                             {
                                 sx = -777;
                                 break;
@@ -2489,11 +2504,11 @@ internal class InGame
         {
             for (int r = 0; r < NumTotTraps; r++)
             {
-                int tYheight = trap[r].sprite.Height / trap[r].numFrames;
-                if (trap[r].type != 555 && trap[r].type != 666)
+                int tYheight = Trap[r].sprite.Height / Trap[r].numFrames;
+                if (Trap[r].type != 555 && Trap[r].type != 666)
                 {
                     int vv444 = 0;
-                    switch (trap[r].vvscroll)
+                    switch (Trap[r].vvscroll)
                     {
                         case 1:
                             vv444 = z1;
@@ -2507,49 +2522,49 @@ internal class InGame
                     colorFill.R = 255;
                     colorFill.G = 255;
                     colorFill.B = 255;
-                    colorFill.A = trap[r].transparency;
-                    if (trap[r].R != 255 && trap[r].R > 0)
-                        colorFill.R = trap[r].R;
-                    if (trap[r].G != 255 && trap[r].G > 0)
-                        colorFill.G = trap[r].G;
-                    if (trap[r].B != 255 && trap[r].B > 0)
-                        colorFill.B = trap[r].B;
-                    rectangleFill.X = trap[r].areaDraw.X - ScrollX;
-                    rectangleFill.Y = trap[r].areaDraw.Y - ScrollY;
-                    rectangleFill.Width = trap[r].areaDraw.Width;
+                    colorFill.A = Trap[r].transparency;
+                    if (Trap[r].R != 255 && Trap[r].R > 0)
+                        colorFill.R = Trap[r].R;
+                    if (Trap[r].G != 255 && Trap[r].G > 0)
+                        colorFill.G = Trap[r].G;
+                    if (Trap[r].B != 255 && Trap[r].B > 0)
+                        colorFill.B = Trap[r].B;
+                    rectangleFill.X = Trap[r].areaDraw.X - ScrollX;
+                    rectangleFill.Y = Trap[r].areaDraw.Y - ScrollY;
+                    rectangleFill.Width = Trap[r].areaDraw.Width;
                     rectangleFill.Height = tYheight;
                     rectangleFill2.X = 0 + vv444;
-                    rectangleFill2.Y = tYheight * trap[r].actFrame;
-                    rectangleFill2.Width = trap[r].areaDraw.Width;
+                    rectangleFill2.Y = tYheight * Trap[r].actFrame;
+                    rectangleFill2.Width = Trap[r].areaDraw.Width;
                     rectangleFill2.Height = tYheight;
-                    spriteBatch.Draw(trap[r].sprite, rectangleFill, rectangleFill2, colorFill, 0f, Vector2.Zero, SpriteEffects.None, trap[r].depth);
+                    spriteBatch.Draw(Trap[r].sprite, rectangleFill, rectangleFill2, colorFill, 0f, Vector2.Zero, SpriteEffects.None, Trap[r].depth);
                 }
                 else
                 {
                     colorFill.R = 255;
                     colorFill.G = 255;
                     colorFill.B = 255;
-                    colorFill.A = trap[r].transparency;
-                    if (trap[r].R != 255 && trap[r].R > 0)
-                        colorFill.R = trap[r].R;
-                    if (trap[r].G != 255 && trap[r].G > 0)
-                        colorFill.G = trap[r].G;
-                    if (trap[r].B != 255 && trap[r].B > 0)
-                        colorFill.B = trap[r].B;
-                    int spY = trap[r].sprite.Height / trap[r].numFrames;
-                    rectangleFill.X = (int)trap[r].pos.X - ScrollX - trap[r].vvX;
-                    rectangleFill.Y = (int)trap[r].pos.Y - trap[r].vvY - ScrollY;
-                    rectangleFill.Width = trap[r].sprite.Width;
+                    colorFill.A = Trap[r].transparency;
+                    if (Trap[r].R != 255 && Trap[r].R > 0)
+                        colorFill.R = Trap[r].R;
+                    if (Trap[r].G != 255 && Trap[r].G > 0)
+                        colorFill.G = Trap[r].G;
+                    if (Trap[r].B != 255 && Trap[r].B > 0)
+                        colorFill.B = Trap[r].B;
+                    int spY = Trap[r].sprite.Height / Trap[r].numFrames;
+                    rectangleFill.X = (int)Trap[r].pos.X - ScrollX - Trap[r].vvX;
+                    rectangleFill.Y = (int)Trap[r].pos.Y - Trap[r].vvY - ScrollY;
+                    rectangleFill.Width = Trap[r].sprite.Width;
                     rectangleFill.Height = spY;
                     rectangleFill2.X = 0;
-                    rectangleFill2.Y = spY * trap[r].actFrame;
-                    rectangleFill2.Width = trap[r].sprite.Width;
+                    rectangleFill2.Y = spY * Trap[r].actFrame;
+                    rectangleFill2.Width = Trap[r].sprite.Width;
                     rectangleFill2.Height = spY;
-                    spriteBatch.Draw(trap[r].sprite, rectangleFill, rectangleFill2, colorFill, 0f, Vector2.Zero, SpriteEffects.None, trap[r].depth);
+                    spriteBatch.Draw(Trap[r].sprite, rectangleFill, rectangleFill2, colorFill, 0f, Vector2.Zero, SpriteEffects.None, Trap[r].depth);
                 }
                 if (LemmingsNetGame.Instance.DebugOsd.debug)
                 {
-                    spriteBatch.Draw(LemmingsNetGame.Instance.Gfx.Texture1pixel, new Rectangle(trap[r].areaTrap.Left - ScrollX, trap[r].areaTrap.Top - ScrollY, trap[r].areaTrap.Width, trap[r].areaTrap.Height),
+                    spriteBatch.Draw(LemmingsNetGame.Instance.Gfx.Texture1pixel, new Rectangle(Trap[r].areaTrap.Left - ScrollX, Trap[r].areaTrap.Top - ScrollY, Trap[r].areaTrap.Width, Trap[r].areaTrap.Height),
                         null, new Color(255, 255, 255, 140), 0f, Vector2.Zero, SpriteEffects.None, 0.1f);
                 }
             }
@@ -2600,9 +2615,9 @@ internal class InGame
         {
             for (int xz = 0; xz < NumTotArrow; xz++)
             {
-                spriteBatch.Draw(arrow[xz].flechassobre, new Vector2(arrow[xz].area.X - ScrollX, arrow[xz].area.Y - ScrollY),
-                    new Rectangle(0, 0, arrow[xz].flechassobre.Width, arrow[xz].flechassobre.Height),
-                    new Color(255, 255, 255, arrow[xz].transparency), 0f, Vector2.Zero, 1f, SpriteEffects.None, 0.499f);
+                spriteBatch.Draw(Arrow[xz].flechassobre, new Vector2(Arrow[xz].area.X - ScrollX, Arrow[xz].area.Y - ScrollY),
+                    new Rectangle(0, 0, Arrow[xz].flechassobre.Width, Arrow[xz].flechassobre.Height),
+                    new Color(255, 255, 255, Arrow[xz].transparency), 0f, Vector2.Zero, 1f, SpriteEffects.None, 0.499f);
             }
         }
         //menu for ending level or not
@@ -2710,27 +2725,27 @@ internal class InGame
         }
         if (PlatsON)
         {
-            for (int i = 0; i < numTOTplats; i++)
+            for (int i = 0; i < NumTOTplats; i++)
             {
-                int x2 = plats[i].areaDraw.X - plats[i].areaDraw.Width / 2;
-                int y = plats[i].areaDraw.Y;
-                int w = plats[i].sprite.Width;
-                int h = plats[i].sprite.Height;
-                spriteBatch.Draw(plats[i].sprite, new Rectangle(x2 - ScrollX, y - ScrollY - 5, plats[i].areaDraw.Width, plats[i].areaDraw.Height),
+                int x2 = Plats[i].areaDraw.X - Plats[i].areaDraw.Width / 2;
+                int y = Plats[i].areaDraw.Y;
+                int w = Plats[i].sprite.Width;
+                int h = Plats[i].sprite.Height;
+                spriteBatch.Draw(Plats[i].sprite, new Rectangle(x2 - ScrollX, y - ScrollY - 5, Plats[i].areaDraw.Width, Plats[i].areaDraw.Height),
                     new Rectangle(0, 0, w, h), Color.White, 0f, Vector2.Zero, SpriteEffects.None, 0.56f);
             }
         }
-        if (moreDoors == null)
+        if (MoreDoors == null)
         {
             spriteBatch.Draw(puerta_ani, new Vector2(door1X - ScrollX, door1Y - ScrollY), new Rectangle(0, framereal565, xx55, yy55),
                 Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, DoorExitDepth);
         }
         else
         {
-            for (int i = 0; i < numTOTdoors; i++)
+            for (int i = 0; i < NumTOTdoors; i++)
             {
-                door1X = (int)moreDoors[i].doorMoreXY.X;
-                door1Y = (int)moreDoors[i].doorMoreXY.Y;
+                door1X = (int)MoreDoors[i].doorMoreXY.X;
+                door1Y = (int)MoreDoors[i].doorMoreXY.Y;
                 spriteBatch.Draw(puerta_ani, new Vector2(door1X - ScrollX, door1Y - ScrollY), new Rectangle(0, framereal565, xx55, yy55),
                     Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, DoorExitDepth);
             }
@@ -2742,7 +2757,7 @@ internal class InGame
         int yy88 = LemmingsNetGame.Instance.Levels.VarExit[LemmingsNetGame.Instance.Levels.AllLevel[LemmingsNetGame.Instance.CurrentLevelNumber].TypeOfExit].moreY;
         int yy99 = LemmingsNetGame.Instance.Levels.VarExit[LemmingsNetGame.Instance.Levels.AllLevel[LemmingsNetGame.Instance.CurrentLevelNumber].TypeOfExit].moreY2;
         frameact = (frameExit * yy66);
-        if (moreexits == null)
+        if (Moreexits == null)
         {
             spriteBatch.Draw(salida_ani1_1, new Vector2(output1X - ScrollX - xx88, output1Y - yy88 - ScrollY), new Rectangle(0, frameact, xx66, yy66), Color.White,
                 0f, Vector2.Zero, 1f, SpriteEffects.None, DoorExitDepth);
@@ -2757,10 +2772,10 @@ internal class InGame
         }
         else
         {
-            for (int ex22 = 0; ex22 < numTOTexits; ex22++)
+            for (int ex22 = 0; ex22 < NumTOTexits; ex22++)
             {
-                output1X = (int)moreexits[ex22].exitMoreXY.X;
-                output1Y = (int)moreexits[ex22].exitMoreXY.Y;
+                output1X = (int)Moreexits[ex22].exitMoreXY.X;
+                output1Y = (int)Moreexits[ex22].exitMoreXY.Y;
                 spriteBatch.Draw(salida_ani1_1, new Vector2(output1X - ScrollX - xx88, output1Y - yy88 - ScrollY), new Rectangle(0, frameact, xx66, yy66), Color.White,
                     0f, Vector2.Zero, 1f, SpriteEffects.None, DoorExitDepth);
                 spriteBatch.Draw(salida_ani1, new Vector2(output1X - ScrollX - xx99, output1Y - yy99 - ScrollY), new Rectangle(0, 0, salida_ani1.Width, salida_ani1.Height),
@@ -2929,7 +2944,7 @@ internal class InGame
                 spriteBatch.Draw(LemmingsNetGame.Instance.Sprites.Climber, new Vector2(Lemming[actLEM].PosX - ScrollX + (Lemming[actLEM].Right ? SizeSprites.climber_xpos : SizeSprites.climber_xposleft), Lemming[actLEM].PosY + SizeSprites.climber_ypos - ScrollY), new Rectangle(framesale, 0, SizeSprites.climber_with, SizeSprites.climber_height), (Lemming[actLEM].Onmouse ? Color.Red : Color.White), 0f, Vector2.Zero, SizeSprites.climber_size, (Lemming[actLEM].Right ? SpriteEffects.FlipHorizontally : SpriteEffects.None), Lem_depth + (actLEM * 0.00001f));
             }
         }
-        if (fade)
+        if (Fade)
         {
             rest++;
             int rest2 = rest * 7;
@@ -2938,7 +2953,7 @@ internal class InGame
             LemmingsNetGame.Instance.Gfx.DrawLine(spriteBatch, new Vector2(0, 0), new Vector2(MyGame.GameResolution.X, 0), new Color(0, 0, 0, 255 - rest2), MyGame.GameResolution.Y, 0f);
             if (Frame > 19)
             {
-                fade = false;
+                Fade = false;
                 rest = 0;
                 TotalTime = 0;
                 if (LemmingsNetGame.Instance.Sfx.Letsgo.State == SoundState.Stopped && !initON)
@@ -3154,7 +3169,7 @@ internal class InGame
                 numSaved = 0;
                 numlemnow = 0;
                 NumLemmings = 0;
-                fade = true;
+                Fade = true;
                 MillisecondsElapsed = 0;
                 doorOn = true;
                 Frame = 0;
@@ -3178,7 +3193,7 @@ internal class InGame
                 numSaved = 0;
                 numlemnow = 0;
                 NumLemmings = 0;
-                fade = true;
+                Fade = true;
                 MillisecondsElapsed = 0;
                 doorOn = true;
                 Frame = 0;
@@ -3227,42 +3242,42 @@ internal class InGame
             _inGameMenu._increaseOn = true;
         else if (Input.PreviousKeyState.IsKeyUp(Keys.D2) && _inGameMenu._increaseOn)
             _inGameMenu._increaseOn = false;
-        if (_nbClimberRemaining > 0 && Input.PreviousKeyState.IsKeyDown(Keys.D3) && Input.CurrentKeyState.IsKeyUp(Keys.D3))
+        if (NbClimberRemaining > 0 && Input.PreviousKeyState.IsKeyDown(Keys.D3) && Input.CurrentKeyState.IsKeyUp(Keys.D3))
         {
             LemmingsNetGame.Instance.Sfx.PlaySoundMenu();
             _inGameMenu.CurrentSelectedSkill = ECurrentSkill.CLIMBER;
         }
-        else if (_nbFloaterRemaining > 0 && Input.PreviousKeyState.IsKeyDown(Keys.D4) && Input.CurrentKeyState.IsKeyUp(Keys.D4))
+        else if (NbFloaterRemaining > 0 && Input.PreviousKeyState.IsKeyDown(Keys.D4) && Input.CurrentKeyState.IsKeyUp(Keys.D4))
         {
             LemmingsNetGame.Instance.Sfx.PlaySoundMenu();
             _inGameMenu.CurrentSelectedSkill = ECurrentSkill.FLOATER;
         }
-        else if (_nbExploderRemaining > 0 && Input.PreviousKeyState.IsKeyDown(Keys.D5) && Input.CurrentKeyState.IsKeyUp(Keys.D5))
+        else if (NbExploderRemaining > 0 && Input.PreviousKeyState.IsKeyDown(Keys.D5) && Input.CurrentKeyState.IsKeyUp(Keys.D5))
         {
             LemmingsNetGame.Instance.Sfx.PlaySoundMenu();
             _inGameMenu.CurrentSelectedSkill = ECurrentSkill.EXPLODER;
         }
-        else if (_nbBlockerRemaining > 0 && Input.PreviousKeyState.IsKeyDown(Keys.D6) && Input.CurrentKeyState.IsKeyUp(Keys.D6))
+        else if (NbBlockerRemaining > 0 && Input.PreviousKeyState.IsKeyDown(Keys.D6) && Input.CurrentKeyState.IsKeyUp(Keys.D6))
         {
             LemmingsNetGame.Instance.Sfx.PlaySoundMenu();
             _inGameMenu.CurrentSelectedSkill = ECurrentSkill.BLOCKER;
         }
-        else if (_nbBuilderRemaining > 0 && Input.PreviousKeyState.IsKeyDown(Keys.D7) && Input.CurrentKeyState.IsKeyUp(Keys.D7))
+        else if (NbBuilderRemaining > 0 && Input.PreviousKeyState.IsKeyDown(Keys.D7) && Input.CurrentKeyState.IsKeyUp(Keys.D7))
         {
             LemmingsNetGame.Instance.Sfx.PlaySoundMenu();
             _inGameMenu.CurrentSelectedSkill = ECurrentSkill.BUILDER;
         }
-        else if (_nbBasherRemaining > 0 && Input.PreviousKeyState.IsKeyDown(Keys.D8) && Input.CurrentKeyState.IsKeyUp(Keys.D8))
+        else if (NbBasherRemaining > 0 && Input.PreviousKeyState.IsKeyDown(Keys.D8) && Input.CurrentKeyState.IsKeyUp(Keys.D8))
         {
             LemmingsNetGame.Instance.Sfx.PlaySoundMenu();
             _inGameMenu.CurrentSelectedSkill = ECurrentSkill.BASHER;
         }
-        else if (_nbMinerRemaining > 0 && Input.PreviousKeyState.IsKeyDown(Keys.D9) && Input.CurrentKeyState.IsKeyUp(Keys.D9))
+        else if (NbMinerRemaining > 0 && Input.PreviousKeyState.IsKeyDown(Keys.D9) && Input.CurrentKeyState.IsKeyUp(Keys.D9))
         {
             LemmingsNetGame.Instance.Sfx.PlaySoundMenu();
             _inGameMenu.CurrentSelectedSkill = ECurrentSkill.MINER;
         }
-        else if (_nbDiggerRemaining > 0 && Input.PreviousKeyState.IsKeyDown(Keys.D0) && Input.CurrentKeyState.IsKeyUp(Keys.D0))
+        else if (NbDiggerRemaining > 0 && Input.PreviousKeyState.IsKeyDown(Keys.D0) && Input.CurrentKeyState.IsKeyUp(Keys.D0))
         {
             LemmingsNetGame.Instance.Sfx.PlaySoundMenu();
             _inGameMenu.CurrentSelectedSkill = ECurrentSkill.DIGGER;
@@ -3356,13 +3371,13 @@ internal class InGame
         //test to see difference with anterior process
         if (pullLemmings && NumLemmings != Numlems && !AllBlow)
         {
-            if (numTOTdoors > 1 && moreDoors != null) // more than 1 door is different calculation
+            if (NumTOTdoors > 1 && MoreDoors != null) // more than 1 door is different calculation
             {
-                door1Y = (int)moreDoors[numACTdoor].doorMoreXY.Y;
-                door1X = (int)moreDoors[numACTdoor].doorMoreXY.X;
-                numACTdoor++;
-                if (numACTdoor >= numTOTdoors)
-                    numACTdoor = 0;
+                door1Y = (int)MoreDoors[NumACTdoor].doorMoreXY.Y;
+                door1X = (int)MoreDoors[NumACTdoor].doorMoreXY.X;
+                NumACTdoor++;
+                if (NumACTdoor >= NumTOTdoors)
+                    NumACTdoor = 0;
                 Lemming[NumLemmings].PosY = door1Y;
                 Lemming[NumLemmings].PosX = door1X + 35;
             }
@@ -3421,7 +3436,7 @@ internal class InGame
                 }
                 catch (InstancePlayLimitException) { /* Ignore errors */ }
             }
-            if (moreexits == null)
+            if (Moreexits == null)
             {
                 if (exit_rect.Contains(x) && !Lemming[actLEM2].Exit && !Lemming[actLEM2].Explode)
                 {
@@ -3438,10 +3453,10 @@ internal class InGame
             }
             else
             {
-                for (ex11 = 0; ex11 < numTOTexits; ex11++) // more than one EXIT place
+                for (ex11 = 0; ex11 < NumTOTexits; ex11++) // more than one EXIT place
                 {
-                    output1X = (int)moreexits[ex11].exitMoreXY.X;
-                    output1Y = (int)moreexits[ex11].exitMoreXY.Y;
+                    output1X = (int)Moreexits[ex11].exitMoreXY.X;
+                    output1Y = (int)Moreexits[ex11].exitMoreXY.Y;
                     exit_rect.X = output1X - 5;
                     exit_rect.Y = output1Y - 5;
                     exit_rect.Width = 10;
@@ -3461,3703 +3476,5 @@ internal class InGame
                 }
             }
         }
-    }
-
-    private void VariablesTraps()
-    {
-        switch (LemmingsNetGame.Instance.CurrentLevelNumber)
-        {
-            case 1:
-                Sprite = new Varsprites[6];
-                Sprite[0].actFrame = 0;
-                Sprite[0].axisX = 4;
-                Sprite[0].axisY = 4;
-                Sprite[0].depth = 0.806f;
-                Sprite[0].R = 255;
-                Sprite[0].G = 255;
-                Sprite[0].B = 255;
-                Sprite[0].transparency = 200;
-                Sprite[0].pos = new Vector2(0, 0);
-                Sprite[0].scale = 9f; //1f->normal size -- 0.5f->half size -- etc.
-                Sprite[0].rotation = 0f;
-                Sprite[0].framesecond = 4;
-                Sprite[0].frame = 0;
-                Sprite[0].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("sprite/magma_mask");
-                Sprite[0].minusScrollx = false;
-                Sprite[1].actFrame = 0;
-                Sprite[1].axisX = 8;
-                Sprite[1].axisY = 8;
-                Sprite[1].depth = 0.406f;
-                Sprite[1].R = 255;
-                Sprite[1].G = 255;
-                Sprite[1].B = 255;
-                Sprite[1].transparency = 255;
-                Sprite[1].pos = new Vector2(1188, 337); //340
-                Sprite[1].scale = 0.35f; //1f->normal size -- 0.5f->half size -- etc.
-                Sprite[1].rotation = 0.1f;
-                Sprite[1].framesecond = 0;
-                Sprite[1].frame = 0;
-                Sprite[1].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("sprite/flame");
-                Sprite[1].minusScrollx = true;
-                Sprite[2].actFrame = 0;
-                Sprite[2].axisX = 8;
-                Sprite[2].axisY = 8;
-                Sprite[2].depth = 0.405f;
-                Sprite[2].R = 255;
-                Sprite[2].G = 225;
-                Sprite[2].B = 225;
-                Sprite[2].transparency = 255;
-                Sprite[2].pos = new Vector2(1136, 337);
-                Sprite[2].scale = 0.35f; //1f->normal size -- 0.5f->half size -- etc.
-                Sprite[2].rotation = 0.05f;
-                Sprite[2].framesecond = 0;
-                Sprite[2].frame = 0;
-                Sprite[2].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("sprite/flame");
-                Sprite[2].minusScrollx = true;
-                Sprite[3].actFrame = 0;
-                Sprite[3].axisX = 6;
-                Sprite[3].axisY = 1;
-                Sprite[3].depth = 0.405f;
-                Sprite[3].R = 255;
-                Sprite[3].G = 225;
-                Sprite[3].B = 225;
-                Sprite[3].transparency = 255;
-                Sprite[3].pos = new Vector2(0, 0);
-                Sprite[3].scale = 0.5f; //1f->normal size -- 0.5f->half size -- etc.
-                Sprite[3].rotation = 0f;
-                Sprite[3].framesecond = 1;
-                Sprite[3].frame = 0;
-                Sprite[3].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("touch/arana");
-                Sprite[3].calc = true;
-                Sprite[3].minusScrollx = true;
-                Sprite[3].dest = new Vector2(0, 0);
-                Sprite[3].speed = 0.578f;  // this field is important for move logic of sprites != 0
-                Sprite[3].actVect = 0;
-                Sprite[3].center.X = ((Sprite[3].sprite.Width / Sprite[3].axisX) / 2);
-                Sprite[3].center.Y = ((Sprite[3].sprite.Height / Sprite[3].axisY) / 2);
-                Sprite[3].path = new Vector3[7];
-                Sprite[3].path[0] = new Vector3(48, 65, 1.5f);
-                Sprite[3].path[1] = new Vector3(200, 140, 1.7f);
-                Sprite[3].path[2] = new Vector3(238, 139, 1.9f);
-                Sprite[3].path[3] = new Vector3(146, 407, 1.6f);
-                Sprite[3].path[4] = new Vector3(326, 475, 2f);
-                Sprite[3].path[5] = new Vector3(405, 322, 1.2f);
-                Sprite[3].path[6] = new Vector3(470, 211, 1.5f);
-                Sprite[4].actFrame = 0;
-                Sprite[4].axisX = 2;
-                Sprite[4].axisY = 10;
-                Sprite[4].depth = 0.505f;
-                Sprite[4].R = 255;
-                Sprite[4].G = 225;
-                Sprite[4].B = 225;
-                Sprite[4].transparency = 255;
-                Sprite[4].pos = new Vector2(120, -190);
-                Sprite[4].scale = 2f; //1f->normal size -- 0.5f->half size -- etc.
-                Sprite[4].rotation = 1.57f;
-                Sprite[4].framesecond = 2;
-                Sprite[4].frame = 0;
-                Sprite[4].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("touch/fire_sprites_other");
-                Sprite[4].minusScrollx = false;
-                Sprite[4].minus = false;
-                Sprite[5].calc = true;
-                Sprite[5].actFrame = 0;
-                Sprite[5].axisX = 6;
-                Sprite[5].axisY = 1;
-                Sprite[5].depth = 0.405f;
-                Sprite[5].R = 255;
-                Sprite[5].G = 225;
-                Sprite[5].B = 225;
-                Sprite[5].transparency = 255;
-                Sprite[5].pos = new Vector2(0, 0);
-                Sprite[5].scale = 0.3f; //1f->normal size -- 0.5f->half size -- etc.
-                Sprite[5].rotation = 0f;
-                Sprite[5].framesecond = 2;
-                Sprite[5].frame = 0;
-                Sprite[5].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("touch/arana");
-                Sprite[5].minusScrollx = true;
-                Sprite[5].dest = new Vector2(0, 0);
-                Sprite[5].speed = 0.578f;  // this field is important for move logic of sprites != 0
-                Sprite[5].actVect = 0;
-                Sprite[5].center.X = ((Sprite[3].sprite.Width / Sprite[3].axisX) / 2);
-                Sprite[5].center.Y = ((Sprite[3].sprite.Height / Sprite[3].axisY) / 2);
-                Sprite[5].path = new Vector3[6];
-                Sprite[5].path[0] = new Vector3(1000, 5, 1.5f);
-                Sprite[5].path[1] = new Vector3(1090, 95, 1.7f);
-                Sprite[5].path[2] = new Vector3(1069, 252, 1.9f);
-                Sprite[5].path[3] = new Vector3(1173, 300, 1.6f);
-                Sprite[5].path[4] = new Vector3(1241, 138, 2f);
-                Sprite[5].path[5] = new Vector3(1300, 5, 1.2f);
-
-                break;
-            case 4:
-                Sprite = new Varsprites[1];
-                Sprite[0].actFrame = 0;
-                Sprite[0].axisX = 4;
-                Sprite[0].axisY = 4;
-                Sprite[0].depth = 0.806f;
-                Sprite[0].R = 255;
-                Sprite[0].G = 255;
-                Sprite[0].B = 255;
-                Sprite[0].transparency = 200;
-                Sprite[0].pos = new Vector2(0, 0);
-                Sprite[0].scale = 9f; //1f->normal size -- 0.5f->half size -- etc.
-                Sprite[0].rotation = 0f;
-                Sprite[0].framesecond = 4;
-                Sprite[0].frame = 0;
-                Sprite[0].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("sprite/magma_mask");
-                Sprite[0].minusScrollx = false;
-                NumTotTraps = 1;
-                TrapsON = true;
-                trap = new Vartraps[NumTotTraps];
-                trap[0].vvscroll = 1;
-                trap[0].areaDraw = new Rectangle(820, 462, 1529 - 820, 40); // 512-40=462 bottom of the screen
-                trap[0].areaTrap = new Rectangle(820, 467, 1529 - 820, 10); //normally +5 on Y and 10 of height
-                trap[0].numFrames = 8;
-                trap[0].actFrame = 0;
-                trap[0].type = 1;
-                trap[0].isOn = false;
-                trap[0].pos = Vector2.Zero;
-                trap[0].vvX = 0;
-                trap[0].vvY = 0;
-                trap[0].depth = 0.600000009f;
-                trap[0].transparency = 170;
-                trap[0].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/acid");
-                break;
-            case 5:
-                NumTotTraps = 2;
-                TrapsON = true;
-                trap = new Vartraps[NumTotTraps];
-                trap[0].vvscroll = 1; // kind of variable scroll the trap 1=z1--
-                trap[0].areaDraw = new Rectangle(510, 480, 300, 32); //512-32=480 bottom of the screen
-                trap[0].areaTrap = new Rectangle(510, 485, 300, 10);
-                trap[0].numFrames = 8;
-                trap[0].actFrame = 0;
-                trap[0].type = 1;
-                trap[0].isOn = false;
-                trap[0].pos = Vector2.Zero;
-                trap[0].vvX = 0;
-                trap[0].vvY = 0;
-                trap[0].depth = 0.600000009f;
-                trap[0].transparency = 255;
-                trap[0].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/ice_water");
-                trap[1].vvscroll = 2; // kind of variable scroll the trap 1=z1 -- 2=-z1 --
-                trap[1].areaDraw = new Rectangle(518, 460, 280, 32);
-                trap[1].areaTrap = new Rectangle(518, 465, 280, 10);
-                trap[1].numFrames = 8;
-                trap[1].actFrame = 0;
-                trap[1].type = 1;
-                trap[1].isOn = false;
-                trap[1].pos = Vector2.Zero;
-                trap[1].vvX = 0;
-                trap[1].vvY = 0;
-                trap[1].depth = 0.600000009f;
-                trap[1].transparency = 130;
-                trap[1].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/ice_water");
-                break;
-            case 6:
-            case 47:
-                NumTotTraps = 2;
-                TrapsON = true;
-                trap = new Vartraps[NumTotTraps];
-                trap[0].vvscroll = 2;
-                trap[0].areaDraw = new Rectangle(320, 472, 2189 - 320, 40);
-                trap[0].areaTrap = new Rectangle(320, 477, 2189 - 320, 10);
-                trap[0].numFrames = 8;
-                trap[0].actFrame = 0;
-                trap[0].type = 1;
-                trap[0].isOn = false;
-                trap[0].pos = Vector2.Zero;
-                trap[0].vvX = 0;
-                trap[0].vvY = 0;
-                trap[0].depth = 0.600000009f;
-                trap[0].transparency = 160;
-                trap[0].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/fuego1");
-                trap[1].areaDraw = new Rectangle(0, 0, 0, 0);
-                trap[1].areaTrap = new Rectangle(1162 - 159 + 30, 108 - 5, 159 - 30, 10); //fire shooter see .pos vector2 minus vvX-20 and vvY-5
-                trap[1].numFrames = 10;
-                trap[1].actFrame = 0;
-                trap[1].type = 555; // traps animated  that uses vector2 to draws areadraw if filled 0's
-                trap[1].isOn = false;
-                trap[1].pos = new Vector2(1162, 108);
-                trap[1].vvX = 159;
-                trap[1].vvY = 27;
-                trap[1].depth = 0.400000009f;
-                trap[1].transparency = 200;
-                trap[1].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/fuego4");
-                break;
-            case 7:
-                NumTotTraps = 1;
-                TrapsON = true;
-                trap = new Vartraps[NumTotTraps];
-                trap[0].areaDraw = new Rectangle(192, 472, 3220 - 192, 40);
-                trap[0].areaTrap = new Rectangle(192, 477, 3220 - 192, 10);
-                trap[0].numFrames = 8;
-                trap[0].actFrame = 0;
-                trap[0].type = 1;
-                trap[0].isOn = false;
-                trap[0].pos = Vector2.Zero;
-                trap[0].vvX = 0;
-                trap[0].vvY = 0;
-                trap[0].depth = 0.600000009f;
-                trap[0].transparency = 170;
-                trap[0].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/acid");
-                break;
-            case 8:
-                NumTotTraps = 1;
-                TrapsON = true;
-                trap = new Vartraps[NumTotTraps];
-                trap[0].vvscroll = 1;
-                trap[0].areaDraw = new Rectangle(325, 480, 3500 - 325, 32);
-                trap[0].areaTrap = new Rectangle(325, 485, 3500 - 325, 10);
-                trap[0].numFrames = 8;
-                trap[0].actFrame = 0;
-                trap[0].type = 1;
-                trap[0].isOn = false;
-                trap[0].pos = Vector2.Zero;
-                trap[0].vvX = 0;
-                trap[0].vvY = 0;
-                trap[0].depth = 0.600000009f;
-                trap[0].transparency = 170;
-                trap[0].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/water_blue");
-                break;
-            case 9:
-            case 56:
-                NumTotTraps = 4;
-                TrapsON = true;
-                trap = new Vartraps[NumTotTraps];
-                trap[0].areaDraw = new Rectangle(0, 462, MyGame.GameResolution.X, 40);
-                trap[0].areaTrap = new Rectangle(0, 470, MyGame.GameResolution.X, 10);
-                trap[0].numFrames = 8;
-                trap[0].actFrame = 0;
-                trap[0].type = 1;
-                trap[0].isOn = false;
-                trap[0].pos = Vector2.Zero;
-                trap[0].vvX = 0;
-                trap[0].vvY = 0;
-                trap[0].depth = 0.400000009f;
-                trap[0].transparency = 170;
-                trap[0].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/acid");
-                trap[1].areaDraw = new Rectangle(0, 0, 0, 0);
-                trap[1].areaTrap = new Rectangle(507 - 23, 202 - 38 / 2, 23 * 2, 10); //se .pos minis vvY/2 -vvx long vvx*2
-                trap[1].numFrames = 16;
-                trap[1].actFrame = 0;
-                trap[1].type = 555; // traps that uses vector2 to draws areadraw if filled 0's
-                trap[1].isOn = false;
-                trap[1].pos = new Vector2(507, 202);
-                trap[1].vvX = 32;
-                trap[1].vvY = 38;
-                trap[1].depth = 0.200000009f;
-                trap[1].transparency = 255;
-                trap[1].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/dead_spin");
-                trap[2].areaDraw = new Rectangle(0, 0, 0, 0);
-                trap[2].areaTrap = new Rectangle(852 - 23, 399 - 38 / 2, 23 * 2, 10); //see .pos
-                trap[2].numFrames = 16;
-                trap[2].actFrame = 0;
-                trap[2].type = 555; // traps that uses vector2 to draws areadraw if filled 0's
-                trap[2].isOn = false;
-                trap[2].pos = new Vector2(852, 399);
-                trap[2].vvX = 32;
-                trap[2].vvY = 38;
-                trap[2].depth = 0.200000009f;
-                trap[2].transparency = 255;
-                trap[2].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/dead_spin");
-                trap[3].areaDraw = new Rectangle(0, 0, 0, 0);
-                trap[3].areaTrap = new Rectangle(164 - 23, 393 - 38 / 2, 23 * 2, 10);
-                trap[3].numFrames = 16;
-                trap[3].actFrame = 0;
-                trap[3].type = 555; // traps that uses vector2 to draws areadraw if filled 0's
-                trap[3].isOn = false;
-                trap[3].pos = new Vector2(164, 393);
-                trap[3].vvX = 32;
-                trap[3].vvY = 38;
-                trap[3].depth = 0.200000009f;
-                trap[3].transparency = 255;
-                trap[3].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/dead_spin");
-                break;
-            case 10:
-                NumTotTraps = 2;
-                TrapsON = true;
-                trap = new Vartraps[NumTotTraps];
-                trap[0].vvscroll = 1;
-                trap[0].areaDraw = new Rectangle(380, 490, 1843 - 380, 32);
-                trap[0].areaTrap = new Rectangle(380, 495, 1843 - 380, 10);
-                trap[0].numFrames = 8;
-                trap[0].actFrame = 0;
-                trap[0].type = 1;
-                trap[0].isOn = false;
-                trap[0].pos = Vector2.Zero;
-                trap[0].vvX = 0;
-                trap[0].vvY = 0;
-                trap[0].G = 150;
-                trap[0].B = 20;
-                trap[0].depth = 0.600000009f;
-                trap[0].transparency = 255;
-                trap[0].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/water_blue");
-                trap[1].areaDraw = new Rectangle(0, 480, 2303, 32);
-                trap[1].areaTrap = new Rectangle(0, 0, 0, 0);// not necessary
-                trap[1].numFrames = 8;
-                trap[1].actFrame = 0;
-                trap[1].type = 1;
-                trap[1].isOn = false;
-                trap[1].pos = Vector2.Zero;
-                trap[1].vvX = 0;
-                trap[1].vvY = 0;
-                trap[1].depth = 0.400000009f;
-                trap[1].G = 20;
-                trap[1].B = 20;
-                trap[1].transparency = 170;
-                trap[1].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/water_blue");
-                break;
-            case 11:
-            case 78:
-                ArrowsON = true; NumTotArrow = 1;
-                arrow = new Vararrows[NumTotArrow];
-                arrow[0].right = false;
-                arrow[0].area = new Rectangle(468, 161, 773 - 468, 440 - 161);
-                arrow[0].flechas = LemmingsNetGame.Instance.Content.Load<Texture2D>("fondos/arrow1");
-                arrow[0].flechassobre = new Texture2D(LemmingsNetGame.Instance.GraphicsDevice, arrow[0].area.Width, arrow[0].area.Height);
-                arrow[0].desplaza = 0;
-                arrow[0].transparency = 255;
-                SteelON = true; numTOTsteel = 1;
-                steel = new Varsteel[numTOTsteel];
-                steel[0].area = new Rectangle(239, 440, 1227 - 239, 512 - 440);
-                break;
-            case 13:
-            case 101:
-                NumTotTraps = 1;
-                TrapsON = true;
-                trap = new Vartraps[NumTotTraps];
-                trap[0].areaDraw = new Rectangle(0, 472, 3203, 40);
-                trap[0].areaTrap = new Rectangle(0, 477, 3203, 10);
-                trap[0].numFrames = 8;
-                trap[0].actFrame = 0;
-                trap[0].type = 1;
-                trap[0].isOn = false;
-                trap[0].pos = Vector2.Zero;
-                trap[0].vvX = 0;
-                trap[0].vvY = 0;
-                trap[0].depth = 0.600000009f;
-                trap[0].transparency = 255;
-                trap[0].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/fuego1");
-                break;
-            case 14:
-                NumTotTraps = 1;
-                TrapsON = true;
-                trap = new Vartraps[NumTotTraps];
-                trap[0].areaDraw = new Rectangle(180, 480, 2884 - 180, 32);
-                trap[0].areaTrap = new Rectangle(180, 485, 2884 - 180, 10);
-                trap[0].numFrames = 8;
-                trap[0].actFrame = 0;
-                trap[0].type = 1;
-                trap[0].isOn = false;
-                trap[0].pos = Vector2.Zero;
-                trap[0].vvX = 0;
-                trap[0].vvY = 0;
-                trap[0].depth = 0.600000009f;
-                trap[0].transparency = 255;
-                trap[0].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/water_blue");
-                break;
-            case 15:
-            case 61:
-                NumTotTraps = 1;
-                TrapsON = true;
-                trap = new Vartraps[NumTotTraps];
-                trap[0].areaDraw = new Rectangle(0, 0, 0, 0);
-                trap[0].areaTrap = new Rectangle(3317 - 5, 455 - 5, 10, 10);//see .pos minus 5 on both axis
-                trap[0].numFrames = 37;
-                trap[0].actFrame = 0;
-                trap[0].type = 666; // 666= traps specials that activate when touch areatrap NO UPDATE FRAMES UNTIL IS ON
-                trap[0].isOn = false;
-                trap[0].pos = new Vector2(3317, 455);
-                trap[0].vvX = 10;
-                trap[0].vvY = 71;
-                trap[0].depth = 0.600000009f;
-                trap[0].transparency = 255;
-                trap[0].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/dead_soga");
-                break;
-            case 16:
-            case 63:
-                NumTotTraps = 3;
-                TrapsON = true;
-                trap = new Vartraps[NumTotTraps];
-                trap[0].areaDraw = new Rectangle(0, 472, 2205, 512);
-                trap[0].areaTrap = new Rectangle(0, 475, 2205, 10);
-                trap[0].numFrames = 8;
-                trap[0].actFrame = 0;
-                trap[0].type = 1; // 666= traps specials that activate when touch areatrap NO UPDATE FRAMES UNTIL IS ON
-                trap[0].isOn = false;
-                trap[0].pos = new Vector2(0, 0);
-                trap[0].vvX = 0;
-                trap[0].vvY = 0;
-                trap[0].depth = 0.600000009f;
-                trap[0].transparency = 255;
-                trap[0].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/fuego1");
-                trap[1].areaDraw = new Rectangle(0, 0, 0, 0);
-                trap[1].areaTrap = new Rectangle(845 - 30, 250 - 30 / 2, 30 * 2, 10);//see .pos
-                trap[1].numFrames = 8;
-                trap[1].actFrame = 0;
-                trap[1].type = 555; // 666= traps specials that activate when touch areatrap NO UPDATE FRAMES UNTIL IS ON
-                trap[1].isOn = false;
-                trap[1].pos = new Vector2(845, 250);
-                trap[1].vvX = 30;
-                trap[1].vvY = 30;
-                trap[1].depth = 0.600000009f;
-                trap[1].transparency = 255;
-                trap[1].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/fuego2"); //34 height sprite
-                trap[2].areaDraw = new Rectangle(0, 0, 0, 0);
-                trap[2].areaTrap = new Rectangle(895 - 30, 250 - 30 / 2, 30 * 2, 10);
-                trap[2].numFrames = 8;
-                trap[2].actFrame = 0;
-                trap[2].type = 555; // 666= traps specials that activate when touch areatrap NO UPDATE FRAMES UNTIL IS ON
-                trap[2].isOn = false;
-                trap[2].pos = new Vector2(895, 250);
-                trap[2].vvX = 30;
-                trap[2].vvY = 30;
-                trap[2].depth = 0.600000008f;
-                trap[2].transparency = 255;
-                trap[2].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/fuego2"); //34 height sprite
-                break;
-            case 17:
-            case 66:
-                numTOTdoors = 4; numACTdoor = 0;
-                moreDoors = new Varmoredoors[numTOTdoors];
-                moreDoors[0].doorMoreXY = new Vector2(LemmingsNetGame.Instance.Levels.AllLevel[17].doorX, LemmingsNetGame.Instance.Levels.AllLevel[17].doorY);
-                moreDoors[1].doorMoreXY = new Vector2(LemmingsNetGame.Instance.Levels.AllLevel[17].doorX + 220, LemmingsNetGame.Instance.Levels.AllLevel[17].doorY);
-                moreDoors[2].doorMoreXY = new Vector2(LemmingsNetGame.Instance.Levels.AllLevel[17].doorX + 430, LemmingsNetGame.Instance.Levels.AllLevel[17].doorY);
-                moreDoors[3].doorMoreXY = new Vector2(LemmingsNetGame.Instance.Levels.AllLevel[17].doorX + 640, LemmingsNetGame.Instance.Levels.AllLevel[17].doorY);//IMPORTANT LEVEL[??] SAME AS CASE: FOR FUTURE BUGS
-                SteelON = true; numTOTsteel = 2;
-                steel = new Varsteel[numTOTsteel];
-                steel[0].area = new Rectangle(261, 373, 1154 - 261, 450 - 373);
-                steel[1].area = new Rectangle(997, 284, 1153 - 997, 370 - 284);
-                NumTotTraps = 4;
-                TrapsON = true;
-                trap = new Vartraps[NumTotTraps];
-                trap[0].areaDraw = new Rectangle(0, 0, 0, 0);
-                trap[0].areaTrap = new Rectangle(391 - 5, 497 - 5, 10, 10);
-                trap[0].numFrames = 15;
-                trap[0].actFrame = 0;
-                trap[0].type = 666; // 666= traps specials that activate when touch areatrap NO UPDATE FRAMES UNTIL IS ON
-                trap[0].isOn = false;
-                trap[0].pos = new Vector2(391, 497);
-                trap[0].vvX = 31;
-                trap[0].vvY = 57;
-                trap[0].depth = 0.600000009f;
-                trap[0].transparency = 255;
-                trap[0].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/dead_marble");
-                trap[1].areaDraw = new Rectangle(0, 0, 0, 0);
-                trap[1].areaTrap = new Rectangle(590 - 5, 497 - 5, 10, 10);
-                trap[1].numFrames = 15;
-                trap[1].actFrame = 0;
-                trap[1].type = 666; // 666= traps specials that activate when touch areatrap NO UPDATE FRAMES UNTIL IS ON
-                trap[1].isOn = false;
-                trap[1].pos = new Vector2(590, 497);
-                trap[1].vvX = 31;
-                trap[1].vvY = 57;
-                trap[1].depth = 0.600000009f;
-                trap[1].transparency = 255;
-                trap[1].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/dead_marble");
-                trap[2].areaDraw = new Rectangle(0, 0, 0, 0);
-                trap[2].areaTrap = new Rectangle(792 - 5, 497 - 5, 10, 10);
-                trap[2].numFrames = 15;
-                trap[2].actFrame = 0;
-                trap[2].type = 666; // 666= traps specials that activate when touch areatrap NO UPDATE FRAMES UNTIL IS ON
-                trap[2].isOn = false;
-                trap[2].pos = new Vector2(792, 497);
-                trap[2].vvX = 31;
-                trap[2].vvY = 57;
-                trap[2].depth = 0.600000009f;
-                trap[2].transparency = 255;
-                trap[2].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/dead_marble");
-                trap[3].areaDraw = new Rectangle(0, 0, 0, 0);
-                trap[3].areaTrap = new Rectangle(998 - 5, 497 - 5, 10, 10);
-                trap[3].numFrames = 15;
-                trap[3].actFrame = 0;
-                trap[3].type = 666; // 666= traps specials that activate when touch areatrap NO UPDATE FRAMES UNTIL IS ON
-                trap[3].isOn = false;
-                trap[3].pos = new Vector2(998, 497);
-                trap[3].vvX = 31;
-                trap[3].vvY = 57;
-                trap[3].depth = 0.600000009f;
-                trap[3].transparency = 255;
-                trap[3].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/dead_marble");
-                break;
-            case 18:
-            case 79:
-                NumTotTraps = 6;
-                TrapsON = true;
-                trap = new Vartraps[NumTotTraps];
-                trap[0].areaDraw = new Rectangle(0, 0, 0, 0);
-                trap[0].areaTrap = new Rectangle(875 - 30, 454 - 30 / 2, 30 * 2, 10);
-                trap[0].numFrames = 8;
-                trap[0].actFrame = 0;
-                trap[0].type = 555; // 666= traps specials that activate when touch areatrap NO UPDATE FRAMES UNTIL IS ON
-                trap[0].isOn = false;
-                trap[0].pos = new Vector2(875, 454);
-                trap[0].vvX = 30;
-                trap[0].vvY = 30;
-                trap[0].depth = 0.600000008f;
-                trap[0].transparency = 255;
-                trap[0].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/fuego2"); //34 height sprite
-                trap[1].areaDraw = new Rectangle(0, 0, 0, 0);
-                trap[1].areaTrap = new Rectangle(460 - 30 + 4, 162 - 30 / 2, 30 * 2 - 4, 10);//see .pos
-                trap[1].numFrames = 8;
-                trap[1].actFrame = 0;
-                trap[1].type = 555; // 666= traps specials that activate when touch areatrap NO UPDATE FRAMES UNTIL IS ON
-                trap[1].isOn = false;
-                trap[1].pos = new Vector2(460, 162);
-                trap[1].vvX = 30;
-                trap[1].vvY = 30;
-                trap[1].depth = 0.600000009f;
-                trap[1].transparency = 255;
-                trap[1].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/fuego2"); //34 height sprite
-                trap[2].areaDraw = new Rectangle(0, 0, 0, 0);
-                trap[2].areaTrap = new Rectangle(890 - 30 + 4, 158 - 30 / 2, 30 * 2 - 4, 10);
-                trap[2].numFrames = 8;
-                trap[2].actFrame = 0;
-                trap[2].type = 555; // 666= traps specials that activate when touch areatrap NO UPDATE FRAMES UNTIL IS ON
-                trap[2].isOn = false;
-                trap[2].pos = new Vector2(890, 158);
-                trap[2].vvX = 30;
-                trap[2].vvY = 30;
-                trap[2].depth = 0.600000008f;
-                trap[2].transparency = 255;
-                trap[2].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/fuego2"); //34 height sprite
-                trap[3].areaDraw = new Rectangle(0, 0, 0, 0);
-                trap[3].areaTrap = new Rectangle(587 - 30 + 4, 251 - 30 / 2, 30 * 2 - 4, 10);
-                trap[3].numFrames = 8;
-                trap[3].actFrame = 0;
-                trap[3].type = 555; // 666= traps specials that activate when touch areatrap NO UPDATE FRAMES UNTIL IS ON
-                trap[3].isOn = false;
-                trap[3].pos = new Vector2(587, 251);
-                trap[3].vvX = 30;
-                trap[3].vvY = 30;
-                trap[3].depth = 0.600000008f;
-                trap[3].transparency = 255;
-                trap[3].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/fuego2"); //34 height sprite
-                trap[4].areaDraw = new Rectangle(0, 0, 0, 0);
-                trap[4].areaTrap = new Rectangle(957 - 30 + 4, 312 - 30 / 2, 30 * 2 - 4, 10);
-                trap[4].numFrames = 8;
-                trap[4].actFrame = 0;
-                trap[4].type = 555; // 666= traps specials that activate when touch areatrap NO UPDATE FRAMES UNTIL IS ON
-                trap[4].isOn = false;
-                trap[4].pos = new Vector2(957, 312);
-                trap[4].vvX = 30;
-                trap[4].vvY = 30;
-                trap[4].depth = 0.600000008f;
-                trap[4].transparency = 255;
-                trap[4].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/fuego2"); //34 height sprite
-                trap[5].areaDraw = new Rectangle(0, 0, 0, 0);
-                trap[5].areaTrap = new Rectangle(529 - 30 + 4, 377 - 30 / 2, 30 * 2 - 4, 10);
-                trap[5].numFrames = 8;
-                trap[5].actFrame = 0;
-                trap[5].type = 555; // 666= traps specials that activate when touch areatrap NO UPDATE FRAMES UNTIL IS ON
-                trap[5].isOn = false;
-                trap[5].pos = new Vector2(529, 377);
-                trap[5].vvX = 30;
-                trap[5].vvY = 30;
-                trap[5].depth = 0.600000008f;
-                trap[5].transparency = 255;
-                trap[5].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/fuego2"); //34 height sprite
-                break;
-            case 20:
-                NumTotTraps = 2;
-                TrapsON = true;
-                trap = new Vartraps[NumTotTraps];
-                trap[0].areaDraw = new Rectangle(127, 462, 3638 - 127, 40); // 512-40=462 bottom of the screen
-                trap[0].areaTrap = new Rectangle(127, 467, 3638 - 127, 10); //normally +5 on Y and 10 of height
-                trap[0].numFrames = 8;
-                trap[0].actFrame = 0;
-                trap[0].type = 1;
-                trap[0].isOn = false;
-                trap[0].pos = Vector2.Zero;
-                trap[0].vvX = 0;
-                trap[0].vvY = 0;
-                trap[0].depth = 0.600000009f;
-                trap[0].transparency = 170;
-                trap[0].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/acid");
-                trap[1].areaDraw = new Rectangle(0, 0, 0, 0);
-                trap[1].areaTrap = new Rectangle(1121 - 23, 376 - 38 / 2, 23 * 2, 10); //se .pos minis vvY/2 -vvx long vvx*2
-                trap[1].numFrames = 16;
-                trap[1].actFrame = 0;
-                trap[1].type = 555; // traps that uses vector2 to draws areadraw if filled 0's
-                trap[1].isOn = false;
-                trap[1].pos = new Vector2(1121, 376);
-                trap[1].vvX = 32;
-                trap[1].vvY = 38;
-                trap[1].depth = 0.200000009f;
-                trap[1].transparency = 255;
-                trap[1].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/dead_spin");
-                break;
-            case 21:
-            case 116:
-                NumTotTraps = 4;
-                TrapsON = true;
-                trap = new Vartraps[NumTotTraps];
-                trap[0].areaDraw = new Rectangle(0, 480, 470, 32);
-                trap[0].areaTrap = new Rectangle(0, 485, 470, 10);
-                trap[0].numFrames = 8;
-                trap[0].actFrame = 0;
-                trap[0].type = 1;
-                trap[0].isOn = false;
-                trap[0].pos = Vector2.Zero;
-                trap[0].vvX = 0;
-                trap[0].vvY = 0;
-                trap[0].depth = 0.600000009f;
-                trap[0].transparency = 170;
-                trap[0].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/water_blue");
-                trap[1].areaDraw = new Rectangle(1001, 480, 1133 - 1001, 32);
-                trap[1].areaTrap = new Rectangle(1001, 485, 1133 - 1001, 10);
-                trap[1].numFrames = 8;
-                trap[1].actFrame = 0;
-                trap[1].type = 1;
-                trap[1].isOn = false;
-                trap[1].pos = Vector2.Zero;
-                trap[1].vvX = 0;
-                trap[1].vvY = 0;
-                trap[1].depth = 0.600000009f;
-                trap[1].transparency = 170;
-                trap[1].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/water_blue");
-                trap[2].areaDraw = new Rectangle(3143, 480, 3757 - 3143, 32);
-                trap[2].areaTrap = new Rectangle(3143, 485, 3757 - 3143, 10);
-                trap[2].numFrames = 8;
-                trap[2].actFrame = 0;
-                trap[2].type = 1;
-                trap[2].isOn = false;
-                trap[2].pos = Vector2.Zero;
-                trap[2].vvX = 0;
-                trap[2].vvY = 0;
-                trap[2].depth = 0.600000009f;
-                trap[2].transparency = 170;
-                trap[2].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/water_blue");
-                trap[3].areaDraw = new Rectangle(0, 0, 0, 0);
-                trap[3].areaTrap = new Rectangle(2510 - 5, 473 - 5, 10, 10); //se .pos minis vvY/2 -vvx long vvx*2
-                trap[3].numFrames = 15;
-                trap[3].actFrame = 0;
-                trap[3].type = 666; // traps that uses vector2 to draws areadraw if filled 0's
-                trap[3].isOn = false;
-                trap[3].pos = new Vector2(2510, 473);
-                trap[3].vvX = 16;
-                trap[3].vvY = 42;  //38
-                trap[3].depth = 0.400000009f;
-                trap[3].transparency = 255;
-                trap[3].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/dead_trampa");
-                break;
-            case 23:
-                numTOTexits = 2;
-                moreexits = new Varmoreexits[numTOTexits];
-                moreexits[0].exitMoreXY = new Vector2(LemmingsNetGame.Instance.Levels.AllLevel[23].exitX, LemmingsNetGame.Instance.Levels.AllLevel[23].exitY); //73,460 ----- LEVEL 23 TWO EXITS
-                moreexits[1].exitMoreXY = new Vector2(LemmingsNetGame.Instance.Levels.AllLevel[23].exitX, 180);//73,180 //IMPORTANT LEVEL[??] SAME AS CASE: FOR FUTURE BUGS
-                NumTotTraps = 2;
-                TrapsON = true;
-                trap = new Vartraps[NumTotTraps];
-                trap[0].areaDraw = new Rectangle(2475, 472, 2594 - 2475, 40);
-                trap[0].areaTrap = new Rectangle(2475, 477, 2594 - 2475, 10);
-                trap[0].numFrames = 8;
-                trap[0].actFrame = 0;
-                trap[0].type = 1;
-                trap[0].isOn = false;
-                trap[0].pos = Vector2.Zero;
-                trap[0].vvX = 0;
-                trap[0].vvY = 0;
-                trap[0].depth = 0.600000009f;
-                trap[0].transparency = 255;
-                trap[0].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/fuego1");
-                trap[1].areaDraw = new Rectangle(0, 0, 0, 0);
-                trap[1].areaTrap = new Rectangle(606 - 159 + 30, 308 - 5, 159 - 30, 10); //fire shooter see .pos vector2 minus vvX-20 and vvY-5
-                trap[1].numFrames = 10;
-                trap[1].actFrame = 0;
-                trap[1].type = 555; // traps animated  that uses vector2 to draws areadraw if filled 0's
-                trap[1].isOn = false;
-                trap[1].pos = new Vector2(606, 308);
-                trap[1].vvX = 159;
-                trap[1].vvY = 27;
-                trap[1].depth = 0.600000009f;
-                trap[1].transparency = 255;
-                trap[1].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/fuego4");
-                break;
-            case 24:
-                ArrowsON = true; NumTotArrow = 1;
-                arrow = new Vararrows[NumTotArrow];
-                arrow[0].right = true;
-                arrow[0].area = new Rectangle(754, 143, 860 - 754, 216 - 143);
-                arrow[0].flechas = LemmingsNetGame.Instance.Content.Load<Texture2D>("fondos/arrow1");
-                arrow[0].flechassobre = new Texture2D(LemmingsNetGame.Instance.GraphicsDevice, arrow[0].area.Width, arrow[0].area.Height);
-                arrow[0].desplaza = 0;
-                arrow[0].transparency = 255;
-                SteelON = true; numTOTsteel = 1;
-                steel = new Varsteel[numTOTsteel];
-                steel[0].area = new Rectangle(862, 129, 1304 - 862, 306 - 129);
-                NumTotTraps = 2;
-                TrapsON = true;
-                trap = new Vartraps[NumTotTraps];
-                trap[0].areaDraw = new Rectangle(0, 0, 0, 0);
-                trap[0].areaTrap = new Rectangle(1477 - 5, 345 - 5, 10, 10);
-                trap[0].numFrames = 15;
-                trap[0].actFrame = 0;
-                trap[0].type = 666; // 666= traps specials that activate when touch areatrap NO UPDATE FRAMES UNTIL IS ON
-                trap[0].isOn = false;
-                trap[0].pos = new Vector2(1477, 345);
-                trap[0].vvX = 47;
-                trap[0].vvY = 87;
-                trap[0].depth = 0.400000009f;
-                trap[0].transparency = 255;
-                trap[0].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/dead_marble2_fix");
-                trap[1].areaDraw = new Rectangle(1071, 225, 1266 - 1071, 40); // 512-40=462 bottom of the screen
-                trap[1].areaTrap = new Rectangle(1071, 230, 1266 - 1071, 10); //normally +5 on Y and 10 of height
-                trap[1].numFrames = 8;
-                trap[1].actFrame = 0;
-                trap[1].type = 1;
-                trap[1].isOn = false;
-                trap[1].pos = Vector2.Zero;
-                trap[1].vvX = 0;
-                trap[1].vvY = 0;
-                trap[1].depth = 0.600000009f;
-                trap[1].transparency = 255;
-                trap[1].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/acid");
-                break;
-            case 26:
-            case 103:
-                NumTotTraps = 2;
-                TrapsON = true;
-                trap = new Vartraps[NumTotTraps];
-                trap[0].areaDraw = new Rectangle(0, 0, 0, 0);
-                trap[0].areaTrap = new Rectangle(2797 - 5, 245 - 5, 10, 10);//see .pos minus 5 on both axis
-                trap[0].numFrames = 37;
-                trap[0].actFrame = 0;
-                trap[0].type = 666; // 666= traps specials that activate when touch areatrap NO UPDATE FRAMES UNTIL IS ON
-                trap[0].isOn = false;
-                trap[0].pos = new Vector2(2797, 245);
-                trap[0].vvX = 10;
-                trap[0].vvY = 71;
-                trap[0].depth = 0.600000009f;
-                trap[0].transparency = 255;
-                trap[0].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/dead_soga");
-                trap[1].areaDraw = new Rectangle(0, 480, 3007, 32);
-                trap[1].areaTrap = new Rectangle(0, 485, 3007, 10);// not necessary
-                trap[1].numFrames = 8;
-                trap[1].actFrame = 0;
-                trap[1].type = 1;
-                trap[1].isOn = false;
-                trap[1].pos = Vector2.Zero;
-                trap[1].vvX = 0;
-                trap[1].vvY = 0;
-                trap[1].depth = 0.400000009f;
-                trap[1].transparency = 170;
-                trap[1].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/water_blue");
-                break;
-            case 27:
-                NumTotTraps = 1;
-                TrapsON = true;
-                trap = new Vartraps[NumTotTraps];
-                trap[0].areaDraw = new Rectangle(0, 487, 2624, 40);
-                trap[0].areaTrap = new Rectangle(0, 492, 2624, 10);
-                trap[0].numFrames = 8;
-                trap[0].actFrame = 0;
-                trap[0].type = 1;
-                trap[0].isOn = false;
-                trap[0].pos = Vector2.Zero;
-                trap[0].vvX = 0;
-                trap[0].vvY = 0;
-                trap[0].depth = 0.400000009f;
-                trap[0].transparency = 170;
-                trap[0].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/acid");
-                break;
-            case 28:
-            case 95:
-                NumTotTraps = 4;
-                TrapsON = true;
-                trap = new Vartraps[NumTotTraps];
-                trap[0].areaDraw = new Rectangle(253, 472, 861 - 253, 40);
-                trap[0].areaTrap = new Rectangle(253, 477, 861 - 253, 10);
-                trap[0].numFrames = 8;
-                trap[0].actFrame = 0;
-                trap[0].type = 1;
-                trap[0].isOn = false;
-                trap[0].pos = Vector2.Zero;
-                trap[0].vvX = 0;
-                trap[0].vvY = 0;
-                trap[0].depth = 0.600000009f;
-                trap[0].transparency = 255;
-                trap[0].vvscroll = 2;
-                trap[0].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/fuego1");
-                trap[1].areaDraw = new Rectangle(0, 0, 0, 0);
-                trap[1].areaTrap = new Rectangle(1334 - 159 + 30, 192 - 5, 159 - 30, 10); //fire shooter see .pos vector2 minus vvX-20 and vvY-5
-                trap[1].numFrames = 10;
-                trap[1].actFrame = 0;
-                trap[1].type = 555; // traps animated  that uses vector2 to draws areadraw if filled 0's
-                trap[1].isOn = false;
-                trap[1].pos = new Vector2(1334, 192);
-                trap[1].vvX = 159;
-                trap[1].vvY = 27;
-                trap[1].depth = 0.600000009f;
-                trap[1].transparency = 255;
-                trap[1].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/fuego4");
-                trap[2].areaDraw = new Rectangle(2038, 472, 2622 - 2038, 40);
-                trap[2].areaTrap = new Rectangle(2038, 477, 2622 - 2038, 10);
-                trap[2].numFrames = 8;
-                trap[2].actFrame = 0;
-                trap[2].type = 1;
-                trap[2].isOn = false;
-                trap[2].pos = Vector2.Zero;
-                trap[2].vvX = 0;
-                trap[2].vvY = 0;
-                trap[2].depth = 0.600000009f;
-                trap[2].transparency = 255;
-                trap[2].vvscroll = 1;
-                trap[2].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/fuego1");
-                trap[3].areaDraw = new Rectangle(0, 0, 0, 0);
-                trap[3].areaTrap = new Rectangle(1495, 192 - 5, 159 - 30, 10); //fire shooter see .pos vector2 minus vvX-20 and vvY-5
-                trap[3].numFrames = 10;
-                trap[3].actFrame = 0;
-                trap[3].type = 555; // traps animated  that uses vector2 to draws areadraw if filled 0's
-                trap[3].isOn = false;
-                trap[3].pos = new Vector2(1495, 192);
-                trap[3].vvX = 0;
-                trap[3].vvY = 27;
-                trap[3].depth = 0.600000009f;
-                trap[3].B = 160;
-                trap[3].G = 160;
-                trap[3].transparency = 255;
-                trap[3].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/fuego3");
-                break;
-            case 29:
-            case 99:
-                NumTotTraps = 1;
-                TrapsON = true;
-                trap = new Vartraps[NumTotTraps];
-                trap[0].areaDraw = new Rectangle(1812, 480, 2205 - 1812, 32);
-                trap[0].areaTrap = new Rectangle(1812, 485, 2205 - 1812, 10);
-                trap[0].numFrames = 8;
-                trap[0].actFrame = 0;
-                trap[0].type = 1;
-                trap[0].isOn = false;
-                trap[0].pos = Vector2.Zero;
-                trap[0].vvX = 0;
-                trap[0].vvY = 0;
-                trap[0].depth = 0.200000009f; //lemmings depth 0.300f
-                trap[0].transparency = 190;
-                trap[0].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/water_blue");
-                break;
-            case 30:
-            case 114:
-                NumTotTraps = 1;
-                TrapsON = true;
-                trap = new Vartraps[NumTotTraps];
-                trap[0].areaDraw = new Rectangle(71, 472, 1150 - 71, 40);
-                trap[0].areaTrap = new Rectangle(71, 477, 1150 - 71, 10);
-                trap[0].numFrames = 8;
-                trap[0].actFrame = 0;
-                trap[0].type = 1;
-                trap[0].isOn = false;
-                trap[0].pos = Vector2.Zero;
-                trap[0].vvX = 0;
-                trap[0].vvY = 0;
-                trap[0].depth = 0.600000009f;
-                trap[0].transparency = 230;
-                trap[0].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/fuego1");
-                break;
-            //tricky levels tricky
-            case 31:
-                NumTotTraps = 1;
-                TrapsON = true;
-                trap = new Vartraps[NumTotTraps];
-                trap[0].vvscroll = 1;
-                trap[0].areaDraw = new Rectangle(0, 480, 3022, 32);
-                trap[0].areaTrap = new Rectangle(0, 480, 3022, 10);
-                trap[0].numFrames = 8;
-                trap[0].actFrame = 0;
-                trap[0].type = 1;
-                trap[0].isOn = false;
-                trap[0].pos = Vector2.Zero;
-                trap[0].vvX = 0;
-                trap[0].vvY = 0;
-                trap[0].depth = 0.600000009f; //lemmings depth 0.300f
-                trap[0].transparency = 255;
-                trap[0].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/water_blue");
-                break;
-            case 33:
-                NumTotTraps = 1;
-                TrapsON = true;
-                trap = new Vartraps[NumTotTraps];
-                trap[0].vvscroll = 2;
-                trap[0].areaDraw = new Rectangle(370, 480, 1479 - 370, 32);
-                trap[0].areaTrap = new Rectangle(370, 480, 1479 - 370, 10);
-                trap[0].numFrames = 8;
-                trap[0].actFrame = 0;
-                trap[0].type = 1;
-                trap[0].isOn = false;
-                trap[0].pos = Vector2.Zero;
-                trap[0].vvX = 0;
-                trap[0].vvY = 0;
-                trap[0].depth = 0.600000009f; //lemmings depth 0.300f
-                trap[0].transparency = 255;
-                trap[0].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/water_blue");
-                break;
-            case 34:
-            case 67:
-                ArrowsON = true; NumTotArrow = 1;
-                arrow = new Vararrows[NumTotArrow];
-                arrow[0].right = false;
-                arrow[0].area = new Rectangle(1063, 45, 1214 - 1063, 284 - 45);
-                arrow[0].flechas = LemmingsNetGame.Instance.Content.Load<Texture2D>("fondos/arrow1");
-                arrow[0].flechassobre = new Texture2D(LemmingsNetGame.Instance.GraphicsDevice, arrow[0].area.Width, arrow[0].area.Height);
-                arrow[0].desplaza = 0;
-                arrow[0].transparency = 190;
-                SteelON = true; numTOTsteel = 1;
-                steel = new Varsteel[numTOTsteel];
-                steel[0].area = new Rectangle(84, 284, 1682 - 84, 330 - 284);
-                NumTotTraps = 1;
-                TrapsON = true;
-                trap = new Vartraps[NumTotTraps];
-                trap[0].areaDraw = new Rectangle(0, 480, 3030, 32);
-                trap[0].areaTrap = new Rectangle(0, 485, 3030, 10);
-                trap[0].numFrames = 8;
-                trap[0].actFrame = 0;
-                trap[0].type = 1;
-                trap[0].isOn = false;
-                trap[0].pos = Vector2.Zero;
-                trap[0].vvX = 0;
-                trap[0].vvY = 0;
-                trap[0].depth = 0.600000009f; //lemmings depth 0.300f
-                trap[0].transparency = 255;
-                trap[0].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/water_blue");
-                break;
-            case 35:
-                NumTotTraps = 1;
-                TrapsON = true;
-                trap = new Vartraps[NumTotTraps];
-                trap[0].areaDraw = new Rectangle(728, 480, 3277 - 728, 32);
-                trap[0].areaTrap = new Rectangle(728, 485, 3277 - 728, 10);
-                trap[0].numFrames = 8;
-                trap[0].actFrame = 0;
-                trap[0].type = 1;
-                trap[0].isOn = false;
-                trap[0].pos = Vector2.Zero;
-                trap[0].vvX = 0;
-                trap[0].vvY = 0;
-                trap[0].depth = 0.600000009f; //lemmings depth 0.300f
-                trap[0].transparency = 255;
-                trap[0].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/water_blue");
-                break;
-            case 36:
-                NumTotTraps = 3;
-                TrapsON = true;
-                trap = new Vartraps[NumTotTraps];
-                trap[0].areaDraw = new Rectangle(0, 490, 2088, 512); //special size
-                trap[0].areaTrap = new Rectangle(0, 495, 2088, 10);
-                trap[0].vvscroll = 2;
-                trap[0].numFrames = 8;
-                trap[0].actFrame = 0;
-                trap[0].type = 1; // 666= traps specials that activate when touch areatrap NO UPDATE FRAMES UNTIL IS ON
-                trap[0].isOn = false;
-                trap[0].pos = new Vector2(0, 0);
-                trap[0].vvX = 0;
-                trap[0].vvY = 0;
-                trap[0].depth = 0.600000009f;
-                trap[0].transparency = 255;
-                trap[0].B = 130;
-                trap[0].G = 170;
-                trap[0].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/fuego1");
-                trap[1].areaDraw = new Rectangle(0, 0, 0, 0);
-                trap[1].areaTrap = new Rectangle(444, 341 - 5, 159 - 30, 10); //fire shooter see .pos vector2 minus vvX-20 and vvY-5
-                trap[1].numFrames = 10;
-                trap[1].actFrame = 0;
-                trap[1].type = 555; // traps animated  that uses vector2 to draws areadraw if filled 0's
-                trap[1].isOn = false;
-                trap[1].pos = new Vector2(444, 341);
-                trap[1].vvX = 0;
-                trap[1].vvY = 27;
-                trap[1].depth = 0.600000009f;
-                trap[1].transparency = 255;
-                trap[1].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/fuego3");
-                trap[2].areaDraw = new Rectangle(0, 0, 0, 0);
-                trap[2].areaTrap = new Rectangle(1761 - 159 + 30, 251 - 5, 159 - 30, 10); //fire shooter see .pos vector2 minus vvX-20 and vvY-5
-                trap[2].numFrames = 10;
-                trap[2].actFrame = 0;
-                trap[2].type = 555; // traps animated  that uses vector2 to draws areadraw if filled 0's
-                trap[2].isOn = false;
-                trap[2].pos = new Vector2(1761, 251);
-                trap[2].vvX = 159;
-                trap[2].vvY = 27;
-                trap[2].depth = 0.600000009f;
-                trap[2].transparency = 255;
-                trap[2].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/fuego4");
-                break;
-            case 37:
-                NumTotTraps = 1;
-                TrapsON = true;
-                trap = new Vartraps[NumTotTraps];
-                trap[0].areaDraw = new Rectangle(0, 480, 1281, 32);
-                trap[0].areaTrap = new Rectangle(0, 485, 1281, 10);
-                trap[0].numFrames = 8;
-                trap[0].actFrame = 0;
-                trap[0].type = 1;
-                trap[0].isOn = false;
-                trap[0].pos = Vector2.Zero;
-                trap[0].vvX = 0;
-                trap[0].vvY = 0;
-                trap[0].depth = 0.600000009f; //lemmings depth 0.300f
-                trap[0].transparency = 120;
-                trap[0].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/water_blue");
-                break;
-            case 38:
-                NumTotTraps = 1;
-                TrapsON = true;
-                trap = new Vartraps[NumTotTraps];
-                trap[0].areaDraw = new Rectangle(0, 472, 2088, 40); //normal size
-                trap[0].areaTrap = new Rectangle(0, 482, 2088, 10);
-                trap[0].vvscroll = 2;
-                trap[0].numFrames = 8;
-                trap[0].actFrame = 0;
-                trap[0].type = 1; // 666= traps specials that activate when touch areatrap NO UPDATE FRAMES UNTIL IS ON
-                trap[0].isOn = false;
-                trap[0].pos = new Vector2(0, 0);
-                trap[0].vvX = 0;
-                trap[0].vvY = 0;
-                trap[0].depth = 0.600000009f;
-                trap[0].transparency = 255;
-                trap[0].B = 130;
-                trap[0].G = 170;
-                trap[0].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/fuego1");
-                break;
-            case 39:
-            case 96:
-                ArrowsON = true; NumTotArrow = 2;
-                arrow = new Vararrows[NumTotArrow];
-                arrow[0].right = true;
-                arrow[0].area = new Rectangle(685, 336, 781 - 685, 421 - 336);
-                arrow[0].flechas = LemmingsNetGame.Instance.Content.Load<Texture2D>("fondos/arrow1");
-                arrow[0].flechassobre = new Texture2D(LemmingsNetGame.Instance.GraphicsDevice, arrow[0].area.Width, arrow[0].area.Height);
-                arrow[0].desplaza = 0;
-                arrow[0].transparency = 255;
-                arrow[1].right = false;
-                arrow[1].area = new Rectangle(2466, 110, 2577 - 2466, 213 - 110); // mask texture full steel zone
-                arrow[1].flechas = LemmingsNetGame.Instance.Content.Load<Texture2D>("fondos/arrow1");
-                arrow[1].flechassobre = new Texture2D(LemmingsNetGame.Instance.GraphicsDevice, arrow[1].area.Width, arrow[1].area.Height);
-                arrow[1].desplaza = 0;
-                arrow[1].transparency = 255;
-                NumTotTraps = 1;
-                TrapsON = true;
-                trap = new Vartraps[NumTotTraps];
-                trap[0].areaDraw = new Rectangle(0, 480, 3153, 32);
-                trap[0].areaTrap = new Rectangle(0, 485, 3153, 10);
-                trap[0].numFrames = 8;
-                trap[0].actFrame = 0;
-                trap[0].type = 1;
-                trap[0].isOn = false;
-                trap[0].pos = Vector2.Zero;
-                trap[0].vvX = 0;
-                trap[0].vvY = 0;
-                trap[0].depth = 0.600000009f; //lemmings depth 0.300f
-                trap[0].transparency = 120;
-                trap[0].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/water_blue");
-                SteelON = true; numTOTsteel = 2;
-                steel = new Varsteel[numTOTsteel];
-                steel[0].area = new Rectangle(553, 216, 2775 - 553, 330 - 216);
-                steel[1].area = new Rectangle(2698, 144, 2851 - 2698, 216 - 144);
-                break;
-            case 40:
-            case 105:
-                numTOTdoors = 2; numACTdoor = 0;
-                moreDoors = new Varmoredoors[numTOTdoors];
-                moreDoors[0].doorMoreXY = new Vector2(LemmingsNetGame.Instance.Levels.AllLevel[40].doorX, LemmingsNetGame.Instance.Levels.AllLevel[40].doorY);
-                moreDoors[1].doorMoreXY = new Vector2(2240, LemmingsNetGame.Instance.Levels.AllLevel[40].doorY);
-                NumTotTraps = 1;
-                TrapsON = true;
-                trap = new Vartraps[NumTotTraps];
-                trap[0].areaDraw = new Rectangle(0, 472, 2853, 40); //normal size
-                trap[0].areaTrap = new Rectangle(0, 482, 2853, 10);
-                trap[0].vvscroll = 1;
-                trap[0].numFrames = 8;
-                trap[0].actFrame = 0;
-                trap[0].type = 1; // 666= traps specials that activate when touch areatrap NO UPDATE FRAMES UNTIL IS ON
-                trap[0].isOn = false;
-                trap[0].pos = new Vector2(0, 0);
-                trap[0].vvX = 0;
-                trap[0].vvY = 0;
-                trap[0].depth = 0.600000009f;
-                trap[0].transparency = 255;
-                trap[0].B = 80;
-                trap[0].G = 170;
-                trap[0].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/fuego1");
-                break;
-            case 41:
-                NumTotTraps = 1;
-                TrapsON = true;
-                trap = new Vartraps[NumTotTraps];
-                trap[0].areaDraw = new Rectangle(1027, 480, 1553 - 1027, 32);
-                trap[0].areaTrap = new Rectangle(1027, 485, 1553 - 1027, 10);
-                trap[0].numFrames = 8;
-                trap[0].actFrame = 0;
-                trap[0].type = 1;
-                trap[0].isOn = false;
-                trap[0].pos = Vector2.Zero;
-                trap[0].vvX = 0;
-                trap[0].vvY = 0;
-                trap[0].depth = 0.600000009f; //lemmings depth 0.300f
-                trap[0].transparency = 255;
-                trap[0].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/water_blue");
-                break;
-            case 43:
-            case 115:
-                NumTotTraps = 1;
-                TrapsON = true;
-                trap = new Vartraps[NumTotTraps];
-                trap[0].areaDraw = new Rectangle(0, 480, 441, 32);
-                trap[0].areaTrap = new Rectangle(0, 485, 441, 10);
-                trap[0].numFrames = 8;
-                trap[0].actFrame = 0;
-                trap[0].type = 1;
-                trap[0].isOn = false;
-                trap[0].pos = Vector2.Zero;
-                trap[0].vvX = 0;
-                trap[0].vvY = 0;
-                trap[0].depth = 0.600000009f; //lemmings depth 0.300f
-                trap[0].transparency = 255;
-                trap[0].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/water_blue");
-                break;
-            case 49:
-                NumTotTraps = 1;
-                TrapsON = true;
-                trap = new Vartraps[NumTotTraps];
-                trap[0].vvscroll = 0;
-                trap[0].areaDraw = new Rectangle(0, 490, 3391, 32);
-                trap[0].areaTrap = new Rectangle(0, 495, 3391, 10);
-                trap[0].numFrames = 8;
-                trap[0].actFrame = 0;
-                trap[0].type = 1;
-                trap[0].isOn = false;
-                trap[0].pos = Vector2.Zero;
-                trap[0].vvX = 0;
-                trap[0].vvY = 0;
-                trap[0].depth = 0.6000000011f;
-                trap[0].transparency = 255;
-                trap[0].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/water_blue");
-                break;
-            case 50:
-                ArrowsON = true; NumTotArrow = 1;
-                arrow = new Vararrows[NumTotArrow];
-                arrow[0].right = false;
-                arrow[0].area = new Rectangle(1318, 164, 1478 - 1318, 460 - 164);
-                arrow[0].flechas = LemmingsNetGame.Instance.Content.Load<Texture2D>("fondos/arrow1");
-                arrow[0].flechassobre = new Texture2D(LemmingsNetGame.Instance.GraphicsDevice, arrow[0].area.Width, arrow[0].area.Height);
-                arrow[0].desplaza = 0;
-                arrow[0].transparency = 255;
-                NumTotTraps = 5;
-                TrapsON = true;
-                trap = new Vartraps[NumTotTraps];
-                trap[0].areaDraw = new Rectangle(0, 0, 0, 0);
-                trap[0].areaTrap = new Rectangle(217, 411 - 5, 159 - 30, 10); //fire shooter see .pos vector2 minus vvX-20 and vvY-5
-                trap[0].numFrames = 10;
-                trap[0].actFrame = 0;
-                trap[0].type = 555; // traps animated  that uses vector2 to draws areadraw if filled 0's
-                trap[0].isOn = false;
-                trap[0].pos = new Vector2(217, 411);
-                trap[0].vvX = 0;
-                trap[0].vvY = 27;
-                trap[0].depth = 0.400000009f;
-                trap[0].transparency = 255;
-                trap[0].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/fuego3");
-                trap[1].areaDraw = new Rectangle(0, 0, 0, 0);
-                trap[1].areaTrap = new Rectangle(754 - 30, 160 - 30 / 2, 30 * 2, 10);//see .pos
-                trap[1].numFrames = 8;
-                trap[1].actFrame = 0;
-                trap[1].type = 555; // 666= traps specials that activate when touch areatrap NO UPDATE FRAMES UNTIL IS ON
-                trap[1].isOn = false;
-                trap[1].pos = new Vector2(754, 160);
-                trap[1].vvX = 30;
-                trap[1].vvY = 30;
-                trap[1].depth = 0.600000009f;
-                trap[1].transparency = 255;
-                trap[1].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/fuego2"); //34 height sprite
-                trap[2].areaDraw = new Rectangle(0, 0, 0, 0);
-                trap[2].areaTrap = new Rectangle(801 - 30, 160 - 30 / 2, 30 * 2, 10);//see .pos
-                trap[2].numFrames = 8;
-                trap[2].actFrame = 0;
-                trap[2].type = 555; // 666= traps specials that activate when touch areatrap NO UPDATE FRAMES UNTIL IS ON
-                trap[2].isOn = false;
-                trap[2].pos = new Vector2(801, 160);
-                trap[2].vvX = 30;
-                trap[2].vvY = 30;
-                trap[2].depth = 0.600000009f;
-                trap[2].transparency = 255;
-                trap[2].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/fuego2"); //34 height sprite
-                trap[3].areaDraw = new Rectangle(0, 0, 0, 0);
-                trap[3].areaTrap = new Rectangle(1770 - 30, 169 - 30 / 2, 30 * 2, 10);//see .pos
-                trap[3].numFrames = 8;
-                trap[3].actFrame = 0;
-                trap[3].type = 555; // 666= traps specials that activate when touch areatrap NO UPDATE FRAMES UNTIL IS ON
-                trap[3].isOn = false;
-                trap[3].pos = new Vector2(1770, 169);
-                trap[3].vvX = 30;
-                trap[3].vvY = 30;
-                trap[3].depth = 0.600000009f;
-                trap[3].transparency = 255;
-                trap[3].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/fuego2"); //34 height sprite
-                trap[4].areaDraw = new Rectangle(0, 0, 0, 0);
-                trap[4].areaTrap = new Rectangle(1821 - 30, 169 - 30 / 2, 30 * 2, 10);//see .pos
-                trap[4].numFrames = 8;
-                trap[4].actFrame = 0;
-                trap[4].type = 555; // 666= traps specials that activate when touch areatrap NO UPDATE FRAMES UNTIL IS ON
-                trap[4].isOn = false;
-                trap[4].pos = new Vector2(1821, 169);
-                trap[4].vvX = 30;
-                trap[4].vvY = 30;
-                trap[4].depth = 0.600000009f;
-                trap[4].transparency = 255;
-                trap[4].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/fuego2"); //34 height sprite
-                break;
-            case 52:
-                NumTotTraps = 3;
-                TrapsON = true;
-                trap = new Vartraps[NumTotTraps];
-                trap[0].vvscroll = 0;
-                trap[0].areaDraw = new Rectangle(384, 480, 3197 - 384, 32);
-                trap[0].areaTrap = new Rectangle(384, 485, 3197 - 384, 10);
-                trap[0].numFrames = 8;
-                trap[0].actFrame = 0;
-                trap[0].type = 1;
-                trap[0].isOn = false;
-                trap[0].pos = Vector2.Zero;
-                trap[0].vvX = 0;
-                trap[0].vvY = 0;
-                trap[0].depth = 0.4000000011f;
-                trap[0].transparency = 200;
-                trap[0].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/water_blue");
-                trap[1].areaDraw = new Rectangle(0, 480, 278, 32);
-                trap[1].areaTrap = new Rectangle(0, 485, 278, 10);
-                trap[1].numFrames = 8;
-                trap[1].actFrame = 0;
-                trap[1].type = 1;
-                trap[1].isOn = false;
-                trap[1].pos = Vector2.Zero;
-                trap[1].vvX = 0;
-                trap[1].vvY = 0;
-                trap[1].depth = 0.4000000011f;
-                trap[1].transparency = 200;
-                trap[1].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/water_blue");
-                trap[2].areaDraw = new Rectangle(3197, 480, 3649 - 3197, 32);
-                trap[2].areaTrap = new Rectangle(3197, 485, 3649 - 3197, 10);
-                trap[2].numFrames = 8;
-                trap[2].actFrame = 0;
-                trap[2].type = 1;
-                trap[2].isOn = false;
-                trap[2].pos = Vector2.Zero;
-                trap[2].vvX = 0;
-                trap[2].vvY = 0;
-                trap[2].depth = 0.6000000011f;
-                trap[2].transparency = 200;
-                trap[2].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/water_blue");
-                break;
-            case 55:
-                NumTotTraps = 3;
-                TrapsON = true;
-                trap = new Vartraps[NumTotTraps];
-                trap[0].areaDraw = new Rectangle(0, 0, 0, 0);
-                trap[0].areaTrap = new Rectangle(2511 - 5, 334 - 5, 10, 10);//see .pos minus 5 on both axis
-                trap[0].numFrames = 37;
-                trap[0].actFrame = 0;
-                trap[0].type = 666; // 666= traps specials that activate when touch areatrap NO UPDATE FRAMES UNTIL IS ON
-                trap[0].isOn = false;
-                trap[0].pos = new Vector2(2511, 334);
-                trap[0].vvX = 10;
-                trap[0].vvY = 71;
-                trap[0].depth = 0.600000009f;
-                trap[0].transparency = 255;
-                trap[0].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/dead_soga");
-                trap[1].vvscroll = 1;
-                trap[1].areaDraw = new Rectangle(1300, 480, 4089 - 1300, 32);
-                trap[1].areaTrap = new Rectangle(1300, 485, 4089 - 1300, 10);
-                trap[1].numFrames = 8;
-                trap[1].actFrame = 0;
-                trap[1].type = 1;
-                trap[1].isOn = false;
-                trap[1].pos = Vector2.Zero;
-                trap[1].vvX = 0;
-                trap[1].vvY = 0;
-                trap[1].depth = 0.6000000011f;
-                trap[1].transparency = 255;
-                trap[1].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/water_blue");
-                trap[2].vvscroll = 2;
-                trap[2].areaDraw = new Rectangle(0, 480, 787, 32);
-                trap[2].areaTrap = new Rectangle(0, 485, 787, 10);
-                trap[2].numFrames = 8;
-                trap[2].actFrame = 0;
-                trap[2].type = 1;
-                trap[2].isOn = false;
-                trap[2].pos = Vector2.Zero;
-                trap[2].vvX = 0;
-                trap[2].vvY = 0;
-                trap[2].depth = 0.6000000011f;
-                trap[2].transparency = 255;
-                trap[2].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/water_blue");
-                break;
-            case 57:
-                ArrowsON = true; NumTotArrow = 1;
-                arrow = new Vararrows[NumTotArrow];
-                arrow[0].right = false;
-                arrow[0].area = new Rectangle(1306, 35, 1805 - 1306, 318 - 35);
-                arrow[0].flechas = LemmingsNetGame.Instance.Content.Load<Texture2D>("fondos/arrow1");
-                arrow[0].flechassobre = new Texture2D(LemmingsNetGame.Instance.GraphicsDevice, arrow[0].area.Width, arrow[0].area.Height);
-                arrow[0].desplaza = 0;
-                arrow[0].transparency = 255;
-                NumTotTraps = 1;
-                TrapsON = true;
-                trap = new Vartraps[NumTotTraps];
-                trap[0].vvscroll = 2;
-                trap[0].areaDraw = new Rectangle(0, 480, 777, 32);
-                trap[0].areaTrap = new Rectangle(0, 485, 777, 10);
-                trap[0].numFrames = 8;
-                trap[0].actFrame = 0;
-                trap[0].type = 1;
-                trap[0].isOn = false;
-                trap[0].pos = Vector2.Zero;
-                trap[0].vvX = 0;
-                trap[0].vvY = 0;
-                trap[0].depth = 0.6000000011f;
-                trap[0].transparency = 255;
-                trap[0].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/water_blue");
-                break;
-            case 58:
-                NumTotTraps = 1;
-                TrapsON = true;
-                trap = new Vartraps[NumTotTraps];
-                trap[0].vvscroll = 0;
-                trap[0].areaDraw = new Rectangle(0, 480, 3117, 32);
-                trap[0].areaTrap = new Rectangle(0, 485, 3117, 10);
-                trap[0].numFrames = 8;
-                trap[0].actFrame = 0;
-                trap[0].type = 1;
-                trap[0].isOn = false;
-                trap[0].pos = Vector2.Zero;
-                trap[0].vvX = 0;
-                trap[0].vvY = 0;
-                trap[0].depth = 0.6000000011f;
-                trap[0].transparency = 255;
-                trap[0].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/water_blue");
-                SteelON = true; numTOTsteel = 1;
-                steel = new Varsteel[numTOTsteel];
-                steel[0].area = new Rectangle(1780, 239, 2006 - 1780, 280 - 239);
-                break;
-            case 59:
-                numTOTdoors = 3; numACTdoor = 0;
-                moreDoors = new Varmoredoors[numTOTdoors];
-                moreDoors[0].doorMoreXY = new Vector2(LemmingsNetGame.Instance.Levels.AllLevel[59].doorX, LemmingsNetGame.Instance.Levels.AllLevel[59].doorY);
-                moreDoors[1].doorMoreXY = new Vector2(459, 150);
-                moreDoors[2].doorMoreXY = new Vector2(770, 46);
-                NumTotTraps = 7;
-                TrapsON = true;
-                trap = new Vartraps[NumTotTraps];
-                trap[0].areaDraw = new Rectangle(0, 0, 0, 0);
-                trap[0].areaTrap = new Rectangle(623 - 23, 429 - 38 / 2, 23 * 2, 10); //se .pos minis vvY/2 -vvx long vvx*2
-                trap[0].numFrames = 16;
-                trap[0].actFrame = 0;
-                trap[0].type = 555; // traps that uses vector2 to draws areadraw if filled 0's
-                trap[0].isOn = false;
-                trap[0].pos = new Vector2(623, 429);
-                trap[0].vvX = 32;
-                trap[0].vvY = 38;
-                trap[0].depth = 0.600000009f;
-                trap[0].transparency = 255;
-                trap[0].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/dead_spin");
-                trap[1].areaDraw = new Rectangle(0, 0, 0, 0);
-                trap[1].areaTrap = new Rectangle(1266 - 23, 451 - 38 / 2, 23 * 2, 10); //se .pos minis vvY/2 -vvx long vvx*2
-                trap[1].numFrames = 16;
-                trap[1].actFrame = 0;
-                trap[1].type = 555; // traps that uses vector2 to draws areadraw if filled 0's
-                trap[1].isOn = false;
-                trap[1].pos = new Vector2(1266, 451);
-                trap[1].vvX = 32;
-                trap[1].vvY = 38;
-                trap[1].depth = 0.600000009f;
-                trap[1].transparency = 255;
-                trap[1].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/dead_spin");
-                trap[2].areaDraw = new Rectangle(0, 0, 0, 0);
-                trap[2].areaTrap = new Rectangle(1591 - 23, 132 - 38 / 2, 23 * 2, 10); //se .pos minis vvY/2 -vvx long vvx*2
-                trap[2].numFrames = 16;
-                trap[2].actFrame = 0;
-                trap[2].type = 555; // traps that uses vector2 to draws areadraw if filled 0's
-                trap[2].isOn = false;
-                trap[2].pos = new Vector2(1591, 132);
-                trap[2].vvX = 32;
-                trap[2].vvY = 38;
-                trap[2].depth = 0.600000009f;
-                trap[2].transparency = 255;
-                trap[2].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/dead_spin");
-                trap[3].areaDraw = new Rectangle(0, 0, 0, 0);
-                trap[3].areaTrap = new Rectangle(1604 - 23, 367 - 38 / 2, 23 * 2, 10); //se .pos minis vvY/2 -vvx long vvx*2
-                trap[3].numFrames = 16;
-                trap[3].actFrame = 0;
-                trap[3].type = 555; // traps that uses vector2 to draws areadraw if filled 0's
-                trap[3].isOn = false;
-                trap[3].pos = new Vector2(1604, 367);
-                trap[3].vvX = 32;
-                trap[3].vvY = 38;
-                trap[3].depth = 0.600000009f;
-                trap[3].transparency = 255;
-                trap[3].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/dead_spin");
-                trap[4].areaDraw = new Rectangle(0, 0, 0, 0);
-                trap[4].areaTrap = new Rectangle(2224 - 23, 153 - 38 / 2, 23 * 2, 10); //se .pos minis vvY/2 -vvx long vvx*2
-                trap[4].numFrames = 16;
-                trap[4].actFrame = 0;
-                trap[4].type = 555; // traps that uses vector2 to draws areadraw if filled 0's
-                trap[4].isOn = false;
-                trap[4].pos = new Vector2(2224, 153);
-                trap[4].vvX = 32;
-                trap[4].vvY = 38;
-                trap[4].depth = 0.600000009f;
-                trap[4].transparency = 255;
-                trap[4].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/dead_spin");
-                trap[5].areaDraw = new Rectangle(0, 0, 0, 0);
-                trap[5].areaTrap = new Rectangle(2154 - 23, 332 - 38 / 2, 23 * 2, 10); //se .pos minis vvY/2 -vvx long vvx*2
-                trap[5].numFrames = 16;
-                trap[5].actFrame = 0;
-                trap[5].type = 555; // traps that uses vector2 to draws areadraw if filled 0's
-                trap[5].isOn = false;
-                trap[5].pos = new Vector2(2154, 332);
-                trap[5].vvX = 32;
-                trap[5].vvY = 38;
-                trap[5].depth = 0.600000009f;
-                trap[5].transparency = 255;
-                trap[5].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/dead_spin");
-                trap[6].areaDraw = new Rectangle(0, 0, 0, 0);
-                trap[6].areaTrap = new Rectangle(2763 - 23, 334 - 38 / 2, 23 * 2, 10); //se .pos minis vvY/2 -vvx long vvx*2
-                trap[6].numFrames = 16;
-                trap[6].actFrame = 0;
-                trap[6].type = 555; // traps that uses vector2 to draws areadraw if filled 0's
-                trap[6].isOn = false;
-                trap[6].pos = new Vector2(2763, 334);
-                trap[6].vvX = 32;
-                trap[6].vvY = 38;
-                trap[6].depth = 0.600000009f;
-                trap[6].transparency = 255;
-                trap[6].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/dead_spin");
-                break;
-            case 60:
-                NumTotTraps = 1;
-                TrapsON = true;
-                trap = new Vartraps[NumTotTraps];
-                trap[0].vvscroll = 2;
-                trap[0].areaDraw = new Rectangle(0, 480, 3090, 32);
-                trap[0].areaTrap = new Rectangle(0, 485, 3090, 10);
-                trap[0].numFrames = 8;
-                trap[0].actFrame = 0;
-                trap[0].type = 1;
-                trap[0].isOn = false;
-                trap[0].pos = Vector2.Zero;
-                trap[0].vvX = 0;
-                trap[0].vvY = 0;
-                trap[0].depth = 0.6000000011f;
-                trap[0].transparency = 224;
-                trap[0].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/water_blue");
-                break;
-            // TAXING LEVELS TAXING //////////////////////////////////////////////////////////////////////////
-            case 62:
-                numTOTdoors = 2; numACTdoor = 0;
-                moreDoors = new Varmoredoors[numTOTdoors];
-                moreDoors[0].doorMoreXY = new Vector2(LemmingsNetGame.Instance.Levels.AllLevel[62].doorX, LemmingsNetGame.Instance.Levels.AllLevel[62].doorY);
-                moreDoors[1].doorMoreXY = new Vector2(1962, LemmingsNetGame.Instance.Levels.AllLevel[62].doorY);
-                SteelON = true; numTOTsteel = 1;
-                steel = new Varsteel[numTOTsteel];
-                steel[0].area = new Rectangle(1614, 129, 1967 - 1614, 253 - 129);
-                NumTotTraps = 3;
-                TrapsON = true;
-                trap = new Vartraps[NumTotTraps];
-                trap[0].areaDraw = new Rectangle(0, 0, 0, 0);
-                trap[0].areaTrap = new Rectangle(2352 - 5, 157 - 5, 10, 10); //se .pos minis vvY/2 -vvx long vvx*2
-                trap[0].numFrames = 15;
-                trap[0].actFrame = 0;
-                trap[0].type = 666; // traps that uses vector2 to draws areadraw if filled 0's
-                trap[0].isOn = false;
-                trap[0].pos = new Vector2(2352, 157);
-                trap[0].vvX = 16;
-                trap[0].vvY = 42;  //38
-                trap[0].depth = 0.600000009f;
-                trap[0].transparency = 255;
-                trap[0].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/dead_trampa");
-                trap[1].areaDraw = new Rectangle(0, 0, 0, 0);
-                trap[1].areaTrap = new Rectangle(1052 - 5, 459 - 5, 10, 10); //se .pos minis vvY/2 -vvx long vvx*2
-                trap[1].numFrames = 15;
-                trap[1].actFrame = 0;
-                trap[1].type = 666; // traps that uses vector2 to draws areadraw if filled 0's
-                trap[1].isOn = false;
-                trap[1].pos = new Vector2(1052, 459);
-                trap[1].vvX = 16;
-                trap[1].vvY = 42;  //38
-                trap[1].depth = 0.600000009f;
-                trap[1].transparency = 255;
-                trap[1].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/dead_trampa");
-                trap[2].areaDraw = new Rectangle(0, 0, 0, 0);
-                trap[2].areaTrap = new Rectangle(2712 - 5, 134 - 5, 10, 10);
-                trap[2].numFrames = 12;
-                trap[2].actFrame = 0;
-                trap[2].type = 666; // traps that uses vector2 to draws areadraw if filled 0's
-                trap[2].isOn = false;
-                trap[2].pos = new Vector2(2712, 134);
-                trap[2].vvX = 40;
-                trap[2].vvY = 105;
-                trap[2].depth = 0.600000009f;
-                trap[2].transparency = 255;
-                trap[2].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/dead_10");
-                break;
-            case 64:
-                numTOTdoors = 2; numACTdoor = 0;
-                moreDoors = new Varmoredoors[numTOTdoors];
-                moreDoors[0].doorMoreXY = new Vector2(LemmingsNetGame.Instance.Levels.AllLevel[64].doorX, LemmingsNetGame.Instance.Levels.AllLevel[64].doorY);
-                moreDoors[1].doorMoreXY = new Vector2(1174, LemmingsNetGame.Instance.Levels.AllLevel[64].doorY);
-                SteelON = true; numTOTsteel = 2;
-                steel = new Varsteel[numTOTsteel];
-                steel[0].area = new Rectangle(1000, 272, 1507 - 1000, 318 - 272);
-                steel[1].area = new Rectangle(1265, 319, 1309 - 1265, 442 - 319);
-                NumTotTraps = 3;
-                TrapsON = true;
-                trap = new Vartraps[NumTotTraps];
-                trap[0].areaDraw = new Rectangle(0, 0, 0, 0);
-                trap[0].areaTrap = new Rectangle(1003 - 12, 175 - 18, 15, 36);
-                trap[0].numFrames = 7;
-                trap[0].actFrame = 0;
-                trap[0].type = 666; // 666= traps specials that activate when touch areatrap NO UPDATE FRAMES UNTIL IS ON
-                trap[0].isOn = false;
-                trap[0].pos = new Vector2(1003, 175);
-                trap[0].vvX = 30;
-                trap[0].vvY = 26;
-                trap[0].depth = 0.600000009f;
-                trap[0].transparency = 255;
-                trap[0].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/dead_arrow_left");
-                trap[1].areaDraw = new Rectangle(0, 0, 0, 0);
-                trap[1].areaTrap = new Rectangle(908, 272 - 18, 15, 36);
-                trap[1].numFrames = 7;
-                trap[1].actFrame = 0;
-                trap[1].type = 666; // 666= traps specials that activate when touch areatrap NO UPDATE FRAMES UNTIL IS ON
-                trap[1].isOn = false;
-                trap[1].pos = new Vector2(908, 272);
-                trap[1].vvX = 0;
-                trap[1].vvY = 26;
-                trap[1].depth = 0.600000009f;
-                trap[1].transparency = 255;
-                trap[1].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/dead_arrow_right");
-                trap[2].areaDraw = new Rectangle(0, 0, 0, 0);
-                trap[2].areaTrap = new Rectangle(1574 - 5, 445 - 5, 10, 10);//see .pos minus 5 on both axis
-                trap[2].numFrames = 37;
-                trap[2].actFrame = 0;
-                trap[2].type = 666; // 666= traps specials that activate when touch areatrap NO UPDATE FRAMES UNTIL IS ON
-                trap[2].isOn = false;
-                trap[2].pos = new Vector2(1574, 445);
-                trap[2].vvX = 10;
-                trap[2].vvY = 71;
-                trap[2].depth = 0.600000009f;
-                trap[2].transparency = 255;
-                trap[2].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/dead_soga");
-                break;
-            case 65:
-                numTOTexits = 2;
-                moreexits = new Varmoreexits[numTOTexits];
-                moreexits[0].exitMoreXY = new Vector2(LemmingsNetGame.Instance.Levels.AllLevel[65].exitX, LemmingsNetGame.Instance.Levels.AllLevel[65].exitY);
-                moreexits[1].exitMoreXY = new Vector2(LemmingsNetGame.Instance.Levels.AllLevel[65].exitX, 461);
-                SteelON = true; numTOTsteel = 2;
-                steel = new Varsteel[numTOTsteel];
-                steel[0].area = new Rectangle(161, 436, 390 - 161, 488 - 436);
-                steel[1].area = new Rectangle(537, 160, 610 - 537, 309 - 160);
-                NumTotTraps = 3;
-                TrapsON = true;
-                trap = new Vartraps[NumTotTraps];
-                trap[0].areaDraw = new Rectangle(0, 0, 0, 0);
-                trap[0].areaTrap = new Rectangle(611, 196 - 5, 159 - 30, 10); //fire shooter see .pos vector2 minus vvX-20 and vvY-5
-                trap[0].numFrames = 10;
-                trap[0].actFrame = 0;
-                trap[0].type = 555; // traps animated  that uses vector2 to draws areadraw if filled 0's
-                trap[0].isOn = false;
-                trap[0].pos = new Vector2(611, 196);
-                trap[0].vvX = 0;
-                trap[0].vvY = 27;
-                trap[0].depth = 0.600000009f;
-                trap[0].transparency = 255;
-                trap[0].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/fuego3");
-                trap[1].areaDraw = new Rectangle(0, 0, 0, 0);
-                trap[1].areaTrap = new Rectangle(611, 274 - 5, 159 - 30, 10); //fire shooter see .pos vector2 minus vvX-20 and vvY-5
-                trap[1].numFrames = 10;
-                trap[1].actFrame = 0;
-                trap[1].type = 555; // traps animated  that uses vector2 to draws areadraw if filled 0's
-                trap[1].isOn = false;
-                trap[1].pos = new Vector2(611, 274);
-                trap[1].vvX = 0;
-                trap[1].vvY = 27;
-                trap[1].depth = 0.600000009f;
-                trap[1].transparency = 255;
-                trap[1].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/fuego3");
-                trap[2].vvscroll = 0;
-                trap[2].areaDraw = new Rectangle(0, 472, 1152, 40);
-                trap[2].areaTrap = new Rectangle(0, 477, 1152, 10);
-                trap[2].numFrames = 8;
-                trap[2].actFrame = 0;
-                trap[2].type = 1;
-                trap[2].isOn = false;
-                trap[2].pos = Vector2.Zero;
-                trap[2].vvX = 0;
-                trap[2].vvY = 0;
-                trap[2].depth = 0.600000009f;
-                trap[2].transparency = 255;
-                trap[2].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/fuego1");
-                break;
-            case 68:
-                NumTotTraps = 1;
-                TrapsON = true;
-                trap = new Vartraps[NumTotTraps];
-                trap[0].areaDraw = new Rectangle(0, 480, 3405, 32);
-                trap[0].areaTrap = new Rectangle(0, 485, 3405, 10);
-                trap[0].numFrames = 8;
-                trap[0].actFrame = 0;
-                trap[0].type = 1;
-                trap[0].isOn = false;
-                trap[0].pos = Vector2.Zero;
-                trap[0].vvX = 0;
-                trap[0].vvY = 0;
-                trap[0].depth = 0.600000009f; //lemmings depth 0.300f
-                trap[0].transparency = 255;
-                trap[0].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/water_blue");
-                break;
-            case 69:
-                NumTotTraps = 2;
-                TrapsON = true;
-                trap = new Vartraps[NumTotTraps];
-                trap[0].areaDraw = new Rectangle(0, 480, 771, 32);
-                trap[0].areaTrap = new Rectangle(0, 485, 771, 10);
-                trap[0].numFrames = 8;
-                trap[0].actFrame = 0;
-                trap[0].type = 1;
-                trap[0].isOn = false;
-                trap[0].pos = Vector2.Zero;
-                trap[0].vvX = 0;
-                trap[0].vvY = 0;
-                trap[0].depth = 0.600000009f; //lemmings depth 0.300f
-                trap[0].transparency = 255;
-                trap[0].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/water_blue");
-                trap[1].areaDraw = new Rectangle(1448, 480, 2304 - 1448, 32);
-                trap[1].areaTrap = new Rectangle(1448, 485, 2304 - 1448, 10);
-                trap[1].numFrames = 8;
-                trap[1].actFrame = 0;
-                trap[1].type = 1;
-                trap[1].isOn = false;
-                trap[1].pos = Vector2.Zero;
-                trap[1].vvX = 0;
-                trap[1].vvY = 0;
-                trap[1].depth = 0.400000009f; //lemmings depth 0.300f
-                trap[1].transparency = 200;
-                trap[1].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/water_blue");
-                break;
-            case 70:
-                NumTotTraps = 5;
-                TrapsON = true;
-                trap = new Vartraps[NumTotTraps];
-                trap[0].areaDraw = new Rectangle(0, 0, 0, 0);
-                trap[0].areaTrap = new Rectangle(439, 342 - 5, 159 - 30, 10); //fire shooter see .pos vector2 minus vvX-20 and vvY-5
-                trap[0].numFrames = 10;
-                trap[0].actFrame = 0;
-                trap[0].type = 555; // traps animated  that uses vector2 to draws areadraw if filled 0's
-                trap[0].isOn = false;
-                trap[0].pos = new Vector2(439, 342);
-                trap[0].vvX = 0;
-                trap[0].vvY = 27;
-                trap[0].depth = 0.600000009f;
-                trap[0].transparency = 255;
-                trap[0].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/fuego3");
-                trap[1].areaDraw = new Rectangle(0, 0, 0, 0);
-                trap[1].areaTrap = new Rectangle(1767 - 159 + 30, 217 - 5, 159 - 30, 10); //fire shooter see .pos vector2 minus vvX-20 and vvY-5
-                trap[1].numFrames = 10;
-                trap[1].actFrame = 0;
-                trap[1].type = 555; // traps animated  that uses vector2 to draws areadraw if filled 0's
-                trap[1].isOn = false;
-                trap[1].pos = new Vector2(1767, 217);
-                trap[1].vvX = 159;
-                trap[1].vvY = 27;
-                trap[1].depth = 0.600000009f;
-                trap[1].transparency = 255;
-                trap[1].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/fuego4");
-                trap[2].vvscroll = 0;
-                trap[2].areaDraw = new Rectangle(0, 472, 1275, 40);
-                trap[2].areaTrap = new Rectangle(0, 477, 1275, 10);
-                trap[2].numFrames = 8;
-                trap[2].actFrame = 0;
-                trap[2].type = 1;
-                trap[2].isOn = false;
-                trap[2].pos = Vector2.Zero;
-                trap[2].vvX = 0;
-                trap[2].vvY = 0;
-                trap[2].depth = 0.600000009f;
-                trap[2].transparency = 255;
-                trap[2].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/fuego1");
-                trap[3].vvscroll = 0;
-                trap[3].areaDraw = new Rectangle(1435, 472, 2090 - 1435, 40);
-                trap[3].areaTrap = new Rectangle(1435, 477, 2090 - 1435, 10);
-                trap[3].numFrames = 8;
-                trap[3].actFrame = 0;
-                trap[3].type = 1;
-                trap[3].isOn = false;
-                trap[3].pos = Vector2.Zero;
-                trap[3].vvX = 0;
-                trap[3].vvY = 0;
-                trap[3].depth = 0.600000009f;
-                trap[3].transparency = 255;
-                trap[3].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/fuego1");
-                trap[4].vvscroll = 0;
-                trap[4].areaDraw = new Rectangle(1281, 482, 1429 - 1281, 40);
-                trap[4].areaTrap = new Rectangle(1291, 497, 1, 1); //null kill area
-                trap[4].numFrames = 8;
-                trap[4].actFrame = 0;
-                trap[4].type = 1;
-                trap[4].isOn = false;
-                trap[4].pos = Vector2.Zero;
-                trap[4].vvX = 0;
-                trap[4].vvY = 0;
-                trap[4].depth = 0.600000009f;
-                trap[4].transparency = 255;
-                trap[4].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/fuego1");
-                break;
-            case 71:
-                NumTotTraps = 1;
-                TrapsON = true;
-                trap = new Vartraps[NumTotTraps];
-                trap[0].areaDraw = new Rectangle(0, 480, 3604, 32);
-                trap[0].areaTrap = new Rectangle(0, 485, 3604, 10);
-                trap[0].numFrames = 8;
-                trap[0].actFrame = 0;
-                trap[0].vvscroll = 2;
-                trap[0].type = 1;
-                trap[0].isOn = false;
-                trap[0].pos = Vector2.Zero;
-                trap[0].vvX = 0;
-                trap[0].vvY = 0;
-                trap[0].depth = 0.600000009f; //lemmings depth 0.300f
-                trap[0].transparency = 255;
-                trap[0].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/water_blue");
-                break;
-            case 72:
-                NumTotTraps = 6;
-                TrapsON = true;
-                trap = new Vartraps[NumTotTraps];
-                trap[0].vvscroll = 0;
-                trap[0].areaDraw = new Rectangle(0, 472, 3000, 40);
-                trap[0].areaTrap = new Rectangle(0, 477, 3000, 10);
-                trap[0].numFrames = 8;
-                trap[0].actFrame = 0;
-                trap[0].type = 1;
-                trap[0].vvscroll = 1;
-                trap[0].isOn = false;
-                trap[0].pos = Vector2.Zero;
-                trap[0].vvX = 0;
-                trap[0].vvY = 0;
-                trap[0].depth = 0.600000009f;
-                trap[0].transparency = 255;
-                trap[0].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/fuego1");
-                trap[1].areaDraw = new Rectangle(0, 0, 0, 0);
-                trap[1].areaTrap = new Rectangle(752, 205 - 5, 159 - 30, 10); //fire shooter see .pos vector2 minus vvX-20 and vvY-5
-                trap[1].numFrames = 10;
-                trap[1].actFrame = 0;
-                trap[1].type = 555; // traps animated  that uses vector2 to draws areadraw if filled 0's
-                trap[1].isOn = false;
-                trap[1].pos = new Vector2(752, 205);
-                trap[1].vvX = 0;
-                trap[1].vvY = 27;
-                trap[1].depth = 0.600000009f;
-                trap[1].transparency = 255;
-                trap[1].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/fuego3");
-                trap[2].areaDraw = new Rectangle(0, 0, 0, 0);
-                trap[2].areaTrap = new Rectangle(1336 - 30, 178 - 30 / 2, 30 * 2, 10);//see .pos
-                trap[2].numFrames = 8;
-                trap[2].actFrame = 0;
-                trap[2].type = 555; // 666= traps specials that activate when touch areatrap NO UPDATE FRAMES UNTIL IS ON
-                trap[2].isOn = false;
-                trap[2].pos = new Vector2(1336, 178);
-                trap[2].vvX = 30;
-                trap[2].vvY = 30;
-                trap[2].depth = 0.600000009f;
-                trap[2].transparency = 255;
-                trap[2].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/fuego2"); //34 height sprite
-                trap[3].areaDraw = new Rectangle(0, 0, 0, 0);
-                trap[3].areaTrap = new Rectangle(1386 - 30, 178 - 30 / 2, 30 * 2, 10);//see .pos
-                trap[3].numFrames = 8;
-                trap[3].actFrame = 0;
-                trap[3].type = 555; // 666= traps specials that activate when touch areatrap NO UPDATE FRAMES UNTIL IS ON
-                trap[3].isOn = false;
-                trap[3].pos = new Vector2(1386, 178);
-                trap[3].vvX = 30;
-                trap[3].vvY = 30;
-                trap[3].depth = 0.600000009f;
-                trap[3].transparency = 255;
-                trap[3].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/fuego2"); //34 height sprite
-                trap[4].areaDraw = new Rectangle(0, 0, 0, 0);
-                trap[4].areaTrap = new Rectangle(1642 - 30, 119 - 30 / 2, 30 * 2, 10);//see .pos
-                trap[4].numFrames = 8;
-                trap[4].actFrame = 0;
-                trap[4].type = 555; // 666= traps specials that activate when touch areatrap NO UPDATE FRAMES UNTIL IS ON
-                trap[4].isOn = false;
-                trap[4].pos = new Vector2(1642, 119);
-                trap[4].vvX = 30;
-                trap[4].vvY = 30;
-                trap[4].depth = 0.600000009f;
-                trap[4].transparency = 255;
-                trap[4].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/fuego2"); //34 height sprite
-                trap[5].areaDraw = new Rectangle(0, 0, 0, 0);
-                trap[5].areaTrap = new Rectangle(1681 - 30, 119 - 30 / 2, 30 * 2, 10);//see .pos
-                trap[5].numFrames = 8;
-                trap[5].actFrame = 0;
-                trap[5].type = 555; // 666= traps specials that activate when touch areatrap NO UPDATE FRAMES UNTIL IS ON
-                trap[5].isOn = false;
-                trap[5].pos = new Vector2(1691, 119);
-                trap[5].vvX = 30;
-                trap[5].vvY = 30;
-                trap[5].depth = 0.600000009f;
-                trap[5].transparency = 255;
-                trap[5].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/fuego2"); //34 height sprite
-                break;
-            case 73:
-                ArrowsON = true; NumTotArrow = 2;
-                arrow = new Vararrows[NumTotArrow];
-                arrow[0].right = true;
-                arrow[0].area = new Rectangle(1737, 121, 1932 - 1737, 326 - 121);
-                arrow[0].flechas = LemmingsNetGame.Instance.Content.Load<Texture2D>("fondos/arrow2");
-                arrow[0].flechassobre = new Texture2D(LemmingsNetGame.Instance.GraphicsDevice, arrow[0].area.Width, arrow[0].area.Height);
-                arrow[0].desplaza = 0;
-                arrow[0].transparency = 255;
-                arrow[1].right = true;
-                arrow[1].area = new Rectangle(478, 42, 631 - 478, 374 - 42); // mask texture full steel zone
-                arrow[1].flechas = LemmingsNetGame.Instance.Content.Load<Texture2D>("fondos/arrow1");
-                arrow[1].flechassobre = new Texture2D(LemmingsNetGame.Instance.GraphicsDevice, arrow[1].area.Width, arrow[1].area.Height);
-                arrow[1].desplaza = 0;
-                arrow[1].transparency = 255;
-                break;
-            case 74:
-                NumTotTraps = 1;
-                TrapsON = true;
-                trap = new Vartraps[NumTotTraps];
-                trap[0].areaDraw = new Rectangle(0, 480, 4002, 32);
-                trap[0].areaTrap = new Rectangle(0, 485, 4002, 10);
-                trap[0].numFrames = 8;
-                trap[0].actFrame = 0;
-                trap[0].vvscroll = 1;
-                trap[0].type = 1;
-                trap[0].isOn = false;
-                trap[0].pos = Vector2.Zero;
-                trap[0].vvX = 0;
-                trap[0].vvY = 0;
-                trap[0].depth = 0.400000009f; //lemmings depth 0.300f
-                trap[0].transparency = 150;
-                trap[0].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/water_blue");
-                break;
-            case 76:
-                NumTotTraps = 1;
-                TrapsON = true;
-                trap = new Vartraps[NumTotTraps];
-                trap[0].vvscroll = 0;
-                trap[0].areaDraw = new Rectangle(994, 472, 2544 - 994, 40);
-                trap[0].areaTrap = new Rectangle(994, 477, 2544 - 994, 10);
-                trap[0].numFrames = 8;
-                trap[0].actFrame = 0;
-                trap[0].type = 1;
-                trap[0].isOn = false;
-                trap[0].pos = Vector2.Zero;
-                trap[0].vvscroll = 2;
-                trap[0].R = 140;
-                trap[0].G = 120;
-                trap[0].B = 190;
-                trap[0].vvX = 0;
-                trap[0].vvY = 0;
-                trap[0].depth = 0.600000009f;
-                trap[0].transparency = 255;
-                trap[0].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/fuego1");
-                break;
-            case 77:
-                numTOTexits = 2;
-                moreexits = new Varmoreexits[numTOTexits];
-                moreexits[0].exitMoreXY = new Vector2(LemmingsNetGame.Instance.Levels.AllLevel[77].exitX, LemmingsNetGame.Instance.Levels.AllLevel[77].exitY);
-                moreexits[1].exitMoreXY = new Vector2(LemmingsNetGame.Instance.Levels.AllLevel[77].exitX, 180);
-                NumTotTraps = 2;
-                TrapsON = true;
-                trap = new Vartraps[NumTotTraps];
-                trap[0].areaDraw = new Rectangle(2475, 472, 2594 - 2475, 40);
-                trap[0].areaTrap = new Rectangle(2475, 477, 2594 - 2475, 10);
-                trap[0].numFrames = 8;
-                trap[0].actFrame = 0;
-                trap[0].type = 1;
-                trap[0].isOn = false;
-                trap[0].pos = Vector2.Zero;
-                trap[0].vvX = 0;
-                trap[0].vvY = 0;
-                trap[0].depth = 0.600000009f;
-                trap[0].transparency = 255;
-                trap[0].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/fuego1");
-                trap[1].areaDraw = new Rectangle(0, 0, 0, 0);
-                trap[1].areaTrap = new Rectangle(606 - 159 + 30, 308 - 5, 159 - 30, 10); //fire shooter see .pos vector2 minus vvX-20 and vvY-5
-                trap[1].numFrames = 10;
-                trap[1].actFrame = 0;
-                trap[1].type = 555; // traps animated  that uses vector2 to draws areadraw if filled 0's
-                trap[1].isOn = false;
-                trap[1].pos = new Vector2(606, 308);
-                trap[1].vvX = 159;
-                trap[1].vvY = 27;
-                trap[1].depth = 0.600000009f;
-                trap[1].transparency = 255;
-                trap[1].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/fuego4");
-                break;
-            case 81:
-                NumTotTraps = 2;
-                TrapsON = true;
-                trap = new Vartraps[NumTotTraps];
-                trap[0].areaDraw = new Rectangle(0, 0, 0, 0);
-                trap[0].areaTrap = new Rectangle(963 - 159 + 30, 358 - 5, 159 - 30, 10); //fire shooter see .pos vector2 minus vvX-20 and vvY-5
-                trap[0].numFrames = 10;
-                trap[0].actFrame = 0;
-                trap[0].type = 555; // traps animated  that uses vector2 to draws areadraw if filled 0's
-                trap[0].isOn = false;
-                trap[0].pos = new Vector2(963, 358);
-                trap[0].vvX = 159;
-                trap[0].vvY = 27;
-                trap[0].depth = 0.600000009f;
-                trap[0].transparency = 255;
-                trap[0].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/fuego4");
-                trap[1].areaDraw = new Rectangle(0, 0, 0, 0);
-                trap[1].areaTrap = new Rectangle(487, 358 - 5, 159 - 30, 10); //fire shooter see .pos vector2 minus vvX-20 and vvY-5
-                trap[1].numFrames = 10;
-                trap[1].actFrame = 0;
-                trap[1].type = 555; // traps animated  that uses vector2 to draws areadraw if filled 0's
-                trap[1].isOn = false;
-                trap[1].pos = new Vector2(487, 358);
-                trap[1].vvX = 0;
-                trap[1].vvY = 27;
-                trap[1].depth = 0.600000009f;
-                trap[1].transparency = 255;
-                trap[1].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/fuego3");
-                break;
-            case 83:
-                NumTotTraps = 1;
-                TrapsON = true;
-                trap = new Vartraps[NumTotTraps];
-                trap[0].vvscroll = 0;
-                trap[0].areaDraw = new Rectangle(0, 472, 1281, 40);
-                trap[0].areaTrap = new Rectangle(0, 477, 1281, 10);
-                trap[0].numFrames = 8;
-                trap[0].actFrame = 0;
-                trap[0].type = 1;
-                trap[0].isOn = false;
-                trap[0].pos = Vector2.Zero;
-                trap[0].vvscroll = 1;
-                trap[0].vvX = 0;
-                trap[0].vvY = 0;
-                trap[0].depth = 0.600000009f;
-                trap[0].transparency = 255;
-                trap[0].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/fuego1");
-                break;
-            case 84:
-                NumTotTraps = 1;
-                TrapsON = true;
-                trap = new Vartraps[NumTotTraps];
-                trap[0].vvscroll = 0;
-                trap[0].areaDraw = new Rectangle(0, 472, 3283, 40);
-                trap[0].areaTrap = new Rectangle(0, 477, 3283, 10);
-                trap[0].numFrames = 8;
-                trap[0].actFrame = 0;
-                trap[0].type = 1;
-                trap[0].isOn = false;
-                trap[0].pos = Vector2.Zero;
-                trap[0].vvscroll = 1;
-                trap[0].vvX = 0;
-                trap[0].vvY = 0;
-                trap[0].depth = 0.600000009f;
-                trap[0].transparency = 255;
-                trap[0].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/fuego1");
-                break;
-            case 86:
-                numTOTdoors = 3; numACTdoor = 0;
-                moreDoors = new Varmoredoors[numTOTdoors];
-                moreDoors[0].doorMoreXY = new Vector2(LemmingsNetGame.Instance.Levels.AllLevel[86].doorX, LemmingsNetGame.Instance.Levels.AllLevel[86].doorY);
-                moreDoors[1].doorMoreXY = new Vector2(930, 382);
-                moreDoors[2].doorMoreXY = new Vector2(500, 56);
-                NumTotTraps = 4;
-                TrapsON = true;
-                trap = new Vartraps[NumTotTraps];
-                trap[0].areaDraw = new Rectangle(297, 472, 836 - 297, 512);
-                trap[0].areaTrap = new Rectangle(297, 475, 836 - 297, 10);
-                trap[0].vvscroll = 1;
-                trap[0].numFrames = 8;
-                trap[0].actFrame = 0;
-                trap[0].type = 1; // 666= traps specials that activate when touch areatrap NO UPDATE FRAMES UNTIL IS ON
-                trap[0].isOn = false;
-                trap[0].pos = new Vector2(0, 0);
-                trap[0].vvX = 0;
-                trap[0].vvY = 0;
-                trap[0].depth = 0.600000009f;
-                trap[0].transparency = 255;
-                trap[0].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/fuego1");
-                trap[1].areaDraw = new Rectangle(0, 0, 0, 0);
-                trap[1].areaTrap = new Rectangle(930 - 30, 128 - 30 / 2, 30 * 2, 10);//see .pos
-                trap[1].numFrames = 8;
-                trap[1].actFrame = 0;
-                trap[1].type = 555; // 666= traps specials that activate when touch areatrap NO UPDATE FRAMES UNTIL IS ON
-                trap[1].isOn = false;
-                trap[1].pos = new Vector2(930, 128);
-                trap[1].vvX = 30;
-                trap[1].vvY = 30;
-                trap[1].depth = 0.600000009f;
-                trap[1].transparency = 255;
-                trap[1].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/fuego2"); //34 height sprite
-                trap[2].areaDraw = new Rectangle(0, 0, 0, 0);
-                trap[2].areaTrap = new Rectangle(972 - 30, 128 - 30 / 2, 30 * 2, 10);//see .pos
-                trap[2].numFrames = 8;
-                trap[2].actFrame = 0;
-                trap[2].type = 555; // 666= traps specials that activate when touch areatrap NO UPDATE FRAMES UNTIL IS ON
-                trap[2].isOn = false;
-                trap[2].pos = new Vector2(972, 128);
-                trap[2].vvX = 30;
-                trap[2].vvY = 30;
-                trap[2].depth = 0.600000009f;
-                trap[2].transparency = 255;
-                trap[2].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/fuego2"); //34 height sprite
-                trap[3].areaDraw = new Rectangle(0, 0, 0, 0);
-                trap[3].areaTrap = new Rectangle(88, 129 - 5, 159 - 30, 10); //fire shooter see .pos vector2 minus vvX-20 and vvY-5
-                trap[3].numFrames = 10;
-                trap[3].actFrame = 0;
-                trap[3].type = 555; // traps animated  that uses vector2 to draws areadraw if filled 0's
-                trap[3].isOn = false;
-                trap[3].pos = new Vector2(88, 129);
-                trap[3].vvX = 0;
-                trap[3].vvY = 27;
-                trap[3].depth = 0.600000009f;
-                trap[3].transparency = 255;
-                trap[3].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/fuego3");
-                break;
-            case 87:
-                NumTotTraps = 3;
-                TrapsON = true;
-                trap = new Vartraps[NumTotTraps];
-                trap[0].areaDraw = new Rectangle(0, 480, 2083, 32); //512-32=480 bottom of the screen
-                trap[0].areaTrap = new Rectangle(0, 485, 2083, 10);
-                trap[0].numFrames = 8;
-                trap[0].actFrame = 0;
-                trap[0].type = 1;
-                trap[0].isOn = false;
-                trap[0].pos = Vector2.Zero;
-                trap[0].vvX = 0;
-                trap[0].vvY = 0;
-                trap[0].depth = 0.300000009f;
-                trap[0].transparency = 230;
-                trap[0].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/ice_water");
-                trap[1].vvscroll = 2;
-                trap[1].areaDraw = new Rectangle(102, 126 - 32, 426 - 102, 32);
-                trap[1].areaTrap = new Rectangle(0, 0, 0, 0);// not necessary
-                trap[1].numFrames = 8;
-                trap[1].actFrame = 0;
-                trap[1].type = 1;
-                trap[1].isOn = false;
-                trap[1].pos = Vector2.Zero;
-                trap[1].vvX = 0;
-                trap[1].vvY = 0;
-                trap[1].depth = 0.600000009f;
-                trap[1].transparency = 170;
-                trap[1].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/water_blue");
-                trap[2].vvscroll = 1;
-                trap[2].areaDraw = new Rectangle(1640, 126 - 32, 1965 - 1640, 32);
-                trap[2].areaTrap = new Rectangle(0, 0, 0, 0);
-                trap[2].numFrames = 8;
-                trap[2].actFrame = 0;
-                trap[2].type = 1;
-                trap[2].isOn = false;
-                trap[2].pos = Vector2.Zero;
-                trap[2].vvX = 0;
-                trap[2].vvY = 0;
-                trap[2].depth = 0.6000000011f;
-                trap[2].transparency = 170;
-                trap[2].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/water_blue");
-                break;
-            case 88:
-                NumTotTraps = 2;
-                TrapsON = true;
-                trap = new Vartraps[NumTotTraps];
-                trap[0].areaDraw = new Rectangle(0, 0, 0, 0);
-                trap[0].areaTrap = new Rectangle(2425 - 5, 238 - 5, 10, 10); //se .pos minis vvY/2 -vvx long vvx*2
-                trap[0].numFrames = 16;
-                trap[0].actFrame = 0;
-                trap[0].type = 666; // traps that uses vector2 to draws areadraw if filled 0's
-                trap[0].isOn = false;
-                trap[0].pos = new Vector2(2425, 238);
-                trap[0].vvX = 33;
-                trap[0].vvY = 25;
-                trap[0].depth = 0.600000009f;
-                trap[0].transparency = 255;
-                trap[0].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/dead_laser");
-                trap[1].vvscroll = 2;
-                trap[1].areaDraw = new Rectangle(0, 480, 3517, 32);
-                trap[1].areaTrap = new Rectangle(0, 485, 3517, 10);// not necessary
-                trap[1].numFrames = 8;
-                trap[1].actFrame = 0;
-                trap[1].type = 1;
-                trap[1].isOn = false;
-                trap[1].pos = Vector2.Zero;
-                trap[1].vvX = 0;
-                trap[1].vvY = 0;
-                trap[1].depth = 0.600000009f;
-                trap[1].transparency = 255;
-                trap[1].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/water_blue");
-                break;
-            case 89:
-                NumTotTraps = 1;
-                TrapsON = true;
-                trap = new Vartraps[NumTotTraps];
-                trap[0].areaDraw = new Rectangle(881, 480, 1481 - 881, 32);
-                trap[0].areaTrap = new Rectangle(881, 485, 1481 - 881, 10);// not necessary
-                trap[0].numFrames = 8;
-                trap[0].actFrame = 0;
-                trap[0].type = 1;
-                trap[0].isOn = false;
-                trap[0].pos = Vector2.Zero;
-                trap[0].vvX = 0;
-                trap[0].vvY = 0;
-                trap[0].depth = 0.600000009f;
-                trap[0].transparency = 255;
-                trap[0].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/water_blue");
-                break;
-            case 90:
-                NumTotTraps = 1;
-                TrapsON = true;
-                trap = new Vartraps[NumTotTraps];
-                trap[0].areaDraw = new Rectangle(0, 472, 3207, 40);
-                trap[0].areaTrap = new Rectangle(0, 477, 3207, 10);
-                trap[0].numFrames = 8;
-                trap[0].actFrame = 0;
-                trap[0].type = 1;
-                trap[0].isOn = false;
-                trap[0].pos = Vector2.Zero;
-                trap[0].vvX = 0;
-                trap[0].vvY = 0;
-                trap[0].depth = 0.600000009f;
-                trap[0].transparency = 255;
-                trap[0].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/fuego1");
-                break;
-            // MAYHEM LEVELS MAYHEM /////////////////////////////////////////////////////////////////////
-            case 92:
-                NumTotTraps = 2;
-                TrapsON = true;
-                trap = new Vartraps[NumTotTraps];
-                trap[0].areaDraw = new Rectangle(0, 0, 0, 0);
-                trap[0].areaTrap = new Rectangle(830, 219 - 5, 159 - 30, 10); //fire shooter see .pos vector2 minus vvX-20 and vvY-5
-                trap[0].numFrames = 10;
-                trap[0].actFrame = 0;
-                trap[0].type = 555; // traps animated  that uses vector2 to draws areadraw if filled 0's
-                trap[0].isOn = false;
-                trap[0].pos = new Vector2(830, 219);
-                trap[0].vvX = 0;
-                trap[0].vvY = 27;
-                trap[0].depth = 0.600000009f;
-                trap[0].transparency = 255;
-                trap[0].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/fuego3");
-                trap[1].areaDraw = new Rectangle(1318, 472, 1800 - 1318, 40);
-                trap[1].areaTrap = new Rectangle(1318, 477, 1800 - 1318, 10);
-                trap[1].numFrames = 8;
-                trap[1].actFrame = 0;
-                trap[1].type = 1;
-                trap[1].isOn = false;
-                trap[1].pos = Vector2.Zero;
-                trap[1].vvX = 0;
-                trap[1].vvY = 0;
-                trap[1].depth = 0.600000009f;
-                trap[1].transparency = 255;
-                trap[1].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/fuego1");
-                break;
-            case 93:
-                ArrowsON = true; NumTotArrow = 1;
-                arrow = new Vararrows[NumTotArrow];
-                arrow[0].right = true;
-                arrow[0].area = new Rectangle(754, 143, 860 - 754, 216 - 143);
-                arrow[0].flechas = LemmingsNetGame.Instance.Content.Load<Texture2D>("fondos/arrow1");
-                arrow[0].flechassobre = new Texture2D(LemmingsNetGame.Instance.GraphicsDevice, arrow[0].area.Width, arrow[0].area.Height);
-                arrow[0].desplaza = 0;
-                arrow[0].transparency = 255;
-                SteelON = true; numTOTsteel = 1;
-                steel = new Varsteel[numTOTsteel];
-                steel[0].area = new Rectangle(862, 129, 1304 - 862, 306 - 129);
-                NumTotTraps = 2;
-                TrapsON = true;
-                trap = new Vartraps[NumTotTraps];
-                trap[0].areaDraw = new Rectangle(0, 0, 0, 0);
-                trap[0].areaTrap = new Rectangle(1477 - 5, 345 - 5, 10, 10);
-                trap[0].numFrames = 15;
-                trap[0].actFrame = 0;
-                trap[0].type = 666; // 666= traps specials that activate when touch areatrap NO UPDATE FRAMES UNTIL IS ON
-                trap[0].isOn = false;
-                trap[0].pos = new Vector2(1477, 345);
-                trap[0].vvX = 47;
-                trap[0].vvY = 87;
-                trap[0].depth = 0.400000009f;
-                trap[0].transparency = 255;
-                trap[0].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/dead_marble2_fix");
-                trap[1].areaDraw = new Rectangle(1071, 233, 1266 - 1071, 32); // 512-40=462 bottom of the screen
-                trap[1].areaTrap = new Rectangle(1071, 238, 1266 - 1071, 10); //normally +5 on Y and 10 of height
-                trap[1].numFrames = 8;
-                trap[1].actFrame = 0;
-                trap[1].type = 1;
-                trap[1].isOn = false;
-                trap[1].pos = Vector2.Zero;
-                trap[1].vvX = 0;
-                trap[1].vvY = 0;
-                trap[1].depth = 0.600000009f;
-                trap[1].transparency = 255;
-                trap[1].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/water_blue");
-                break;
-            case 97:
-                NumTotTraps = 2;
-                TrapsON = true;
-                trap = new Vartraps[NumTotTraps];
-                trap[0].areaDraw = new Rectangle(127, 480, 3638 - 127, 32); // 512-40=462 bottom of the screen
-                trap[0].areaTrap = new Rectangle(127, 485, 3638 - 127, 10); //normally +5 on Y and 10 of height
-                trap[0].numFrames = 8;
-                trap[0].actFrame = 0;
-                trap[0].type = 1;
-                trap[0].isOn = false;
-                trap[0].pos = Vector2.Zero;
-                trap[0].vvX = 0;
-                trap[0].vvY = 0;
-                trap[0].depth = 0.600000009f;
-                trap[0].transparency = 170;
-                trap[0].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/water_blue");
-                trap[1].areaDraw = new Rectangle(0, 0, 0, 0);
-                trap[1].areaTrap = new Rectangle(1121 - 23, 376 - 38 / 2, 23 * 2, 10); //se .pos minis vvY/2 -vvx long vvx*2
-                trap[1].numFrames = 16;
-                trap[1].actFrame = 0;
-                trap[1].type = 555; // traps that uses vector2 to draws areadraw if filled 0's
-                trap[1].isOn = false;
-                trap[1].pos = new Vector2(1121, 376);
-                trap[1].vvX = 32;
-                trap[1].vvY = 38;
-                trap[1].depth = 0.200000009f;
-                trap[1].transparency = 255;
-                trap[1].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/dead_spin");
-                break;
-            case 98:
-                ArrowsON = true; NumTotArrow = 1;
-                arrow = new Vararrows[NumTotArrow];
-                arrow[0].right = false;
-                arrow[0].area = new Rectangle(1006, 50, 1166 - 1006, 393 - 50);
-                arrow[0].flechas = LemmingsNetGame.Instance.Content.Load<Texture2D>("fondos/arrow1");
-                arrow[0].flechassobre = new Texture2D(LemmingsNetGame.Instance.GraphicsDevice, arrow[0].area.Width, arrow[0].area.Height);
-                arrow[0].desplaza = 0;
-                arrow[0].transparency = 255;
-                SteelON = true; numTOTsteel = 1;
-                steel = new Varsteel[numTOTsteel];
-                steel[0].area = new Rectangle(1006, 398, 1105 - 1006, 512 - 398);
-                break;
-            case 102:
-                SteelON = true; numTOTsteel = 7;
-                steel = new Varsteel[numTOTsteel];
-                steel[0].area = new Rectangle(912, 46, 986 - 912, 380 - 46);
-                steel[1].area = new Rectangle(605, 231, 1295 - 605, 306 - 231);
-                steel[2].area = new Rectangle(449, 153, 676 - 449, 229 - 153);
-                steel[3].area = new Rectangle(66, 155, 370 - 66, 228 - 155);
-                steel[4].area = new Rectangle(255, 306, 337 - 255, 379 - 306);
-                steel[5].area = new Rectangle(104, 303, 180 - 104, 381 - 303);
-                steel[6].area = new Rectangle(909, 438, 986 - 909, 512 - 428);
-                break;
-            case 104:
-                SteelON = true; numTOTsteel = 3;
-                steel = new Varsteel[numTOTsteel];
-                steel[0].area = new Rectangle(742, 398, 1566 - 742, 467 - 398);
-                steel[1].area = new Rectangle(579, 323, 742 - 579, 440 - 323);
-                steel[2].area = new Rectangle(1447, 324, 1651 - 1447, 399 - 324);
-                NumTotTraps = 2;
-                TrapsON = true;
-                trap = new Vartraps[NumTotTraps];
-                trap[0].vvscroll = 1;
-                trap[0].areaDraw = new Rectangle(661, 330, 1576 - 661, 40);
-                trap[0].areaTrap = new Rectangle(661, 335, 1576 - 661, 10);
-                trap[0].numFrames = 8;
-                trap[0].actFrame = 0;
-                trap[0].type = 1;
-                trap[0].isOn = false;
-                trap[0].pos = Vector2.Zero;
-                trap[0].vvX = 0;
-                trap[0].vvY = 0;
-                trap[0].depth = 0.600000009f;
-                trap[0].transparency = 170;
-                trap[0].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/acid");
-                trap[1].vvscroll = 2;
-                trap[1].areaDraw = new Rectangle(661, 350, 1576 - 661, 40);
-                trap[1].areaTrap = new Rectangle(661, 355, 1576 - 661, 10);
-                trap[1].numFrames = 8;
-                trap[1].actFrame = 0;
-                trap[1].type = 1;
-                trap[1].isOn = false;
-                trap[1].pos = Vector2.Zero;
-                trap[1].vvX = 0;
-                trap[1].vvY = 0;
-                trap[1].depth = 0.600000009f;
-                trap[1].transparency = 255;
-                trap[1].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/acid");
-                break;
-            case 106:
-            case 117:
-                NumTotTraps = 2;
-                TrapsON = true;
-                trap = new Vartraps[NumTotTraps];
-                trap[0].areaDraw = new Rectangle(0, 0, 0, 0);
-                trap[0].areaTrap = new Rectangle(334 - 23, 303 - 38 / 2, 23 * 2, 10); //se .pos minis vvY/2 -vvx long vvx*2
-                trap[0].numFrames = 16;
-                trap[0].actFrame = 0;
-                trap[0].type = 555; // traps that uses vector2 to draws areadraw if filled 0's
-                trap[0].isOn = false;
-                trap[0].pos = new Vector2(334, 303);
-                trap[0].vvX = 32;
-                trap[0].vvY = 38;
-                trap[0].depth = 0.200000009f;
-                trap[0].transparency = 255;
-                trap[0].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/dead_spin");
-                trap[1].areaDraw = new Rectangle(0, 0, 0, 0);
-                trap[1].areaTrap = new Rectangle(1484 - 23, 358 - 38 / 2, 23 * 2, 10); //see .pos
-                trap[1].numFrames = 16;
-                trap[1].actFrame = 0;
-                trap[1].type = 555; // traps that uses vector2 to draws areadraw if filled 0's
-                trap[1].isOn = false;
-                trap[1].pos = new Vector2(1484, 358);
-                trap[1].vvX = 32;
-                trap[1].vvY = 38;
-                trap[1].depth = 0.200000009f;
-                trap[1].transparency = 255;
-                trap[1].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/dead_spin");
-                break;
-            case 107:
-                NumTotTraps = 1;
-                TrapsON = true;
-                trap = new Vartraps[NumTotTraps];
-                trap[0].vvscroll = 1;
-                trap[0].areaDraw = new Rectangle(0, 480, 2187, 32);
-                trap[0].areaTrap = new Rectangle(0, 485, 2187, 10);
-                trap[0].numFrames = 8;
-                trap[0].actFrame = 0;
-                trap[0].type = 1;
-                trap[0].isOn = false;
-                trap[0].pos = Vector2.Zero;
-                trap[0].vvX = 0;
-                trap[0].vvY = 0;
-                trap[0].depth = 0.6000000011f;
-                trap[0].transparency = 255;
-                trap[0].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/water_blue");
-                break;
-            case 108:
-                numTOTdoors = 4; numACTdoor = 0;
-                moreDoors = new Varmoredoors[numTOTdoors];
-                moreDoors[0].doorMoreXY = new Vector2(LemmingsNetGame.Instance.Levels.AllLevel[108].doorX, LemmingsNetGame.Instance.Levels.AllLevel[108].doorY);
-                moreDoors[1].doorMoreXY = new Vector2(1500, LemmingsNetGame.Instance.Levels.AllLevel[108].doorY);
-                moreDoors[2].doorMoreXY = new Vector2(LemmingsNetGame.Instance.Levels.AllLevel[108].doorX, 376);
-                moreDoors[3].doorMoreXY = new Vector2(1500, 376);
-                break;
-            case 113:
-                NumTotTraps = 1;
-                TrapsON = true;
-                trap = new Vartraps[NumTotTraps];
-                trap[0].areaDraw = new Rectangle(1341, 480, 2508 - 1341, 32);
-                trap[0].areaTrap = new Rectangle(1341, 485, 2508 - 1341, 10);
-                trap[0].numFrames = 8;
-                trap[0].actFrame = 0;
-                trap[0].vvscroll = 1;
-                trap[0].type = 1;
-                trap[0].isOn = false;
-                trap[0].pos = Vector2.Zero;
-                trap[0].vvX = 0;
-                trap[0].vvY = 0;
-                trap[0].depth = 0.6000000011f;
-                trap[0].transparency = 255;
-                trap[0].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/water_blue");
-                break;
-            case 118:
-                NumTotTraps = 2;
-                TrapsON = true;
-                trap = new Vartraps[NumTotTraps];
-                trap[0].areaDraw = new Rectangle(0, 0, 0, 0);
-                trap[0].areaTrap = new Rectangle(1975 - 5, 285 - 5, 10, 10);
-                trap[0].numFrames = 15;
-                trap[0].actFrame = 0;
-                trap[0].type = 666; // 666= traps specials that activate when touch areatrap NO UPDATE FRAMES UNTIL IS ON
-                trap[0].isOn = false;
-                trap[0].pos = new Vector2(1975, 285);
-                trap[0].vvX = 47;
-                trap[0].vvY = 87;
-                trap[0].depth = 0.400000009f;
-                trap[0].transparency = 255;
-                trap[0].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/dead_marble2_fix");
-                trap[1].areaDraw = new Rectangle(0, 480, 3922, 32); // 512-40=462 bottom of the screen
-                trap[1].areaTrap = new Rectangle(0, 485, 3922, 10); //normally +5 on Y and 10 of height
-                trap[1].numFrames = 8;
-                trap[1].actFrame = 0;
-                trap[1].type = 1;
-                trap[1].isOn = false;
-                trap[1].pos = Vector2.Zero;
-                trap[1].vvX = 0;
-                trap[1].vvY = 0;
-                trap[1].depth = 0.600000009f;
-                trap[1].transparency = 255;
-                trap[1].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/water_blue");
-                break;
-            case 120:
-                numTOTdoors = 2; numACTdoor = 0;
-                moreDoors = new Varmoredoors[numTOTdoors];
-                moreDoors[0].doorMoreXY = new Vector2(LemmingsNetGame.Instance.Levels.AllLevel[120].doorX, LemmingsNetGame.Instance.Levels.AllLevel[120].doorY);
-                moreDoors[1].doorMoreXY = new Vector2(4094, LemmingsNetGame.Instance.Levels.AllLevel[120].doorY);
-                NumTotTraps = 3;
-                TrapsON = true;
-                trap = new Vartraps[NumTotTraps];
-                trap[0].areaDraw = new Rectangle(0, 0, 0, 0);
-                trap[0].areaTrap = new Rectangle(1589 - 5, 434 - 5, 10, 10); //se .pos minis vvY/2 -vvx long vvx*2
-                trap[0].numFrames = 15;
-                trap[0].actFrame = 0;
-                trap[0].type = 666; // traps that uses vector2 to draws areadraw if filled 0's
-                trap[0].isOn = false;
-                trap[0].pos = new Vector2(1589, 434);
-                trap[0].vvX = 16;
-                trap[0].vvY = 42;  //38
-                trap[0].depth = 0.600000009f;
-                trap[0].transparency = 255;
-                trap[0].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/dead_trampa");
-                trap[1].areaDraw = new Rectangle(0, 0, 0, 0);
-                trap[1].areaTrap = new Rectangle(368 - 5, 474 - 5, 10, 10);
-                trap[1].numFrames = 12;
-                trap[1].actFrame = 0;
-                trap[1].type = 666; // traps that uses vector2 to draws areadraw if filled 0's
-                trap[1].isOn = false;
-                trap[1].pos = new Vector2(368, 474);
-                trap[1].vvX = 40;
-                trap[1].vvY = 105;
-                trap[1].depth = 0.600000009f;
-                trap[1].transparency = 255;
-                trap[1].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/dead_10");
-                trap[2].areaDraw = new Rectangle(0, 0, 0, 0);
-                trap[2].areaTrap = new Rectangle(3301 - 5, 453 - 5, 10, 10);
-                trap[2].numFrames = 12;
-                trap[2].actFrame = 0;
-                trap[2].type = 666; // traps that uses vector2 to draws areadraw if filled 0's
-                trap[2].isOn = false;
-                trap[2].pos = new Vector2(3301, 453);
-                trap[2].vvX = 40;
-                trap[2].vvY = 105;
-                trap[2].depth = 0.600000009f;
-                trap[2].transparency = 255;
-                trap[2].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/dead_10");
-                break;
-            //bonus levels bonus ////////////////////////////////////////////////////////////////////////////////////////
-            case 124:
-                NumTotTraps = 2;
-                TrapsON = true;
-                trap = new Vartraps[NumTotTraps];
-                trap[0].areaDraw = new Rectangle(0, 0, 0, 0);
-                trap[0].areaTrap = new Rectangle(1341 - 23, 324 - 38 / 2, 23 * 2, 10); //se .pos minis vvY/2 -vvx long vvx*2
-                trap[0].numFrames = 16;
-                trap[0].actFrame = 0;
-                trap[0].type = 555; // traps that uses vector2 to draws areadraw if filled 0's
-                trap[0].isOn = false;
-                trap[0].pos = new Vector2(1341, 324);
-                trap[0].vvX = 32;
-                trap[0].vvY = 38;
-                trap[0].depth = 0.200000009f;
-                trap[0].transparency = 255;
-                trap[0].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/dead_spin");
-                trap[1].areaDraw = new Rectangle(0, 0, 0, 0);
-                trap[1].areaTrap = new Rectangle(936 - 23, 355 - 38 / 2, 23 * 2, 10); //se .pos minis vvY/2 -vvx long vvx*2
-                trap[1].numFrames = 16;
-                trap[1].actFrame = 0;
-                trap[1].type = 555; // traps that uses vector2 to draws areadraw if filled 0's
-                trap[1].isOn = false;
-                trap[1].pos = new Vector2(936, 355);
-                trap[1].vvX = 32;
-                trap[1].vvY = 38;
-                trap[1].depth = 0.200000009f;
-                trap[1].transparency = 255;
-                trap[1].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/dead_spin");
-                break;
-            case 126:
-                ArrowsON = true; NumTotArrow = 2;
-                arrow = new Vararrows[NumTotArrow];
-                arrow[0].right = false;
-                arrow[0].area = new Rectangle(605, 0, 700 - 605, 245);
-                arrow[0].flechas = LemmingsNetGame.Instance.Content.Load<Texture2D>("fondos/arrow1");
-                arrow[0].flechassobre = new Texture2D(LemmingsNetGame.Instance.GraphicsDevice, arrow[0].area.Width, arrow[0].area.Height);
-                arrow[0].desplaza = 0;
-                arrow[0].transparency = 255;
-                arrow[1].right = false;
-                arrow[1].area = new Rectangle(952, 0, 1047 - 952, 245); // mask texture full steel zone
-                arrow[1].flechas = LemmingsNetGame.Instance.Content.Load<Texture2D>("fondos/arrow2");
-                arrow[1].flechassobre = new Texture2D(LemmingsNetGame.Instance.GraphicsDevice, arrow[1].area.Width, arrow[1].area.Height);
-                arrow[1].desplaza = 0;
-                arrow[1].transparency = 255;
-                break;
-            case 127:
-                NumTotTraps = 1;
-                TrapsON = true;
-                trap = new Vartraps[NumTotTraps];
-                trap[0].vvscroll = 2; // kind of variable scroll the trap 1=z1--
-                trap[0].areaDraw = new Rectangle(0, 480, 2148, 32); //512-32=480 bottom of the screen
-                trap[0].areaTrap = new Rectangle(0, 485, 2148, 10);
-                trap[0].numFrames = 8;
-                trap[0].actFrame = 0;
-                trap[0].type = 1;
-                trap[0].isOn = false;
-                trap[0].pos = Vector2.Zero;
-                trap[0].vvX = 0;
-                trap[0].vvY = 0;
-                trap[0].depth = 0.300000009f;
-                trap[0].transparency = 170;
-                trap[0].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/ice_water");
-                break;
-            case 130:
-                NumTotTraps = 1;
-                TrapsON = true;
-                trap = new Vartraps[NumTotTraps];
-                trap[0].areaDraw = new Rectangle(0, 0, 0, 0);
-                trap[0].areaTrap = new Rectangle(1016 - 5, 213 - 5, 10, 10);//see .pos minus 5 on both axis
-                trap[0].numFrames = 37;
-                trap[0].actFrame = 0;
-                trap[0].type = 666; // 666= traps specials that activate when touch areatrap NO UPDATE FRAMES UNTIL IS ON
-                trap[0].isOn = false;
-                trap[0].pos = new Vector2(1016, 213);
-                trap[0].vvX = 10;
-                trap[0].vvY = 71;
-                trap[0].depth = 0.600000009f;
-                trap[0].transparency = 255;
-                trap[0].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/dead_soga");
-                break;
-            case 132:
-                NumTotTraps = 2;
-                TrapsON = true;
-                trap = new Vartraps[NumTotTraps];
-                trap[0].vvscroll = 2; // kind of variable scroll the trap 1=z1--
-                trap[0].areaDraw = new Rectangle(0, 480, 3909, 32); //512-32=480 bottom of the screen
-                trap[0].areaTrap = new Rectangle(0, 485, 3909, 10);
-                trap[0].numFrames = 8;
-                trap[0].actFrame = 0;
-                trap[0].type = 1;
-                trap[0].isOn = false;
-                trap[0].pos = Vector2.Zero;
-                trap[0].vvX = 0;
-                trap[0].vvY = 0;
-                trap[0].depth = 0.300000009f;
-                trap[0].transparency = 170;
-                trap[0].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/ice_water");
-                trap[1].vvscroll = 1; // kind of variable scroll the trap 1=z1--
-                trap[1].areaDraw = new Rectangle(0, 485, 3909, 32); //512-32=480 bottom of the screen
-                trap[1].areaTrap = new Rectangle(0, 490, 3909, 10);
-                trap[1].numFrames = 8;
-                trap[1].actFrame = 0;
-                trap[1].type = 1;
-                trap[1].isOn = false;
-                trap[1].pos = Vector2.Zero;
-                trap[1].vvX = 0;
-                trap[1].vvY = 0;
-                trap[1].depth = 0.600000009f;
-                trap[1].transparency = 255;
-                trap[1].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/ice_water");
-                break;
-            case 133:
-                NumTotTraps = 1;
-                TrapsON = true;
-                trap = new Vartraps[NumTotTraps];
-                trap[0].vvscroll = 0;
-                trap[0].areaDraw = new Rectangle(395, 472, 1647 - 395, 40);
-                trap[0].areaTrap = new Rectangle(395, 477, 1647 - 395, 10);
-                trap[0].numFrames = 8;
-                trap[0].actFrame = 0;
-                trap[0].type = 1;
-                trap[0].isOn = false;
-                trap[0].pos = Vector2.Zero;
-                trap[0].vvX = 0;
-                trap[0].vvY = 0;
-                trap[0].depth = 0.600000009f;
-                trap[0].transparency = 255;
-                trap[0].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/fuego1");
-                break;
-            case 134:
-                numTOTdoors = 2; numACTdoor = 0;
-                moreDoors = new Varmoredoors[numTOTdoors];
-                moreDoors[0].doorMoreXY = new Vector2(LemmingsNetGame.Instance.Levels.AllLevel[134].doorX, LemmingsNetGame.Instance.Levels.AllLevel[134].doorY);
-                moreDoors[1].doorMoreXY = new Vector2(160, 92);
-                NumTotTraps = 2;
-                TrapsON = true;
-                trap = new Vartraps[NumTotTraps];
-                trap[0].areaDraw = new Rectangle(0, 0, 0, 0);
-                trap[0].areaTrap = new Rectangle(1080 - 12, 406 - 18, 15, 36);
-                trap[0].numFrames = 7;
-                trap[0].actFrame = 0;
-                trap[0].type = 666; // 666= traps specials that activate when touch areatrap NO UPDATE FRAMES UNTIL IS ON
-                trap[0].isOn = false;
-                trap[0].pos = new Vector2(1080, 406);
-                trap[0].vvX = 30;
-                trap[0].vvY = 26;
-                trap[0].depth = 0.600000009f;
-                trap[0].transparency = 255;
-                trap[0].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/dead_arrow_left");
-                trap[1].areaDraw = new Rectangle(0, 0, 0, 0);
-                trap[1].areaTrap = new Rectangle(144, 118 - 18, 15, 36);
-                trap[1].numFrames = 7;
-                trap[1].actFrame = 0;
-                trap[1].type = 666; // 666= traps specials that activate when touch areatrap NO UPDATE FRAMES UNTIL IS ON
-                trap[1].isOn = false;
-                trap[1].pos = new Vector2(144, 118);
-                trap[1].vvX = 0;
-                trap[1].vvY = 26;
-                trap[1].depth = 0.600000009f;
-                trap[1].transparency = 255;
-                trap[1].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/dead_arrow_right");
-                break;
-            case 136:
-                NumTotTraps = 2;
-                TrapsON = true;
-                trap = new Vartraps[NumTotTraps];
-                trap[0].vvscroll = 1;
-                trap[0].areaDraw = new Rectangle(172, 490, 1843 - 172, 32);
-                trap[0].areaTrap = new Rectangle(172, 495, 1843 - 172, 10);
-                trap[0].numFrames = 8;
-                trap[0].actFrame = 0;
-                trap[0].type = 1;
-                trap[0].isOn = false;
-                trap[0].pos = Vector2.Zero;
-                trap[0].vvX = 0;
-                trap[0].vvY = 0;
-                trap[0].R = 20;
-                trap[0].B = 20;
-                trap[0].depth = 0.6000000011f;
-                trap[0].transparency = 255;
-                trap[0].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/water_blue");
-                trap[1].vvscroll = 2;
-                trap[1].areaDraw = new Rectangle(0, 480, 2049, 32);
-                trap[1].areaTrap = new Rectangle(0, 0, 0, 0);// not necessary
-                trap[1].numFrames = 8;
-                trap[1].actFrame = 0;
-                trap[1].type = 1;
-                trap[1].isOn = false;
-                trap[1].pos = Vector2.Zero;
-                trap[1].vvX = 0;
-                trap[1].vvY = 0;
-                trap[1].depth = 0.600000009f;
-                trap[1].R = 20;
-                trap[1].B = 20;
-                trap[1].transparency = 170;
-                trap[1].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/water_blue");
-                break;
-            case 137:
-                NumTotTraps = 1;
-                TrapsON = true;
-                trap = new Vartraps[NumTotTraps];
-                trap[0].areaDraw = new Rectangle(0, 0, 0, 0);
-                trap[0].areaTrap = new Rectangle(1146 - 159 + 30, 235 - 5, 159 - 30, 10); //fire shooter see .pos vector2 minus vvX-20 and vvY-5
-                trap[0].numFrames = 10;
-                trap[0].actFrame = 0;
-                trap[0].type = 555; // traps animated  that uses vector2 to draws areadraw if filled 0's
-                trap[0].isOn = false;
-                trap[0].pos = new Vector2(1146, 235);
-                trap[0].vvX = 159;
-                trap[0].vvY = 27;
-                trap[0].depth = 0.400000009f;
-                trap[0].transparency = 255;
-                trap[0].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/fuego4");
-                break;
-            case 138:
-                numTOTdoors = 2; numACTdoor = 0;
-                moreDoors = new Varmoredoors[numTOTdoors];
-                moreDoors[0].doorMoreXY = new Vector2(LemmingsNetGame.Instance.Levels.AllLevel[138].doorX, LemmingsNetGame.Instance.Levels.AllLevel[138].doorY);
-                moreDoors[1].doorMoreXY = new Vector2(LemmingsNetGame.Instance.Levels.AllLevel[138].doorX - 300, LemmingsNetGame.Instance.Levels.AllLevel[138].doorY);
-                //moredoors[1].doormorexy = new Vector2(1110,220); TEST THIS OPTION -- BASHER TO LEFT FAILS??????
-                ArrowsON = true; NumTotArrow = 1;
-                arrow = new Vararrows[NumTotArrow];
-                arrow[0].right = false;
-                arrow[0].area = new Rectangle(961, 219, 1011 - 961, 409 - 219);
-                arrow[0].flechas = LemmingsNetGame.Instance.Content.Load<Texture2D>("fondos/arrow1");
-                arrow[0].flechassobre = new Texture2D(LemmingsNetGame.Instance.GraphicsDevice, arrow[0].area.Width, arrow[0].area.Height);
-                arrow[0].desplaza = 0;
-                arrow[0].transparency = 255;
-                break;
-            case 139:
-                NumTotTraps = 2;
-                TrapsON = true;
-                trap = new Vartraps[NumTotTraps];
-                trap[0].areaDraw = new Rectangle(0, 0, 0, 0);
-                trap[0].areaTrap = new Rectangle(2208 - 5, 430 - 5, 10, 10); //se .pos minis vvY/2 -vvx long vvx*2
-                trap[0].numFrames = 15;
-                trap[0].actFrame = 0;
-                trap[0].type = 666; // traps that uses vector2 to draws areadraw if filled 0's
-                trap[0].isOn = false;
-                trap[0].pos = new Vector2(2208, 430);
-                trap[0].vvX = 16;
-                trap[0].vvY = 42;  //38
-                trap[0].depth = 0.400000009f;
-                trap[0].transparency = 255;
-                trap[0].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/dead_trampa");
-                trap[1].areaDraw = new Rectangle(0, 0, 0, 0);
-                trap[1].areaTrap = new Rectangle(2843 - 5, 430 - 5, 10, 10); //se .pos minis vvY/2 -vvx long vvx*2
-                trap[1].numFrames = 15;
-                trap[1].actFrame = 0;
-                trap[1].type = 666; // traps that uses vector2 to draws areadraw if filled 0's
-                trap[1].isOn = false;
-                trap[1].pos = new Vector2(2843, 430);
-                trap[1].vvX = 16;
-                trap[1].vvY = 42;  //38
-                trap[1].depth = 0.400000009f;
-                trap[1].transparency = 255;
-                trap[1].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/dead_trampa");
-                break;
-            case 140:
-                NumTotTraps = 1;
-                TrapsON = true;
-                trap = new Vartraps[NumTotTraps];
-                trap[0].areaDraw = new Rectangle(0, 0, 0, 0);
-                trap[0].areaTrap = new Rectangle(133, 155 - 5, 159 - 30, 10); //fire shooter see .pos vector2 minus vvX-20 and vvY-5
-                trap[0].numFrames = 10;
-                trap[0].actFrame = 0;
-                trap[0].type = 555; // traps animated  that uses vector2 to draws areadraw if filled 0's
-                trap[0].isOn = false;
-                trap[0].pos = new Vector2(133, 155);
-                trap[0].vvX = 0;
-                trap[0].vvY = 27;
-                trap[0].depth = 0.400000009f;
-                trap[0].transparency = 255;
-                trap[0].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/fuego3");
-                break;
-            case 141:
-                numTOTdoors = 2; numACTdoor = 0;
-                moreDoors = new Varmoredoors[numTOTdoors];
-                moreDoors[0].doorMoreXY = new Vector2(LemmingsNetGame.Instance.Levels.AllLevel[141].doorX, LemmingsNetGame.Instance.Levels.AllLevel[141].doorY);
-                moreDoors[1].doorMoreXY = new Vector2(LemmingsNetGame.Instance.Levels.AllLevel[141].doorX + 400, LemmingsNetGame.Instance.Levels.AllLevel[141].doorY);
-                NumTotTraps = 1;
-                TrapsON = true;
-                trap = new Vartraps[NumTotTraps];
-                trap[0].areaDraw = new Rectangle(0, 0, 0, 0);
-                trap[0].areaTrap = new Rectangle(671 - 23, 184 - 38 / 2, 23 * 2, 10); //se .pos minis vvY/2 -vvx long vvx*2
-                trap[0].numFrames = 16;
-                trap[0].actFrame = 0;
-                trap[0].type = 555; // traps that uses vector2 to draws areadraw if filled 0's
-                trap[0].isOn = false;
-                trap[0].pos = new Vector2(671, 184);
-                trap[0].vvX = 32;
-                trap[0].vvY = 38;
-                trap[0].depth = 0.200000009f;
-                trap[0].transparency = 255;
-                trap[0].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/dead_spin");
-                break;
-            case 143:
-                NumTotTraps = 1;
-                TrapsON = true;
-                trap = new Vartraps[NumTotTraps];
-                trap[0].areaDraw = new Rectangle(0, 480, 1632, 32);
-                trap[0].areaTrap = new Rectangle(0, 485, 1632, 10);
-                trap[0].numFrames = 8;
-                trap[0].actFrame = 0;
-                trap[0].type = 1;
-                trap[0].isOn = false;
-                trap[0].pos = Vector2.Zero;
-                trap[0].vvX = 0;
-                trap[0].vvY = 0;
-                trap[0].depth = 0.6000000011f;
-                trap[0].transparency = 255;
-                trap[0].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/water_blue");
-                break;
-            case 144:
-                numTOTdoors = 2; numACTdoor = 0;
-                moreDoors = new Varmoredoors[numTOTdoors];
-                moreDoors[0].doorMoreXY = new Vector2(134, 326);
-                moreDoors[1].doorMoreXY = new Vector2(LemmingsNetGame.Instance.Levels.AllLevel[144].doorX, LemmingsNetGame.Instance.Levels.AllLevel[144].doorY);
-                NumTotTraps = 1;
-                TrapsON = true;
-                trap = new Vartraps[NumTotTraps];
-                trap[0].areaDraw = new Rectangle(0, 0, 0, 0);
-                trap[0].areaTrap = new Rectangle(624 - 23, 461 - 38 / 2, 23 * 2, 10); //se .pos minis vvY/2 -vvx long vvx*2
-                trap[0].numFrames = 16;
-                trap[0].actFrame = 0;
-                trap[0].type = 555; // traps that uses vector2 to draws areadraw if filled 0's
-                trap[0].isOn = false;
-                trap[0].pos = new Vector2(624, 461);
-                trap[0].vvX = 32;
-                trap[0].vvY = 38;
-                trap[0].depth = 0.200000009f;
-                trap[0].transparency = 255;
-                trap[0].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/dead_spin");
-                break;
-            case 145:
-                NumTotTraps = 3;
-                TrapsON = true;
-                trap = new Vartraps[NumTotTraps];
-                trap[0].areaDraw = new Rectangle(0, 0, 0, 0);
-                trap[0].areaTrap = new Rectangle(974 - 23, 229 - 38 / 2, 23 * 2, 10); //se .pos minis vvY/2 -vvx long vvx*2
-                trap[0].numFrames = 16;
-                trap[0].actFrame = 0;
-                trap[0].type = 555; // traps that uses vector2 to draws areadraw if filled 0's
-                trap[0].isOn = false;
-                trap[0].pos = new Vector2(974, 229);
-                trap[0].vvX = 32;
-                trap[0].vvY = 38;
-                trap[0].depth = 0.200000009f;
-                trap[0].transparency = 255;
-                trap[0].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/dead_spin");
-                trap[1].areaDraw = new Rectangle(0, 0, 0, 0);
-                trap[1].areaTrap = new Rectangle(110 - 23, 357 - 38 / 2, 23 * 2, 10); //se .pos minis vvY/2 -vvx long vvx*2
-                trap[1].numFrames = 16;
-                trap[1].actFrame = 0;
-                trap[1].type = 555; // traps that uses vector2 to draws areadraw if filled 0's
-                trap[1].isOn = false;
-                trap[1].pos = new Vector2(110, 357);
-                trap[1].vvX = 32;
-                trap[1].vvY = 38;
-                trap[1].depth = 0.200000009f;
-                trap[1].transparency = 255;
-                trap[1].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/dead_spin");
-                trap[2].areaDraw = new Rectangle(0, 0, 0, 0);
-                trap[2].areaTrap = new Rectangle(970 - 23, 357 - 38 / 2, 23 * 2, 10); //se .pos minis vvY/2 -vvx long vvx*2
-                trap[2].numFrames = 16;
-                trap[2].actFrame = 0;
-                trap[2].type = 555; // traps that uses vector2 to draws areadraw if filled 0's
-                trap[2].isOn = false;
-                trap[2].pos = new Vector2(970, 357);
-                trap[2].vvX = 32;
-                trap[2].vvY = 38;
-                trap[2].depth = 0.200000009f;
-                trap[2].transparency = 255;
-                trap[2].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/dead_spin");
-                break;
-            case 147:
-                NumTotTraps = 1;
-                TrapsON = true;
-                trap = new Vartraps[NumTotTraps];
-                trap[0].areaDraw = new Rectangle(79, 480, 2489 - 79, 32);
-                trap[0].areaTrap = new Rectangle(79, 485, 2489 - 79, 10);
-                trap[0].numFrames = 8;
-                trap[0].actFrame = 0;
-                trap[0].type = 1;
-                trap[0].isOn = false;
-                trap[0].pos = Vector2.Zero;
-                trap[0].G = 130;
-                trap[0].R = 130;
-                trap[0].B = 180;
-                trap[0].vvX = 0;
-                trap[0].vvY = 0;
-                trap[0].depth = 0.6000000011f;
-                trap[0].transparency = 200;
-                trap[0].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/water_blue");
-                break;
-            case 149:
-                NumTotTraps = 2;
-                TrapsON = true;
-                trap = new Vartraps[NumTotTraps];
-                trap[0].areaDraw = new Rectangle(0, 480, 1794, 32);
-                trap[0].areaTrap = new Rectangle(0, 485, 1794, 10);
-                trap[0].numFrames = 8;
-                trap[0].actFrame = 0;
-                trap[0].type = 1;
-                trap[0].isOn = false;
-                trap[0].pos = Vector2.Zero;
-                trap[0].vvX = 0;
-                trap[0].vvY = 0;
-                trap[0].depth = 0.6000000011f;
-                trap[0].transparency = 255;
-                trap[0].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/water_blue");
-                trap[1].areaDraw = new Rectangle(0, 0, 0, 0);
-                trap[1].areaTrap = new Rectangle(1022 - 23, 301 - 38 / 2, 23 * 2, 10); //se .pos minis vvY/2 -vvx long vvx*2
-                trap[1].numFrames = 16;
-                trap[1].actFrame = 0;
-                trap[1].type = 555; // traps that uses vector2 to draws areadraw if filled 0's
-                trap[1].isOn = false;
-                trap[1].pos = new Vector2(1022, 301);
-                trap[1].vvX = 32;
-                trap[1].vvY = 38;
-                trap[1].depth = 0.200000009f;
-                trap[1].transparency = 255;
-                trap[1].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/dead_spin");
-                break;
-            case 150:
-                NumTotTraps = 2;
-                TrapsON = true;
-                trap = new Vartraps[NumTotTraps];
-                trap[0].areaDraw = new Rectangle(0, 0, 0, 0);
-                trap[0].areaTrap = new Rectangle(690 - 5, 467 - 5, 10, 10);//see .pos minus 5 on both axis
-                trap[0].numFrames = 37;
-                trap[0].actFrame = 0;
-                trap[0].type = 666; // 666= traps specials that activate when touch areatrap NO UPDATE FRAMES UNTIL IS ON
-                trap[0].isOn = false;
-                trap[0].pos = new Vector2(690, 467);
-                trap[0].vvX = 10;
-                trap[0].vvY = 71;
-                trap[0].depth = 0.600000009f;
-                trap[0].transparency = 255;
-                trap[0].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/dead_soga");
-
-                trap[1].areaDraw = new Rectangle(0, 0, 0, 0);
-                trap[1].areaTrap = new Rectangle(1328 - 5, 427 - 5, 10, 10);//see .pos minus 5 on both axis
-                trap[1].numFrames = 37;
-                trap[1].actFrame = 0;
-                trap[1].type = 666; // 666= traps specials that activate when touch areatrap NO UPDATE FRAMES UNTIL IS ON
-                trap[1].isOn = false;
-                trap[1].pos = new Vector2(1328, 427);
-                trap[1].vvX = 10;
-                trap[1].vvY = 71;
-                trap[1].depth = 0.600000009f;
-                trap[1].transparency = 255;
-                trap[1].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/dead_soga");
-                break;
-            case 151:
-                NumTotTraps = 3;
-                TrapsON = true;
-                trap = new Vartraps[NumTotTraps];
-                trap[0].areaDraw = new Rectangle(0, 472, 2177, 512);
-                trap[0].areaTrap = new Rectangle(0, 475, 2177, 10);
-                trap[0].vvscroll = 1;
-                trap[0].numFrames = 8;
-                trap[0].actFrame = 0;
-                trap[0].type = 1; // 666= traps specials that activate when touch areatrap NO UPDATE FRAMES UNTIL IS ON
-                trap[0].isOn = false;
-                trap[0].pos = new Vector2(0, 0);
-                trap[0].vvX = 0;
-                trap[0].vvY = 0;
-                trap[0].depth = 0.600000009f;
-                trap[0].transparency = 255;
-                trap[0].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/fuego1");
-                trap[1].areaDraw = new Rectangle(0, 0, 0, 0);
-                trap[1].areaTrap = new Rectangle(1113 - 30, 225 - 30 / 2, 30 * 2, 10);//see .pos
-                trap[1].numFrames = 8;
-                trap[1].actFrame = 0;
-                trap[1].type = 555; // 666= traps specials that activate when touch areatrap NO UPDATE FRAMES UNTIL IS ON
-                trap[1].isOn = false;
-                trap[1].pos = new Vector2(1113, 225);
-                trap[1].vvX = 30;
-                trap[1].vvY = 30;
-                trap[1].depth = 0.600000009f;
-                trap[1].transparency = 255;
-                trap[1].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/fuego2"); //34 height sprite
-                trap[2].areaDraw = new Rectangle(0, 0, 0, 0);
-                trap[2].areaTrap = new Rectangle(1163 - 30, 225 - 30 / 2, 30 * 2, 10);//see .pos
-                trap[2].numFrames = 8;
-                trap[2].actFrame = 0;
-                trap[2].type = 555; // 666= traps specials that activate when touch areatrap NO UPDATE FRAMES UNTIL IS ON
-                trap[2].isOn = false;
-                trap[2].pos = new Vector2(1163, 225);
-                trap[2].vvX = 30;
-                trap[2].vvY = 30;
-                trap[2].depth = 0.600000009f;
-                trap[2].transparency = 255;
-                trap[2].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/fuego2"); //34 height sprite
-                break;
-            case 152:
-                NumTotTraps = 4;
-                TrapsON = true;
-                trap = new Vartraps[NumTotTraps];
-                trap[0].areaDraw = new Rectangle(0, 472, 1493, 512);
-                trap[0].areaTrap = new Rectangle(0, 475, 1493, 10);
-                trap[0].vvscroll = 2;
-                trap[0].numFrames = 8;
-                trap[0].actFrame = 0;
-                trap[0].type = 1; // 666= traps specials that activate when touch areatrap NO UPDATE FRAMES UNTIL IS ON
-                trap[0].isOn = false;
-                trap[0].pos = new Vector2(0, 0);
-                trap[0].vvX = 0;
-                trap[0].vvY = 0;
-                trap[0].depth = 0.600000009f;
-                trap[0].transparency = 255;
-                trap[0].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/fuego1");
-                trap[1].areaDraw = new Rectangle(0, 0, 0, 0);
-                trap[1].areaTrap = new Rectangle(990 - 30, 336 - 30 / 2, 30 * 2, 10);//see .pos
-                trap[1].numFrames = 8;
-                trap[1].actFrame = 0;
-                trap[1].type = 555; // 666= traps specials that activate when touch areatrap NO UPDATE FRAMES UNTIL IS ON
-                trap[1].isOn = false;
-                trap[1].pos = new Vector2(990, 336);
-                trap[1].vvX = 30;
-                trap[1].vvY = 30;
-                trap[1].depth = 0.600000009f;
-                trap[1].transparency = 255;
-                trap[1].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/fuego2"); //34 height sprite
-                trap[2].areaDraw = new Rectangle(0, 0, 0, 0);
-                trap[2].areaTrap = new Rectangle(1035 - 30, 336 - 30 / 2, 30 * 2, 10);//see .pos
-                trap[2].numFrames = 8;
-                trap[2].actFrame = 0;
-                trap[2].type = 555; // 666= traps specials that activate when touch areatrap NO UPDATE FRAMES UNTIL IS ON
-                trap[2].isOn = false;
-                trap[2].pos = new Vector2(1035, 336);
-                trap[2].vvX = 30;
-                trap[2].vvY = 30;
-                trap[2].depth = 0.600000009f;
-                trap[2].transparency = 255;
-                trap[2].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/fuego2"); //34 height sprite
-                trap[3].areaDraw = new Rectangle(0, 0, 0, 0);
-                trap[3].areaTrap = new Rectangle(638 - 159 + 30, 24 - 5, 159 - 30, 10); //fire shooter see .pos vector2 minus vvX-20 and vvY-5
-                trap[3].numFrames = 10;
-                trap[3].actFrame = 0;
-                trap[3].type = 555; // traps animated  that uses vector2 to draws areadraw if filled 0's
-                trap[3].isOn = false;
-                trap[3].pos = new Vector2(638, 24);
-                trap[3].vvX = 159;
-                trap[3].vvY = 27;
-                trap[3].depth = 0.400000009f;
-                trap[3].transparency = 255;
-                trap[3].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/fuego4");
-                break;
-            case 153:
-                NumTotTraps = 2;
-                TrapsON = true;
-                trap = new Vartraps[NumTotTraps];
-                trap[0].areaDraw = new Rectangle(0, 490, 1158, 32); //size smaller to fit
-                trap[0].areaTrap = new Rectangle(0, 492, 1158, 10);
-                trap[0].numFrames = 8;
-                trap[0].actFrame = 0;
-                trap[0].type = 1;
-                trap[0].isOn = false;
-                trap[0].pos = Vector2.Zero;
-                trap[0].vvX = 0;
-                trap[0].vvY = 0;
-                trap[0].depth = 0.6000000011f;
-                trap[0].transparency = 255;
-                trap[0].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/water_blue");
-                trap[1].areaDraw = new Rectangle(0, 0, 0, 0);
-                trap[1].areaTrap = new Rectangle(883 - 23, 396 - 38 / 2, 23 * 2, 10); //se .pos minis vvY/2 -vvx long vvx*2
-                trap[1].numFrames = 16;
-                trap[1].actFrame = 0;
-                trap[1].type = 555; // traps that uses vector2 to draws areadraw if filled 0's
-                trap[1].isOn = false;
-                trap[1].pos = new Vector2(883, 396);
-                trap[1].vvX = 32;
-                trap[1].vvY = 38;
-                trap[1].depth = 0.200000009f;
-                trap[1].transparency = 255;
-                trap[1].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/dead_spin");
-                break;
-            case 154:
-                NumTotTraps = 9;
-                TrapsON = true;
-                trap = new Vartraps[NumTotTraps];
-                trap[0].areaDraw = new Rectangle(0, 0, 0, 0);
-                trap[0].areaTrap = new Rectangle(459 - 23, 231 - 38 / 2, 23 * 2, 10); //se .pos minis vvY/2 -vvx long vvx*2
-                trap[0].numFrames = 16;
-                trap[0].actFrame = 0;
-                trap[0].type = 555; // traps that uses vector2 to draws areadraw if filled 0's
-                trap[0].isOn = false;
-                trap[0].pos = new Vector2(459, 231);
-                trap[0].vvX = 32;
-                trap[0].vvY = 38;
-                trap[0].depth = 0.600000009f;
-                trap[0].transparency = 255;
-                trap[0].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/dead_spin");
-                trap[1].areaDraw = new Rectangle(0, 0, 0, 0);
-                trap[1].areaTrap = new Rectangle(935 - 23, 182 - 38 / 2, 23 * 2, 10); //se .pos minis vvY/2 -vvx long vvx*2
-                trap[1].numFrames = 16;
-                trap[1].actFrame = 0;
-                trap[1].type = 555; // traps that uses vector2 to draws areadraw if filled 0's
-                trap[1].isOn = false;
-                trap[1].pos = new Vector2(935, 182);
-                trap[1].vvX = 32;
-                trap[1].vvY = 38;
-                trap[1].depth = 0.600000009f;
-                trap[1].transparency = 255;
-                trap[1].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/dead_spin");
-                trap[2].areaDraw = new Rectangle(0, 0, 0, 0);
-                trap[2].areaTrap = new Rectangle(1574 - 23, 129 - 38 / 2, 23 * 2, 10); //se .pos minis vvY/2 -vvx long vvx*2
-                trap[2].numFrames = 16;
-                trap[2].actFrame = 0;
-                trap[2].type = 555; // traps that uses vector2 to draws areadraw if filled 0's
-                trap[2].isOn = false;
-                trap[2].pos = new Vector2(1574, 129);
-                trap[2].vvX = 32;
-                trap[2].vvY = 38;
-                trap[2].depth = 0.600000009f;
-                trap[2].transparency = 255;
-                trap[2].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/dead_spin");
-                trap[3].areaDraw = new Rectangle(0, 0, 0, 0);
-                trap[3].areaTrap = new Rectangle(2095 - 23, 21 - 38 / 2, 23 * 2, 10); //se .pos minis vvY/2 -vvx long vvx*2
-                trap[3].numFrames = 16;
-                trap[3].actFrame = 0;
-                trap[3].type = 555; // traps that uses vector2 to draws areadraw if filled 0's
-                trap[3].isOn = false;
-                trap[3].pos = new Vector2(2095, 21);
-                trap[3].vvX = 32;
-                trap[3].vvY = 38;
-                trap[3].depth = 0.600000009f;
-                trap[3].transparency = 255;
-                trap[3].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/dead_spin");
-                trap[4].areaDraw = new Rectangle(0, 0, 0, 0);
-                trap[4].areaTrap = new Rectangle(40 - 23, 255 - 38 / 2, 23 * 2, 10); //se .pos minis vvY/2 -vvx long vvx*2
-                trap[4].numFrames = 16;
-                trap[4].actFrame = 0;
-                trap[4].type = 555; // traps that uses vector2 to draws areadraw if filled 0's
-                trap[4].isOn = false;
-                trap[4].pos = new Vector2(40, 255);
-                trap[4].vvX = 32;
-                trap[4].vvY = 38;
-                trap[4].depth = 0.600000009f;
-                trap[4].transparency = 255;
-                trap[4].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/dead_spin");
-                trap[5].areaDraw = new Rectangle(0, 0, 0, 0);
-                trap[5].areaTrap = new Rectangle(507 - 23, 52 - 38 / 2, 23 * 2, 10); //se .pos minis vvY/2 -vvx long vvx*2
-                trap[5].numFrames = 16;
-                trap[5].actFrame = 0;
-                trap[5].type = 555; // traps that uses vector2 to draws areadraw if filled 0's
-                trap[5].isOn = false;
-                trap[5].pos = new Vector2(507, 52);
-                trap[5].vvX = 32;
-                trap[5].vvY = 38;
-                trap[5].depth = 0.600000009f;
-                trap[5].transparency = 255;
-                trap[5].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/dead_spin");
-                trap[6].areaDraw = new Rectangle(0, 0, 0, 0);
-                trap[6].areaTrap = new Rectangle(1272 - 23, 205 - 38 / 2, 23 * 2, 10); //se .pos minis vvY/2 -vvx long vvx*2
-                trap[6].numFrames = 16;
-                trap[6].actFrame = 0;
-                trap[6].type = 555; // traps that uses vector2 to draws areadraw if filled 0's
-                trap[6].isOn = false;
-                trap[6].pos = new Vector2(1272, 205);
-                trap[6].vvX = 32;
-                trap[6].vvY = 38;
-                trap[6].depth = 0.600000009f;
-                trap[6].transparency = 255;
-                trap[6].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/dead_spin");
-                trap[7].areaDraw = new Rectangle(0, 0, 0, 0);
-                trap[7].areaTrap = new Rectangle(1963 - 23, 307 - 38 / 2, 23 * 2, 10); //se .pos minis vvY/2 -vvx long vvx*2
-                trap[7].numFrames = 16;
-                trap[7].actFrame = 0;
-                trap[7].type = 555; // traps that uses vector2 to draws areadraw if filled 0's
-                trap[7].isOn = false;
-                trap[7].pos = new Vector2(1963, 307);
-                trap[7].vvX = 32;
-                trap[7].vvY = 38;
-                trap[7].depth = 0.600000009f;
-                trap[7].transparency = 255;
-                trap[7].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/dead_spin");
-                trap[8].areaDraw = new Rectangle(0, 0, 0, 0);
-                trap[8].areaTrap = new Rectangle(2192 - 23, 460 - 38 / 2, 23 * 2, 10); //se .pos minis vvY/2 -vvx long vvx*2
-                trap[8].numFrames = 16;
-                trap[8].actFrame = 0;
-                trap[8].type = 555; // traps that uses vector2 to draws areadraw if filled 0's
-                trap[8].isOn = false;
-                trap[8].pos = new Vector2(2192, 460);
-                trap[8].vvX = 32;
-                trap[8].vvY = 38;
-                trap[8].depth = 0.600000009f;
-                trap[8].transparency = 255;
-                trap[8].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/dead_spin");
-                break;
-            case 159:
-                numTOTdoors = 4; numACTdoor = 0;
-                moreDoors = new Varmoredoors[numTOTdoors];
-                moreDoors[0].doorMoreXY = new Vector2(LemmingsNetGame.Instance.Levels.AllLevel[159].doorX, LemmingsNetGame.Instance.Levels.AllLevel[159].doorY);
-                moreDoors[1].doorMoreXY = new Vector2(559, 131);
-                moreDoors[2].doorMoreXY = new Vector2(96, 327);
-                moreDoors[3].doorMoreXY = new Vector2(1033, 419);
-                NumTotTraps = 2;
-                TrapsON = true;
-                trap = new Vartraps[NumTotTraps];
-                trap[0].areaDraw = new Rectangle(0, 0, 0, 0);
-                trap[0].areaTrap = new Rectangle(1172 - 5, 381 - 5, 10, 10); //normally +5 on Y and 10 of height
-                trap[0].numFrames = 9;
-                trap[0].actFrame = 0;
-                trap[0].type = 666;
-                trap[0].isOn = false;
-                trap[0].pos = new Vector2(1172, 381);
-                trap[0].vvX = 32;
-                trap[0].vvY = 48;
-                trap[0].depth = 0.600000009f;
-                trap[0].transparency = 255;
-                trap[0].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/dead_almeja");
-                trap[1].areaDraw = new Rectangle(0, 0, 0, 0);
-                trap[1].areaTrap = new Rectangle(1176 - 5, 269 - 5, 10, 10); //normally +5 on Y and 10 of height
-                trap[1].numFrames = 29;
-                trap[1].actFrame = 0;
-                trap[1].type = 666;
-                trap[1].isOn = false;
-                trap[1].pos = new Vector2(1176, 269);
-                trap[1].vvX = 32;
-                trap[1].vvY = 120;
-                trap[1].depth = 0.600000009f;
-                trap[1].transparency = 255;
-                trap[1].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/dead_bombona");
-                Sprite = new Varsprites[2];
-                Sprite[0].actFrame = 0;
-                Sprite[0].axisX = 1;
-                Sprite[0].axisY = 1;
-                Sprite[0].depth = 0.20888886f;
-                Sprite[0].R = 255;
-                Sprite[0].G = 255;
-                Sprite[0].B = 255;
-                Sprite[0].transparency = 200;
-                Sprite[0].pos = new Vector2(100, 100);
-                Sprite[0].scale = 2f; //1f->normal size -- 0.5f->half size -- etc.
-                Sprite[0].rotation = 0f;
-                Sprite[0].framesecond = 0;
-                Sprite[0].frame = 0;
-                Sprite[0].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("sprite/nube1");
-                Sprite[0].minusScrollx = true;
-                Sprite[0].typescroll = 3f;
-                Sprite[1].actFrame = 0;
-                Sprite[1].axisX = 1;
-                Sprite[1].axisY = 1;
-                Sprite[1].depth = 0.28888805f;
-                Sprite[1].R = 255;
-                Sprite[1].G = 225;
-                Sprite[1].B = 225;
-                Sprite[1].transparency = 200;
-                Sprite[1].pos = new Vector2(300, 300);
-                Sprite[1].scale = 2f; //1f->normal size -- 0.5f->half size -- etc.
-                Sprite[1].rotation = 0f;
-                Sprite[1].framesecond = 0;
-                Sprite[1].frame = 0;
-                Sprite[1].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("sprite/nube2");
-                Sprite[1].minusScrollx = true;
-                Sprite[1].typescroll = 2;
-                break;
-            case 160:
-                numTOTdoors = 2; numACTdoor = 0;
-                moreDoors = new Varmoredoors[numTOTdoors];
-                moreDoors[0].doorMoreXY = new Vector2(LemmingsNetGame.Instance.Levels.AllLevel[160].doorX, LemmingsNetGame.Instance.Levels.AllLevel[160].doorY);
-                moreDoors[1].doorMoreXY = new Vector2(1280, 462);
-                NumTotTraps = 2;
-                TrapsON = true;
-                trap = new Vartraps[NumTotTraps];
-                trap[0].areaDraw = new Rectangle(0, 0, 0, 0);
-                trap[0].areaTrap = new Rectangle(357, 333 - 5, 159 - 30, 10); //fire shooter see .pos vector2 minus vvX-20 and vvY-5
-                trap[0].numFrames = 10;
-                trap[0].actFrame = 0;
-                trap[0].type = 555; // traps animated  that uses vector2 to draws areadraw if filled 0's
-                trap[0].isOn = false;
-                trap[0].pos = new Vector2(357, 333);
-                trap[0].vvX = 0;
-                trap[0].vvY = 27;
-                trap[0].depth = 0.600000009f;
-                trap[0].transparency = 255;
-                trap[0].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/fuego3");
-                trap[1].areaDraw = new Rectangle(0, 0, 0, 0);
-                trap[1].areaTrap = new Rectangle(64 - 159 + 30, 333 - 5, 159 - 30, 10); //fire shooter see .pos vector2 minus vvX-20 and vvY-5
-                trap[1].numFrames = 10;
-                trap[1].actFrame = 0;
-                trap[1].type = 555; // traps animated  that uses vector2 to draws areadraw if filled 0's
-                trap[1].isOn = false;
-                trap[1].pos = new Vector2(64, 333);
-                trap[1].vvX = 159;
-                trap[1].vvY = 27;
-                trap[1].depth = 0.600000009f;
-                trap[1].transparency = 255;
-                trap[1].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/fuego4");
-                break;
-            case 161:
-                NumTotTraps = 2;
-                TrapsON = true;
-                trap = new Vartraps[NumTotTraps];
-                trap[0].vvscroll = 1;
-                trap[0].areaDraw = new Rectangle(892, 862, 1120 - 892, 32);
-                trap[0].areaTrap = new Rectangle(892, 867, 1120 - 892, 10);
-                trap[0].numFrames = 8;
-                trap[0].actFrame = 0;
-                trap[0].type = 1;
-                trap[0].isOn = false;
-                trap[0].pos = Vector2.Zero;
-                trap[0].vvX = 0;
-                trap[0].vvY = 0;
-                trap[0].depth = 0.600000009f;
-                trap[0].transparency = 170;
-                trap[0].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/water_blue");
-                trap[1].areaDraw = new Rectangle(0, 0, 0, 0);
-                trap[1].areaTrap = new Rectangle(1451 - 5, 469 - 5, 10, 10); //normally +5 on Y and 10 of height
-                trap[1].numFrames = 29;
-                trap[1].actFrame = 0;
-                trap[1].type = 666;
-                trap[1].isOn = false;
-                trap[1].pos = new Vector2(1451, 469);
-                trap[1].vvX = 32;
-                trap[1].vvY = 120;
-                trap[1].depth = 0.600000009f;
-                trap[1].transparency = 255;
-                trap[1].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/dead_bombona");
-                break;
-            case 162:
-                numTOTdoors = 3; numACTdoor = 0;
-                moreDoors = new Varmoredoors[numTOTdoors];
-                moreDoors[0].doorMoreXY = new Vector2(LemmingsNetGame.Instance.Levels.AllLevel[162].doorX, LemmingsNetGame.Instance.Levels.AllLevel[162].doorY);
-                moreDoors[1].doorMoreXY = new Vector2(LemmingsNetGame.Instance.Levels.AllLevel[162].doorX + 180, LemmingsNetGame.Instance.Levels.AllLevel[162].doorY);
-                moreDoors[2].doorMoreXY = new Vector2(LemmingsNetGame.Instance.Levels.AllLevel[162].doorX, 345);
-                SteelON = true; numTOTsteel = 2;
-                steel = new Varsteel[numTOTsteel];
-                steel[0].area = new Rectangle(458, 0, 501 - 458, 319);
-                steel[1].area = new Rectangle(145, 269, 277 - 145, 320 - 269);
-                break;
-            case 163:
-                numTOTdoors = 3;
-                numACTdoor = 0;
-                moreDoors = new Varmoredoors[numTOTdoors];
-                moreDoors[0].doorMoreXY = new Vector2(LemmingsNetGame.Instance.Levels.AllLevel[163].doorX, LemmingsNetGame.Instance.Levels.AllLevel[163].doorY);
-                moreDoors[1].doorMoreXY = new Vector2(LemmingsNetGame.Instance.Levels.AllLevel[163].doorX, 220);
-                moreDoors[2].doorMoreXY = new Vector2(LemmingsNetGame.Instance.Levels.AllLevel[163].doorX, 382);
-                NumTotTraps = 2;
-                TrapsON = true;
-                trap = new Vartraps[NumTotTraps];
-                trap[0].vvscroll = 1;
-                trap[0].areaDraw = new Rectangle(853, 504, 1932 - 853, 32);
-                trap[0].areaTrap = new Rectangle(853, 509, 1932 - 853, 10);
-                trap[0].numFrames = 8;
-                trap[0].actFrame = 0;
-                trap[0].type = 1;
-                trap[0].isOn = false;
-                trap[0].pos = Vector2.Zero;
-                trap[0].vvX = 0;
-                trap[0].vvY = 0;
-                trap[0].depth = 0.600000009f;
-                trap[0].transparency = 170;
-                trap[0].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/water_blue");
-                trap[1].areaDraw = new Rectangle(624, 483 - 32, 672 - 624, 32);
-                trap[1].areaTrap = new Rectangle(624, 483 - 27, 672 - 624, 10);
-                trap[1].numFrames = 8;
-                trap[1].actFrame = 0;
-                trap[1].type = 1;
-                trap[1].isOn = false;
-                trap[1].pos = Vector2.Zero;
-                trap[1].vvX = 0;
-                trap[1].vvY = 0;
-                trap[1].depth = 0.600000009f;
-                trap[1].transparency = 170;
-                trap[1].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/water_blue");
-                Sprite = new Varsprites[3];
-                Sprite[0].actFrame = 0;
-                Sprite[0].axisX = 1;
-                Sprite[0].axisY = 7;
-                Sprite[0].depth = 0.406f;
-                Sprite[0].R = 255;
-                Sprite[0].G = 255;
-                Sprite[0].B = 255;
-                Sprite[0].transparency = 255;
-                Sprite[0].pos = new Vector2(404, 295); //340
-                Sprite[0].scale = 1f; //1f->normal size -- 0.5f->half size -- etc.
-                Sprite[0].rotation = 0f;
-                Sprite[0].framesecond = 4;
-                Sprite[0].frame = 0;
-                Sprite[0].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("antorcha_l2");
-                Sprite[0].minusScrollx = true;
-                Sprite[1].actFrame = 0;
-                Sprite[1].axisX = 1;
-                Sprite[1].axisY = 7;
-                Sprite[1].depth = 0.406f;
-                Sprite[1].R = 255;
-                Sprite[1].G = 255;
-                Sprite[1].B = 255;
-                Sprite[1].transparency = 255;
-                Sprite[1].pos = new Vector2(1615, 387); //340
-                Sprite[1].scale = 1f; //1f->normal size -- 0.5f->half size -- etc.
-                Sprite[1].rotation = 0f;
-                Sprite[1].framesecond = 2;
-                Sprite[1].frame = 0;
-                Sprite[1].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("antorcha_l2");
-                Sprite[1].minusScrollx = true;
-                Sprite[2].actFrame = 0;
-                Sprite[2].axisX = 1;
-                Sprite[2].axisY = 7;
-                Sprite[2].depth = 0.405f;
-                Sprite[2].R = 255;
-                Sprite[2].G = 225;
-                Sprite[2].B = 225;
-                Sprite[2].transparency = 255;
-                Sprite[2].pos = new Vector2(1095, 92);
-                Sprite[2].scale = 1f; //1f->normal size -- 0.5f->half size -- etc.
-                Sprite[2].rotation = 0f;
-                Sprite[2].framesecond = 6;
-                Sprite[2].frame = 0;
-                Sprite[2].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("antorcha_l2");
-                Sprite[2].minusScrollx = true;
-                SteelON = true; numTOTsteel = 1;
-                steel = new Varsteel[numTOTsteel];
-                steel[0].area = new Rectangle(315, 270, 356 - 315, 320 - 270);
-                break;
-            case 165:
-                NumTotTraps = 1;
-                TrapsON = true;
-                trap = new Vartraps[NumTotTraps];
-                trap[0].areaDraw = new Rectangle(0, 480, MyGame.GameResolution.X, 32);
-                trap[0].areaTrap = new Rectangle(0, 485, MyGame.GameResolution.X, 10);
-                trap[0].numFrames = 8;
-                trap[0].actFrame = 0;
-                trap[0].type = 1;
-                trap[0].isOn = false;
-                trap[0].pos = Vector2.Zero;
-                trap[0].vvX = 0;
-                trap[0].vvY = 0;
-                trap[0].depth = 0.600000009f;
-                trap[0].transparency = 255;
-                trap[0].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/water_blue");
-                SteelON = true; numTOTsteel = 2;
-                steel = new Varsteel[numTOTsteel];
-                steel[0].area = new Rectangle(511, 242, 552 - 511, 346 - 242);
-                steel[1].area = new Rectangle(735, 243, 776 - 735, 291 - 243);
-                break;
-            case 166:
-                NumTotTraps = 2;
-                TrapsON = true;
-                trap = new Vartraps[NumTotTraps];
-                trap[0].areaDraw = new Rectangle(0, 485, 1882, 32);
-                trap[0].areaTrap = new Rectangle(0, 490, 1882, 10);
-                trap[0].vvscroll = 1;
-                trap[0].numFrames = 8;
-                trap[0].actFrame = 0;
-                trap[0].type = 1;
-                trap[0].isOn = false;
-                trap[0].pos = Vector2.Zero;
-                trap[0].vvX = 0;
-                trap[0].vvY = 0;
-                trap[0].depth = 0.600000009f;
-                trap[0].transparency = 255;
-                trap[0].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/water_blue");
-                trap[1].areaDraw = new Rectangle(0, 504, 1882, 32);
-                trap[1].areaTrap = new Rectangle(0, 509, 1882, 10);
-                trap[1].vvscroll = 2;
-                trap[1].numFrames = 8;
-                trap[1].actFrame = 0;
-                trap[1].type = 1;
-                trap[1].isOn = false;
-                trap[1].pos = Vector2.Zero;
-                trap[1].vvX = 0;
-                trap[1].vvY = 0;
-                trap[1].depth = 0.600000009f;
-                trap[1].transparency = 255;
-                trap[1].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/water_blue");
-                SteelON = true; numTOTsteel = 1;
-                steel = new Varsteel[numTOTsteel];
-                steel[0].area = new Rectangle(224, 321, 1835 - 224, 373 - 321);
-                break;
-            case 167:
-                NumTotTraps = 2;
-                TrapsON = true;
-                trap = new Vartraps[NumTotTraps];
-                trap[0].areaDraw = new Rectangle(580, 456 - 32, 806 - 580, 32);
-                trap[0].areaTrap = new Rectangle(580, 456 - 27, 806 - 580, 10);
-                trap[0].vvscroll = 1;
-                trap[0].numFrames = 8;
-                trap[0].actFrame = 0;
-                trap[0].type = 1;
-                trap[0].isOn = false;
-                trap[0].pos = Vector2.Zero;
-                trap[0].vvX = 0;
-                trap[0].vvY = 0;
-                trap[0].depth = 0.600000009f;
-                trap[0].transparency = 255;
-                trap[0].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/water_blue");
-                trap[1].areaDraw = new Rectangle(1209, 536 - 32, 1391 - 1209, 32);
-                trap[1].areaTrap = new Rectangle(1209, 536 - 27, 1391 - 1209, 10);
-                trap[1].vvscroll = 2;
-                trap[1].numFrames = 8;
-                trap[1].actFrame = 0;
-                trap[1].type = 1;
-                trap[1].isOn = false;
-                trap[1].pos = Vector2.Zero;
-                trap[1].vvX = 0;
-                trap[1].vvY = 0;
-                trap[1].depth = 0.600000009f;
-                trap[1].transparency = 255;
-                trap[1].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/water_blue");
-                SteelON = true; numTOTsteel = 5;
-                steel = new Varsteel[numTOTsteel];
-                steel[0].area = new Rectangle(539, 55, 581 - 539, 480 - 55);
-                steel[1].area = new Rectangle(808, 268, 848 - 808, 479 - 268);
-                steel[2].area = new Rectangle(1165, 376, 1208 - 1165, 536 - 376);
-                steel[3].area = new Rectangle(1389, 324, 1432 - 1389, 536 - 324);
-                steel[4].area = new Rectangle(270, 430, 539 - 270, 479 - 430);
-                break;
-            case 168:
-                SteelON = true; numTOTsteel = 3;
-                steel = new Varsteel[numTOTsteel];
-                steel[0].area = new Rectangle(1389, 81, 1429 - 1389, 454 - 81);
-                steel[1].area = new Rectangle(1432, 215, 1565 - 1432, 262 - 215);
-                steel[2].area = new Rectangle(1702, 188, 2281 - 1702, 239 - 188);
-                break;
-            case 169:
-                SteelON = true; numTOTsteel = 6;
-                steel = new Varsteel[numTOTsteel];
-                steel[0].area = new Rectangle(1479, 107, 1655 - 1479, 212 - 107);
-                steel[1].area = new Rectangle(1434, 162, 1476 - 1434, 266 - 162);
-                steel[2].area = new Rectangle(1390, 215, 1431 - 1390, 319 - 215);
-                steel[3].area = new Rectangle(1345, 270, 1386 - 1345, 424 - 270);
-                steel[4].area = new Rectangle(1300, 322, 1342 - 1300, 373 - 322);
-                steel[5].area = new Rectangle(1165, 482, 1655 - 1165, 532 - 482);
-                NumTotTraps = 4;
-                TrapsON = true;
-                trap = new Vartraps[NumTotTraps];
-                trap[0].areaDraw = new Rectangle(0, 515 - 32, 3091, 32);
-                trap[0].vvscroll = 1;
-                trap[0].numFrames = 8;
-                trap[0].actFrame = 0;
-                trap[0].type = 1;
-                trap[0].isOn = false;
-                trap[0].pos = Vector2.Zero;
-                trap[0].vvX = 0;
-                trap[0].vvY = 0;
-                trap[0].depth = 0.600005f;
-                trap[0].transparency = 255;
-                trap[0].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/water_blue");
-                trap[1].areaDraw = new Rectangle(0, 536 - 32, 3091, 32);
-                trap[1].areaTrap = new Rectangle(0, 536 - 27, 3091, 10);
-                trap[1].vvscroll = 2;
-                trap[1].numFrames = 8;
-                trap[1].actFrame = 0;
-                trap[1].type = 1;
-                trap[1].isOn = false;
-                trap[1].pos = Vector2.Zero;
-                trap[1].vvX = 0;
-                trap[1].vvY = 0;
-                trap[1].depth = 0.600000009f;
-                trap[1].transparency = 255;
-                trap[1].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/water_blue");
-                trap[2].areaDraw = new Rectangle(1028, 483 - 32, 1165 - 1028, 32);
-                trap[2].numFrames = 8;
-                trap[2].actFrame = 0;
-                trap[2].type = 1;
-                trap[2].isOn = false;
-                trap[2].pos = Vector2.Zero;
-                trap[2].vvX = 0;
-                trap[2].vvY = 0;
-                trap[2].depth = 0.600000009f;
-                trap[2].transparency = 255;
-                trap[2].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/water_blue");
-                trap[3].areaDraw = new Rectangle(1387, 375 - 32, 1613 - 1387, 32);
-                trap[3].numFrames = 8;
-                trap[3].actFrame = 0;
-                trap[3].type = 1;
-                trap[3].isOn = false;
-                trap[3].pos = Vector2.Zero;
-                trap[3].vvX = 0;
-                trap[3].vvY = 0;
-                trap[3].depth = 0.600000009f;
-                trap[3].transparency = 255;
-                trap[3].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/water_blue");
-                break;
-            case 170:
-                NumTotTraps = 2;
-                TrapsON = true;
-                trap = new Vartraps[NumTotTraps];
-                trap[0].areaDraw = new Rectangle(402, 447 - 32, 987 - 402, 32);
-                trap[0].areaTrap = new Rectangle(402, 447 - 27, 987 - 402, 10);
-                trap[0].numFrames = 8;
-                trap[0].actFrame = 0;
-                trap[0].type = 1;
-                trap[0].isOn = false;
-                trap[0].pos = Vector2.Zero;
-                trap[0].vvX = 0;
-                trap[0].vvY = 0;
-                trap[0].depth = 0.600005f;
-                trap[0].transparency = 200;
-                trap[0].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/water_blue");
-                trap[1].areaDraw = new Rectangle(222, 178 - 32, 583 - 222, 32);
-                trap[1].areaTrap = new Rectangle(222, 178 - 27, 583 - 222, 10);
-                trap[1].numFrames = 8;
-                trap[1].actFrame = 0;
-                trap[1].type = 1;
-                trap[1].isOn = false;
-                trap[1].pos = Vector2.Zero;
-                trap[1].vvX = 0;
-                trap[1].vvY = 0;
-                trap[1].depth = 0.600005f;
-                trap[1].transparency = 190;
-                trap[1].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/water_blue");
-                break;
-            case 171:
-                numTOTplats = 2; PlatsON = true;
-                plats = new Varplat[numTOTplats];
-                plats[0].actStep = 0;
-                plats[0].framesecond = 8;
-                plats[0].frame = 0;
-                plats[0].numSteps = 22;
-                plats[0].up = true;
-                plats[0].step = 5;
-                plats[0].areaDraw = new Rectangle(710, 1110, 220, 60);
-                plats[0].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/elevator");
-                plats[1].actStep = 0;
-                plats[1].framesecond = 0;
-                plats[1].frame = 0;
-                plats[1].numSteps = 30;
-                plats[1].up = true;
-                plats[1].step = 1;
-                plats[1].areaDraw = new Rectangle(528, 1216, 200, 35);
-                plats[1].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/elevator");
-                AddsON = true;
-                adds = new Varadds[1];
-                adds[0].areaDraw = new Rectangle(250, 1271, 100, 50); //y 110 orig
-                adds[0].numFrames = 8;
-                adds[0].actFrame = 0;
-                adds[0].frame = 0;
-                adds[0].framesecond = 2;
-                adds[0].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("traps/water_blue");
-                break;
-            case 172:
-                SteelON = true; numTOTsteel = 26;
-                steel = new Varsteel[numTOTsteel];
-                steel[0].area = new Rectangle(464 + 16, 82 + 16, 534 - 464, 160 - 82);  // add +16 on x & y only first for mouse sprite fix on "F1"
-                steel[1].area = new Rectangle(608 + 16, 109 + 16, 676 - 608, 185 - 109);
-                steel[2].area = new Rectangle(370 + 16, 490 + 16, 745 - 370, 495 - 490);
-                steel[3].area = new Rectangle(471 + 16, 437 + 16, 539 - 471, 491 - 437);
-                steel[4].area = new Rectangle(349 + 16, 286 + 16, 414 - 349, 364 - 286);
-                steel[5].area = new Rectangle(462 + 16, 222 + 16, 528 - 462, 299 - 222);
-                steel[6].area = new Rectangle(303 + 16, 150 + 16, 372 - 303, 228 - 150);
-                steel[7].area = new Rectangle(709 + 16, 329 + 16, 911 - 709, 410 - 329);
-                steel[8].area = new Rectangle(675 + 16, 465 + 16, 777 - 675, 488 - 465);
-                steel[9].area = new Rectangle(169 + 16, 249 + 16, 268 - 169, 407 - 249);
-                steel[10].area = new Rectangle(172 + 16, 117 + 16, 234 - 172, 247 - 117);
-                steel[11].area = new Rectangle(830 + 16, 71 + 16, 965 - 830, 120 - 71);
-                steel[12].area = new Rectangle(594 + 16, 267 + 16, 627 - 594, 374 - 267);
-                steel[13].area = new Rectangle(813 + 16, 278 + 16, 941 - 813, 326 - 278);
-                steel[14].area = new Rectangle(763 + 16, 148 + 16, 832 - 763, 197 - 148);
-                steel[15].area = new Rectangle(797 + 16, 121 + 16, 865 - 797, 146 - 121);
-                steel[16].area = new Rectangle(526 + 16, 349 + 16, 593 - 526, 401 - 349);
-                steel[17].area = new Rectangle(731 + 16, 179 + 16, 763 - 731, 230 - 179);
-                steel[18].area = new Rectangle(698 + 16, 214 + 16, 730 - 698, 264 - 214);
-                steel[19].area = new Rectangle(663 + 16, 228 + 16, 699 - 663, 277 - 228);
-                steel[20].area = new Rectangle(628 + 16, 241 + 16, 668 - 628, 290 - 241);
-                steel[21].area = new Rectangle(561 + 16, 322 + 16, 596 - 561, 347 - 322);
-                steel[22].area = new Rectangle(271 + 16, 437 + 16, 403 - 271, 489 - 437);
-                steel[23].area = new Rectangle(268 + 16, 356 + 16, 303 - 268, 462 - 356);
-                steel[24].area = new Rectangle(745 + 16, 411 + 16, 814 - 745, 461 - 411);
-                steel[25].area = new Rectangle(302 + 16, 410 + 16, 336 - 302, 436 - 410);
-                break;
-            case 173:
-                SteelON = true; numTOTsteel = 3;
-                steel = new Varsteel[numTOTsteel];
-                steel[0].area = new Rectangle(1506 + 16, 176 + 16, 1571 - 1506, 496 - 176);  // add +16 on x & y only first for mouse sprite fix on "F1"
-                steel[1].area = new Rectangle(2526 + 16, 153 + 16, 2592 - 2526, 402 - 153);
-                break;
-            case 177:
-                Sprite = new Varsprites[1];
-                Sprite[0].calc = true;
-                Sprite[0].actFrame = 0;
-                Sprite[0].axisX = 6;
-                Sprite[0].axisY = 1;
-                Sprite[0].depth = 0.405f;
-                Sprite[0].R = 255;
-                Sprite[0].G = 225;
-                Sprite[0].B = 225;
-                Sprite[0].transparency = 255;
-                Sprite[0].pos = new Vector2(0, 0);
-                Sprite[0].scale = 0.5f; //1f->normal size -- 0.5f->half size -- etc.
-                Sprite[0].rotation = 0f;
-                Sprite[0].framesecond = 2;
-                Sprite[0].frame = 0;
-                Sprite[0].sprite = LemmingsNetGame.Instance.Content.Load<Texture2D>("touch/arana");
-                Sprite[0].minusScrollx = true;
-                Sprite[0].dest = new Vector2(0, 0);
-                Sprite[0].speed = 0.578f;  // this field is important for move logic of sprites != 0
-                Sprite[0].actVect = 0;
-                Sprite[0].center.X = ((Sprite[0].sprite.Width / Sprite[0].axisX) / 2);
-                Sprite[0].center.Y = ((Sprite[0].sprite.Height / Sprite[0].axisY) / 2);
-                Sprite[0].path = new Vector3[6];
-                Sprite[0].path[0] = new Vector3(402 - 20, 109 + 50, 1.5f);
-                Sprite[0].path[1] = new Vector3(424 - 20, 231 + 50, 0.3f);
-                Sprite[0].path[2] = new Vector3(461 - 20, 230 + 50, 1.9f);
-                Sprite[0].path[3] = new Vector3(462 - 20, 164 + 50, 1.6f);
-                Sprite[0].path[4] = new Vector3(525 - 20, 162 + 50, 0.7f);
-                Sprite[0].path[5] = new Vector3(525 - 20, 280 + 50, 1.2f);
-                break;
-            case 179:
-                numTOTdoors = 3; numACTdoor = 0;
-                moreDoors = new Varmoredoors[numTOTdoors];
-                moreDoors[0].doorMoreXY = new Vector2(LemmingsNetGame.Instance.Levels.AllLevel[179].doorX, LemmingsNetGame.Instance.Levels.AllLevel[179].doorY);
-                moreDoors[1].doorMoreXY = new Vector2(LemmingsNetGame.Instance.Levels.AllLevel[179].doorX + 100, LemmingsNetGame.Instance.Levels.AllLevel[179].doorY + 160);
-                moreDoors[2].doorMoreXY = new Vector2(LemmingsNetGame.Instance.Levels.AllLevel[179].doorX + 190, LemmingsNetGame.Instance.Levels.AllLevel[179].doorY + 330);
-                break;
-            default:
-                ArrowsON = false;
-                TrapsON = false;
-                SteelON = false;
-                PlatsON = false;
-                AddsON = false;
-                break;
-        }
-
     }
 }

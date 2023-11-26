@@ -1,11 +1,12 @@
-﻿using Lemmings.NET.Constants;
+﻿using System;
+
+using Lemmings.NET.Constants;
 using Lemmings.NET.Models;
-using Microsoft.Xna.Framework.Audio;
-using Microsoft.Xna.Framework.Input;
+
 using Microsoft.Xna.Framework;
-using System;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
-using System.IO;
+using Microsoft.Xna.Framework.Input;
 
 namespace Lemmings.NET.Screens;
 
@@ -70,17 +71,17 @@ internal class InGameMenu
 
     internal void Update()
     {
-        if (_inGame.r1 == 0)
+        if (_inGame.R1 == 0)
         {
-            _inGame.r1 = MyGame.Rnd.Next(30, 90);
+            _inGame.R1 = MyGame.Rnd.Next(30, 90);
         }
-        if (_inGame.r2 == 0)
+        if (_inGame.R2 == 0)
         {
-            _inGame.r2 = MyGame.Rnd.Next(60, 120);
+            _inGame.R2 = MyGame.Rnd.Next(60, 120);
         }
-        if (_inGame.r3 == 0)
+        if (_inGame.R3 == 0)
         {
-            _inGame.r3 = MyGame.Rnd.Next(40, 90);
+            _inGame.R3 = MyGame.Rnd.Next(40, 90);
         }
         if (_inGame.Earth.Width > MyGame.GameResolution.X)
             xscale = (float)336 / _inGame.Earth.Width;
@@ -99,7 +100,7 @@ internal class InGameMenu
         mmscale2 = (int)mmscale2;
         mmscaley = (int)mmscaley;
         mmscaley2 = (int)mmscaley2; //let decimals out for better mini-map size
-        if (_inGame.Frame % _inGame.r1 == 0 && !blink1on)
+        if (_inGame.Frame % _inGame.R1 == 0 && !blink1on)
         {
             framblink1 = 0;
             blink1on = true;
@@ -110,10 +111,10 @@ internal class InGameMenu
             if (framblink1 > 8)
             {
                 blink1on = false;
-                _inGame.r1 = 0;
+                _inGame.R1 = 0;
             }
         }
-        if (_inGame.Frame % _inGame.r2 == 0 && !blink2on)
+        if (_inGame.Frame % _inGame.R2 == 0 && !blink2on)
         {
             framblink2 = 0;
             blink2on = true;
@@ -124,10 +125,10 @@ internal class InGameMenu
             if (framblink2 > 8)
             {
                 blink2on = false;
-                _inGame.r2 = 0;
+                _inGame.R2 = 0;
             }
         }
-        if (_inGame.Frame % _inGame.r3 == 0 && !blink3on)
+        if (_inGame.Frame % _inGame.R3 == 0 && !blink3on)
         {
             framblink3 = 0;
             blink3on = true;
@@ -138,11 +139,11 @@ internal class InGameMenu
             if (framblink3 > 8)
             {
                 blink3on = false;
-                _inGame.r3 = 0;
+                _inGame.R3 = 0;
             }
         }
         zv = (int)_inGame.TotalTime;
-        if (_inGame.fade)
+        if (_inGame.Fade)
         {
             zv = 0;
             _inGame.Contadortime = 0;
@@ -260,42 +261,42 @@ internal class InGameMenu
         {
             op2 = false;
         }
-        if (rectop3.Contains(Input.CurrentMouseState.Position) && _inGame._nbClimberRemaining > 0 && (Input.PreviousMouseState.LeftButton == ButtonState.Released && Input.CurrentMouseState.LeftButton == ButtonState.Pressed))
+        if (rectop3.Contains(Input.CurrentMouseState.Position) && _inGame.NbClimberRemaining > 0 && (Input.PreviousMouseState.LeftButton == ButtonState.Released && Input.CurrentMouseState.LeftButton == ButtonState.Pressed))
         {
             LemmingsNetGame.Instance.Sfx.PlaySoundMenu();
             CurrentSelectedSkill = ECurrentSkill.CLIMBER;
         }
-        if (rectop4.Contains(Input.CurrentMouseState.Position) && _inGame._nbFloaterRemaining > 0 && (Input.PreviousMouseState.LeftButton == ButtonState.Released && Input.CurrentMouseState.LeftButton == ButtonState.Pressed))
+        if (rectop4.Contains(Input.CurrentMouseState.Position) && _inGame.NbFloaterRemaining > 0 && (Input.PreviousMouseState.LeftButton == ButtonState.Released && Input.CurrentMouseState.LeftButton == ButtonState.Pressed))
         {
             LemmingsNetGame.Instance.Sfx.PlaySoundMenu();
             CurrentSelectedSkill = ECurrentSkill.FLOATER;
         }
-        if (rectop5.Contains(Input.CurrentMouseState.Position) && _inGame._nbExploderRemaining > 0 && (Input.PreviousMouseState.LeftButton == ButtonState.Released && Input.CurrentMouseState.LeftButton == ButtonState.Pressed))
+        if (rectop5.Contains(Input.CurrentMouseState.Position) && _inGame.NbExploderRemaining > 0 && (Input.PreviousMouseState.LeftButton == ButtonState.Released && Input.CurrentMouseState.LeftButton == ButtonState.Pressed))
         {
             LemmingsNetGame.Instance.Sfx.PlaySoundMenu();
             CurrentSelectedSkill = ECurrentSkill.EXPLODER;
         }
-        if (rectop6.Contains(Input.CurrentMouseState.Position) && _inGame._nbBlockerRemaining > 0 && (Input.PreviousMouseState.LeftButton == ButtonState.Released && Input.CurrentMouseState.LeftButton == ButtonState.Pressed))
+        if (rectop6.Contains(Input.CurrentMouseState.Position) && _inGame.NbBlockerRemaining > 0 && (Input.PreviousMouseState.LeftButton == ButtonState.Released && Input.CurrentMouseState.LeftButton == ButtonState.Pressed))
         {
             LemmingsNetGame.Instance.Sfx.PlaySoundMenu();
             CurrentSelectedSkill = ECurrentSkill.BLOCKER;
         }
-        if (rectop7.Contains(Input.CurrentMouseState.Position) && _inGame._nbBuilderRemaining > 0 && (Input.PreviousMouseState.LeftButton == ButtonState.Released && Input.CurrentMouseState.LeftButton == ButtonState.Pressed))
+        if (rectop7.Contains(Input.CurrentMouseState.Position) && _inGame.NbBuilderRemaining > 0 && (Input.PreviousMouseState.LeftButton == ButtonState.Released && Input.CurrentMouseState.LeftButton == ButtonState.Pressed))
         {
             LemmingsNetGame.Instance.Sfx.PlaySoundMenu();
             CurrentSelectedSkill = ECurrentSkill.BUILDER;
         }
-        if (rectop8.Contains(Input.CurrentMouseState.Position) && _inGame._nbBasherRemaining > 0 && (Input.PreviousMouseState.LeftButton == ButtonState.Released && Input.CurrentMouseState.LeftButton == ButtonState.Pressed))
+        if (rectop8.Contains(Input.CurrentMouseState.Position) && _inGame.NbBasherRemaining > 0 && (Input.PreviousMouseState.LeftButton == ButtonState.Released && Input.CurrentMouseState.LeftButton == ButtonState.Pressed))
         {
             LemmingsNetGame.Instance.Sfx.PlaySoundMenu();
             CurrentSelectedSkill = ECurrentSkill.BASHER;
         }
-        if (rectop9.Contains(Input.CurrentMouseState.Position) && _inGame._nbMinerRemaining > 0 && (Input.PreviousMouseState.LeftButton == ButtonState.Released && Input.CurrentMouseState.LeftButton == ButtonState.Pressed))
+        if (rectop9.Contains(Input.CurrentMouseState.Position) && _inGame.NbMinerRemaining > 0 && (Input.PreviousMouseState.LeftButton == ButtonState.Released && Input.CurrentMouseState.LeftButton == ButtonState.Pressed))
         {
             LemmingsNetGame.Instance.Sfx.PlaySoundMenu();
             CurrentSelectedSkill = ECurrentSkill.MINER;
         }
-        if (rectop10.Contains(Input.CurrentMouseState.Position) && _inGame._nbDiggerRemaining > 0 && (Input.PreviousMouseState.LeftButton == ButtonState.Released && Input.CurrentMouseState.LeftButton == ButtonState.Pressed))
+        if (rectop10.Contains(Input.CurrentMouseState.Position) && _inGame.NbDiggerRemaining > 0 && (Input.PreviousMouseState.LeftButton == ButtonState.Released && Input.CurrentMouseState.LeftButton == ButtonState.Pressed))
         {
             LemmingsNetGame.Instance.Sfx.PlaySoundMenu();
             CurrentSelectedSkill = ECurrentSkill.DIGGER;
@@ -502,21 +503,21 @@ internal class InGameMenu
         vectorFill.X = 80;
         LemmingsNetGame.Instance.Fonts.TextLem(string.Format("{0,2:D2}", FrequencyNumber), vectorFill, Color.LimeGreen, 0.5f, 0.1f, spriteBatch);
         vectorFill.X = 80 + 55;
-        LemmingsNetGame.Instance.Fonts.TextLem(string.Format("{0,2:D2}", _inGame._nbClimberRemaining), vectorFill, Color.LimeGreen, 0.5f, 0.1f, spriteBatch);
+        LemmingsNetGame.Instance.Fonts.TextLem(string.Format("{0,2:D2}", _inGame.NbClimberRemaining), vectorFill, Color.LimeGreen, 0.5f, 0.1f, spriteBatch);
         vectorFill.X = 80 + 2 * 55;
-        LemmingsNetGame.Instance.Fonts.TextLem(string.Format("{0,2:D2}", _inGame._nbFloaterRemaining), vectorFill, Color.LimeGreen, 0.5f, 0.1f, spriteBatch);
+        LemmingsNetGame.Instance.Fonts.TextLem(string.Format("{0,2:D2}", _inGame.NbFloaterRemaining), vectorFill, Color.LimeGreen, 0.5f, 0.1f, spriteBatch);
         vectorFill.X = 80 + 3 * 55;
-        LemmingsNetGame.Instance.Fonts.TextLem(string.Format("{0,2:D2}", _inGame._nbExploderRemaining), vectorFill, Color.LimeGreen, 0.5f, 0.1f, spriteBatch);
+        LemmingsNetGame.Instance.Fonts.TextLem(string.Format("{0,2:D2}", _inGame.NbExploderRemaining), vectorFill, Color.LimeGreen, 0.5f, 0.1f, spriteBatch);
         vectorFill.X = 80 + 4 * 55;
-        LemmingsNetGame.Instance.Fonts.TextLem(string.Format("{0,2:D2}", _inGame._nbBlockerRemaining), vectorFill, Color.LimeGreen, 0.5f, 0.1f, spriteBatch);
+        LemmingsNetGame.Instance.Fonts.TextLem(string.Format("{0,2:D2}", _inGame.NbBlockerRemaining), vectorFill, Color.LimeGreen, 0.5f, 0.1f, spriteBatch);
         vectorFill.X = 80 + 5 * 55;
-        LemmingsNetGame.Instance.Fonts.TextLem(string.Format("{0,2:D2}", _inGame._nbBuilderRemaining), vectorFill, Color.LimeGreen, 0.5f, 0.1f, spriteBatch);
+        LemmingsNetGame.Instance.Fonts.TextLem(string.Format("{0,2:D2}", _inGame.NbBuilderRemaining), vectorFill, Color.LimeGreen, 0.5f, 0.1f, spriteBatch);
         vectorFill.X = 80 + 6 * 55;
-        LemmingsNetGame.Instance.Fonts.TextLem(string.Format("{0,2:D2}", _inGame._nbBasherRemaining), vectorFill, Color.LimeGreen, 0.5f, 0.1f, spriteBatch);
+        LemmingsNetGame.Instance.Fonts.TextLem(string.Format("{0,2:D2}", _inGame.NbBasherRemaining), vectorFill, Color.LimeGreen, 0.5f, 0.1f, spriteBatch);
         vectorFill.X = 80 + 7 * 55;
-        LemmingsNetGame.Instance.Fonts.TextLem(string.Format("{0,2:D2}", _inGame._nbMinerRemaining), vectorFill, Color.LimeGreen, 0.5f, 0.1f, spriteBatch);
+        LemmingsNetGame.Instance.Fonts.TextLem(string.Format("{0,2:D2}", _inGame.NbMinerRemaining), vectorFill, Color.LimeGreen, 0.5f, 0.1f, spriteBatch);
         vectorFill.X = 80 + 8 * 55;
-        LemmingsNetGame.Instance.Fonts.TextLem(string.Format("{0,2:D2}", _inGame._nbDiggerRemaining), vectorFill, Color.LimeGreen, 0.5f, 0.1f, spriteBatch);
+        LemmingsNetGame.Instance.Fonts.TextLem(string.Format("{0,2:D2}", _inGame.NbDiggerRemaining), vectorFill, Color.LimeGreen, 0.5f, 0.1f, spriteBatch);
         vectorFill.X = 890;
         vectorFill.Y = 518;
         LemmingsNetGame.Instance.Fonts.TextLem("Time", vectorFill, Color.Yellow, 1f, 0.1f, spriteBatch);

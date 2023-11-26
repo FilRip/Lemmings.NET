@@ -19,6 +19,8 @@ internal class Gfx
     internal Texture2D CrateNormals { get; private set; }
     internal Texture2D Text { get; private set; }
     internal Texture2D Mascarapared { get; private set; }
+    internal Texture2D WaterBlue { get; private set; }
+    internal Texture2D TrapElevator { get; private set; }
 
     internal void Load(GraphicsDevice GraphicsDevice, ContentManager content)
     {
@@ -34,6 +36,8 @@ internal class Gfx
         CrateNormals = content.Load<Texture2D>("craten");
         Text = content.Load<Texture2D>("crate");
         Mascarapared = content.Load<Texture2D>("mascara_pared");
+        WaterBlue = content.Load<Texture2D>("traps/water_blue");
+        TrapElevator = content.Load<Texture2D>("traps/elevator");
     }
 
     internal void DrawLine(SpriteBatch sb, Vector2 start, Vector2 end, Color pintado, Int32 grosor, float layer)

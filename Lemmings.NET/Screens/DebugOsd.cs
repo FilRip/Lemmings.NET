@@ -50,14 +50,14 @@ internal class DebugOsd
 
             if (LemmingsNetGame.Instance.ScreenInGame.SteelON)
             {
-                for (int xz = 0; xz < LemmingsNetGame.Instance.ScreenInGame.numTOTsteel; xz++)
+                for (int xz = 0; xz < LemmingsNetGame.Instance.ScreenInGame.NumTOTsteel; xz++)
                 {
                     Rectangle rectangleFill = new()
                     {
-                        X = LemmingsNetGame.Instance.ScreenInGame.steel[xz].area.Left - LemmingsNetGame.Instance.ScreenInGame.ScrollX,
-                        Y = LemmingsNetGame.Instance.ScreenInGame.steel[xz].area.Top - LemmingsNetGame.Instance.ScreenInGame.ScrollY,
-                        Width = LemmingsNetGame.Instance.ScreenInGame.steel[xz].area.Width,
-                        Height = LemmingsNetGame.Instance.ScreenInGame.steel[xz].area.Height,
+                        X = LemmingsNetGame.Instance.ScreenInGame.Steel[xz].area.Left - LemmingsNetGame.Instance.ScreenInGame.ScrollX,
+                        Y = LemmingsNetGame.Instance.ScreenInGame.Steel[xz].area.Top - LemmingsNetGame.Instance.ScreenInGame.ScrollY,
+                        Width = LemmingsNetGame.Instance.ScreenInGame.Steel[xz].area.Width,
+                        Height = LemmingsNetGame.Instance.ScreenInGame.Steel[xz].area.Height,
                     };
                     // magenta r:255,g:0,b:255
                     Color colorFill = new()

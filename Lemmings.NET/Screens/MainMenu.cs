@@ -477,19 +477,19 @@ internal class MainMenu
             LemmingsNetGame.Instance.ScreenInGame.Frame++;
             LemmingsNetGame.Instance.ScreenInGame.Dibuja = true;
         }
-        if (LemmingsNetGame.Instance.ScreenInGame.r1 == 0)
+        if (LemmingsNetGame.Instance.ScreenInGame.R1 == 0)
         {
-            LemmingsNetGame.Instance.ScreenInGame.r1 = MyGame.Rnd.Next(1, 30);
+            LemmingsNetGame.Instance.ScreenInGame.R1 = MyGame.Rnd.Next(1, 30);
         }
-        if (LemmingsNetGame.Instance.ScreenInGame.r2 == 0)
+        if (LemmingsNetGame.Instance.ScreenInGame.R2 == 0)
         {
-            LemmingsNetGame.Instance.ScreenInGame.r2 = MyGame.Rnd.Next(1, 45);
+            LemmingsNetGame.Instance.ScreenInGame.R2 = MyGame.Rnd.Next(1, 45);
         }
-        if (LemmingsNetGame.Instance.ScreenInGame.r3 == 0)
+        if (LemmingsNetGame.Instance.ScreenInGame.R3 == 0)
         {
-            LemmingsNetGame.Instance.ScreenInGame.r3 = MyGame.Rnd.Next(1, 35);
+            LemmingsNetGame.Instance.ScreenInGame.R3 = MyGame.Rnd.Next(1, 35);
         }
-        if (LemmingsNetGame.Instance.ScreenInGame.Frame % LemmingsNetGame.Instance.ScreenInGame.r1 == 0 && !blink1on)
+        if (LemmingsNetGame.Instance.ScreenInGame.Frame % LemmingsNetGame.Instance.ScreenInGame.R1 == 0 && !blink1on)
         {
             framblink1 = 0;
             blink1on = true;
@@ -500,10 +500,10 @@ internal class MainMenu
             if (framblink1 > 8)
             {
                 blink1on = false;
-                LemmingsNetGame.Instance.ScreenInGame.r1 = 0;
+                LemmingsNetGame.Instance.ScreenInGame.R1 = 0;
             }
         }
-        if (LemmingsNetGame.Instance.ScreenInGame.Frame % LemmingsNetGame.Instance.ScreenInGame.r2 == 0 && !blink2on)
+        if (LemmingsNetGame.Instance.ScreenInGame.Frame % LemmingsNetGame.Instance.ScreenInGame.R2 == 0 && !blink2on)
         {
             framblink2 = 0;
             blink2on = true;
@@ -514,10 +514,10 @@ internal class MainMenu
             if (framblink2 > 8)
             {
                 blink2on = false;
-                LemmingsNetGame.Instance.ScreenInGame.r2 = 0;
+                LemmingsNetGame.Instance.ScreenInGame.R2 = 0;
             }
         }
-        if (LemmingsNetGame.Instance.ScreenInGame.Frame % LemmingsNetGame.Instance.ScreenInGame.r3 == 0 && !blink3on)
+        if (LemmingsNetGame.Instance.ScreenInGame.Frame % LemmingsNetGame.Instance.ScreenInGame.R3 == 0 && !blink3on)
         {
             framblink3 = 0;
             blink3on = true;
@@ -527,7 +527,8 @@ internal class MainMenu
             framblink3++;
             if (framblink3 > 8)
             {
-                blink3on = false; LemmingsNetGame.Instance.ScreenInGame.r3 = 0;
+                blink3on = false;
+                LemmingsNetGame.Instance.ScreenInGame.R3 = 0;
             }
         }
         if (MouseLevelChoose != 0 && (Input.PreviousMouseState.LeftButton == ButtonState.Released && Input.CurrentMouseState.LeftButton == ButtonState.Pressed))
