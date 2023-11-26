@@ -19,14 +19,14 @@ namespace Lemmings.NET.Screens
         private bool Exploding, dibuja3, LevelEnded, ExitBad, ExitLevel;
         private int numSaved, actItem, Iexplo, cantidad22;
         public int numTOTsteel = 0;
-        public int numLemmings { get; set; } = 0;
+        public int NumLemmings { get; set; } = 0;
         private int sx, rest = 0, numTOTdoors = 1, numACTdoor = 0, numTOTexits = 1, framesale, numTOTplats = 0, Contador2, Contador = 1, actLEM2;
         public float Contadortime2, Contadortime;
         public int ScrollX { get; set; }
         public int ScrollY { get; set; }
         private bool mouseOnLem = false;
         private bool doorOn = true;
-        public Lem[] lemming { get; set; }
+        public Lem[] Lemming { get; set; }
         private Rectangle bloqueo;
         private double frameWaves = 0;
         private int walker_frame = 0;
@@ -39,15 +39,15 @@ namespace Lemmings.NET.Screens
         private readonly int Framesecond3 = 1;  // frame speed less all go crazy 6->ok framesecond=6 default framesecond2=3 default
         private Varsprites[] Sprite { get; set; }
         public int _nbClimberRemaining = 99, _nbFloaterRemaining = 88, _nbExploderRemaining = 77, _nbBlockerRemaining = 66, _nbBuilderRemaining = 55, _nbBasherRemaining = 44, _nbMinerRemaining = 33, _nbDiggerRemaining = 99;
-        public bool _allBlow { get; set; } = false;
+        public bool AllBlow { get; set; } = false;
         private int door1X, door1Y, actLEM;
         private int output1X, output1Y, ex11;
         private int frameDoor, frameExit; // 0--10   0--6
         private int exitFrame = 999, actualBlow; // frecuency lemmings go in
         private Rectangle exit_rect; // rectangle exit
         private Point x;
-        internal double millisecondsElapsed { get; set; }
-        internal Texture2D earth { get; set; }
+        internal double MillisecondsElapsed { get; set; }
+        internal Texture2D Earth { get; set; }
         private Color[] C25 { get; set; } = new Color[4096 * 4096]; // Maximun size of a color array used for mask all the level
         public string LemSkill { get; set; } = "";
         private Vartraps[] trap;
@@ -63,8 +63,8 @@ namespace Lemmings.NET.Screens
         private int framereal565;
         private float DoorExitDepth = 0.403f;  // default value--bigger than 0.5f is behind the terrain (0.6f level 58 for example)
         internal int r1 = 0, r2 = 0, r3 = 0;
-        public int zvTime { get; set; } = 0;
-        private Vector2 vectorFill, vectorFill2;
+        public int ZvTime { get; set; } = 0;
+        private Vector2 vectorFill;
         private Rectangle rectangleFill, rectangleFill2;
         private Color colorFill;
         private bool _endSongPlayed;
@@ -79,10 +79,10 @@ namespace Lemmings.NET.Screens
         private int z1 = 0;
         private int z2 = 0;
         private int z3 = 0;
-        public bool dibuja { get; set; } = true;
+        public bool Dibuja { get; set; } = true;
         private bool luzmas = true, luzmas2 = true, draw_walker = false, draw_builder = false;
-        public bool draw2 { get; set; } = true;
-        public double totalTime { get; set; }
+        public bool Draw2 { get; set; } = true;
+        public double TotalTime { get; set; }
         private int alto, _below;
         public int Frame;
         private Point poslem;
@@ -137,8 +137,8 @@ namespace Lemmings.NET.Screens
             Frame3 = 0;
             fade = true;
             doorOn = true;
-            millisecondsElapsed = 0;
-            numLemmings = 0;
+            MillisecondsElapsed = 0;
+            NumLemmings = 0;
             puerta_ani = content.Load<Texture2D>("puerta" + string.Format("{0}", AllLevel[LemmingsNetGame.Instance.CurrentLevelNumber].TypeOfDoor)); // type of door puerta1-2-3-4 etc.
             string xx455 = string.Format("{0}", AllLevel[LemmingsNetGame.Instance.CurrentLevelNumber].TypeOfExit);
             salida_ani1 = content.Load<Texture2D>("salida" + xx455);
@@ -147,8 +147,8 @@ namespace Lemmings.NET.Screens
             LemmingsNetGame.Instance.CurrentLevelNumber = newLevel;
             LemSkill = "";
             MyGame.Paused = false;
-            zvTime = 0;
-            _allBlow = false;
+            ZvTime = 0;
+            AllBlow = false;
             actualBlow = 0;
             exitFrame = 999;
             _inGameMenu.CurrentSelectedSkill = ECurrentSkill.NONE;
@@ -175,11 +175,11 @@ namespace Lemmings.NET.Screens
             ExitBad = false;
 
             Texture2D level = LemmingsNetGame.Instance.Content.Load<Texture2D>(AllLevel[LemmingsNetGame.Instance.CurrentLevelNumber].NameLev);
-            earth = new Texture2D(LemmingsNetGame.Instance.GraphicsDevice, level.Width, level.Height);
+            Earth = new Texture2D(LemmingsNetGame.Instance.GraphicsDevice, level.Width, level.Height);
             Color[] pixels = new Color[level.Width * level.Height];
             level.GetData(pixels);
-            earth.SetData(pixels);
-            earth.GetData(C25, 0, earth.Height * earth.Width); //better here than moverlemming() for performance see issues 
+            Earth.SetData(pixels);
+            Earth.GetData(C25, 0, Earth.Height * Earth.Width); //better here than moverlemming() for performance see issues 
                                                                //see differences with old getdata, see size important (x * y)
             door1X = AllLevel[LemmingsNetGame.Instance.CurrentLevelNumber].doorX;
             door1Y = AllLevel[LemmingsNetGame.Instance.CurrentLevelNumber].doorY;
@@ -239,7 +239,7 @@ namespace Lemmings.NET.Screens
             Lemsneeded = AllLevel[LemmingsNetGame.Instance.CurrentLevelNumber].NbLemmingsToSave;
             ScrollX = AllLevel[LemmingsNetGame.Instance.CurrentLevelNumber].InitPosX;
             ScrollY = 0;
-            lemming = new Lem[Numlems];
+            Lemming = new Lem[Numlems];
             VariablesTraps();
         }
 
@@ -250,8 +250,8 @@ namespace Lemmings.NET.Screens
             frameWaves++;
             Frame2++;
             Frame3++;
-            dibuja = false;
-            draw2 = false;
+            Dibuja = false;
+            Draw2 = false;
             dibuja3 = false;
             draw_walker = false;
             draw_builder = false;
@@ -268,14 +268,14 @@ namespace Lemmings.NET.Screens
             if (Frame2 > Framesecond)
             {
                 Frame2 = 0;
-                dibuja = true;
+                Dibuja = true;
                 if (!MyGame.Paused)
                     Frame++;
             } //without this Frame affects door speed exit
             if (Frame3 > Framesecond2)
             {
                 Frame3 = 0;
-                draw2 = true;
+                Draw2 = true;
             }
             if (frameWaves > Framesecond3)
             {
@@ -404,17 +404,17 @@ namespace Lemmings.NET.Screens
                                     realLine = true;
                                 if (realLine)
                                 {
-                                    C25[((positioYOrig - (alto - y55)) * earth.Width) + x55 + px] = Color.White;
+                                    C25[((positioYOrig - (alto - y55)) * Earth.Width) + x55 + px] = Color.White;
                                 }
                                 else
                                 {
-                                    C25[((positioYOrig - (alto - y55)) * earth.Width) + x55 + px] = Color.Transparent;
+                                    C25[((positioYOrig - (alto - y55)) * Earth.Width) + x55 + px] = Color.Transparent;
 
                                 }
                             }
                         }
                         if (LemmingsNetGame.Instance.DebugOsd.debug)
-                            earth.SetData(C25, 0, earth.Width * earth.Height); //set this only for debugger and see the real c25 redraw
+                            Earth.SetData(C25, 0, Earth.Width * Earth.Height); //set this only for debugger and see the real c25 redraw
                     }
                     plats[i].frame++;
                 }
@@ -435,13 +435,13 @@ namespace Lemmings.NET.Screens
                 rectangleFill.Y = adds[0].areaDraw.Y;
                 rectangleFill.Width = ancho;
                 rectangleFill.Height = startposy;
-                earth.SetData(0, rectangleFill, Colormask22, 0, amount);
+                Earth.SetData(0, rectangleFill, Colormask22, 0, amount);
                 int py = adds[0].areaDraw.Y;
                 int px = adds[0].areaDraw.X;
                 int cantidad99 = 0;
                 for (int yy99 = 0; yy99 < startposy; yy99++)
                 {
-                    int yypos99 = (yy99 + py) * earth.Width;
+                    int yypos99 = (yy99 + py) * Earth.Width;
                     for (int xx99 = 0; xx99 < ancho; xx99++)
                     {
                         C25[yypos99 + px + xx99].PackedValue = Colormask22[cantidad99].PackedValue;
@@ -457,7 +457,7 @@ namespace Lemmings.NET.Screens
                 }
                 adds[0].frame++;
             }
-            if (TrapsON && dibuja && !MyGame.Paused)
+            if (TrapsON && Dibuja && !MyGame.Paused)
             {
                 for (int s = 0; s < NumTotTraps; s++)
                 {
@@ -485,11 +485,11 @@ namespace Lemmings.NET.Screens
                 Contadortime++;
             }
             Contadortime2++;
-            totalTime = Contadortime / 60; //real time of the level see to stop when finish or zvtime<0
+            TotalTime = Contadortime / 60; //real time of the level see to stop when finish or zvtime<0
             if (doorOn)
             {
                 Contadortime = 0;
-                totalTime = 0;
+                TotalTime = 0;
             }
             int maxluz = 14; // numero de ciclos de variar el rectangle del EFECTO DE LUCES 50 normalmente
             int maxluz2 = 200;
@@ -536,7 +536,7 @@ namespace Lemmings.NET.Screens
             z2 = (int)Contadortime2 / 10;
             z3 = (int)Contadortime2 / 9;
             z3 %= 4; // mumero de frames del agua a ver 4 de 5 que tiene la ultima esta vacia nose porque
-            if (dibuja)
+            if (Dibuja)
             {
                 int xx66 = varExit[AllLevel[LemmingsNetGame.Instance.CurrentLevelNumber].TypeOfExit].numFram - 1;
                 frameExit++;
@@ -550,7 +550,7 @@ namespace Lemmings.NET.Screens
             _inGameMenu.Update();
             MyTexture = LemmingsNetGame.Instance.Content.Load<Texture2D>("luces/" + Contador);// okokokokokokokok
 
-            if (dibuja && NumTotArrow > 0) // dibuja or dibuja2 test performance-- this is the worst part of the code NEED OPTIMIZATION
+            if (Dibuja && NumTotArrow > 0) // dibuja or dibuja2 test performance-- this is the worst part of the code NEED OPTIMIZATION
             {
                 for (int xz = 0; xz < NumTotArrow; xz++)
                 {
@@ -564,7 +564,7 @@ namespace Lemmings.NET.Screens
                     cantidad22 = 0;
                     for (int yy88 = 0; yy88 < alto66; yy88++)
                     {
-                        int yypos888 = (yy88 + py) * earth.Width;
+                        int yypos888 = (yy88 + py) * Earth.Width;
                         for (int xx88 = 0; xx88 < ancho66; xx88++)
                         {
                             Colorsobre22[cantidad22].PackedValue = C25[yypos888 + px + xx88].PackedValue;
@@ -631,47 +631,47 @@ namespace Lemmings.NET.Screens
         {
             mouseOnLem = false;  // scroll mouse on level landscape
             Scrolling();
-            for (actLEM = 0; actLEM < numLemmings; actLEM++)
+            for (actLEM = 0; actLEM < NumLemmings; actLEM++)
             {
                 if (doorOn)
                     break; // start when door finish opening
-                if (lemming[actLEM].Dead)
+                if (Lemming[actLEM].Dead)
                     continue;
                 // LOGIC BLOCKER BLOCKER BLOQUEO LOGIC bbbbbbbbbbbbbbbbbbbbllllllllloooooooccccccccccckkkkkkkkkkkeeeeeeeeeeeeedddddddddddddddddd
                 int medx = 14;
                 int medy = 14;
-                for (int b = 0; b < numLemmings; b++)
+                for (int b = 0; b < NumLemmings; b++)
                 {
-                    if (lemming[b].Blocker && b != actLEM)
+                    if (Lemming[b].Blocker && b != actLEM)
                     {
-                        bloqueo.X = lemming[b].PosX;
-                        bloqueo.Y = lemming[b].PosY;
+                        bloqueo.X = Lemming[b].PosX;
+                        bloqueo.Y = Lemming[b].PosY;
                         bloqueo.Width = 28;
                         bloqueo.Height = 28;
-                        if (lemming[actLEM].Miner)
+                        if (Lemming[actLEM].Miner)
                         {
-                            bloqueo.X = lemming[b].PosX + 10;
-                            bloqueo.Y = lemming[b].PosY;
+                            bloqueo.X = Lemming[b].PosX + 10;
+                            bloqueo.Y = Lemming[b].PosY;
                             bloqueo.Width = 9;
                             bloqueo.Height = 28;
                         }
-                        poslem.X = lemming[actLEM].PosX + medx;
-                        poslem.Y = lemming[actLEM].PosY + medy;
+                        poslem.X = Lemming[actLEM].PosX + medx;
+                        poslem.Y = Lemming[actLEM].PosY + medy;
                         if (bloqueo.Contains(poslem))
                         {
-                            if (lemming[actLEM].Right)
+                            if (Lemming[actLEM].Right)
                             {
-                                if (lemming[actLEM].PosX < lemming[b].PosX)
+                                if (Lemming[actLEM].PosX < Lemming[b].PosX)
                                 {
-                                    lemming[actLEM].Right = false;
+                                    Lemming[actLEM].Right = false;
                                     break;
                                 }
                             }
                             else
                             {
-                                if (lemming[actLEM].PosX > lemming[b].PosX - 1)
+                                if (Lemming[actLEM].PosX > Lemming[b].PosX - 1)
                                 {
-                                    lemming[actLEM].Right = true;
+                                    Lemming[actLEM].Right = true;
                                     break;
                                 }
                             }
@@ -680,52 +680,52 @@ namespace Lemmings.NET.Screens
                     }
 
                 }
-                lemming[actLEM].Onmouse = false; //LEMMING SKILL STRING MOUSE ON
-                if ((Input.CurrentMouseState.X + 16 >= lemming[actLEM].PosX - ScrollX && Input.CurrentMouseState.X + 16 <= lemming[actLEM].PosX - ScrollX + 28
-                        && Input.CurrentMouseState.Y + 16 >= lemming[actLEM].PosY - ScrollY && Input.CurrentMouseState.Y + 16 <= lemming[actLEM].PosY + 28 - ScrollY) && !mouseOnLem)
+                Lemming[actLEM].Onmouse = false; //LEMMING SKILL STRING MOUSE ON
+                if ((Input.CurrentMouseState.X + 16 >= Lemming[actLEM].PosX - ScrollX && Input.CurrentMouseState.X + 16 <= Lemming[actLEM].PosX - ScrollX + 28
+                        && Input.CurrentMouseState.Y + 16 >= Lemming[actLEM].PosY - ScrollY && Input.CurrentMouseState.Y + 16 <= Lemming[actLEM].PosY + 28 - ScrollY) && !mouseOnLem)
                 {
-                    if (lemming[actLEM].Walker)
+                    if (Lemming[actLEM].Walker)
                         LemSkill = "Walker";
-                    if (lemming[actLEM].Builder)
+                    if (Lemming[actLEM].Builder)
                         LemSkill = "Builder";
-                    if (lemming[actLEM].Basher)
+                    if (Lemming[actLEM].Basher)
                         LemSkill = "Basher";
-                    if (lemming[actLEM].Blocker)
+                    if (Lemming[actLEM].Blocker)
                         LemSkill = "Blocker";
-                    if (lemming[actLEM].Miner)
+                    if (Lemming[actLEM].Miner)
                         LemSkill = "Miner";
-                    if (lemming[actLEM].Digger)
+                    if (Lemming[actLEM].Digger)
                         LemSkill = "Digger";
-                    if (lemming[actLEM].Climber)
+                    if (Lemming[actLEM].Climber)
                         LemSkill += ",C";
-                    if (lemming[actLEM].Umbrella)
+                    if (Lemming[actLEM].Umbrella)
                         LemSkill += ",F";
-                    if (lemming[actLEM].Climbing)
+                    if (Lemming[actLEM].Climbing)
                         LemSkill = "Climber";
-                    if (lemming[actLEM].Climbing && lemming[actLEM].Umbrella)
+                    if (Lemming[actLEM].Climbing && Lemming[actLEM].Umbrella)
                         LemSkill = "Climber,F";
-                    if ((lemming[actLEM].Fall || lemming[actLEM].Falling) && !lemming[actLEM].Umbrella)
+                    if ((Lemming[actLEM].Fall || Lemming[actLEM].Falling) && !Lemming[actLEM].Umbrella)
                         LemSkill = "Faller";
-                    if ((lemming[actLEM].Fall || lemming[actLEM].Falling) && lemming[actLEM].Umbrella)
+                    if ((Lemming[actLEM].Fall || Lemming[actLEM].Falling) && Lemming[actLEM].Umbrella)
                         LemSkill = "Floater";
                     mouseOnLem = true;
-                    lemming[actLEM].Onmouse = true;
+                    Lemming[actLEM].Onmouse = true;
                 } //  inside the mouse rectangle lemming ON
                 if (TrapsON && !MyGame.Paused) //Traps logic and sounds
                 {
                     for (int ti = 0; ti < NumTotTraps; ti++)
                     {
-                        x.X = lemming[actLEM].PosX + 14;
-                        x.Y = lemming[actLEM].PosY + 25;
+                        x.X = Lemming[actLEM].PosX + 14;
+                        x.Y = Lemming[actLEM].PosY + 25;
                         if (trap[ti].areaTrap.Contains(x) && !trap[ti].isOn && trap[ti].type == 666)
                         {
                             trap[ti].isOn = true;
-                            lemming[actLEM].Active = false;
-                            lemming[actLEM].Walker = false;
-                            lemming[actLEM].Dead = true;
+                            Lemming[actLEM].Active = false;
+                            Lemming[actLEM].Walker = false;
+                            Lemming[actLEM].Dead = true;
                             numlemnow--;
-                            lemming[actLEM].Explode = false;
-                            lemming[actLEM].Exploser = false;
+                            Lemming[actLEM].Explode = false;
+                            Lemming[actLEM].Exploser = false;
                             switch (trap[ti].sprite.Name)
                             {
                                 case "traps/dead_marble":
@@ -778,11 +778,11 @@ namespace Lemmings.NET.Screens
                             }
                             break;
                         }
-                        rectangleFill.X = lemming[actLEM].PosX + 14;
-                        rectangleFill.Y = lemming[actLEM].PosY;
+                        rectangleFill.X = Lemming[actLEM].PosX + 14;
+                        rectangleFill.Y = Lemming[actLEM].PosY;
                         rectangleFill.Width = 1;
                         rectangleFill.Height = 28;
-                        if (trap[ti].areaTrap.Intersects(rectangleFill) && !lemming[actLEM].Burned && !lemming[actLEM].Drown && trap[ti].type != 666)
+                        if (trap[ti].areaTrap.Intersects(rectangleFill) && !Lemming[actLEM].Burned && !Lemming[actLEM].Drown && trap[ti].type != 666)
                         {
                             switch (trap[ti].sprite.Name)
                             {
@@ -800,16 +800,16 @@ namespace Lemmings.NET.Screens
                                         LemmingsNetGame.Instance.Sfx.Fire.Play();
                                     }
                                     catch (InstancePlayLimitException) { /* Ignore errors */ }
-                                    lemming[actLEM].Burned = true;
-                                    lemming[actLEM].Drown = false;
-                                    lemming[actLEM].Explode = false;
-                                    lemming[actLEM].Exploser = false;
-                                    lemming[actLEM].Numframes = 14;
-                                    lemming[actLEM].Actualframe = 0;
-                                    lemming[actLEM].Active = false;
-                                    lemming[actLEM].Walker = false;
-                                    lemming[actLEM].Falling = false;
-                                    lemming[actLEM].Fall = false;
+                                    Lemming[actLEM].Burned = true;
+                                    Lemming[actLEM].Drown = false;
+                                    Lemming[actLEM].Explode = false;
+                                    Lemming[actLEM].Exploser = false;
+                                    Lemming[actLEM].Numframes = 14;
+                                    Lemming[actLEM].Actualframe = 0;
+                                    Lemming[actLEM].Active = false;
+                                    Lemming[actLEM].Walker = false;
+                                    Lemming[actLEM].Falling = false;
+                                    Lemming[actLEM].Fall = false;
                                     break;
                                 case "traps/acid":
                                 case "traps/acid2":
@@ -826,16 +826,16 @@ namespace Lemmings.NET.Screens
                                         LemmingsNetGame.Instance.Sfx.Glup.Play();
                                     }
                                     catch (InstancePlayLimitException) { /* Ignore errors */ }
-                                    lemming[actLEM].Drown = true;
-                                    lemming[actLEM].Burned = false;
-                                    lemming[actLEM].Explode = false;
-                                    lemming[actLEM].Exploser = false;
-                                    lemming[actLEM].Falling = false;
-                                    lemming[actLEM].Fall = false;
-                                    lemming[actLEM].Numframes = SizeSprites.water_frames;
-                                    lemming[actLEM].Actualframe = 0;
-                                    lemming[actLEM].Active = false;
-                                    lemming[actLEM].Walker = false;
+                                    Lemming[actLEM].Drown = true;
+                                    Lemming[actLEM].Burned = false;
+                                    Lemming[actLEM].Explode = false;
+                                    Lemming[actLEM].Exploser = false;
+                                    Lemming[actLEM].Falling = false;
+                                    Lemming[actLEM].Fall = false;
+                                    Lemming[actLEM].Numframes = SizeSprites.water_frames;
+                                    Lemming[actLEM].Actualframe = 0;
+                                    Lemming[actLEM].Active = false;
+                                    Lemming[actLEM].Walker = false;
                                     break;
                                 default:
                                     if (LemmingsNetGame.Instance.Sfx.Die.State == SoundState.Playing)
@@ -847,11 +847,11 @@ namespace Lemmings.NET.Screens
                                         LemmingsNetGame.Instance.Sfx.Die.Play();
                                     }
                                     catch (InstancePlayLimitException) { /* Ignore errors */ }
-                                    lemming[actLEM].Explode = false;
-                                    lemming[actLEM].Exploser = false;
-                                    lemming[actLEM].Active = false;
-                                    lemming[actLEM].Walker = false;
-                                    lemming[actLEM].Dead = true;
+                                    Lemming[actLEM].Explode = false;
+                                    Lemming[actLEM].Exploser = false;
+                                    Lemming[actLEM].Active = false;
+                                    Lemming[actLEM].Walker = false;
+                                    Lemming[actLEM].Dead = true;
                                     numlemnow--;
                                     break;
                             }
@@ -861,8 +861,8 @@ namespace Lemmings.NET.Screens
                 // assign skills to lemmings //////////////////////////////////////////////
                 if (mouseOnLem && (Input.PreviousMouseState.LeftButton == ButtonState.Released && Input.CurrentMouseState.LeftButton == ButtonState.Pressed))
                 {
-                    if (_inGameMenu.CurrentSelectedSkill == ECurrentSkill.DIGGER && !lemming[actLEM].Digger && lemming[actLEM].Onmouse //DIGGER
-                        && (lemming[actLEM].Walker || lemming[actLEM].Builder || lemming[actLEM].Basher || lemming[actLEM].Miner))
+                    if (_inGameMenu.CurrentSelectedSkill == ECurrentSkill.DIGGER && !Lemming[actLEM].Digger && Lemming[actLEM].Onmouse //DIGGER
+                        && (Lemming[actLEM].Walker || Lemming[actLEM].Builder || Lemming[actLEM].Basher || Lemming[actLEM].Miner))
                     {
                         _nbDiggerRemaining--;
                         if (_nbDiggerRemaining < 0)
@@ -881,18 +881,18 @@ namespace Lemmings.NET.Screens
                                 LemmingsNetGame.Instance.Sfx.MousePre.Stop();
                             }
                             LemmingsNetGame.Instance.Sfx.MousePre.Play();
-                            lemming[actLEM].Digger = true;
-                            lemming[actLEM].Fall = false;
-                            lemming[actLEM].Builder = false;
-                            lemming[actLEM].Walker = false;
-                            lemming[actLEM].Basher = false;
-                            lemming[actLEM].Miner = false;
-                            lemming[actLEM].Actualframe = 0;
-                            lemming[actLEM].Numframes = SizeSprites.digger_frames;
+                            Lemming[actLEM].Digger = true;
+                            Lemming[actLEM].Fall = false;
+                            Lemming[actLEM].Builder = false;
+                            Lemming[actLEM].Walker = false;
+                            Lemming[actLEM].Basher = false;
+                            Lemming[actLEM].Miner = false;
+                            Lemming[actLEM].Actualframe = 0;
+                            Lemming[actLEM].Numframes = SizeSprites.digger_frames;
                             continue;
                         }
                     }
-                    if (_inGameMenu.CurrentSelectedSkill == ECurrentSkill.CLIMBER && lemming[actLEM].Onmouse && !lemming[actLEM].Climber) //CLIMBER
+                    if (_inGameMenu.CurrentSelectedSkill == ECurrentSkill.CLIMBER && Lemming[actLEM].Onmouse && !Lemming[actLEM].Climber) //CLIMBER
                     {
                         _nbClimberRemaining--;
                         if (_nbClimberRemaining < 0)
@@ -911,11 +911,11 @@ namespace Lemmings.NET.Screens
                                 LemmingsNetGame.Instance.Sfx.MousePre.Stop();
                             }
                             LemmingsNetGame.Instance.Sfx.MousePre.Play();
-                            lemming[actLEM].Climber = true;
+                            Lemming[actLEM].Climber = true;
                             continue;
                         }
                     }
-                    if (_inGameMenu.CurrentSelectedSkill == ECurrentSkill.FLOATER && lemming[actLEM].Onmouse && !lemming[actLEM].Umbrella && !lemming[actLEM].Breakfloor) //FLOATER
+                    if (_inGameMenu.CurrentSelectedSkill == ECurrentSkill.FLOATER && Lemming[actLEM].Onmouse && !Lemming[actLEM].Umbrella && !Lemming[actLEM].Breakfloor) //FLOATER
                     {
                         _nbFloaterRemaining--;
                         if (_nbFloaterRemaining < 0)
@@ -934,11 +934,11 @@ namespace Lemmings.NET.Screens
                                 LemmingsNetGame.Instance.Sfx.MousePre.Stop();
                             }
                             LemmingsNetGame.Instance.Sfx.MousePre.Play();
-                            lemming[actLEM].Umbrella = true;
+                            Lemming[actLEM].Umbrella = true;
                             continue;
                         }
                     }
-                    if (_inGameMenu.CurrentSelectedSkill == ECurrentSkill.EXPLODER && lemming[actLEM].Onmouse && !lemming[actLEM].Exploser) //BOMBER
+                    if (_inGameMenu.CurrentSelectedSkill == ECurrentSkill.EXPLODER && Lemming[actLEM].Onmouse && !Lemming[actLEM].Exploser) //BOMBER
                     {
                         _nbExploderRemaining--;
                         if (_nbExploderRemaining < 0)
@@ -957,12 +957,12 @@ namespace Lemmings.NET.Screens
                                 LemmingsNetGame.Instance.Sfx.MousePre.Stop();
                             }
                             LemmingsNetGame.Instance.Sfx.MousePre.Play();
-                            lemming[actLEM].Exploser = true;
+                            Lemming[actLEM].Exploser = true;
                             continue;
                         }
                     }
-                    if (_inGameMenu.CurrentSelectedSkill == ECurrentSkill.BLOCKER && lemming[actLEM].Onmouse && !lemming[actLEM].Blocker //BLOCKER
-                        && (lemming[actLEM].Walker || lemming[actLEM].Digger || lemming[actLEM].Builder || lemming[actLEM].Basher || lemming[actLEM].Miner))
+                    if (_inGameMenu.CurrentSelectedSkill == ECurrentSkill.BLOCKER && Lemming[actLEM].Onmouse && !Lemming[actLEM].Blocker //BLOCKER
+                        && (Lemming[actLEM].Walker || Lemming[actLEM].Digger || Lemming[actLEM].Builder || Lemming[actLEM].Basher || Lemming[actLEM].Miner))
                     {
                         _nbBlockerRemaining--;
                         if (_nbBlockerRemaining < 0)
@@ -981,19 +981,19 @@ namespace Lemmings.NET.Screens
                                 LemmingsNetGame.Instance.Sfx.MousePre.Stop();
                             }
                             LemmingsNetGame.Instance.Sfx.MousePre.Play();
-                            lemming[actLEM].Blocker = true;
-                            lemming[actLEM].Builder = false;
-                            lemming[actLEM].Basher = false;
-                            lemming[actLEM].Miner = false;
-                            lemming[actLEM].Walker = false;
-                            lemming[actLEM].Digger = false;
-                            lemming[actLEM].Actualframe = 0;
-                            lemming[actLEM].Numframes = SizeSprites.blocker_frames;
+                            Lemming[actLEM].Blocker = true;
+                            Lemming[actLEM].Builder = false;
+                            Lemming[actLEM].Basher = false;
+                            Lemming[actLEM].Miner = false;
+                            Lemming[actLEM].Walker = false;
+                            Lemming[actLEM].Digger = false;
+                            Lemming[actLEM].Actualframe = 0;
+                            Lemming[actLEM].Numframes = SizeSprites.blocker_frames;
                             continue;
                         }
                     }
-                    if (_inGameMenu.CurrentSelectedSkill == ECurrentSkill.BUILDER && lemming[actLEM].Onmouse && !lemming[actLEM].Builder //BUILDER
-                        && (lemming[actLEM].Walker || lemming[actLEM].Digger || lemming[actLEM].Basher || lemming[actLEM].Miner || lemming[actLEM].Bridge))
+                    if (_inGameMenu.CurrentSelectedSkill == ECurrentSkill.BUILDER && Lemming[actLEM].Onmouse && !Lemming[actLEM].Builder //BUILDER
+                        && (Lemming[actLEM].Walker || Lemming[actLEM].Digger || Lemming[actLEM].Basher || Lemming[actLEM].Miner || Lemming[actLEM].Bridge))
                     {
                         _nbBuilderRemaining--;
                         if (_nbBuilderRemaining < 0)
@@ -1012,20 +1012,20 @@ namespace Lemmings.NET.Screens
                                 LemmingsNetGame.Instance.Sfx.MousePre.Stop();
                             }
                             LemmingsNetGame.Instance.Sfx.MousePre.Play();
-                            lemming[actLEM].Bridge = false;
-                            lemming[actLEM].Builder = true;
-                            lemming[actLEM].Actualframe = 0;
-                            lemming[actLEM].Walker = false;
-                            lemming[actLEM].Digger = false;
-                            lemming[actLEM].Basher = false;
-                            lemming[actLEM].Miner = false;
-                            lemming[actLEM].Numstairs = 0;
-                            lemming[actLEM].Numframes = SizeSprites.builder_frames;
+                            Lemming[actLEM].Bridge = false;
+                            Lemming[actLEM].Builder = true;
+                            Lemming[actLEM].Actualframe = 0;
+                            Lemming[actLEM].Walker = false;
+                            Lemming[actLEM].Digger = false;
+                            Lemming[actLEM].Basher = false;
+                            Lemming[actLEM].Miner = false;
+                            Lemming[actLEM].Numstairs = 0;
+                            Lemming[actLEM].Numframes = SizeSprites.builder_frames;
                             continue;
                         }
                     }
-                    if (_inGameMenu.CurrentSelectedSkill == ECurrentSkill.BASHER && lemming[actLEM].Onmouse && !lemming[actLEM].Basher //BASHER
-                        && (lemming[actLEM].Walker || lemming[actLEM].Digger || lemming[actLEM].Builder || lemming[actLEM].Miner))
+                    if (_inGameMenu.CurrentSelectedSkill == ECurrentSkill.BASHER && Lemming[actLEM].Onmouse && !Lemming[actLEM].Basher //BASHER
+                        && (Lemming[actLEM].Walker || Lemming[actLEM].Digger || Lemming[actLEM].Builder || Lemming[actLEM].Miner))
                     {
                         _nbBasherRemaining--;
                         if (_nbBasherRemaining < 0)
@@ -1044,18 +1044,18 @@ namespace Lemmings.NET.Screens
                                 LemmingsNetGame.Instance.Sfx.MousePre.Stop();
                             }
                             LemmingsNetGame.Instance.Sfx.MousePre.Play();
-                            lemming[actLEM].Basher = true;
-                            lemming[actLEM].Actualframe = 0;
-                            lemming[actLEM].Walker = false;
-                            lemming[actLEM].Digger = false;
-                            lemming[actLEM].Builder = false;
-                            lemming[actLEM].Miner = false;
-                            lemming[actLEM].Numframes = SizeSprites.basher_frames;
+                            Lemming[actLEM].Basher = true;
+                            Lemming[actLEM].Actualframe = 0;
+                            Lemming[actLEM].Walker = false;
+                            Lemming[actLEM].Digger = false;
+                            Lemming[actLEM].Builder = false;
+                            Lemming[actLEM].Miner = false;
+                            Lemming[actLEM].Numframes = SizeSprites.basher_frames;
                             continue;
                         }
                     }
-                    if (_inGameMenu.CurrentSelectedSkill == ECurrentSkill.MINER && lemming[actLEM].Onmouse && !lemming[actLEM].Miner //MINER
-                        && (lemming[actLEM].Walker || lemming[actLEM].Digger || lemming[actLEM].Basher || lemming[actLEM].Builder))
+                    if (_inGameMenu.CurrentSelectedSkill == ECurrentSkill.MINER && Lemming[actLEM].Onmouse && !Lemming[actLEM].Miner //MINER
+                        && (Lemming[actLEM].Walker || Lemming[actLEM].Digger || Lemming[actLEM].Basher || Lemming[actLEM].Builder))
                     {
                         _nbMinerRemaining--;
                         if (_nbMinerRemaining < 0)
@@ -1074,13 +1074,13 @@ namespace Lemmings.NET.Screens
                                 LemmingsNetGame.Instance.Sfx.MousePre.Stop();
                             }
                             LemmingsNetGame.Instance.Sfx.MousePre.Play();
-                            lemming[actLEM].Miner = true;
-                            lemming[actLEM].Actualframe = 0;
-                            lemming[actLEM].Walker = false;
-                            lemming[actLEM].Digger = false;
-                            lemming[actLEM].Basher = false;
-                            lemming[actLEM].Builder = false;
-                            lemming[actLEM].Numframes = SizeSprites.pico_frames;
+                            Lemming[actLEM].Miner = true;
+                            Lemming[actLEM].Actualframe = 0;
+                            Lemming[actLEM].Walker = false;
+                            Lemming[actLEM].Digger = false;
+                            Lemming[actLEM].Basher = false;
+                            Lemming[actLEM].Builder = false;
+                            Lemming[actLEM].Numframes = SizeSprites.pico_frames;
                             continue;
                         }
                     }
@@ -1088,50 +1088,50 @@ namespace Lemmings.NET.Screens
                 }
                 if (MyGame.Paused)
                     continue;
-                if (draw_builder && lemming[actLEM].Builder)
+                if (draw_builder && Lemming[actLEM].Builder)
                 {
-                    lemming[actLEM].Actualframe++;
-                    if (lemming[actLEM].Actualframe > lemming[actLEM].Numframes - 1 && !lemming[actLEM].Explode)
+                    Lemming[actLEM].Actualframe++;
+                    if (Lemming[actLEM].Actualframe > Lemming[actLEM].Numframes - 1 && !Lemming[actLEM].Explode)
                     {
-                        lemming[actLEM].Actualframe = 0;
+                        Lemming[actLEM].Actualframe = 0;
                     }
                 }
-                if (draw_walker && !lemming[actLEM].Builder && !lemming[actLEM].Basher && !lemming[actLEM].Miner
-                    && !lemming[actLEM].Burned && !lemming[actLEM].Drown)
+                if (draw_walker && !Lemming[actLEM].Builder && !Lemming[actLEM].Basher && !Lemming[actLEM].Miner
+                    && !Lemming[actLEM].Burned && !Lemming[actLEM].Drown)
                 {
-                    lemming[actLEM].Actualframe++;
-                    if (lemming[actLEM].Actualframe > lemming[actLEM].Numframes - 1 && !lemming[actLEM].Explode)
+                    Lemming[actLEM].Actualframe++;
+                    if (Lemming[actLEM].Actualframe > Lemming[actLEM].Numframes - 1 && !Lemming[actLEM].Explode)
                     {
-                        lemming[actLEM].Actualframe = 0;
+                        Lemming[actLEM].Actualframe = 0;
                     }
                     //be carefull with bomber frames actualization
                 }
-                if (draw2 && (lemming[actLEM].Basher || lemming[actLEM].Miner
-                    || lemming[actLEM].Burned || lemming[actLEM].Drown)) // see careful frames
+                if (Draw2 && (Lemming[actLEM].Basher || Lemming[actLEM].Miner
+                    || Lemming[actLEM].Burned || Lemming[actLEM].Drown)) // see careful frames
                 {
-                    lemming[actLEM].Actualframe++;
-                    if ((lemming[actLEM].Burned || lemming[actLEM].Drown) &&
-                        (lemming[actLEM].Actualframe > lemming[actLEM].Numframes - 1))
+                    Lemming[actLEM].Actualframe++;
+                    if ((Lemming[actLEM].Burned || Lemming[actLEM].Drown) &&
+                        (Lemming[actLEM].Actualframe > Lemming[actLEM].Numframes - 1))
                     {
-                        lemming[actLEM].Burned = false;
-                        lemming[actLEM].Drown = false;
-                        lemming[actLEM].Dead = true;
-                        lemming[actLEM].Explode = false;
-                        lemming[actLEM].Exploser = false;
+                        Lemming[actLEM].Burned = false;
+                        Lemming[actLEM].Drown = false;
+                        Lemming[actLEM].Dead = true;
+                        Lemming[actLEM].Explode = false;
+                        Lemming[actLEM].Exploser = false;
                         numlemnow--;
                     }
-                    if (lemming[actLEM].Actualframe > lemming[actLEM].Numframes - 1 && !lemming[actLEM].Explode)
+                    if (Lemming[actLEM].Actualframe > Lemming[actLEM].Numframes - 1 && !Lemming[actLEM].Explode)
                     {
-                        lemming[actLEM].Actualframe = 0;
+                        Lemming[actLEM].Actualframe = 0;
                     }
                 }
-                if (lemming[actLEM].Exit)
+                if (Lemming[actLEM].Exit)
                 {
-                    if (lemming[actLEM].Actualframe == lemming[actLEM].Numframes - 1)
+                    if (Lemming[actLEM].Actualframe == Lemming[actLEM].Numframes - 1)
                     {
-                        lemming[actLEM].Dead = true;
-                        lemming[actLEM].Explode = false;
-                        lemming[actLEM].Exploser = false;
+                        Lemming[actLEM].Dead = true;
+                        Lemming[actLEM].Explode = false;
+                        Lemming[actLEM].Exploser = false;
                         numlemnow--;
                         numSaved++;  // here is where the lemming go inside after door animation
                     }
@@ -1139,25 +1139,25 @@ namespace Lemmings.NET.Screens
                 }
                 int arriba = 0;
                 _below = 0;
-                int pixx = lemming[actLEM].PosX + medx;
+                int pixx = Lemming[actLEM].PosX + medx;
                 for (int x55 = 0; x55 <= 8; x55++)
                 {
-                    int pos_real = lemming[actLEM].PosY + x55 + medy + medy;  ///////////// pixel por debajo -> beneath.............
-                    if (pos_real == earth.Height)
+                    int pos_real = Lemming[actLEM].PosY + x55 + medy + medy;  ///////////// pixel por debajo -> beneath.............
+                    if (pos_real == Earth.Height)
                     {
                         _below = 9;
                         break;
                     }
                     if (pos_real < 0)
                         pos_real = 0;
-                    if (pos_real > earth.Height)
+                    if (pos_real > Earth.Height)
                     {
-                        lemming[actLEM].Dead = true;
+                        Lemming[actLEM].Dead = true;
                         _below = 9;
-                        lemming[actLEM].Active = false;
+                        Lemming[actLEM].Active = false;
                         numlemnow--;
-                        lemming[actLEM].Explode = false;
-                        lemming[actLEM].Exploser = false;
+                        Lemming[actLEM].Explode = false;
+                        Lemming[actLEM].Exploser = false;
                         if (LemmingsNetGame.Instance.Sfx.Die.State == SoundState.Playing)
                         {
                             LemmingsNetGame.Instance.Sfx.Die.Stop();
@@ -1169,7 +1169,7 @@ namespace Lemmings.NET.Screens
                         catch (InstancePlayLimitException) { /* Ignore errors */ }
                         break;
                     }
-                    if (C25[(pos_real * earth.Width) + pixx].R == 0 && C25[(pos_real * earth.Width) + pixx].G == 0 && C25[(pos_real * earth.Width) + pixx].B == 0)
+                    if (C25[(pos_real * Earth.Width) + pixx].R == 0 && C25[(pos_real * Earth.Width) + pixx].G == 0 && C25[(pos_real * Earth.Width) + pixx].B == 0)
                     {
                         _below++;
                     }
@@ -1179,41 +1179,41 @@ namespace Lemmings.NET.Screens
                     }
                 }
                 // very important to check digger and miner before change to falling
-                if (lemming[actLEM].Pixelscaida > useumbrella && !lemming[actLEM].Falling && lemming[actLEM].Umbrella
-                    && (!lemming[actLEM].Digger && !lemming[actLEM].Miner && !lemming[actLEM].Builder) && lemming[actLEM].Active)
+                if (Lemming[actLEM].Pixelscaida > useumbrella && !Lemming[actLEM].Falling && Lemming[actLEM].Umbrella
+                    && (!Lemming[actLEM].Digger && !Lemming[actLEM].Miner && !Lemming[actLEM].Builder) && Lemming[actLEM].Active)
                 {
-                    lemming[actLEM].Pixelscaida = 11;
-                    lemming[actLEM].Falling = true;
-                    lemming[actLEM].Fall = false;
-                    lemming[actLEM].Actualframe = 0;
-                    lemming[actLEM].Numframes = SizeSprites.floater_frames;
+                    Lemming[actLEM].Pixelscaida = 11;
+                    Lemming[actLEM].Falling = true;
+                    Lemming[actLEM].Fall = false;
+                    Lemming[actLEM].Actualframe = 0;
+                    Lemming[actLEM].Numframes = SizeSprites.floater_frames;
                 }
-                if ((_below > 8 && !lemming[actLEM].Fall && (!lemming[actLEM].Digger || !lemming[actLEM].Miner)) && !lemming[actLEM].Falling
-                    && !lemming[actLEM].Explode && lemming[actLEM].Active)
+                if ((_below > 8 && !Lemming[actLEM].Fall && (!Lemming[actLEM].Digger || !Lemming[actLEM].Miner)) && !Lemming[actLEM].Falling
+                    && !Lemming[actLEM].Explode && Lemming[actLEM].Active)
                 {
-                    lemming[actLEM].Fall = true;
-                    lemming[actLEM].Pixelscaida = 0;
-                    lemming[actLEM].Climbing = false;
-                    lemming[actLEM].Walker = false;
-                    lemming[actLEM].Actualframe = 0;
-                    lemming[actLEM].Numframes = SizeSprites.faller_frames;
-                    lemming[actLEM].Basher = false;
-                    lemming[actLEM].Builder = false;
-                    lemming[actLEM].Bridge = false;
-                    lemming[actLEM].Miner = false;
+                    Lemming[actLEM].Fall = true;
+                    Lemming[actLEM].Pixelscaida = 0;
+                    Lemming[actLEM].Climbing = false;
+                    Lemming[actLEM].Walker = false;
+                    Lemming[actLEM].Actualframe = 0;
+                    Lemming[actLEM].Numframes = SizeSprites.faller_frames;
+                    Lemming[actLEM].Basher = false;
+                    Lemming[actLEM].Builder = false;
+                    Lemming[actLEM].Bridge = false;
+                    Lemming[actLEM].Miner = false;
                     continue; // lemming fall when there's no floor on feet and fall down
                 }
-                if ((_below == 0) && (lemming[actLEM].Fall || lemming[actLEM].Falling) && (!lemming[actLEM].Digger && !lemming[actLEM].Miner)) //OJO LOCO A VECES AL CAVAR Y SIGUE WALKER
+                if ((_below == 0) && (Lemming[actLEM].Fall || Lemming[actLEM].Falling) && (!Lemming[actLEM].Digger && !Lemming[actLEM].Miner)) //OJO LOCO A VECES AL CAVAR Y SIGUE WALKER
                 {
-                    if (lemming[actLEM].Pixelscaida <= maxnumberfalling)
+                    if (Lemming[actLEM].Pixelscaida <= maxnumberfalling)
                     {
-                        lemming[actLEM].Pixelscaida = 0;
-                        lemming[actLEM].Framescut = false;
-                        lemming[actLEM].Falling = false;
-                        lemming[actLEM].Walker = true;
-                        lemming[actLEM].Fall = false;
-                        lemming[actLEM].Actualframe = 0;
-                        lemming[actLEM].Numframes = SizeSprites.walker_frames;  //8 walker;4 fall;16 digger;breakfloor 16;escala ...
+                        Lemming[actLEM].Pixelscaida = 0;
+                        Lemming[actLEM].Framescut = false;
+                        Lemming[actLEM].Falling = false;
+                        Lemming[actLEM].Walker = true;
+                        Lemming[actLEM].Fall = false;
+                        Lemming[actLEM].Actualframe = 0;
+                        Lemming[actLEM].Numframes = SizeSprites.walker_frames;  //8 walker;4 fall;16 digger;breakfloor 16;escala ...
                     }
                     else
                     {
@@ -1226,34 +1226,34 @@ namespace Lemmings.NET.Screens
                             LemmingsNetGame.Instance.Sfx.Splat.Play();
                         }
                         catch (InstancePlayLimitException) { /* Ignore errors */ }
-                        lemming[actLEM].Fall = false;
-                        lemming[actLEM].Walker = false;
-                        lemming[actLEM].Falling = false;
-                        lemming[actLEM].Explode = false;
-                        lemming[actLEM].Exploser = false;
-                        lemming[actLEM].Active = false;
-                        lemming[actLEM].Breakfloor = true;
-                        lemming[actLEM].Umbrella = false;
-                        lemming[actLEM].Numframes = SizeSprites.floor_frames;
-                        lemming[actLEM].Actualframe = 0;
+                        Lemming[actLEM].Fall = false;
+                        Lemming[actLEM].Walker = false;
+                        Lemming[actLEM].Falling = false;
+                        Lemming[actLEM].Explode = false;
+                        Lemming[actLEM].Exploser = false;
+                        Lemming[actLEM].Active = false;
+                        Lemming[actLEM].Breakfloor = true;
+                        Lemming[actLEM].Umbrella = false;
+                        Lemming[actLEM].Numframes = SizeSprites.floor_frames;
+                        Lemming[actLEM].Actualframe = 0;
                         continue;
                     }
                 }
-                if ((_below == 0) && lemming[actLEM].Walker && (!lemming[actLEM].Digger && !lemming[actLEM].Miner))
+                if ((_below == 0) && Lemming[actLEM].Walker && (!Lemming[actLEM].Digger && !Lemming[actLEM].Miner))
                 {
-                    lemming[actLEM].Pixelscaida = 0;
+                    Lemming[actLEM].Pixelscaida = 0;
                 }
                 for (int x55 = 0; x55 <= 20; x55++)
                 {
-                    int pos_real = lemming[actLEM].PosY + medy + medy - x55;
-                    if (pos_real == earth.Height)    // rompe los calculos si sale de la pantalla o se cuelga AARRIBBBAAAA
+                    int pos_real = Lemming[actLEM].PosY + medy + medy - x55;
+                    if (pos_real == Earth.Height)    // rompe los calculos si sale de la pantalla o se cuelga AARRIBBBAAAA
                     {
-                        lemming[actLEM].Active = false;
+                        Lemming[actLEM].Active = false;
                         break;
                     }
-                    if (pos_real < earth.Height && pos_real > 0)
+                    if (pos_real < Earth.Height && pos_real > 0)
                     {
-                        if (C25[(pos_real * earth.Width) + pixx].R > 0 || C25[(pos_real * earth.Width) + pixx].G > 0 || C25[(pos_real * earth.Width) + pixx].B > 0)
+                        if (C25[(pos_real * Earth.Width) + pixx].R > 0 || C25[(pos_real * Earth.Width) + pixx].G > 0 || C25[(pos_real * Earth.Width) + pixx].B > 0)
                         {
                             arriba++;
                         }
@@ -1263,32 +1263,32 @@ namespace Lemmings.NET.Screens
                         }
                     }
                 }
-                if (lemming[actLEM].Blocker && _below > 2)
+                if (Lemming[actLEM].Blocker && _below > 2)
                 {
-                    lemming[actLEM].Blocker = false;
-                    lemming[actLEM].Fall = true;
-                    lemming[actLEM].Pixelscaida = 0;
-                    lemming[actLEM].Actualframe = 0;
-                    lemming[actLEM].Numframes = SizeSprites.faller_frames;
+                    Lemming[actLEM].Blocker = false;
+                    Lemming[actLEM].Fall = true;
+                    Lemming[actLEM].Pixelscaida = 0;
+                    Lemming[actLEM].Actualframe = 0;
+                    Lemming[actLEM].Numframes = SizeSprites.faller_frames;
                     continue;
                 }
-                if (lemming[actLEM].Miner && draw2 && lemming[actLEM].Actualframe == 42)  // miner logic pico logic
+                if (Lemming[actLEM].Miner && Draw2 && Lemming[actLEM].Actualframe == 42)  // miner logic pico logic
                 {
                     if (ArrowsON) // miner arrows logic areaTrap Intersects
                     {
                         bool nominer = false;
-                        arrowLem.X = lemming[actLEM].PosX;
-                        arrowLem.Y = lemming[actLEM].PosY;
+                        arrowLem.X = Lemming[actLEM].PosX;
+                        arrowLem.Y = Lemming[actLEM].PosY;
                         arrowLem.Width = 28;
                         arrowLem.Height = 28;
                         for (int wer3 = 0; wer3 < NumTotArrow; wer3++)
                         {
-                            if (arrow[wer3].area.Intersects(arrowLem) && lemming[actLEM].Right && !arrow[wer3].right)
+                            if (arrow[wer3].area.Intersects(arrowLem) && Lemming[actLEM].Right && !arrow[wer3].right)
                             {
                                 nominer = true;
                                 continue;
                             }
-                            if (arrow[wer3].area.Intersects(arrowLem) && lemming[actLEM].Left && arrow[wer3].right)
+                            if (arrow[wer3].area.Intersects(arrowLem) && Lemming[actLEM].Left && arrow[wer3].right)
                             {
                                 nominer = true;
                             }
@@ -1300,19 +1300,19 @@ namespace Lemmings.NET.Screens
                                 LemmingsNetGame.Instance.Sfx.Ting.Stop();
                             }
                             LemmingsNetGame.Instance.Sfx.Ting.Play();
-                            lemming[actLEM].Miner = false;
-                            lemming[actLEM].Walker = true;
-                            lemming[actLEM].Actualframe = 0;
-                            lemming[actLEM].Numframes = SizeSprites.walker_frames;
+                            Lemming[actLEM].Miner = false;
+                            Lemming[actLEM].Walker = true;
+                            Lemming[actLEM].Actualframe = 0;
+                            Lemming[actLEM].Numframes = SizeSprites.walker_frames;
                             continue;
                         }
                     }
-                    if (lemming[actLEM].Right)
+                    if (Lemming[actLEM].Right)
                     {
                         int width2 = 20;
                         int top2 = 20;
-                        int px = lemming[actLEM].PosX + 12;
-                        int py = lemming[actLEM].PosY + 14;
+                        int px = Lemming[actLEM].PosX + 12;
+                        int py = Lemming[actLEM].PosY + 14;
                         if (py < 0) // top of the level
                         {
                             py = 0;
@@ -1321,20 +1321,20 @@ namespace Lemmings.NET.Screens
                         {
                             px = 0;
                         }
-                        if (px + width2 >= earth.Width)
+                        if (px + width2 >= Earth.Width)
                         {
-                            width2 = earth.Width - px;
+                            width2 = Earth.Width - px;
                         }
-                        if (py + top2 >= earth.Height)
+                        if (py + top2 >= Earth.Height)
                         {
-                            top2 = earth.Height - py;
+                            top2 = Earth.Height - py;
                         }
                         LemmingsNetGame.Instance.Gfx.Mascarapared.GetData(Colormask2);
                         //////// optimized for hd3000 laptop ARROWS OPTIMIZED
                         int amount = 0;
                         for (int yy88 = 0; yy88 < top2; yy88++)
                         {
-                            int yypos888 = (yy88 + py) * earth.Width;
+                            int yypos888 = (yy88 + py) * Earth.Width;
                             for (int xx88 = 0; xx88 < width2; xx88++)
                             {
                                 Colorsobre2[amount].PackedValue = C25[yypos888 + px + xx88].PackedValue;
@@ -1359,10 +1359,10 @@ namespace Lemmings.NET.Screens
                                 }
                                 if (sx == -777)
                                 {
-                                    lemming[actLEM].Walker = true;
-                                    lemming[actLEM].Numframes = SizeSprites.walker_frames;
-                                    lemming[actLEM].Actualframe = 0;
-                                    lemming[actLEM].Miner = false;
+                                    Lemming[actLEM].Walker = true;
+                                    Lemming[actLEM].Numframes = SizeSprites.walker_frames;
+                                    Lemming[actLEM].Actualframe = 0;
+                                    Lemming[actLEM].Miner = false;
                                     break;
                                 }
                             }
@@ -1379,12 +1379,12 @@ namespace Lemmings.NET.Screens
                         rectangleFill.Y = py;
                         rectangleFill.Width = width2;
                         rectangleFill.Height = top2;
-                        earth.SetData(0, rectangleFill, Colorsobre2, 0, amount);
+                        Earth.SetData(0, rectangleFill, Colorsobre2, 0, amount);
                         // this code update c25 rectangle px-py-ancho66-alto66 only not all like before
                         amount = 0;
                         for (int yy33 = 0; yy33 < top2; yy33++)
                         {
-                            int yypos555 = (yy33 + py) * earth.Width;
+                            int yypos555 = (yy33 + py) * Earth.Width;
                             for (int xx33 = 0; xx33 < width2; xx33++)
                             {
                                 C25[yypos555 + px + xx33].PackedValue = Colorsobre2[amount].PackedValue;
@@ -1393,14 +1393,14 @@ namespace Lemmings.NET.Screens
                         }
                         if (sx == -777)
                             continue;
-                        lemming[actLEM].PosX += 12;
-                        lemming[actLEM].PosY++;
+                        Lemming[actLEM].PosX += 12;
+                        Lemming[actLEM].PosY++;
                         if (Frente2 == 0)
                         {
-                            lemming[actLEM].Miner = false;
-                            lemming[actLEM].Walker = true;
-                            lemming[actLEM].Actualframe = 0;
-                            lemming[actLEM].Numframes = SizeSprites.walker_frames;
+                            Lemming[actLEM].Miner = false;
+                            Lemming[actLEM].Walker = true;
+                            Lemming[actLEM].Actualframe = 0;
+                            Lemming[actLEM].Numframes = SizeSprites.walker_frames;
                             continue;
                         }
                     }
@@ -1408,12 +1408,12 @@ namespace Lemmings.NET.Screens
                     {
                         int width2 = 20;
                         int top2 = 20;
-                        int px = lemming[actLEM].PosX - 4;
+                        int px = Lemming[actLEM].PosX - 4;
                         if (px < 0)
                         {
                             px = 0;
                         }
-                        int py = lemming[actLEM].PosY + 14;
+                        int py = Lemming[actLEM].PosY + 14;
                         if (py < 0) // top of the level
                         {
                             py = 0;
@@ -1422,20 +1422,20 @@ namespace Lemmings.NET.Screens
                         {
                             px = 0;
                         }
-                        if (px + width2 >= earth.Width)
+                        if (px + width2 >= Earth.Width)
                         {
-                            width2 = earth.Width - px;
+                            width2 = Earth.Width - px;
                         }
-                        if (py + top2 >= earth.Height)
+                        if (py + top2 >= Earth.Height)
                         {
-                            top2 = earth.Height - py;
+                            top2 = Earth.Height - py;
                         }
                         LemmingsNetGame.Instance.Gfx.Mascarapared.GetData(Colormask2);
                         //////// optimized for hd3000 laptop ARROWS OPTIMIZED
                         int amount = 0;
                         for (int yy88 = 0; yy88 < top2; yy88++)
                         {
-                            int yypos888 = (yy88 + py) * earth.Width;
+                            int yypos888 = (yy88 + py) * Earth.Width;
                             for (int xx88 = 0; xx88 < width2; xx88++)
                             {
                                 Colorsobre2[amount].PackedValue = C25[yypos888 + px + xx88].PackedValue;
@@ -1460,10 +1460,10 @@ namespace Lemmings.NET.Screens
                                 }
                                 if (sx == -777)
                                 {
-                                    lemming[actLEM].Walker = true;
-                                    lemming[actLEM].Numframes = SizeSprites.walker_frames;
-                                    lemming[actLEM].Actualframe = 0;
-                                    lemming[actLEM].Miner = false;
+                                    Lemming[actLEM].Walker = true;
+                                    Lemming[actLEM].Numframes = SizeSprites.walker_frames;
+                                    Lemming[actLEM].Actualframe = 0;
+                                    Lemming[actLEM].Miner = false;
                                     break;
                                 }
                             }
@@ -1480,12 +1480,12 @@ namespace Lemmings.NET.Screens
                         rectangleFill.Y = py;
                         rectangleFill.Width = width2;
                         rectangleFill.Height = top2;
-                        earth.SetData(0, rectangleFill, Colorsobre2, 0, amount);
+                        Earth.SetData(0, rectangleFill, Colorsobre2, 0, amount);
                         // this code update c25 rectangle px-py-ancho66-alto66 only not all like before
                         amount = 0;
                         for (int yy33 = 0; yy33 < top2; yy33++)
                         {
-                            int yypos555 = (yy33 + py) * earth.Width;
+                            int yypos555 = (yy33 + py) * Earth.Width;
                             for (int xx33 = 0; xx33 < width2; xx33++)
                             {
                                 C25[yypos555 + px + xx33].PackedValue = Colorsobre2[amount].PackedValue;
@@ -1494,37 +1494,37 @@ namespace Lemmings.NET.Screens
                         }
                         if (sx == -777)
                             continue;
-                        lemming[actLEM].PosX -= 12;
-                        lemming[actLEM].PosY++;
+                        Lemming[actLEM].PosX -= 12;
+                        Lemming[actLEM].PosY++;
                         if (Frente2 == 0)
                         {
-                            lemming[actLEM].Basher = false;
-                            lemming[actLEM].Walker = true;
-                            lemming[actLEM].Actualframe = 0;
-                            lemming[actLEM].Numframes = SizeSprites.walker_frames;
+                            Lemming[actLEM].Basher = false;
+                            Lemming[actLEM].Walker = true;
+                            Lemming[actLEM].Actualframe = 0;
+                            Lemming[actLEM].Numframes = SizeSprites.walker_frames;
                             continue;
                         }
                     }
                     Frente2 = 0;  /////// PPPPPPPPIIIIIIIIIICCCCCCCCCCCCCCCCCOOOOOOOOOOOOOOOOOOO  BASHER LOGIC puto33
                 }
 
-                if (lemming[actLEM].Basher && (lemming[actLEM].Actualframe == 10 || lemming[actLEM].Actualframe == 37) && draw2)
+                if (Lemming[actLEM].Basher && (Lemming[actLEM].Actualframe == 10 || Lemming[actLEM].Actualframe == 37) && Draw2)
                 {
                     if (ArrowsON) // basher arrows logic areaTrap Intersects
                     {
                         bool nobasher = false;
-                        arrowLem.X = lemming[actLEM].PosX;
-                        arrowLem.Y = lemming[actLEM].PosY;
+                        arrowLem.X = Lemming[actLEM].PosX;
+                        arrowLem.Y = Lemming[actLEM].PosY;
                         arrowLem.Width = 28;
                         arrowLem.Height = 28;
                         for (int wer3 = 0; wer3 < NumTotArrow; wer3++)
                         {
-                            if (arrow[wer3].area.Intersects(arrowLem) && lemming[actLEM].Right && !arrow[wer3].right)
+                            if (arrow[wer3].area.Intersects(arrowLem) && Lemming[actLEM].Right && !arrow[wer3].right)
                             {
                                 nobasher = true;
                                 continue;
                             }
-                            if (arrow[wer3].area.Intersects(arrowLem) && lemming[actLEM].Left && arrow[wer3].right)
+                            if (arrow[wer3].area.Intersects(arrowLem) && Lemming[actLEM].Left && arrow[wer3].right)
                             {
                                 nobasher = true;
                             }
@@ -1536,19 +1536,19 @@ namespace Lemmings.NET.Screens
                                 LemmingsNetGame.Instance.Sfx.Ting.Stop();
                             }
                             LemmingsNetGame.Instance.Sfx.Ting.Play();
-                            lemming[actLEM].Basher = false;
-                            lemming[actLEM].Walker = true;
-                            lemming[actLEM].Actualframe = 0;
-                            lemming[actLEM].Numframes = SizeSprites.walker_frames;
+                            Lemming[actLEM].Basher = false;
+                            Lemming[actLEM].Walker = true;
+                            Lemming[actLEM].Actualframe = 0;
+                            Lemming[actLEM].Numframes = SizeSprites.walker_frames;
                             continue;
                         }
                     }
-                    if (lemming[actLEM].Right)
+                    if (Lemming[actLEM].Right)
                     {
                         int width2 = 20;
                         int top2 = 20;
-                        int px = lemming[actLEM].PosX + 14;
-                        int py = lemming[actLEM].PosY + 8;
+                        int px = Lemming[actLEM].PosX + 14;
+                        int py = Lemming[actLEM].PosY + 8;
                         if (py < 0) // top of the level
                         {
                             py = 0;
@@ -1557,20 +1557,20 @@ namespace Lemmings.NET.Screens
                         {
                             px = 0;
                         }
-                        if (px + width2 >= earth.Width)
+                        if (px + width2 >= Earth.Width)
                         {
-                            width2 = earth.Width - px;
+                            width2 = Earth.Width - px;
                         }
-                        if (py + top2 >= earth.Height)
+                        if (py + top2 >= Earth.Height)
                         {
-                            top2 = earth.Height - py;
+                            top2 = Earth.Height - py;
                         }
                         LemmingsNetGame.Instance.Gfx.Mascarapared.GetData(Colormask2);
                         //////// optimized for hd3000 laptop
                         int amount = 0;
                         for (int yy88 = 0; yy88 < top2; yy88++)
                         {
-                            int yypos888 = (yy88 + py) * earth.Width;
+                            int yypos888 = (yy88 + py) * Earth.Width;
                             for (int xx88 = 0; xx88 < width2; xx88++)
                             {
                                 Colorsobre2[amount].PackedValue = C25[yypos888 + px + xx88].PackedValue;
@@ -1600,10 +1600,10 @@ namespace Lemmings.NET.Screens
                                     }
                                     if (sx == -777)
                                     {
-                                        lemming[actLEM].Walker = true;
-                                        lemming[actLEM].Numframes = SizeSprites.walker_frames;
-                                        lemming[actLEM].Actualframe = 0;
-                                        lemming[actLEM].Basher = false;
+                                        Lemming[actLEM].Walker = true;
+                                        Lemming[actLEM].Numframes = SizeSprites.walker_frames;
+                                        Lemming[actLEM].Actualframe = 0;
+                                        Lemming[actLEM].Basher = false;
                                         break;
                                     }
                                 }
@@ -1631,12 +1631,12 @@ namespace Lemmings.NET.Screens
                         rectangleFill.Y = py;
                         rectangleFill.Width = width2;
                         rectangleFill.Height = top2;
-                        earth.SetData(0, rectangleFill, Colorsobre2, 0, amount);
+                        Earth.SetData(0, rectangleFill, Colorsobre2, 0, amount);
                         // this code update c25 rectangle px-py-ancho66-alto66 only not all like before
                         amount = 0;
                         for (int yy33 = 0; yy33 < top2; yy33++)
                         {
-                            int yypos555 = (yy33 + py) * earth.Width;
+                            int yypos555 = (yy33 + py) * Earth.Width;
                             for (int xx33 = 0; xx33 < width2; xx33++)
                             {
                                 C25[yypos555 + px + xx33].PackedValue = Colorsobre2[amount].PackedValue;
@@ -1646,13 +1646,13 @@ namespace Lemmings.NET.Screens
                         if (sx == -777)
                             continue;
                         if (xEmpty < xErase)
-                            lemming[actLEM].PosX += 14;
+                            Lemming[actLEM].PosX += 14;
                         if (xEmpty > xErase || xErase == 21)
                         {
-                            lemming[actLEM].Basher = false;
-                            lemming[actLEM].Walker = true;
-                            lemming[actLEM].Actualframe = 0;
-                            lemming[actLEM].Numframes = SizeSprites.walker_frames;
+                            Lemming[actLEM].Basher = false;
+                            Lemming[actLEM].Walker = true;
+                            Lemming[actLEM].Actualframe = 0;
+                            Lemming[actLEM].Numframes = SizeSprites.walker_frames;
                             continue;
                         }
                     }
@@ -1660,12 +1660,12 @@ namespace Lemmings.NET.Screens
                     {
                         int width2 = 20;
                         int top2 = 20;
-                        int px = lemming[actLEM].PosX - 5;
+                        int px = Lemming[actLEM].PosX - 5;
                         if (px < 0)
                         {
                             px = 0;
                         }
-                        int py = lemming[actLEM].PosY + 8;
+                        int py = Lemming[actLEM].PosY + 8;
                         if (py < 0) // top of the level
                         {
                             py = 0;
@@ -1674,18 +1674,18 @@ namespace Lemmings.NET.Screens
                         {
                             px = 0;
                         }
-                        if (px + width2 >= earth.Width)
+                        if (px + width2 >= Earth.Width)
                         {
-                            width2 = earth.Width - px;
+                            width2 = Earth.Width - px;
                         }
-                        if (py + top2 >= earth.Height)
+                        if (py + top2 >= Earth.Height)
                         {
-                            top2 = earth.Height - py;
+                            top2 = Earth.Height - py;
                         }
                         int amount = 0;
                         for (int yy88 = 0; yy88 < top2; yy88++)
                         {
-                            int yypos888 = (yy88 + py) * earth.Width;
+                            int yypos888 = (yy88 + py) * Earth.Width;
                             for (int xx88 = 0; xx88 < width2; xx88++)
                             {
                                 Colorsobre2[amount].PackedValue = C25[yypos888 + px + xx88].PackedValue;
@@ -1715,10 +1715,10 @@ namespace Lemmings.NET.Screens
                                     }
                                     if (sx == -777)
                                     {
-                                        lemming[actLEM].Walker = true;
-                                        lemming[actLEM].Numframes = SizeSprites.walker_frames;
-                                        lemming[actLEM].Actualframe = 0;
-                                        lemming[actLEM].Basher = false;
+                                        Lemming[actLEM].Walker = true;
+                                        Lemming[actLEM].Numframes = SizeSprites.walker_frames;
+                                        Lemming[actLEM].Actualframe = 0;
+                                        Lemming[actLEM].Basher = false;
                                         break;
                                     }
                                 }
@@ -1746,12 +1746,12 @@ namespace Lemmings.NET.Screens
                         rectangleFill.Y = py;
                         rectangleFill.Width = width2;
                         rectangleFill.Height = top2;
-                        earth.SetData(0, rectangleFill, Colorsobre2, 0, amount);
+                        Earth.SetData(0, rectangleFill, Colorsobre2, 0, amount);
                         // this code update c25 rectangle px-py-ancho66-alto66 only not all like before
                         amount = 0;
                         for (int yy33 = 0; yy33 < top2; yy33++)
                         {
-                            int yypos555 = (yy33 + py) * earth.Width;
+                            int yypos555 = (yy33 + py) * Earth.Width;
                             for (int xx33 = 0; xx33 < width2; xx33++)
                             {
                                 C25[yypos555 + px + xx33].PackedValue = Colorsobre2[amount].PackedValue;
@@ -1761,68 +1761,68 @@ namespace Lemmings.NET.Screens
                         if (sx == -777)
                             continue;
                         if (xEmpty > xErase)
-                            lemming[actLEM].PosX -= 14;
+                            Lemming[actLEM].PosX -= 14;
                         if (xEmpty < xErase || xEmpty == 1) // xerase==20 nothing erases
                         {
-                            lemming[actLEM].Basher = false;
-                            lemming[actLEM].Walker = true;
-                            lemming[actLEM].Actualframe = 0;
-                            lemming[actLEM].Numframes = SizeSprites.walker_frames;
+                            Lemming[actLEM].Basher = false;
+                            Lemming[actLEM].Walker = true;
+                            Lemming[actLEM].Actualframe = 0;
+                            Lemming[actLEM].Numframes = SizeSprites.walker_frames;
                             continue;
                         }
                     }
                     Frente2 = 0;
                     ////////////////////////////////////////////////////////////////////// PPPPPPPPPAAAAAAARRRRRRRRRRRRRRRREEEEEEEDDDDDDDDD
                 }
-                if (lemming[actLEM].Basher && _below > 3)
+                if (Lemming[actLEM].Basher && _below > 3)
                 {
-                    lemming[actLEM].Basher = false;
-                    lemming[actLEM].Walker = true;
-                    lemming[actLEM].Actualframe = 0;
-                    lemming[actLEM].Numframes = SizeSprites.walker_frames;
+                    Lemming[actLEM].Basher = false;
+                    Lemming[actLEM].Walker = true;
+                    Lemming[actLEM].Actualframe = 0;
+                    Lemming[actLEM].Numframes = SizeSprites.walker_frames;
                     continue;
                 }
-                if (lemming[actLEM].Builder && draw_builder) // BUILDER LOGIC HERE chink sound see limits tooo FIX FIX FIX
+                if (Lemming[actLEM].Builder && draw_builder) // BUILDER LOGIC HERE chink sound see limits tooo FIX FIX FIX
                 {
-                    if (lemming[actLEM].Actualframe >= 48 && lemming[actLEM].Numstairs < 12) // >=33 old with dibuja2
+                    if (Lemming[actLEM].Actualframe >= 48 && Lemming[actLEM].Numstairs < 12) // >=33 old with dibuja2
                     // i need to cut on frame 33 of 56 because speed problems timings and x & y axis, see later to fix speed making stairs and fix positioning for get real 56 frames
                     {
                         Frente = 0;
-                        lemming[actLEM].Actualframe = SizeSprites.builder_frames + 1;  // erase with // no compiling//  to see full frames
-                        if (lemming[actLEM].Right)
+                        Lemming[actLEM].Actualframe = SizeSprites.builder_frames + 1;  // erase with // no compiling//  to see full frames
+                        if (Lemming[actLEM].Right)
                         {
                             if (arriba > 1)
                             {
-                                lemming[actLEM].PosY += 6;
-                                lemming[actLEM].PosX -= 14;
-                                lemming[actLEM].Builder = false;
-                                lemming[actLEM].Walker = true;
-                                lemming[actLEM].Actualframe = 0;
-                                lemming[actLEM].Numframes = SizeSprites.walker_frames;
-                                lemming[actLEM].Numstairs = 0;
-                                lemming[actLEM].Right = false;
+                                Lemming[actLEM].PosY += 6;
+                                Lemming[actLEM].PosX -= 14;
+                                Lemming[actLEM].Builder = false;
+                                Lemming[actLEM].Walker = true;
+                                Lemming[actLEM].Actualframe = 0;
+                                Lemming[actLEM].Numframes = SizeSprites.walker_frames;
+                                Lemming[actLEM].Numstairs = 0;
+                                Lemming[actLEM].Right = false;
                                 continue;
                             }
-                            if (lemming[actLEM].PosY < -24) //see ok was -24 but sometimes fails the u-turn
+                            if (Lemming[actLEM].PosY < -24) //see ok was -24 but sometimes fails the u-turn
                             {
-                                lemming[actLEM].Builder = false;
-                                lemming[actLEM].Walker = true;
-                                lemming[actLEM].Actualframe = 0;
-                                lemming[actLEM].Numframes = SizeSprites.walker_frames;
-                                lemming[actLEM].PosY += 3;
-                                lemming[actLEM].PosX -= 6;
+                                Lemming[actLEM].Builder = false;
+                                Lemming[actLEM].Walker = true;
+                                Lemming[actLEM].Actualframe = 0;
+                                Lemming[actLEM].Numframes = SizeSprites.walker_frames;
+                                Lemming[actLEM].PosY += 3;
+                                Lemming[actLEM].PosX -= 6;
                                 continue;
                             }
                             for (int y = 1; y <= 3; y++)  // 14 es la posicion de los pies del lemming[i].posy porque tiene 28 pixels de alto 28/2=14
                             {
-                                int posi_real = (lemming[actLEM].PosY + 24 + y) * earth.Width + lemming[actLEM].PosX;
+                                int posi_real = (Lemming[actLEM].PosY + 24 + y) * Earth.Width + Lemming[actLEM].PosX;
                                 for (int xx88 = 14; xx88 <= 28; xx88++)
                                 {
                                     if (C25[posi_real + xx88].R == 0 && C25[posi_real + xx88].G == 0 && C25[posi_real + xx88].B == 0)
                                     {
-                                        colorFill.R = Convert.ToByte(255 - (lemming[actLEM].Numstairs * 5));
+                                        colorFill.R = Convert.ToByte(255 - (Lemming[actLEM].Numstairs * 5));
                                         colorFill.G = 0;
-                                        colorFill.B = Convert.ToByte(255 - (lemming[actLEM].Numstairs * 10));
+                                        colorFill.B = Convert.ToByte(255 - (Lemming[actLEM].Numstairs * 10));
                                         colorFill.A = 255;
                                         C25[posi_real + xx88] = colorFill;
                                     } //steps color stairs
@@ -1833,10 +1833,10 @@ namespace Lemmings.NET.Screens
                                     }
                                 }
                             }
-                            lemming[actLEM].Numstairs++;
-                            lemming[actLEM].PosY -= 3;
-                            lemming[actLEM].PosX += 6;
-                            if (lemming[actLEM].Numstairs >= 10)
+                            Lemming[actLEM].Numstairs++;
+                            Lemming[actLEM].PosY -= 3;
+                            Lemming[actLEM].PosX += 6;
+                            if (Lemming[actLEM].Numstairs >= 10)
                             {
                                 if (LemmingsNetGame.Instance.Sfx.Chink.State == SoundState.Playing)
                                 {
@@ -1847,27 +1847,27 @@ namespace Lemmings.NET.Screens
                             int amount = 0;
                             for (int ykk = 27; ykk < 31; ykk++)
                             {
-                                int posi_real = (lemming[actLEM].PosY + ykk) * earth.Width + lemming[actLEM].PosX;
+                                int posi_real = (Lemming[actLEM].PosY + ykk) * Earth.Width + Lemming[actLEM].PosX;
                                 for (int xkk = 0; xkk < 28; xkk++)
                                 {
                                     Colormask22[amount] = C25[posi_real + xkk];
                                     amount++;
                                 }
                             }
-                            rectangleFill.X = lemming[actLEM].PosX;
-                            rectangleFill.Y = lemming[actLEM].PosY + 27;
+                            rectangleFill.X = Lemming[actLEM].PosX;
+                            rectangleFill.Y = Lemming[actLEM].PosY + 27;
                             rectangleFill.Width = 28;
                             rectangleFill.Height = 4;
-                            earth.SetData(0, rectangleFill, Colormask22, 0, 28 * 4);
+                            Earth.SetData(0, rectangleFill, Colormask22, 0, 28 * 4);
                             if (Frente == 3)
                             {
-                                lemming[actLEM].Builder = false;
-                                lemming[actLEM].Walker = true;
-                                lemming[actLEM].Actualframe = 0;
-                                lemming[actLEM].Numframes = SizeSprites.walker_frames;
-                                lemming[actLEM].Numstairs = 0;
-                                lemming[actLEM].PosX -= 7;
-                                lemming[actLEM].Right = false;
+                                Lemming[actLEM].Builder = false;
+                                Lemming[actLEM].Walker = true;
+                                Lemming[actLEM].Actualframe = 0;
+                                Lemming[actLEM].Numframes = SizeSprites.walker_frames;
+                                Lemming[actLEM].Numstairs = 0;
+                                Lemming[actLEM].PosX -= 7;
+                                Lemming[actLEM].Right = false;
                             }
                             continue;
                         }
@@ -1875,37 +1875,37 @@ namespace Lemmings.NET.Screens
                         {
                             if (arriba > 1)
                             {
-                                lemming[actLEM].PosY += 6;
-                                lemming[actLEM].PosX += 15;
-                                lemming[actLEM].Builder = false;
-                                lemming[actLEM].Walker = true;
-                                lemming[actLEM].Actualframe = 0;
-                                lemming[actLEM].Numframes = SizeSprites.walker_frames;
-                                lemming[actLEM].Numstairs = 0;
-                                lemming[actLEM].Right = true;
+                                Lemming[actLEM].PosY += 6;
+                                Lemming[actLEM].PosX += 15;
+                                Lemming[actLEM].Builder = false;
+                                Lemming[actLEM].Walker = true;
+                                Lemming[actLEM].Actualframe = 0;
+                                Lemming[actLEM].Numframes = SizeSprites.walker_frames;
+                                Lemming[actLEM].Numstairs = 0;
+                                Lemming[actLEM].Right = true;
                                 continue;
 
                             }
-                            if (lemming[actLEM].PosY < -24) //see ok was -24
+                            if (Lemming[actLEM].PosY < -24) //see ok was -24
                             {
-                                lemming[actLEM].Builder = false;
-                                lemming[actLEM].Walker = true;
-                                lemming[actLEM].Actualframe = 0;
-                                lemming[actLEM].Numframes = SizeSprites.walker_frames;
-                                lemming[actLEM].PosY += 3;
-                                lemming[actLEM].PosX += 6;
+                                Lemming[actLEM].Builder = false;
+                                Lemming[actLEM].Walker = true;
+                                Lemming[actLEM].Actualframe = 0;
+                                Lemming[actLEM].Numframes = SizeSprites.walker_frames;
+                                Lemming[actLEM].PosY += 3;
+                                Lemming[actLEM].PosX += 6;
                                 continue;
                             }
                             for (int y = 1; y <= 3; y++)  // 14 es la posicion de los pies del lemming[i].posy porque tiene 28 pixels de alto 28/2=14
                             {
-                                int posi_real = (lemming[actLEM].PosY + 24 + y) * earth.Width + lemming[actLEM].PosX;
+                                int posi_real = (Lemming[actLEM].PosY + 24 + y) * Earth.Width + Lemming[actLEM].PosX;
                                 for (int xx88 = 0; xx88 <= 14; xx88++)
                                 {
                                     if (C25[posi_real + xx88].R == 0 && C25[posi_real + xx88].G == 0 && C25[posi_real + xx88].B == 0)
                                     {
-                                        colorFill.R = Convert.ToByte(255 - (lemming[actLEM].Numstairs * 5));
+                                        colorFill.R = Convert.ToByte(255 - (Lemming[actLEM].Numstairs * 5));
                                         colorFill.G = 0;
-                                        colorFill.B = Convert.ToByte(255 - (lemming[actLEM].Numstairs * 10));
+                                        colorFill.B = Convert.ToByte(255 - (Lemming[actLEM].Numstairs * 10));
                                         colorFill.A = 255;
                                         C25[posi_real + xx88] = colorFill;
                                     }//magenta stairs
@@ -1916,10 +1916,10 @@ namespace Lemmings.NET.Screens
                                     }
                                 }
                             }
-                            lemming[actLEM].Numstairs++;
-                            lemming[actLEM].PosY -= 3;
-                            lemming[actLEM].PosX -= 6;
-                            if (lemming[actLEM].Numstairs >= 10)
+                            Lemming[actLEM].Numstairs++;
+                            Lemming[actLEM].PosY -= 3;
+                            Lemming[actLEM].PosX -= 6;
+                            if (Lemming[actLEM].Numstairs >= 10)
                             {
                                 if (LemmingsNetGame.Instance.Sfx.Chink.State == SoundState.Playing)
                                 {
@@ -1929,12 +1929,12 @@ namespace Lemmings.NET.Screens
                             }
                             //earth.SetData<Color>(c25); //OPTIMIZED BUILDER SETDATA
                             int amount = 0;
-                            int px = lemming[actLEM].PosX;
+                            int px = Lemming[actLEM].PosX;
                             if (px < 0)
                                 px = 0;
                             for (int ykk = 27; ykk < 31; ykk++)
                             {
-                                int posi_real = (lemming[actLEM].PosY + ykk) * earth.Width + px;
+                                int posi_real = (Lemming[actLEM].PosY + ykk) * Earth.Width + px;
                                 for (int xkk = 0; xkk < 28; xkk++)
                                 {
                                     Colormask22[amount] = C25[posi_real + xkk];
@@ -1942,71 +1942,71 @@ namespace Lemmings.NET.Screens
                                 }
                             }
                             rectangleFill.X = px;
-                            rectangleFill.Y = lemming[actLEM].PosY + 27;
+                            rectangleFill.Y = Lemming[actLEM].PosY + 27;
                             rectangleFill.Width = 28;
                             rectangleFill.Height = 4;
-                            earth.SetData(0, rectangleFill, Colormask22, 0, 28 * 4);
+                            Earth.SetData(0, rectangleFill, Colormask22, 0, 28 * 4);
                             if (Frente == 3)
                             {
-                                lemming[actLEM].Builder = false;
-                                lemming[actLEM].Walker = true;
-                                lemming[actLEM].Actualframe = 0;
-                                lemming[actLEM].Numframes = SizeSprites.walker_frames;
-                                lemming[actLEM].Numstairs = 0;
-                                lemming[actLEM].PosX += 8;
-                                lemming[actLEM].Right = true;
+                                Lemming[actLEM].Builder = false;
+                                Lemming[actLEM].Walker = true;
+                                Lemming[actLEM].Actualframe = 0;
+                                Lemming[actLEM].Numframes = SizeSprites.walker_frames;
+                                Lemming[actLEM].Numstairs = 0;
+                                Lemming[actLEM].PosX += 8;
+                                Lemming[actLEM].Right = true;
                             }
                             continue;
                         }
                     }
-                    if (lemming[actLEM].Numstairs >= 12 &&
-                        !lemming[actLEM].Bridge)
+                    if (Lemming[actLEM].Numstairs >= 12 &&
+                        !Lemming[actLEM].Bridge)
                     {
-                        lemming[actLEM].Builder = false;
-                        lemming[actLEM].Bridge = true;
-                        lemming[actLEM].Pixelscaida = 0;
-                        if (lemming[actLEM].Right)
+                        Lemming[actLEM].Builder = false;
+                        Lemming[actLEM].Bridge = true;
+                        Lemming[actLEM].Pixelscaida = 0;
+                        if (Lemming[actLEM].Right)
                         {
-                            lemming[actLEM].PosX -= 6;
+                            Lemming[actLEM].PosX -= 6;
                         }
                         else
                         {
-                            lemming[actLEM].PosX += 6;
+                            Lemming[actLEM].PosX += 6;
                         }
-                        lemming[actLEM].Actualframe = 0;
-                        lemming[actLEM].Numframes = SizeSprites.walker_frames;
+                        Lemming[actLEM].Actualframe = 0;
+                        Lemming[actLEM].Numframes = SizeSprites.walker_frames;
                     }
                 }
-                if (lemming[actLEM].Bridge && lemming[actLEM].Actualframe == 7 && lemming[actLEM].Bridge)
+                if (Lemming[actLEM].Bridge && Lemming[actLEM].Actualframe == 7 && Lemming[actLEM].Bridge)
                 {
-                    lemming[actLEM].Bridge = false;
-                    lemming[actLEM].Walker = true;
-                    lemming[actLEM].Actualframe = 0;
-                    lemming[actLEM].Numframes = SizeSprites.walker_frames;
-                    lemming[actLEM].Numstairs = 0;
+                    Lemming[actLEM].Bridge = false;
+                    Lemming[actLEM].Walker = true;
+                    Lemming[actLEM].Actualframe = 0;
+                    Lemming[actLEM].Numframes = SizeSprites.walker_frames;
+                    Lemming[actLEM].Numstairs = 0;
                     continue;
                 }
-                if (lemming[actLEM].Digger) ///// DIGGER DIGGER WARNING WARNING
+                if (Lemming[actLEM].Digger) ///// DIGGER DIGGER WARNING WARNING
                 {
                     if (_below == 0 || _below == 1) // 5 ok que no se aceleren a digger si hay mas de 2 juntos antes era <9 los pixeles debajo de sus pies
                     {
                         int abajo2 = 0;
-                        int pixx2 = lemming[actLEM].PosX + 14;
+                        int pixx2 = Lemming[actLEM].PosX + 14;
                         for (int xx88 = 0; xx88 <= 4; xx88++)
                         {
-                            int pos_real2 = lemming[actLEM].PosY + xx88 + 28;  ///////////// pixel por debajo.............
-                            if (pos_real2 == earth.Height)
+                            int pos_real2 = Lemming[actLEM].PosY + xx88 + 28;  ///////////// pixel por debajo.............
+                            if (pos_real2 == Earth.Height)
                             {
                                 abajo2 = 9;
                                 break;
                             }
                             if (pos_real2 < 0)
                                 pos_real2 = 0;
-                            if (pos_real2 > earth.Height)
+                            if (pos_real2 > Earth.Height)
                             {
-                                pos_real2 = earth.Height;
+                                pos_real2 = Earth.Height;
                             }
-                            if (C25[(pos_real2 * earth.Width) + pixx2].R > 0 || C25[(pos_real2 * earth.Width) + pixx2].G > 0 || C25[(pos_real2 * earth.Width) + pixx2].B > 0)
+                            if (C25[(pos_real2 * Earth.Width) + pixx2].R > 0 || C25[(pos_real2 * Earth.Width) + pixx2].G > 0 || C25[(pos_real2 * Earth.Width) + pixx2].B > 0)
                             {
                                 abajo2++;
                             }
@@ -2015,13 +2015,13 @@ namespace Lemmings.NET.Screens
                                 break;
                             }
                         }
-                        if ((lemming[actLEM].Actualframe == 11 || lemming[actLEM].Actualframe == 26) && draw_walker)
+                        if ((Lemming[actLEM].Actualframe == 11 || Lemming[actLEM].Actualframe == 26) && draw_walker)
                         {
                             sx = 0;
                             for (int y = 9; y <= 18; y++)  // 14 es la posicion de los pies del lemming[i].posy porque tiene 28 pixels de alto 28/2=14
                             {
-                                int posi_real = (lemming[actLEM].PosY + 14 + y) * earth.Width + lemming[actLEM].PosX;
-                                if (lemming[actLEM].PosY + 14 + y > earth.Height)
+                                int posi_real = (Lemming[actLEM].PosY + 14 + y) * Earth.Width + Lemming[actLEM].PosX;
+                                if (Lemming[actLEM].PosY + 14 + y > Earth.Height)
                                 {
                                     break;
                                 } // cortar si esta en el limite por debajo 512=earth.height
@@ -2029,8 +2029,8 @@ namespace Lemmings.NET.Screens
                                 {
                                     if (SteelON)
                                     {
-                                        x.X = lemming[actLEM].PosX + xx88;
-                                        x.Y = lemming[actLEM].PosY + 14 + y;
+                                        x.X = Lemming[actLEM].PosX + xx88;
+                                        x.Y = Lemming[actLEM].PosY + 14 + y;
                                         for (int xz = 0; xz < numTOTsteel; xz++)
                                         {
                                             if (steel[xz].area.Contains(x))
@@ -2040,10 +2040,10 @@ namespace Lemmings.NET.Screens
                                         }
                                         if (sx == -777)
                                         {
-                                            lemming[actLEM].Walker = true;
-                                            lemming[actLEM].Numframes = SizeSprites.walker_frames;
-                                            lemming[actLEM].Actualframe = 0;
-                                            lemming[actLEM].Digger = false;
+                                            Lemming[actLEM].Walker = true;
+                                            Lemming[actLEM].Numframes = SizeSprites.walker_frames;
+                                            Lemming[actLEM].Actualframe = 0;
+                                            Lemming[actLEM].Digger = false;
                                             break;
                                         }
                                     }
@@ -2060,167 +2060,167 @@ namespace Lemmings.NET.Screens
                             int amount = 0;
                             for (int ykk = 9; ykk <= 18; ykk++)
                             {
-                                int posi_real = (lemming[actLEM].PosY + 14 + ykk) * earth.Width + lemming[actLEM].PosX;
+                                int posi_real = (Lemming[actLEM].PosY + 14 + ykk) * Earth.Width + Lemming[actLEM].PosX;
                                 for (int xkk = 0; xkk < 28; xkk++)
                                 {
                                     Colormask22[amount] = C25[posi_real + xkk];
                                     amount++;
                                 }
                             }
-                            rectangleFill.X = lemming[actLEM].PosX;
-                            rectangleFill.Y = lemming[actLEM].PosY + 23;
+                            rectangleFill.X = Lemming[actLEM].PosX;
+                            rectangleFill.Y = Lemming[actLEM].PosY + 23;
                             rectangleFill.Width = 28;
                             rectangleFill.Height = 10;
-                            earth.SetData(0, rectangleFill, Colormask22, 0, 28 * 10);
+                            Earth.SetData(0, rectangleFill, Colormask22, 0, 28 * 10);
                             if (sx == -777)
                                 continue;
-                            lemming[actLEM].PosY += abajo2;
+                            Lemming[actLEM].PosY += abajo2;
                             continue;
                         }
                     }
                     else
                     {
-                        if (lemming[actLEM].PosY + 28 >= earth.Height) // erase draws bottom when die and exit level height 21x10
+                        if (Lemming[actLEM].PosY + 28 >= Earth.Height) // erase draws bottom when die and exit level height 21x10
                         {
                             for (int ykk = 0; ykk < 210; ykk++)
                             {
                                 Colormask22[ykk].PackedValue = 0;
                             }
                             rectangleFill.Y = 502;
-                            rectangleFill.X = lemming[actLEM].PosX + 4;
+                            rectangleFill.X = Lemming[actLEM].PosX + 4;
                             rectangleFill.Width = 21;
                             rectangleFill.Height = 10;
-                            earth.SetData(0, rectangleFill, Colormask22, 0, 210);
+                            Earth.SetData(0, rectangleFill, Colormask22, 0, 210);
                         }
-                        lemming[actLEM].Basher = false;
-                        lemming[actLEM].Builder = false;
-                        lemming[actLEM].Miner = false;
-                        lemming[actLEM].Climbing = false;
-                        lemming[actLEM].Digger = false;
-                        lemming[actLEM].Fall = true;
-                        lemming[actLEM].Walker = false;
-                        lemming[actLEM].Pixelscaida = 0;
-                        lemming[actLEM].Actualframe = 0;
-                        lemming[actLEM].Numframes = SizeSprites.faller_frames;
+                        Lemming[actLEM].Basher = false;
+                        Lemming[actLEM].Builder = false;
+                        Lemming[actLEM].Miner = false;
+                        Lemming[actLEM].Climbing = false;
+                        Lemming[actLEM].Digger = false;
+                        Lemming[actLEM].Fall = true;
+                        Lemming[actLEM].Walker = false;
+                        Lemming[actLEM].Pixelscaida = 0;
+                        Lemming[actLEM].Actualframe = 0;
+                        Lemming[actLEM].Numframes = SizeSprites.faller_frames;
                         continue; //break o continue DUNNO I DON'T KNOW WHICH IS BETTER
                     }
 
                 }
-                if (lemming[actLEM].Climbing)
+                if (Lemming[actLEM].Climbing)
                 {
-                    if (lemming[actLEM].PosY <= -28) // top of level -- out of limits 28 size sprite lemming 28x28
+                    if (Lemming[actLEM].PosY <= -28) // top of level -- out of limits 28 size sprite lemming 28x28
                     {
-                        lemming[actLEM].Climbing = false;
-                        lemming[actLEM].Fall = true;
-                        lemming[actLEM].Walker = false;
-                        lemming[actLEM].Pixelscaida = 0;
-                        lemming[actLEM].Numframes = SizeSprites.faller_frames;
-                        lemming[actLEM].Actualframe = 0;
-                        lemming[actLEM].Builder = false;
-                        lemming[actLEM].Right = !lemming[actLEM].Right;
+                        Lemming[actLEM].Climbing = false;
+                        Lemming[actLEM].Fall = true;
+                        Lemming[actLEM].Walker = false;
+                        Lemming[actLEM].Pixelscaida = 0;
+                        Lemming[actLEM].Numframes = SizeSprites.faller_frames;
+                        Lemming[actLEM].Actualframe = 0;
+                        Lemming[actLEM].Builder = false;
+                        Lemming[actLEM].Right = !Lemming[actLEM].Right;
                         continue;
                     }
-                    if (lemming[actLEM].Right)
+                    if (Lemming[actLEM].Right)
                     {
-                        int pos_real2 = lemming[actLEM].PosY + 27;
-                        if (C25[(pos_real2 * earth.Width) + pixx - 2].R > 0 || C25[(pos_real2 * earth.Width) + pixx - 2].G > 0 || C25[(pos_real2 * earth.Width) + pixx - 2].B > 0)
+                        int pos_real2 = Lemming[actLEM].PosY + 27;
+                        if (C25[(pos_real2 * Earth.Width) + pixx - 2].R > 0 || C25[(pos_real2 * Earth.Width) + pixx - 2].G > 0 || C25[(pos_real2 * Earth.Width) + pixx - 2].B > 0)
                         {
-                            lemming[actLEM].Right = false;
-                            lemming[actLEM].PosX -= 2;   // 1 o 2 LOOK
-                            lemming[actLEM].Climbing = false;
-                            lemming[actLEM].Walker = true;
-                            lemming[actLEM].Numframes = SizeSprites.walker_frames;
-                            lemming[actLEM].Actualframe = 0;
+                            Lemming[actLEM].Right = false;
+                            Lemming[actLEM].PosX -= 2;   // 1 o 2 LOOK
+                            Lemming[actLEM].Climbing = false;
+                            Lemming[actLEM].Walker = true;
+                            Lemming[actLEM].Numframes = SizeSprites.walker_frames;
+                            Lemming[actLEM].Actualframe = 0;
                             continue;
                         }
                     }
                     else
                     {
-                        int pos_real2 = lemming[actLEM].PosY + 27;
-                        if (C25[(pos_real2 * earth.Width) + pixx + 2].R > 0 || C25[(pos_real2 * earth.Width) + pixx + 2].G > 0 || C25[(pos_real2 * earth.Width) + pixx + 2].B > 0)
+                        int pos_real2 = Lemming[actLEM].PosY + 27;
+                        if (C25[(pos_real2 * Earth.Width) + pixx + 2].R > 0 || C25[(pos_real2 * Earth.Width) + pixx + 2].G > 0 || C25[(pos_real2 * Earth.Width) + pixx + 2].B > 0)
                         {
-                            lemming[actLEM].Right = true;
-                            lemming[actLEM].PosX += 2; // 1 o 2 LOOK
-                            lemming[actLEM].Climbing = false;
-                            lemming[actLEM].Walker = true;
-                            lemming[actLEM].Numframes = SizeSprites.walker_frames;
-                            lemming[actLEM].Actualframe = 0;
+                            Lemming[actLEM].Right = true;
+                            Lemming[actLEM].PosX += 2; // 1 o 2 LOOK
+                            Lemming[actLEM].Climbing = false;
+                            Lemming[actLEM].Walker = true;
+                            Lemming[actLEM].Numframes = SizeSprites.walker_frames;
+                            Lemming[actLEM].Actualframe = 0;
                             continue;
                         }
                     }
-                    if (arriba > 0 && dibuja)
+                    if (arriba > 0 && Dibuja)
                     {
-                        lemming[actLEM].PosY--;
+                        Lemming[actLEM].PosY--;
                     }
                     if (arriba == 0)
                     {
-                        if (lemming[actLEM].Right)
+                        if (Lemming[actLEM].Right)
                         {
-                            lemming[actLEM].PosX++;
+                            Lemming[actLEM].PosX++;
                         }
                         else
                         {
-                            lemming[actLEM].PosX--;
+                            Lemming[actLEM].PosX--;
                         }
-                        lemming[actLEM].Climbing = false;
-                        lemming[actLEM].Walker = true;
-                        lemming[actLEM].Numframes = SizeSprites.walker_frames;
-                        lemming[actLEM].Actualframe = 0;
+                        Lemming[actLEM].Climbing = false;
+                        Lemming[actLEM].Walker = true;
+                        Lemming[actLEM].Numframes = SizeSprites.walker_frames;
+                        Lemming[actLEM].Actualframe = 0;
                         continue;
                     }
                 }
-                if (lemming[actLEM].Walker)
+                if (Lemming[actLEM].Walker)
                 {
-                    if (_below < 3 && lemming[actLEM].Right)
+                    if (_below < 3 && Lemming[actLEM].Right)
                     {
-                        lemming[actLEM].PosX++;
+                        Lemming[actLEM].PosX++;
                         if (arriba < 16)
                         {
-                            lemming[actLEM].PosY -= arriba;
+                            Lemming[actLEM].PosY -= arriba;
                         }
                     }  //// <6 o <8 falla cava
-                    if (_below < 3 && lemming[actLEM].Left)
+                    if (_below < 3 && Lemming[actLEM].Left)
                     {
-                        lemming[actLEM].PosX--;
+                        Lemming[actLEM].PosX--;
                         if (arriba < 16)
                         {
-                            lemming[actLEM].PosY -= arriba;
+                            Lemming[actLEM].PosY -= arriba;
                         }
                     }
                     if (arriba >= 16)
                     {
-                        if (!lemming[actLEM].Climber)
+                        if (!Lemming[actLEM].Climber)
                         {
-                            if (lemming[actLEM].Right && arriba >= 16)
+                            if (Lemming[actLEM].Right && arriba >= 16)
                             {
-                                lemming[actLEM].Right = false;
-                                lemming[actLEM].PosX -= 2;  // 1 o 2 LOOK
+                                Lemming[actLEM].Right = false;
+                                Lemming[actLEM].PosX -= 2;  // 1 o 2 LOOK
                             }
                             else
                             {
-                                lemming[actLEM].Right = true;
-                                lemming[actLEM].PosX += 2;  // 1 o 2 LOOK
+                                Lemming[actLEM].Right = true;
+                                Lemming[actLEM].PosX += 2;  // 1 o 2 LOOK
                             }
                         }
                         else
                         {
-                            lemming[actLEM].Walker = false;
-                            lemming[actLEM].Climbing = true;
-                            lemming[actLEM].Numframes = SizeSprites.climber_frames;
-                            lemming[actLEM].Pixelscaida = 0;
-                            lemming[actLEM].Actualframe = 0;
+                            Lemming[actLEM].Walker = false;
+                            Lemming[actLEM].Climbing = true;
+                            Lemming[actLEM].Numframes = SizeSprites.climber_frames;
+                            Lemming[actLEM].Pixelscaida = 0;
+                            Lemming[actLEM].Actualframe = 0;
                             continue;
                         }
                     }
                 }
-                if (lemming[actLEM].Explode && lemming[actLEM].Actualframe >= 47)
+                if (Lemming[actLEM].Explode && Lemming[actLEM].Actualframe >= 47)
                 {
                     ////////////////////////////////////////////////////////////////////////////////////// EXPLODE MASK
                     ///////////////// EXPLODING MASK LIMITS -- SIZE OF AREA ERASEABLE
                     int ancho66 = 38;
                     int alto66 = 53;
-                    int px = lemming[actLEM].PosX - 5; //center the big explosion to 28x28 lemming sprite
-                    int py = lemming[actLEM].PosY - 2;
+                    int px = Lemming[actLEM].PosX - 5; //center the big explosion to 28x28 lemming sprite
+                    int py = Lemming[actLEM].PosY - 2;
                     int py2 = 0;
                     int px2 = 0;
                     if (py < 0) // top of the level
@@ -2235,13 +2235,13 @@ namespace Lemmings.NET.Screens
                         ancho66 -= px2;
                         px = 0;
                     }
-                    if (px + ancho66 >= earth.Width)  // right of the level
+                    if (px + ancho66 >= Earth.Width)  // right of the level
                     {
-                        ancho66 = earth.Width - px;
+                        ancho66 = Earth.Width - px;
                     }
-                    if (py + alto66 >= earth.Height) //bottom of the level
+                    if (py + alto66 >= Earth.Height) //bottom of the level
                     {
-                        alto66 = earth.Height - py;
+                        alto66 = Earth.Height - py;
                     }
                     int amount = ancho66 * alto66;
                     rectangleFill.X = px2;
@@ -2252,7 +2252,7 @@ namespace Lemmings.NET.Screens
                     amount = 0;
                     for (int yy88 = 0; yy88 < alto66; yy88++)
                     {
-                        int yypos888 = (yy88 + py) * earth.Width;
+                        int yypos888 = (yy88 + py) * Earth.Width;
                         for (int xx88 = 0; xx88 < ancho66; xx88++)
                         {
                             Colorsobre33[amount].PackedValue = C25[yypos888 + px + xx88].PackedValue;
@@ -2287,22 +2287,22 @@ namespace Lemmings.NET.Screens
                     rectangleFill.Y = py;
                     rectangleFill.Width = ancho66;
                     rectangleFill.Height = alto66;
-                    earth.SetData(0, rectangleFill, Colorsobre33, 0, amount);
+                    Earth.SetData(0, rectangleFill, Colorsobre33, 0, amount);
                     // this code update c25 rectangle px-py-ancho66-alto66 only not all like before
                     amount = 0;
                     for (int yy33 = 0; yy33 < alto66; yy33++)
                     {
-                        int yypos555 = (yy33 + py) * earth.Width;
+                        int yypos555 = (yy33 + py) * Earth.Width;
                         for (int xx33 = 0; xx33 < ancho66; xx33++)
                         {
                             C25[yypos555 + px + xx33].PackedValue = Colorsobre33[amount].PackedValue;
                             amount++;
                         }
                     }
-                    lemming[actLEM].Dead = true;
+                    Lemming[actLEM].Dead = true;
                     numlemnow--;
-                    lemming[actLEM].Explode = false;
-                    lemming[actLEM].Exploser = false;
+                    Lemming[actLEM].Explode = false;
+                    Lemming[actLEM].Exploser = false;
                     // luto luto sound fix
                     if (LemmingsNetGame.Instance.Sfx.Explode.State == SoundState.Playing)
                     {
@@ -2314,8 +2314,8 @@ namespace Lemmings.NET.Screens
                     }
                     catch (InstancePlayLimitException) { /* Ignore errors */ }
                     //explosions addons emitter - particles logic add
-                    int xExp = lemming[actLEM].PosX + 14;
-                    int yExp = lemming[actLEM].PosY + 14;
+                    int xExp = Lemming[actLEM].PosX + 14;
+                    int yExp = Lemming[actLEM].PosY + 14;
                     LemmingsNetGame.Instance.Explosion[actItem, 0].MaxCounter = 0;
                     LemmingsNetGame.Instance.Explosion[actItem, 0].Counter = 0;
                     for (Iexplo = 0; Iexplo < PARTICLE_NUM; Iexplo++)
@@ -2346,55 +2346,55 @@ namespace Lemmings.NET.Screens
                         actItem = MyGame.totalExplosions - 1;
                     continue;
                 }
-                if (!lemming[actLEM].Falling && lemming[actLEM].Active)
+                if (!Lemming[actLEM].Falling && Lemming[actLEM].Active)
                 {
                     if (_below >= 3)
                     {
-                        lemming[actLEM].PosY += 3;
-                        lemming[actLEM].Pixelscaida += 3;
+                        Lemming[actLEM].PosY += 3;
+                        Lemming[actLEM].Pixelscaida += 3;
                     }
                     else
                     {
-                        lemming[actLEM].PosY += _below;
-                        lemming[actLEM].Pixelscaida += _below;
+                        Lemming[actLEM].PosY += _below;
+                        Lemming[actLEM].Pixelscaida += _below;
                     } // fall 3 MAX---MAX 3 FALL PIXELS
                 }
                 else
                 {
-                    if (!lemming[actLEM].Drown && dibuja)
+                    if (!Lemming[actLEM].Drown && Dibuja)
                     {
                         if (_below >= 3)
                         {
-                            lemming[actLEM].PosY += 3;
+                            Lemming[actLEM].PosY += 3;
                         }
                         else
                         {
-                            lemming[actLEM].PosY += _below;
+                            Lemming[actLEM].PosY += _below;
                         }
                     }
                 }
-                if (lemming[actLEM].PosY < -27) // walker top of the screen
+                if (Lemming[actLEM].PosY < -27) // walker top of the screen
                 {
-                    if (lemming[actLEM].Right)
+                    if (Lemming[actLEM].Right)
                     {
-                        lemming[actLEM].Right = false;
-                        lemming[actLEM].PosX -= 3;
-                        lemming[actLEM].PosY++;
+                        Lemming[actLEM].Right = false;
+                        Lemming[actLEM].PosX -= 3;
+                        Lemming[actLEM].PosY++;
                     }
                     else
                     {
-                        lemming[actLEM].Right = true;
-                        lemming[actLEM].PosX += 3;
-                        lemming[actLEM].PosY++;
+                        Lemming[actLEM].Right = true;
+                        Lemming[actLEM].PosX += 3;
+                        Lemming[actLEM].PosY++;
                     }
                 }
-                if (lemming[actLEM].PosX < -16)// limits of the screen from LEFT
+                if (Lemming[actLEM].PosX < -16)// limits of the screen from LEFT
                 {
-                    lemming[actLEM].Active = false;
-                    lemming[actLEM].Dead = true;
+                    Lemming[actLEM].Active = false;
+                    Lemming[actLEM].Dead = true;
                     numlemnow--;
-                    lemming[actLEM].Explode = false;
-                    lemming[actLEM].Exploser = false;
+                    Lemming[actLEM].Explode = false;
+                    Lemming[actLEM].Exploser = false;
                     if (LemmingsNetGame.Instance.Sfx.Die.State == SoundState.Playing)
                     {
                         LemmingsNetGame.Instance.Sfx.Die.Stop();
@@ -2405,13 +2405,13 @@ namespace Lemmings.NET.Screens
                     }
                     catch (InstancePlayLimitException) { /* Ignore errors */ }
                 }
-                if (lemming[actLEM].PosX + 14 > earth.Width)// limits of the screen from RIGHT
+                if (Lemming[actLEM].PosX + 14 > Earth.Width)// limits of the screen from RIGHT
                 {
-                    lemming[actLEM].Active = false;
-                    lemming[actLEM].Dead = true;
+                    Lemming[actLEM].Active = false;
+                    Lemming[actLEM].Dead = true;
                     numlemnow--;
-                    lemming[actLEM].Explode = false;
-                    lemming[actLEM].Exploser = false;
+                    Lemming[actLEM].Explode = false;
+                    Lemming[actLEM].Exploser = false;
                     if (LemmingsNetGame.Instance.Sfx.Die.State == SoundState.Playing)
                     {
                         LemmingsNetGame.Instance.Sfx.Die.Stop();
@@ -2597,7 +2597,7 @@ namespace Lemmings.NET.Screens
                 spriteBatch.Draw(LemmingsNetGame.Instance.Sprites.Nubes, new Rectangle(0, 220, MyGame.GameResolution.X, LemmingsNetGame.Instance.Sprites.Nubes.Height), new Rectangle(z2, 0, MyGame.GameResolution.X, LemmingsNetGame.Instance.Sprites.Nubes.Height), new Color(255, 255, 255, 110), 0f,
                     Vector2.Zero, SpriteEffects.None, 0.803f);
             }
-            spriteBatch.Draw(earth, new Vector2(0, 0), new Rectangle(ScrollX, ScrollY, MyGame.GameResolution.X, MyGame.GameResolution.Y - 188), //512 size of window draw
+            spriteBatch.Draw(Earth, new Vector2(0, 0), new Rectangle(ScrollX, ScrollY, MyGame.GameResolution.X, MyGame.GameResolution.Y - 188), //512 size of window draw
                 Color.White, 0f, Vector2.Zero, 1, SpriteEffects.None, 0.500f);
             if (NumTotArrow > 0)
             {
@@ -2778,19 +2778,19 @@ namespace Lemmings.NET.Screens
             }
             // infos various for test only
 
-            for (actLEM = 0; actLEM < numLemmings; actLEM++) //si lo hace de 100 a cero dibujara los primeros encima y mejorara el aspecto
+            for (actLEM = 0; actLEM < NumLemmings; actLEM++) //si lo hace de 100 a cero dibujara los primeros encima y mejorara el aspecto
             {
                 if (doorOn)
                     break;
-                if (lemming[actLEM].Dead)
+                if (Lemming[actLEM].Dead)
                     continue;
-                if (lemming[actLEM].Exploser && !lemming[actLEM].Explode)
+                if (Lemming[actLEM].Exploser && !Lemming[actLEM].Explode)
                 {
-                    if (lemming[actLEM].Time == 0)
-                        lemming[actLEM].Time = totalTime;
-                    double timez = totalTime - lemming[actLEM].Time;
+                    if (Lemming[actLEM].Time == 0)
+                        Lemming[actLEM].Time = TotalTime;
+                    double timez = TotalTime - Lemming[actLEM].Time;
                     int crono = (int)(6f - (float)timez);
-                    LemmingsNetGame.Instance.Fonts.TextLem(string.Format("{0}", crono), new Vector2(lemming[actLEM].PosX + 3 - ScrollX, lemming[actLEM].PosY - 10 - ScrollY), Color.White, 0.4f, 0.000000000004f, spriteBatch);
+                    LemmingsNetGame.Instance.Fonts.TextLem(string.Format("{0}", crono), new Vector2(Lemming[actLEM].PosX + 3 - ScrollX, Lemming[actLEM].PosY - 10 - ScrollY), Color.White, 0.4f, 0.000000000004f, spriteBatch);
                     if (crono <= 0)
                     {
                         // luto luto sound monogame 3.2 works ok without catch exception
@@ -2803,133 +2803,133 @@ namespace Lemmings.NET.Screens
                             LemmingsNetGame.Instance.Sfx.OhNo.Play();
                         }
                         catch (InstancePlayLimitException) { /* Ignore errors */ }
-                        lemming[actLEM].Explode = true;
-                        lemming[actLEM].Active = false;
-                        lemming[actLEM].Umbrella = false;
-                        lemming[actLEM].Walker = false;
-                        lemming[actLEM].Digger = false;
-                        lemming[actLEM].Climber = false;
-                        lemming[actLEM].Fall = false;
-                        lemming[actLEM].Falling = false;
-                        lemming[actLEM].Climbing = false;
-                        lemming[actLEM].Exit = false;
-                        lemming[actLEM].Blocker = false;
-                        lemming[actLEM].Builder = false;
-                        lemming[actLEM].Bridge = false;
-                        lemming[actLEM].Basher = false;
-                        lemming[actLEM].Miner = false;
-                        lemming[actLEM].Actualframe = 0;
-                        lemming[actLEM].Numframes = SizeSprites.bomber_frames;
+                        Lemming[actLEM].Explode = true;
+                        Lemming[actLEM].Active = false;
+                        Lemming[actLEM].Umbrella = false;
+                        Lemming[actLEM].Walker = false;
+                        Lemming[actLEM].Digger = false;
+                        Lemming[actLEM].Climber = false;
+                        Lemming[actLEM].Fall = false;
+                        Lemming[actLEM].Falling = false;
+                        Lemming[actLEM].Climbing = false;
+                        Lemming[actLEM].Exit = false;
+                        Lemming[actLEM].Blocker = false;
+                        Lemming[actLEM].Builder = false;
+                        Lemming[actLEM].Bridge = false;
+                        Lemming[actLEM].Basher = false;
+                        Lemming[actLEM].Miner = false;
+                        Lemming[actLEM].Actualframe = 0;
+                        Lemming[actLEM].Numframes = SizeSprites.bomber_frames;
                     }
                 }
                 int framereal55;
-                if (lemming[actLEM].Burned) // scale POSDraw x+0,y+0 at 1.2f x-5,y+0 at 1.35f
+                if (Lemming[actLEM].Burned) // scale POSDraw x+0,y+0 at 1.2f x-5,y+0 at 1.35f
                 {
-                    spriteBatch.Draw(LemmingsNetGame.Instance.Gfx.Squemado, new Vector2(lemming[actLEM].PosX - ScrollX - 5, lemming[actLEM].PosY - ScrollY), new Rectangle(0, lemming[actLEM].Actualframe * 28, 32, 28),
-                    (lemming[actLEM].Onmouse ? Color.Red : Color.White), 0f, Vector2.Zero, SizeL, SpriteEffects.None, Lem_depth + (actLEM * 0.00001f));
-                    spriteBatch.Draw(LemmingsNetGame.Instance.Gfx.Lhiss, new Vector2(lemming[actLEM].PosX - ScrollX, lemming[actLEM].PosY - 20 - ScrollY), new Rectangle(0, 0, LemmingsNetGame.Instance.Gfx.Lhiss.Width, LemmingsNetGame.Instance.Gfx.Lhiss.Height),
-                        Color.White, 0f, Vector2.Zero, (0.5f + (0.01f * lemming[actLEM].Actualframe)), SpriteEffects.None, Lem_depth + (actLEM * 0.00001f));
+                    spriteBatch.Draw(LemmingsNetGame.Instance.Gfx.Squemado, new Vector2(Lemming[actLEM].PosX - ScrollX - 5, Lemming[actLEM].PosY - ScrollY), new Rectangle(0, Lemming[actLEM].Actualframe * 28, 32, 28),
+                    (Lemming[actLEM].Onmouse ? Color.Red : Color.White), 0f, Vector2.Zero, SizeL, SpriteEffects.None, Lem_depth + (actLEM * 0.00001f));
+                    spriteBatch.Draw(LemmingsNetGame.Instance.Gfx.Lhiss, new Vector2(Lemming[actLEM].PosX - ScrollX, Lemming[actLEM].PosY - 20 - ScrollY), new Rectangle(0, 0, LemmingsNetGame.Instance.Gfx.Lhiss.Width, LemmingsNetGame.Instance.Gfx.Lhiss.Height),
+                        Color.White, 0f, Vector2.Zero, (0.5f + (0.01f * Lemming[actLEM].Actualframe)), SpriteEffects.None, Lem_depth + (actLEM * 0.00001f));
                 }
-                if (lemming[actLEM].Drown) // scale POSDraw x+0,y+10 at 1.2f x-8,y+7 at 1.35f  //puto ahoga
+                if (Lemming[actLEM].Drown) // scale POSDraw x+0,y+10 at 1.2f x-8,y+7 at 1.35f  //puto ahoga
                 {
-                    spriteBatch.Draw(LemmingsNetGame.Instance.Sprites.Drowner, new Vector2(lemming[actLEM].PosX - ScrollX + SizeSprites.water_xpos, lemming[actLEM].PosY + SizeSprites.water_ypos - ScrollY), new Rectangle(lemming[actLEM].Actualframe * SizeSprites.water_with, 0, SizeSprites.water_with, SizeSprites.water_height),
-                        (lemming[actLEM].Onmouse ? Color.Red : Color.White), 0f, Vector2.Zero, SizeSprites.water_size, SpriteEffects.None, Lem_depth + (actLEM * 0.00001f));
+                    spriteBatch.Draw(LemmingsNetGame.Instance.Sprites.Drowner, new Vector2(Lemming[actLEM].PosX - ScrollX + SizeSprites.water_xpos, Lemming[actLEM].PosY + SizeSprites.water_ypos - ScrollY), new Rectangle(Lemming[actLEM].Actualframe * SizeSprites.water_with, 0, SizeSprites.water_with, SizeSprites.water_height),
+                        (Lemming[actLEM].Onmouse ? Color.Red : Color.White), 0f, Vector2.Zero, SizeSprites.water_size, SpriteEffects.None, Lem_depth + (actLEM * 0.00001f));
                 }
-                if (lemming[actLEM].Walker)
+                if (Lemming[actLEM].Walker)
                 {
-                    framereal55 = (lemming[actLEM].Actualframe * SizeSprites.walker_with);
-                    spriteBatch.Draw(LemmingsNetGame.Instance.Sprites.Walker, new Vector2((lemming[actLEM].PosX - ScrollX + SizeSprites.walker_xpos), lemming[actLEM].PosY - ScrollY + SizeSprites.walker_ypos), new Rectangle(framereal55, 0, SizeSprites.walker_with, SizeSprites.walker_height), (lemming[actLEM].Onmouse ? Color.Red : Color.White), 0f, Vector2.Zero, SizeSprites.walker_size, (lemming[actLEM].Right ? SpriteEffects.FlipHorizontally : SpriteEffects.None), Lem_depth + (actLEM * 0.00001f));
+                    framereal55 = (Lemming[actLEM].Actualframe * SizeSprites.walker_with);
+                    spriteBatch.Draw(LemmingsNetGame.Instance.Sprites.Walker, new Vector2((Lemming[actLEM].PosX - ScrollX + SizeSprites.walker_xpos), Lemming[actLEM].PosY - ScrollY + SizeSprites.walker_ypos), new Rectangle(framereal55, 0, SizeSprites.walker_with, SizeSprites.walker_height), (Lemming[actLEM].Onmouse ? Color.Red : Color.White), 0f, Vector2.Zero, SizeSprites.walker_size, (Lemming[actLEM].Right ? SpriteEffects.FlipHorizontally : SpriteEffects.None), Lem_depth + (actLEM * 0.00001f));
                 }
-                if (lemming[actLEM].Blocker) // blocker scale POSDraw x-5 y+4 at 1.2f x-7 y+1 at 1.35f  //puto
+                if (Lemming[actLEM].Blocker) // blocker scale POSDraw x-5 y+4 at 1.2f x-7 y+1 at 1.35f  //puto
                 {
-                    framesale = (lemming[actLEM].Actualframe * SizeSprites.blocker_with);
-                    spriteBatch.Draw(LemmingsNetGame.Instance.Sprites.Blocker, new Vector2(lemming[actLEM].PosX - ScrollX + SizeSprites.blocker_xpos, lemming[actLEM].PosY + SizeSprites.blocker_ypos - ScrollY), new Rectangle(framesale, 0, SizeSprites.blocker_with, SizeSprites.blocker_height), (lemming[actLEM].Onmouse ? Color.Red : Color.White), 0f, Vector2.Zero, SizeSprites.blocker_size, SpriteEffects.None, Lem_depth + (actLEM * 0.00001f));
+                    framesale = (Lemming[actLEM].Actualframe * SizeSprites.blocker_with);
+                    spriteBatch.Draw(LemmingsNetGame.Instance.Sprites.Blocker, new Vector2(Lemming[actLEM].PosX - ScrollX + SizeSprites.blocker_xpos, Lemming[actLEM].PosY + SizeSprites.blocker_ypos - ScrollY), new Rectangle(framesale, 0, SizeSprites.blocker_with, SizeSprites.blocker_height), (Lemming[actLEM].Onmouse ? Color.Red : Color.White), 0f, Vector2.Zero, SizeSprites.blocker_size, SpriteEffects.None, Lem_depth + (actLEM * 0.00001f));
                     if (LemmingsNetGame.Instance.DebugOsd.debug)
                     {
-                        bloqueo = new Rectangle(lemming[actLEM].PosX, lemming[actLEM].PosY, 28, 28);
+                        bloqueo = new Rectangle(Lemming[actLEM].PosX, Lemming[actLEM].PosY, 28, 28);
                         spriteBatch.Draw(LemmingsNetGame.Instance.Gfx.Texture1pixel, new Rectangle(bloqueo.Left - ScrollX, bloqueo.Top - ScrollY, bloqueo.Width, bloqueo.Height), null,
                             Color.White, 0f, Vector2.Zero, SpriteEffects.None, 0.1f);
                     }
                 }
-                if (lemming[actLEM].Bridge) // scale POSDraw x-5,y-3 at 1.2f x-7,y-7 at 1.35f
+                if (Lemming[actLEM].Bridge) // scale POSDraw x-5,y-3 at 1.2f x-7,y-7 at 1.35f
                 {
-                    framesale = (lemming[actLEM].Actualframe * 26);
-                    spriteBatch.Draw(LemmingsNetGame.Instance.Gfx.Puente_nomas, new Vector2(lemming[actLEM].PosX - ScrollX - 7, lemming[actLEM].PosY - 7 - ScrollY), new Rectangle(0, framesale, 32, 26), (lemming[actLEM].Onmouse ? Color.Red : Color.White), 0f, Vector2.Zero, SizeL, (lemming[actLEM].Right ? SpriteEffects.None : SpriteEffects.FlipHorizontally), Lem_depth + (actLEM * 0.00001f));
+                    framesale = (Lemming[actLEM].Actualframe * 26);
+                    spriteBatch.Draw(LemmingsNetGame.Instance.Gfx.Puente_nomas, new Vector2(Lemming[actLEM].PosX - ScrollX - 7, Lemming[actLEM].PosY - 7 - ScrollY), new Rectangle(0, framesale, 32, 26), (Lemming[actLEM].Onmouse ? Color.Red : Color.White), 0f, Vector2.Zero, SizeL, (Lemming[actLEM].Right ? SpriteEffects.None : SpriteEffects.FlipHorizontally), Lem_depth + (actLEM * 0.00001f));
                 }
-                if (lemming[actLEM].Builder)  //scale POSDraw x-5,y-3 at 1.2f x-7,y-7 at 1.35f  builder builder draws
+                if (Lemming[actLEM].Builder)  //scale POSDraw x-5,y-3 at 1.2f x-7,y-7 at 1.35f  builder builder draws
                 {
-                    if (lemming[actLEM].Numstairs >= 10) // chink draws
+                    if (Lemming[actLEM].Numstairs >= 10) // chink draws
                     {
-                        spriteBatch.Draw(LemmingsNetGame.Instance.Sprites.Chink, new Vector2(lemming[actLEM].PosX - ScrollX - 10, lemming[actLEM].PosY - 30 - ScrollY), new Rectangle(0, 0, LemmingsNetGame.Instance.Sprites.Chink.Width, LemmingsNetGame.Instance.Sprites.Chink.Height),
-                            Color.White, 0f, Vector2.Zero, 0.7f + (0.01f * lemming[actLEM].Actualframe), SpriteEffects.None, Lem_depth + (actLEM * 0.00001f));
+                        spriteBatch.Draw(LemmingsNetGame.Instance.Sprites.Chink, new Vector2(Lemming[actLEM].PosX - ScrollX - 10, Lemming[actLEM].PosY - 30 - ScrollY), new Rectangle(0, 0, LemmingsNetGame.Instance.Sprites.Chink.Width, LemmingsNetGame.Instance.Sprites.Chink.Height),
+                            Color.White, 0f, Vector2.Zero, 0.7f + (0.01f * Lemming[actLEM].Actualframe), SpriteEffects.None, Lem_depth + (actLEM * 0.00001f));
                     }
-                    framesale = (lemming[actLEM].Actualframe * SizeSprites.builder_with);
-                    spriteBatch.Draw(LemmingsNetGame.Instance.Sprites.Puente, new Vector2(lemming[actLEM].PosX - ScrollX + SizeSprites.builder_xpos, lemming[actLEM].PosY + SizeSprites.builder_ypos - ScrollY), new Rectangle(framesale, 0, SizeSprites.builder_with, SizeSprites.builder_height), (lemming[actLEM].Onmouse ? Color.Red : Color.White), 0f, Vector2.Zero, SizeSprites.builder_size, (lemming[actLEM].Right ? SpriteEffects.FlipHorizontally : SpriteEffects.None), Lem_depth + (actLEM * 0.00001f));
+                    framesale = (Lemming[actLEM].Actualframe * SizeSprites.builder_with);
+                    spriteBatch.Draw(LemmingsNetGame.Instance.Sprites.Puente, new Vector2(Lemming[actLEM].PosX - ScrollX + SizeSprites.builder_xpos, Lemming[actLEM].PosY + SizeSprites.builder_ypos - ScrollY), new Rectangle(framesale, 0, SizeSprites.builder_with, SizeSprites.builder_height), (Lemming[actLEM].Onmouse ? Color.Red : Color.White), 0f, Vector2.Zero, SizeSprites.builder_size, (Lemming[actLEM].Right ? SpriteEffects.FlipHorizontally : SpriteEffects.None), Lem_depth + (actLEM * 0.00001f));
                 }
-                if (lemming[actLEM].Miner)  //scale POSDraw x-5,y-2 at 1.2f x-9,y-7 at 1.35f pico pico miner miner
+                if (Lemming[actLEM].Miner)  //scale POSDraw x-5,y-2 at 1.2f x-9,y-7 at 1.35f pico pico miner miner
                 {
-                    framesale = (lemming[actLEM].Actualframe * SizeSprites.pico_with);
-                    spriteBatch.Draw(LemmingsNetGame.Instance.Sprites.Pico, new Vector2(lemming[actLEM].PosX - ScrollX + SizeSprites.pico_xpos + (lemming[actLEM].Right ? 0 : 10), lemming[actLEM].PosY + SizeSprites.pico_ypos - ScrollY), new Rectangle(framesale, 0, SizeSprites.pico_with, SizeSprites.pico_height), (lemming[actLEM].Onmouse ? Color.Red : Color.White), 0f, Vector2.Zero, SizeSprites.pico_size, (lemming[actLEM].Right ? SpriteEffects.FlipHorizontally : SpriteEffects.None), Lem_depth + (actLEM * 0.00001f));
+                    framesale = (Lemming[actLEM].Actualframe * SizeSprites.pico_with);
+                    spriteBatch.Draw(LemmingsNetGame.Instance.Sprites.Pico, new Vector2(Lemming[actLEM].PosX - ScrollX + SizeSprites.pico_xpos + (Lemming[actLEM].Right ? 0 : 10), Lemming[actLEM].PosY + SizeSprites.pico_ypos - ScrollY), new Rectangle(framesale, 0, SizeSprites.pico_with, SizeSprites.pico_height), (Lemming[actLEM].Onmouse ? Color.Red : Color.White), 0f, Vector2.Zero, SizeSprites.pico_size, (Lemming[actLEM].Right ? SpriteEffects.FlipHorizontally : SpriteEffects.None), Lem_depth + (actLEM * 0.00001f));
                 }
-                if (lemming[actLEM].Basher) //puto
+                if (Lemming[actLEM].Basher) //puto
                 {           // scale basher RIGHT POSDRAW x-10,y+4 at 1.2f x-15,y+1 at 1.35f
-                    framesale = (lemming[actLEM].Actualframe * SizeSprites.basher_with);
-                    spriteBatch.Draw(LemmingsNetGame.Instance.Sprites.Pared, new Vector2(lemming[actLEM].PosX - ScrollX + (lemming[actLEM].Right ? SizeSprites.basher_xpos : SizeSprites.basher_xposleft), lemming[actLEM].PosY + SizeSprites.basher_ypos - ScrollY), new Rectangle(framesale, 0, SizeSprites.basher_with, SizeSprites.basher_height), (lemming[actLEM].Onmouse ? Color.Red : Color.White), 0f, Vector2.Zero, SizeSprites.basher_size, (lemming[actLEM].Right ? SpriteEffects.FlipHorizontally : SpriteEffects.None), Lem_depth + (actLEM * 0.00001f));
+                    framesale = (Lemming[actLEM].Actualframe * SizeSprites.basher_with);
+                    spriteBatch.Draw(LemmingsNetGame.Instance.Sprites.Pared, new Vector2(Lemming[actLEM].PosX - ScrollX + (Lemming[actLEM].Right ? SizeSprites.basher_xpos : SizeSprites.basher_xposleft), Lemming[actLEM].PosY + SizeSprites.basher_ypos - ScrollY), new Rectangle(framesale, 0, SizeSprites.basher_with, SizeSprites.basher_height), (Lemming[actLEM].Onmouse ? Color.Red : Color.White), 0f, Vector2.Zero, SizeSprites.basher_size, (Lemming[actLEM].Right ? SpriteEffects.FlipHorizontally : SpriteEffects.None), Lem_depth + (actLEM * 0.00001f));
                 }
-                if (lemming[actLEM].Explode) // explotando explotando bomber bomber
+                if (Lemming[actLEM].Explode) // explotando explotando bomber bomber
                 {
                     // bomber scale POSDraw x-5,y+4 at 1.2f x-9,y+2 at 1.35f
-                    framesale = (lemming[actLEM].Actualframe * SizeSprites.bomber_with);
-                    spriteBatch.Draw(LemmingsNetGame.Instance.Sprites.Exploder, new Vector2(lemming[actLEM].PosX - ScrollX + SizeSprites.bomber_xpos, lemming[actLEM].PosY + SizeSprites.bomber_ypos - ScrollY), new Rectangle(framesale, 0, SizeSprites.bomber_with, SizeSprites.bomber_height), (lemming[actLEM].Onmouse ? Color.Red : Color.White), 0f, Vector2.Zero, SizeSprites.bomber_size, SpriteEffects.None, Lem_depth + (actLEM * 0.00001f));
-                    spriteBatch.Draw(LemmingsNetGame.Instance.Sprites.Lohno, new Vector2(lemming[actLEM].PosX - ScrollX - 20, lemming[actLEM].PosY - 25 - ScrollY), new Rectangle(0, 0, LemmingsNetGame.Instance.Sprites.Lohno.Width, LemmingsNetGame.Instance.Sprites.Lohno.Height),
-                        Color.White, 0f, Vector2.Zero, 0.7f + (0.01f * lemming[actLEM].Actualframe), SpriteEffects.None, Lem_depth + (actLEM * 0.00001f));
+                    framesale = (Lemming[actLEM].Actualframe * SizeSprites.bomber_with);
+                    spriteBatch.Draw(LemmingsNetGame.Instance.Sprites.Exploder, new Vector2(Lemming[actLEM].PosX - ScrollX + SizeSprites.bomber_xpos, Lemming[actLEM].PosY + SizeSprites.bomber_ypos - ScrollY), new Rectangle(framesale, 0, SizeSprites.bomber_with, SizeSprites.bomber_height), (Lemming[actLEM].Onmouse ? Color.Red : Color.White), 0f, Vector2.Zero, SizeSprites.bomber_size, SpriteEffects.None, Lem_depth + (actLEM * 0.00001f));
+                    spriteBatch.Draw(LemmingsNetGame.Instance.Sprites.Lohno, new Vector2(Lemming[actLEM].PosX - ScrollX - 20, Lemming[actLEM].PosY - 25 - ScrollY), new Rectangle(0, 0, LemmingsNetGame.Instance.Sprites.Lohno.Width, LemmingsNetGame.Instance.Sprites.Lohno.Height),
+                        Color.White, 0f, Vector2.Zero, 0.7f + (0.01f * Lemming[actLEM].Actualframe), SpriteEffects.None, Lem_depth + (actLEM * 0.00001f));
                 }
-                if (lemming[actLEM].Breakfloor) // scale POSDraw x-5,y+4 at 1.2f  x-9,y+2 at 1.35f breakfloor breakfloor
+                if (Lemming[actLEM].Breakfloor) // scale POSDraw x-5,y+4 at 1.2f  x-9,y+2 at 1.35f breakfloor breakfloor
                 {
-                    framesale = (lemming[actLEM].Actualframe * SizeSprites.floor_with);
-                    spriteBatch.Draw(LemmingsNetGame.Instance.Sprites.Rompesuelo, new Vector2(lemming[actLEM].PosX - ScrollX + SizeSprites.floor_xpos, lemming[actLEM].PosY + SizeSprites.floor_ypos - ScrollY), new Rectangle(framesale, 0, SizeSprites.floor_with, SizeSprites.floor_height), (lemming[actLEM].Onmouse ? Color.Red : Color.White), 0f, Vector2.Zero, SizeSprites.floor_size, SpriteEffects.None, Lem_depth + (actLEM * 0.00001f));
-                    if (lemming[actLEM].Actualframe == SizeSprites.floor_frames - 1)
+                    framesale = (Lemming[actLEM].Actualframe * SizeSprites.floor_with);
+                    spriteBatch.Draw(LemmingsNetGame.Instance.Sprites.Rompesuelo, new Vector2(Lemming[actLEM].PosX - ScrollX + SizeSprites.floor_xpos, Lemming[actLEM].PosY + SizeSprites.floor_ypos - ScrollY), new Rectangle(framesale, 0, SizeSprites.floor_with, SizeSprites.floor_height), (Lemming[actLEM].Onmouse ? Color.Red : Color.White), 0f, Vector2.Zero, SizeSprites.floor_size, SpriteEffects.None, Lem_depth + (actLEM * 0.00001f));
+                    if (Lemming[actLEM].Actualframe == SizeSprites.floor_frames - 1)
                     {
-                        lemming[actLEM].Dead = true;
+                        Lemming[actLEM].Dead = true;
                         numlemnow--;
-                        lemming[actLEM].Explode = false;
-                        lemming[actLEM].Exploser = false;
+                        Lemming[actLEM].Explode = false;
+                        Lemming[actLEM].Exploser = false;
                     }
                 }
-                if (lemming[actLEM].Falling) //umbrella paraguas falling with umbrella
+                if (Lemming[actLEM].Falling) //umbrella paraguas falling with umbrella
                 {
-                    if (!lemming[actLEM].Framescut && lemming[actLEM].Actualframe == SizeSprites.floater_frames - 1)
+                    if (!Lemming[actLEM].Framescut && Lemming[actLEM].Actualframe == SizeSprites.floater_frames - 1)
                     {
-                        lemming[actLEM].Framescut = true;
-                        lemming[actLEM].Actualframe = 0;
-                        lemming[actLEM].Numframes = SizeSprites.floater_frames - 1 - 4;
+                        Lemming[actLEM].Framescut = true;
+                        Lemming[actLEM].Actualframe = 0;
+                        Lemming[actLEM].Numframes = SizeSprites.floater_frames - 1 - 4;
                     }
-                    if (!lemming[actLEM].Framescut)
-                        framesale = (lemming[actLEM].Actualframe * SizeSprites.floater_with);
+                    if (!Lemming[actLEM].Framescut)
+                        framesale = (Lemming[actLEM].Actualframe * SizeSprites.floater_with);
                     else
-                        framesale = (lemming[actLEM].Actualframe + 4) * SizeSprites.floater_with; // scale floater POSDraw x-5,y-4 at 1.2f x-9,y-7 at 1.35f
-                    spriteBatch.Draw(LemmingsNetGame.Instance.Sprites.Paraguas, new Vector2(lemming[actLEM].PosX - ScrollX + SizeSprites.floater_xpos, lemming[actLEM].PosY + SizeSprites.floater_ypos - ScrollY), new Rectangle(framesale, 0, SizeSprites.floater_with, SizeSprites.floater_height), (lemming[actLEM].Onmouse ? Color.Red : Color.White), 0f, Vector2.Zero, SizeSprites.floater_size, (lemming[actLEM].Right ? SpriteEffects.FlipHorizontally : SpriteEffects.None), Lem_depth + (actLEM * 0.00001f));
+                        framesale = (Lemming[actLEM].Actualframe + 4) * SizeSprites.floater_with; // scale floater POSDraw x-5,y-4 at 1.2f x-9,y-7 at 1.35f
+                    spriteBatch.Draw(LemmingsNetGame.Instance.Sprites.Paraguas, new Vector2(Lemming[actLEM].PosX - ScrollX + SizeSprites.floater_xpos, Lemming[actLEM].PosY + SizeSprites.floater_ypos - ScrollY), new Rectangle(framesale, 0, SizeSprites.floater_with, SizeSprites.floater_height), (Lemming[actLEM].Onmouse ? Color.Red : Color.White), 0f, Vector2.Zero, SizeSprites.floater_size, (Lemming[actLEM].Right ? SpriteEffects.FlipHorizontally : SpriteEffects.None), Lem_depth + (actLEM * 0.00001f));
                 }
-                if (lemming[actLEM].Fall) //fall cae
+                if (Lemming[actLEM].Fall) //fall cae
                 {
-                    framereal55 = (lemming[actLEM].Actualframe * SizeSprites.faller_with);
-                    spriteBatch.Draw(LemmingsNetGame.Instance.Sprites.Falling, new Vector2(lemming[actLEM].PosX - ScrollX + SizeSprites.faller_xpos, lemming[actLEM].PosY - ScrollY + SizeSprites.faller_ypos), new Rectangle(framereal55, 0, SizeSprites.faller_with, SizeSprites.faller_height), (lemming[actLEM].Onmouse ? Color.Red : Color.White), 0f, Vector2.Zero, SizeSprites.faller_size, (lemming[actLEM].Right ? SpriteEffects.FlipHorizontally : SpriteEffects.None), Lem_depth + (actLEM * 0.00001f));
+                    framereal55 = (Lemming[actLEM].Actualframe * SizeSprites.faller_with);
+                    spriteBatch.Draw(LemmingsNetGame.Instance.Sprites.Falling, new Vector2(Lemming[actLEM].PosX - ScrollX + SizeSprites.faller_xpos, Lemming[actLEM].PosY - ScrollY + SizeSprites.faller_ypos), new Rectangle(framereal55, 0, SizeSprites.faller_with, SizeSprites.faller_height), (Lemming[actLEM].Onmouse ? Color.Red : Color.White), 0f, Vector2.Zero, SizeSprites.faller_size, (Lemming[actLEM].Right ? SpriteEffects.FlipHorizontally : SpriteEffects.None), Lem_depth + (actLEM * 0.00001f));
                 }
-                if (lemming[actLEM].Exit && !lemming[actLEM].Dead) //sale sale exit exit out out
+                if (Lemming[actLEM].Exit && !Lemming[actLEM].Dead) //sale sale exit exit out out
                 {
-                    framesale = (lemming[actLEM].Actualframe * SizeSprites.sale_with); // exit scale POSDraw  x-1,y+1 at 1.2f x-3,y-1 at 1.35f
-                    spriteBatch.Draw(sale, new Vector2(lemming[actLEM].PosX - ScrollX + SizeSprites.sale_xpos, lemming[actLEM].PosY + SizeSprites.sale_ypos - ScrollY), new Rectangle(framesale, 0, SizeSprites.sale_with, SizeSprites.sale_height), Color.White, 0f, Vector2.Zero, SizeSprites.sale_size, (lemming[actLEM].Right ? SpriteEffects.FlipHorizontally : SpriteEffects.None), Lem_depth + (actLEM * 0.00001f));
+                    framesale = (Lemming[actLEM].Actualframe * SizeSprites.sale_with); // exit scale POSDraw  x-1,y+1 at 1.2f x-3,y-1 at 1.35f
+                    spriteBatch.Draw(sale, new Vector2(Lemming[actLEM].PosX - ScrollX + SizeSprites.sale_xpos, Lemming[actLEM].PosY + SizeSprites.sale_ypos - ScrollY), new Rectangle(framesale, 0, SizeSprites.sale_with, SizeSprites.sale_height), Color.White, 0f, Vector2.Zero, SizeSprites.sale_size, (Lemming[actLEM].Right ? SpriteEffects.FlipHorizontally : SpriteEffects.None), Lem_depth + (actLEM * 0.00001f));
                 }
-                if (lemming[actLEM].Digger)
+                if (Lemming[actLEM].Digger)
                 {
-                    framereal55 = (lemming[actLEM].Actualframe * SizeSprites.digger_with);
-                    spriteBatch.Draw(LemmingsNetGame.Instance.Sprites.Digger, new Vector2(lemming[actLEM].PosX - ScrollX + SizeSprites.digger_xpos, lemming[actLEM].PosY + 6 - ScrollY + SizeSprites.digger_ypos), new Rectangle(framereal55, 0, SizeSprites.digger_with, SizeSprites.digger_height), (lemming[actLEM].Onmouse ? Color.Red : Color.White), 0f, Vector2.Zero, SizeSprites.digger_size, SpriteEffects.None, Lem_depth + (actLEM * 0.00001f));
+                    framereal55 = (Lemming[actLEM].Actualframe * SizeSprites.digger_with);
+                    spriteBatch.Draw(LemmingsNetGame.Instance.Sprites.Digger, new Vector2(Lemming[actLEM].PosX - ScrollX + SizeSprites.digger_xpos, Lemming[actLEM].PosY + 6 - ScrollY + SizeSprites.digger_ypos), new Rectangle(framereal55, 0, SizeSprites.digger_with, SizeSprites.digger_height), (Lemming[actLEM].Onmouse ? Color.Red : Color.White), 0f, Vector2.Zero, SizeSprites.digger_size, SpriteEffects.None, Lem_depth + (actLEM * 0.00001f));
                 }
 
-                if (lemming[actLEM].Climbing) // scale POSDraw x-5,y+6 at 1.2f x-8.y+3 at 1.35f  //puto33
+                if (Lemming[actLEM].Climbing) // scale POSDraw x-5,y+6 at 1.2f x-8.y+3 at 1.35f  //puto33
                 {
-                    framesale = (lemming[actLEM].Actualframe * SizeSprites.climber_with);
-                    spriteBatch.Draw(LemmingsNetGame.Instance.Sprites.Climber, new Vector2(lemming[actLEM].PosX - ScrollX + (lemming[actLEM].Right ? SizeSprites.climber_xpos : SizeSprites.climber_xposleft), lemming[actLEM].PosY + SizeSprites.climber_ypos - ScrollY), new Rectangle(framesale, 0, SizeSprites.climber_with, SizeSprites.climber_height), (lemming[actLEM].Onmouse ? Color.Red : Color.White), 0f, Vector2.Zero, SizeSprites.climber_size, (lemming[actLEM].Right ? SpriteEffects.FlipHorizontally : SpriteEffects.None), Lem_depth + (actLEM * 0.00001f));
+                    framesale = (Lemming[actLEM].Actualframe * SizeSprites.climber_with);
+                    spriteBatch.Draw(LemmingsNetGame.Instance.Sprites.Climber, new Vector2(Lemming[actLEM].PosX - ScrollX + (Lemming[actLEM].Right ? SizeSprites.climber_xpos : SizeSprites.climber_xposleft), Lemming[actLEM].PosY + SizeSprites.climber_ypos - ScrollY), new Rectangle(framesale, 0, SizeSprites.climber_with, SizeSprites.climber_height), (Lemming[actLEM].Onmouse ? Color.Red : Color.White), 0f, Vector2.Zero, SizeSprites.climber_size, (Lemming[actLEM].Right ? SpriteEffects.FlipHorizontally : SpriteEffects.None), Lem_depth + (actLEM * 0.00001f));
                 }
             }
             if (fade)
@@ -2943,7 +2943,7 @@ namespace Lemmings.NET.Screens
                 {
                     fade = false;
                     rest = 0;
-                    totalTime = 0;
+                    TotalTime = 0;
                     if (LemmingsNetGame.Instance.Sfx.Letsgo.State == SoundState.Stopped && !initON)
                     {
                         LemmingsNetGame.Instance.Sfx.Letsgo.Play();
@@ -2981,7 +2981,7 @@ namespace Lemmings.NET.Screens
             LemmingsNetGame.Instance.Fonts.TextLem("Home:" + string.Format("{0}", numSaved) + "/" + string.Format("{0}", Lemsneeded), vectorFill, Color.Cyan, 1f, 0.1f, spriteBatch);
             vectorFill.X = 320;
             vectorFill.Y = 518;
-            LemmingsNetGame.Instance.Fonts.TextLem("Out:" + string.Format("{0}", numLemmings) + "/" + string.Format("{0}", Numlems), vectorFill, Color.Magenta, 1f, 0.1f, spriteBatch);
+            LemmingsNetGame.Instance.Fonts.TextLem("Out:" + string.Format("{0}", NumLemmings) + "/" + string.Format("{0}", Numlems), vectorFill, Color.Magenta, 1f, 0.1f, spriteBatch);
             vectorFill.X = 530;
             vectorFill.Y = 518;
             LemmingsNetGame.Instance.Fonts.TextLem("In:" + string.Format("{0}", numlemnow), vectorFill, Color.AliceBlue, 1f, 0.1f, spriteBatch);
@@ -2995,15 +2995,15 @@ namespace Lemmings.NET.Screens
 
         internal void Update(GameTime gameTime)
         {
-            millisecondsElapsed += gameTime.ElapsedGameTime.Milliseconds;
+            MillisecondsElapsed += gameTime.ElapsedGameTime.Milliseconds;
             if (Exploding && dibuja3 && !MyGame.Paused)  //logic explosions particles
             {
                 int _totalExploding = actItem;
                 for (int Qexplo = 0; Qexplo < actItem; Qexplo++)
                 {
                     int TopY = MyGame.GameResolution.Y;
-                    if (earth != null)
-                        TopY = earth.Height - 2;
+                    if (Earth != null)
+                        TopY = Earth.Height - 2;
                     int NumberAlive = 0;
                     for (Iexplo = 0; Iexplo < PARTICLE_NUM; Iexplo++)
                     {
@@ -3052,7 +3052,7 @@ namespace Lemmings.NET.Screens
                     actItem = 0;
                 }
             }
-            if (!LevelEnded && ((_allBlow && numlemnow == 0) || zvTime < 0 || (numLemmings == Numlems && numlemnow == 0)))
+            if (!LevelEnded && ((AllBlow && numlemnow == 0) || ZvTime < 0 || (NumLemmings == Numlems && numlemnow == 0)))
             {
                 if (!MyGame.Paused)
                     rest++;  // var to wait until menu appears gives this way 4 seconds plus more
@@ -3156,9 +3156,9 @@ namespace Lemmings.NET.Screens
                     LemmingsNetGame.Instance.CurrentScreen = ECurrentScreen.InGame;
                     numSaved = 0;
                     numlemnow = 0;
-                    numLemmings = 0;
+                    NumLemmings = 0;
                     fade = true;
-                    millisecondsElapsed = 0;
+                    MillisecondsElapsed = 0;
                     doorOn = true;
                     Frame = 0;
                     Frame2 = 0;
@@ -3168,8 +3168,8 @@ namespace Lemmings.NET.Screens
                     rest = 0;
                     LevelEnded = false;
                     ExitLevel = false;
-                    _allBlow = false;
-                    zvTime = 0;
+                    AllBlow = false;
+                    ZvTime = 0;
                     ExitBad = false;
                     LemmingsNetGame.Instance.ReloadContent();
                     return; //next level
@@ -3180,9 +3180,9 @@ namespace Lemmings.NET.Screens
                     LemmingsNetGame.Instance.CurrentScreen = ECurrentScreen.InGame;
                     numSaved = 0;
                     numlemnow = 0;
-                    numLemmings = 0;
+                    NumLemmings = 0;
                     fade = true;
-                    millisecondsElapsed = 0;
+                    MillisecondsElapsed = 0;
                     doorOn = true;
                     Frame = 0;
                     Frame2 = 0;
@@ -3192,8 +3192,8 @@ namespace Lemmings.NET.Screens
                     rest = 0;
                     LevelEnded = false;
                     ExitLevel = false;
-                    _allBlow = false;
-                    zvTime = 0;
+                    AllBlow = false;
+                    ZvTime = 0;
                     ExitBad = false;
                     LemmingsNetGame.Instance.ReloadContent();
                     return;
@@ -3202,19 +3202,19 @@ namespace Lemmings.NET.Screens
                 LemmingsNetGame.Instance.ScreenMainMenu.MouseLevelChoose = 0;
                 LevelEnded = false;
                 ExitLevel = false;
-                _allBlow = false;
-                zvTime = 0;
+                AllBlow = false;
+                ZvTime = 0;
                 ExitBad = false;
-                numLemmings = 0;
+                NumLemmings = 0;
                 LemmingsNetGame.Instance.ReloadContent();
                 LemmingsNetGame.Instance.BackToMenu();
                 return;
             }
 
-            if (_allBlow && actualBlow < numLemmings) // crash crash TEST TEST
+            if (AllBlow && actualBlow < NumLemmings) // crash crash TEST TEST
             {
-                if (!lemming[actualBlow].Dead && !lemming[actualBlow].Explode)
-                    lemming[actualBlow].Exploser = true;
+                if (!Lemming[actualBlow].Dead && !Lemming[actualBlow].Explode)
+                    Lemming[actualBlow].Exploser = true;
                 actualBlow++;
             }
             if (Input.PreviousKeyState.IsKeyDown(Keys.P) && Input.CurrentKeyState.IsKeyUp(Keys.P))
@@ -3277,13 +3277,13 @@ namespace Lemmings.NET.Screens
         {
             Point mousepos = Input.CurrentMouseState.Position;
             if (mousepos.X + 20 > MyGame.GameResolution.X &&
-                ScrollX + MyGame.GameResolution.X < earth.Width)
+                ScrollX + MyGame.GameResolution.X < Earth.Width)
             {
                 ScrollX += 5;
             }
-            if (ScrollX + MyGame.GameResolution.X > earth.Width)
+            if (ScrollX + MyGame.GameResolution.X > Earth.Width)
             {
-                ScrollX = earth.Width - MyGame.GameResolution.X;
+                ScrollX = Earth.Width - MyGame.GameResolution.X;
             }
             if (mousepos.X < -10 && ScrollX > 0)
             {
@@ -3293,13 +3293,13 @@ namespace Lemmings.NET.Screens
             {
                 ScrollX = 0;
             }
-            if (mousepos.Y + 20 > MyGame.GameResolution.Y && ScrollY + 512 < earth.Height)
+            if (mousepos.Y + 20 > MyGame.GameResolution.Y && ScrollY + 512 < Earth.Height)
             {
                 ScrollY += 5;
             }
-            if (ScrollY + 512 > earth.Height)
+            if (ScrollY + 512 > Earth.Height)
             {
-                ScrollY = earth.Height - 512;
+                ScrollY = Earth.Height - 512;
             }
             if (mousepos.Y < -10 && ScrollY > 0)
             {
@@ -3327,9 +3327,9 @@ namespace Lemmings.NET.Screens
             exit_rect.Y = output1Y - 5;
             exit_rect.Width = 10;
             exit_rect.Height = 10;
-            if (draw2 && doorOn && Frame > 30)
+            if (Draw2 && doorOn && Frame > 30)
             {
-                totalTime = 0;
+                TotalTime = 0;
                 int xx55 = varDoor[AllLevel[LemmingsNetGame.Instance.CurrentLevelNumber].TypeOfDoor].numFram - 1;
                 frameDoor++;
                 if (frameDoor == 1 && LemmingsNetGame.Instance.Sfx.EntryLemmings.State == SoundState.Stopped && !doorWaveOn)
@@ -3346,8 +3346,8 @@ namespace Lemmings.NET.Screens
                 }
             }
             bool pullLemmings = false;
-            float delayPercent = 27 - _inGameMenu.frequencyNumber * 0.26f; // see to fix speed of lemmings release on door only when change frecuency (not so good)
-            if (dibuja && !doorOn)
+            float delayPercent = 27 - _inGameMenu.FrequencyNumber * 0.26f; // see to fix speed of lemmings release on door only when change frecuency (not so good)
+            if (Dibuja && !doorOn)
             {
                 exitFrame++;
                 if (exitFrame >= (int)delayPercent)
@@ -3357,7 +3357,7 @@ namespace Lemmings.NET.Screens
                 }
             }
             //test to see difference with anterior process
-            if (pullLemmings && numLemmings != Numlems && !_allBlow)
+            if (pullLemmings && NumLemmings != Numlems && !AllBlow)
             {
                 if (numTOTdoors > 1 && moreDoors != null) // more than 1 door is different calculation
                 {
@@ -3366,53 +3366,53 @@ namespace Lemmings.NET.Screens
                     numACTdoor++;
                     if (numACTdoor >= numTOTdoors)
                         numACTdoor = 0;
-                    lemming[numLemmings].PosY = door1Y;
-                    lemming[numLemmings].PosX = door1X + 35;
+                    Lemming[NumLemmings].PosY = door1Y;
+                    Lemming[NumLemmings].PosX = door1X + 35;
                 }
                 else
                 {
-                    lemming[numLemmings].PosY = door1Y;
-                    lemming[numLemmings].PosX = door1X + 35;
+                    Lemming[NumLemmings].PosY = door1Y;
+                    Lemming[NumLemmings].PosX = door1X + 35;
                 }
-                lemming[numLemmings].PosY = door1Y;
-                lemming[numLemmings].PosX = door1X + 35;
-                lemming[numLemmings].Numframes = 0;
-                lemming[numLemmings].Right = true;
-                lemming[numLemmings].Fall = true;
-                lemming[numLemmings].Walker = false;
-                lemming[numLemmings].Pixelscaida = 0;
-                lemming[numLemmings].Numframes = SizeSprites.faller_frames;
-                lemming[numLemmings].Actualframe = 0;
-                lemming[numLemmings].Onmouse = false;
-                lemming[numLemmings].Active = true;
-                lemming[numLemmings].Exit = false;
-                lemming[numLemmings].Dead = false;
-                lemming[numLemmings].Digger = false;
-                lemming[numLemmings].Climber = false;
-                lemming[numLemmings].Climbing = false;
-                lemming[numLemmings].Umbrella = false;
-                lemming[numLemmings].Falling = false;
-                lemming[numLemmings].Framescut = false;
-                lemming[numLemmings].Breakfloor = false;
-                lemming[numLemmings].Exploser = false;
-                lemming[numLemmings].Explode = false;
-                lemming[numLemmings].Time = 0;
-                lemming[numLemmings].Blocker = false;
-                lemming[numLemmings].Builder = false;
-                lemming[numLemmings].Basher = false;
-                lemming[numLemmings].Miner = false;
-                lemming[numLemmings].Bridge = false;
-                lemming[numLemmings].Burned = false;
-                lemming[numLemmings].Drown = false;
-                numLemmings++;
+                Lemming[NumLemmings].PosY = door1Y;
+                Lemming[NumLemmings].PosX = door1X + 35;
+                Lemming[NumLemmings].Numframes = 0;
+                Lemming[NumLemmings].Right = true;
+                Lemming[NumLemmings].Fall = true;
+                Lemming[NumLemmings].Walker = false;
+                Lemming[NumLemmings].Pixelscaida = 0;
+                Lemming[NumLemmings].Numframes = SizeSprites.faller_frames;
+                Lemming[NumLemmings].Actualframe = 0;
+                Lemming[NumLemmings].Onmouse = false;
+                Lemming[NumLemmings].Active = true;
+                Lemming[NumLemmings].Exit = false;
+                Lemming[NumLemmings].Dead = false;
+                Lemming[NumLemmings].Digger = false;
+                Lemming[NumLemmings].Climber = false;
+                Lemming[NumLemmings].Climbing = false;
+                Lemming[NumLemmings].Umbrella = false;
+                Lemming[NumLemmings].Falling = false;
+                Lemming[NumLemmings].Framescut = false;
+                Lemming[NumLemmings].Breakfloor = false;
+                Lemming[NumLemmings].Exploser = false;
+                Lemming[NumLemmings].Explode = false;
+                Lemming[NumLemmings].Time = 0;
+                Lemming[NumLemmings].Blocker = false;
+                Lemming[NumLemmings].Builder = false;
+                Lemming[NumLemmings].Basher = false;
+                Lemming[NumLemmings].Miner = false;
+                Lemming[NumLemmings].Bridge = false;
+                Lemming[NumLemmings].Burned = false;
+                Lemming[NumLemmings].Drown = false;
+                NumLemmings++;
                 numlemnow++;
             }
 
-            for (actLEM2 = 0; actLEM2 < numLemmings; actLEM2++)
+            for (actLEM2 = 0; actLEM2 < NumLemmings; actLEM2++)
             {
-                x.X = lemming[actLEM2].PosX + 14;
-                x.Y = lemming[actLEM2].PosY + 25;
-                if (lemming[actLEM2].Exit && lemming[actLEM2].Actualframe == 13) // change frame of yipee sound, old frame was init or 0 now different for frames
+                x.X = Lemming[actLEM2].PosX + 14;
+                x.Y = Lemming[actLEM2].PosY + 25;
+                if (Lemming[actLEM2].Exit && Lemming[actLEM2].Actualframe == 13) // change frame of yipee sound, old frame was init or 0 now different for frames
                 {
                     if (LemmingsNetGame.Instance.Sfx.Yippe.State == SoundState.Playing)
                     {
@@ -3426,17 +3426,17 @@ namespace Lemmings.NET.Screens
                 }
                 if (moreexits == null)
                 {
-                    if (exit_rect.Contains(x) && !lemming[actLEM2].Exit && !lemming[actLEM2].Explode)
+                    if (exit_rect.Contains(x) && !Lemming[actLEM2].Exit && !Lemming[actLEM2].Explode)
                     {
-                        lemming[actLEM2].PosX = output1X - 19;
-                        lemming[actLEM2].PosY = output1Y - 30;
-                        lemming[actLEM2].Active = false;
-                        lemming[actLEM2].Walker = false;
-                        lemming[actLEM2].Fall = false;
-                        lemming[actLEM2].Falling = false;
-                        lemming[actLEM2].Exit = true;
-                        lemming[actLEM2].Numframes = SizeSprites.sale_frames;
-                        lemming[actLEM2].Actualframe = 0;
+                        Lemming[actLEM2].PosX = output1X - 19;
+                        Lemming[actLEM2].PosY = output1Y - 30;
+                        Lemming[actLEM2].Active = false;
+                        Lemming[actLEM2].Walker = false;
+                        Lemming[actLEM2].Fall = false;
+                        Lemming[actLEM2].Falling = false;
+                        Lemming[actLEM2].Exit = true;
+                        Lemming[actLEM2].Numframes = SizeSprites.sale_frames;
+                        Lemming[actLEM2].Actualframe = 0;
                     }
                 }
                 else
@@ -3449,17 +3449,17 @@ namespace Lemmings.NET.Screens
                         exit_rect.Y = output1Y - 5;
                         exit_rect.Width = 10;
                         exit_rect.Height = 10;
-                        if (exit_rect.Contains(x) && !lemming[actLEM2].Exit && !lemming[actLEM2].Explode)
+                        if (exit_rect.Contains(x) && !Lemming[actLEM2].Exit && !Lemming[actLEM2].Explode)
                         {
-                            lemming[actLEM2].PosX = output1X - 19; //14+5 middle of the exit rect
-                            lemming[actLEM2].PosY = output1Y - 30; //25+5
-                            lemming[actLEM2].Active = false;
-                            lemming[actLEM2].Walker = false;
-                            lemming[actLEM2].Fall = false;
-                            lemming[actLEM2].Falling = false;
-                            lemming[actLEM2].Exit = true;
-                            lemming[actLEM2].Numframes = SizeSprites.sale_frames;
-                            lemming[actLEM2].Actualframe = 0; // break; //i'm not sure if it's necessary this break
+                            Lemming[actLEM2].PosX = output1X - 19; //14+5 middle of the exit rect
+                            Lemming[actLEM2].PosY = output1Y - 30; //25+5
+                            Lemming[actLEM2].Active = false;
+                            Lemming[actLEM2].Walker = false;
+                            Lemming[actLEM2].Fall = false;
+                            Lemming[actLEM2].Falling = false;
+                            Lemming[actLEM2].Exit = true;
+                            Lemming[actLEM2].Numframes = SizeSprites.sale_frames;
+                            Lemming[actLEM2].Actualframe = 0; // break; //i'm not sure if it's necessary this break
                         }
                     }
                 }

@@ -46,7 +46,7 @@ namespace Lemmings.NET.Screens
         private readonly int posm = 742;
         private readonly int posy = 572;
         private bool op1 = false, op2 = false, op13 = false;
-        public int frequencyNumber { get; set; } = 50;
+        public int FrequencyNumber { get; set; } = 50;
         private int numerominfrecuencia = 50, zv = 0;
         private float mmscale2, mmscaley, mmscaley2, xscale, yscale, mmscale;
         private readonly int posymenu = 575;
@@ -65,7 +65,7 @@ namespace Lemmings.NET.Screens
         internal void Init()
         {
             numerominfrecuencia = _inGame.AllLevel[LemmingsNetGame.Instance.CurrentLevelNumber].MinFrequencyComming;
-            frequencyNumber = _inGame.AllLevel[LemmingsNetGame.Instance.CurrentLevelNumber].FrequencyComming;
+            FrequencyNumber = _inGame.AllLevel[LemmingsNetGame.Instance.CurrentLevelNumber].FrequencyComming;
         }
 
         internal void Update()
@@ -82,12 +82,12 @@ namespace Lemmings.NET.Screens
             {
                 _inGame.r3 = MyGame.Rnd.Next(40, 90);
             }
-            if (_inGame.earth.Width > MyGame.GameResolution.X)
-                xscale = (float)336 / _inGame.earth.Width;
+            if (_inGame.Earth.Width > MyGame.GameResolution.X)
+                xscale = (float)336 / _inGame.Earth.Width;
             else
                 xscale = (float)336 / MyGame.GameResolution.X;
-            if (_inGame.earth.Height > MyGame.GameResolution.Y - 188)
-                yscale = (float)84 / _inGame.earth.Height;
+            if (_inGame.Earth.Height > MyGame.GameResolution.Y - 188)
+                yscale = (float)84 / _inGame.Earth.Height;
             else
                 yscale = (float)84 / (MyGame.GameResolution.Y - 188);
             // float scale = Math.Min(xscale, yscale);  // scale from voth axis for real size
@@ -104,7 +104,7 @@ namespace Lemmings.NET.Screens
                 framblink1 = 0;
                 blink1on = true;
             }  // bbbbbbbbbbbbbbllllllllllllllblinking eyes menu 1-2-3
-            if (blink1on && _inGame.dibuja)
+            if (blink1on && _inGame.Dibuja)
             {
                 framblink1++;
                 if (framblink1 > 8)
@@ -118,7 +118,7 @@ namespace Lemmings.NET.Screens
                 framblink2 = 0;
                 blink2on = true;
             }
-            if (blink2on && _inGame.dibuja)
+            if (blink2on && _inGame.Dibuja)
             {
                 framblink2++;
                 if (framblink2 > 8)
@@ -132,7 +132,7 @@ namespace Lemmings.NET.Screens
                 framblink3 = 0;
                 blink3on = true;
             }
-            if (blink3on && _inGame.dibuja)
+            if (blink3on && _inGame.Dibuja)
             {
                 framblink3++;
                 if (framblink3 > 8)
@@ -141,13 +141,13 @@ namespace Lemmings.NET.Screens
                     _inGame.r3 = 0;
                 }
             }
-            zv = (int)_inGame.totalTime;
+            zv = (int)_inGame.TotalTime;
             if (_inGame.fade)
             {
                 zv = 0;
                 _inGame.Contadortime = 0;
             }
-            if (_inGame.draw2)
+            if (_inGame.Draw2)
             {
                 framecae++;
                 if (framecae > 3)
@@ -198,8 +198,8 @@ namespace Lemmings.NET.Screens
             if (LemmingsNetGame.Instance.Sfx.ChangeOp.State == SoundState.Playing && (op1 || op2))
             {
                 LemmingsNetGame.Instance.Sfx.ChangeOp.Stop();
-                LemmingsNetGame.Instance.Sfx.ChangeOp.Pitch = -1f + frequencyNumber * 0.02f;
-                LemmingsNetGame.Instance.Sfx.ChangeOp.Volume = 0.25f + frequencyNumber * 0.005f;
+                LemmingsNetGame.Instance.Sfx.ChangeOp.Pitch = -1f + FrequencyNumber * 0.02f;
+                LemmingsNetGame.Instance.Sfx.ChangeOp.Volume = 0.25f + FrequencyNumber * 0.005f;
             }
             else
             {
@@ -214,23 +214,23 @@ namespace Lemmings.NET.Screens
             // medium position for bucle medx medy
             if ((rectop1.Contains(Input.CurrentMouseState.Position) && Input.CurrentMouseState.LeftButton == ButtonState.Pressed) || _decreaseOn)
             {
-                LemmingsNetGame.Instance.Sfx.ChangeOp.Pitch = -1f + frequencyNumber * 0.02f;
-                LemmingsNetGame.Instance.Sfx.ChangeOp.Volume = 0.25f + frequencyNumber * 0.005f;
+                LemmingsNetGame.Instance.Sfx.ChangeOp.Pitch = -1f + FrequencyNumber * 0.02f;
+                LemmingsNetGame.Instance.Sfx.ChangeOp.Volume = 0.25f + FrequencyNumber * 0.005f;
                 if (LemmingsNetGame.Instance.Sfx.ChangeOp.State == SoundState.Stopped)
                     try
                     {
                         LemmingsNetGame.Instance.Sfx.ChangeOp.Play();
                     }
                     catch (InstancePlayLimitException) { /* Ignore errors */ }
-                if (frequencyNumber == numerominfrecuencia)
+                if (FrequencyNumber == numerominfrecuencia)
                 {
                     LemmingsNetGame.Instance.Sfx.ChangeOp.Stop();
                 }
                 op1 = true;
-                if (_inGame.draw2)
-                    frequencyNumber -= 1; // on monogame 3.6 crash if frecuencia -1 only puto puto
-                if (frequencyNumber < numerominfrecuencia)
-                    frequencyNumber = numerominfrecuencia;
+                if (_inGame.Draw2)
+                    FrequencyNumber -= 1; // on monogame 3.6 crash if frecuencia -1 only puto puto
+                if (FrequencyNumber < numerominfrecuencia)
+                    FrequencyNumber = numerominfrecuencia;
             }
             else
             {
@@ -238,23 +238,23 @@ namespace Lemmings.NET.Screens
             }
             if ((rectop2.Contains(Input.CurrentMouseState.Position) && Input.CurrentMouseState.LeftButton == ButtonState.Pressed) || _increaseOn)
             {
-                LemmingsNetGame.Instance.Sfx.ChangeOp.Pitch = -1f + frequencyNumber * 0.02f;
-                LemmingsNetGame.Instance.Sfx.ChangeOp.Volume = 0.25f + frequencyNumber * 0.005f;
+                LemmingsNetGame.Instance.Sfx.ChangeOp.Pitch = -1f + FrequencyNumber * 0.02f;
+                LemmingsNetGame.Instance.Sfx.ChangeOp.Volume = 0.25f + FrequencyNumber * 0.005f;
                 if (LemmingsNetGame.Instance.Sfx.ChangeOp.State == SoundState.Stopped)
                     try
                     {
                         LemmingsNetGame.Instance.Sfx.ChangeOp.Play();
                     }
                     catch (InstancePlayLimitException) { /* Ignore errors */ }
-                if (frequencyNumber == 99)
+                if (FrequencyNumber == 99)
                 {
                     LemmingsNetGame.Instance.Sfx.ChangeOp.Stop();
                 }
                 op2 = true;
-                if (_inGame.draw2)
-                    frequencyNumber += 1; // on monogame 3.6 crash if frecuencia +1 only
-                if (frequencyNumber > 99)
-                    frequencyNumber = 99;
+                if (_inGame.Draw2)
+                    FrequencyNumber += 1; // on monogame 3.6 crash if frecuencia +1 only
+                if (FrequencyNumber > 99)
+                    FrequencyNumber = 99;
             }
             else
             {
@@ -305,16 +305,16 @@ namespace Lemmings.NET.Screens
                 LemmingsNetGame.Instance.Sfx.PlaySoundMenu();
                 MyGame.Paused = !MyGame.Paused;
             }
-            if (rectop12.Contains(Input.CurrentMouseState.Position) && (Input.PreviousMouseState.LeftButton == ButtonState.Released && Input.CurrentMouseState.LeftButton == ButtonState.Pressed) && !_inGame._allBlow)
+            if (rectop12.Contains(Input.CurrentMouseState.Position) && (Input.PreviousMouseState.LeftButton == ButtonState.Released && Input.CurrentMouseState.LeftButton == ButtonState.Pressed) && !_inGame.AllBlow)
             {
-                if (clickTimer1 > 0 && _inGame.millisecondsElapsed - clickTimer1 < 300)
+                if (clickTimer1 > 0 && _inGame.MillisecondsElapsed - clickTimer1 < 300)
                 {
                     LemmingsNetGame.Instance.Sfx.PlaySoundMenu();
                     clickTimer1 = 0;
-                    _inGame._allBlow = true;
+                    _inGame.AllBlow = true;
                 }
                 else
-                    clickTimer1 = _inGame.millisecondsElapsed;
+                    clickTimer1 = _inGame.MillisecondsElapsed;
             } // BOMBERS ALL
             if (Input.CurrentMouseState.LeftButton == ButtonState.Released)
                 _alreadyPlayed = false;
@@ -347,23 +347,23 @@ namespace Lemmings.NET.Screens
                 mmscale2 = (_inGame.ScrollX + MyGame.GameResolution.X) * xscale;
                 mmscaley = _inGame.ScrollY * yscale;
                 mmscaley2 = (_inGame.ScrollY + MyGame.GameResolution.Y - 188) * yscale;
-                float mxscale = (float)_inGame.earth.Width / 336;
-                float myscale = (float)_inGame.earth.Height / 84;
+                float mxscale = (float)_inGame.Earth.Width / 336;
+                float myscale = (float)_inGame.Earth.Height / 84;
                 float mousexscale = ((Input.CurrentMouseState.Position.X - posm + 14) * mxscale) - (MyGame.GameResolution.X / 2); // center x axis in minimap (xscroll)
                 float mouseyscale = ((Input.CurrentMouseState.Position.Y - posy) + 28) * myscale;
                 _inGame.ScrollX = (int)mousexscale;
-                if (_inGame.ScrollX + MyGame.GameResolution.X > _inGame.earth.Width)
+                if (_inGame.ScrollX + MyGame.GameResolution.X > _inGame.Earth.Width)
                 {
-                    _inGame.ScrollX = _inGame.earth.Width - MyGame.GameResolution.X;
+                    _inGame.ScrollX = _inGame.Earth.Width - MyGame.GameResolution.X;
                 }
                 if (_inGame.ScrollX < 0)
                 {
                     _inGame.ScrollX = 0;
                 }
                 _inGame.ScrollY = (int)mouseyscale - MyGame.GameResolution.Y - 188;
-                if (_inGame.ScrollY + MyGame.GameResolution.Y - 188 > _inGame.earth.Height)
+                if (_inGame.ScrollY + MyGame.GameResolution.Y - 188 > _inGame.Earth.Height)
                 {
-                    _inGame.ScrollY = _inGame.earth.Height - MyGame.GameResolution.Y - 188;
+                    _inGame.ScrollY = _inGame.Earth.Height - MyGame.GameResolution.Y - 188;
                 }
                 if (_inGame.ScrollY < 0)
                 {
@@ -461,7 +461,7 @@ namespace Lemmings.NET.Screens
             colorFill.A = 255;
             vectorFill2.X = xscale;
             vectorFill2.Y = yscale;
-            spriteBatch.Draw(_inGame.earth, vectorFill, null, colorFill, 0f, Vector2.Zero, vectorFill2, /*scale is the real proportion*/ SpriteEffects.None, 0.090f);
+            spriteBatch.Draw(_inGame.Earth, vectorFill, null, colorFill, 0f, Vector2.Zero, vectorFill2, /*scale is the real proportion*/ SpriteEffects.None, 0.090f);
             //draw yellow lines on the mini menu
             vectorFill.X = posm + mmscale;
             vectorFill.Y = posy + mmscaley;
@@ -483,12 +483,12 @@ namespace Lemmings.NET.Screens
             vectorFill2.X = posm + mmscale2;
             vectorFill2.Y = posy + mmscaley2;
             LemmingsNetGame.Instance.Gfx.DrawLine(spriteBatch, vectorFill, vectorFill2, Color.Yellow, 1, 0.007f);
-            for (int i = 0; i < _inGame.numLemmings; i++)
+            for (int i = 0; i < _inGame.NumLemmings; i++)
             {
-                if (!_inGame.lemming[i].Dead)
+                if (!_inGame.Lemming[i].Dead)
                 {
-                    float lemxscale = (_inGame.lemming[i].PosX + 12) * xscale;
-                    float lemyscale = (_inGame.lemming[i].PosY + 20) * yscale;
+                    float lemxscale = (_inGame.Lemming[i].PosX + 12) * xscale;
+                    float lemyscale = (_inGame.Lemming[i].PosY + 20) * yscale;
                     vectorFill.X = posm + lemxscale;
                     vectorFill.Y = 572 + lemyscale;
                     vectorFill2.X = posm + lemxscale + 2;
@@ -500,7 +500,7 @@ namespace Lemmings.NET.Screens
             vectorFill.Y = 560;
             LemmingsNetGame.Instance.Fonts.TextLem(string.Format("{0,2:D2}", numerominfrecuencia), vectorFill, Color.LimeGreen, 0.5f, 0.1f, spriteBatch);
             vectorFill.X = 80;
-            LemmingsNetGame.Instance.Fonts.TextLem(string.Format("{0,2:D2}", frequencyNumber), vectorFill, Color.LimeGreen, 0.5f, 0.1f, spriteBatch);
+            LemmingsNetGame.Instance.Fonts.TextLem(string.Format("{0,2:D2}", FrequencyNumber), vectorFill, Color.LimeGreen, 0.5f, 0.1f, spriteBatch);
             vectorFill.X = 80 + 55;
             LemmingsNetGame.Instance.Fonts.TextLem(string.Format("{0,2:D2}", _inGame._nbClimberRemaining), vectorFill, Color.LimeGreen, 0.5f, 0.1f, spriteBatch);
             vectorFill.X = 80 + 2 * 55;
@@ -520,12 +520,12 @@ namespace Lemmings.NET.Screens
             vectorFill.X = 890;
             vectorFill.Y = 518;
             LemmingsNetGame.Instance.Fonts.TextLem("Time", vectorFill, Color.Yellow, 1f, 0.1f, spriteBatch);
-            _inGame.zvTime = (_inGame.AllLevel[LemmingsNetGame.Instance.CurrentLevelNumber].totalTime * 60) - (int)_inGame.totalTime;
-            if (_inGame.zvTime < 0)
-                _inGame.zvTime = -1; //see that -1 is necesary for end by time -- it test (zvtime < 0)
+            _inGame.ZvTime = (_inGame.AllLevel[LemmingsNetGame.Instance.CurrentLevelNumber].totalTime * 60) - (int)_inGame.TotalTime;
+            if (_inGame.ZvTime < 0)
+                _inGame.ZvTime = -1; //see that -1 is necesary for end by time -- it test (zvtime < 0)
             vectorFill.X = 982;
             vectorFill.Y = 518;
-            LemmingsNetGame.Instance.Fonts.TextLem(string.Format("{0,2:D2}", _inGame.zvTime / 60) + ":" + string.Format("{0,2:D2}", _inGame.zvTime % 60), vectorFill, Color.Lime, 1f, 0.1f, spriteBatch);
+            LemmingsNetGame.Instance.Fonts.TextLem(string.Format("{0,2:D2}", _inGame.ZvTime / 60) + ":" + string.Format("{0,2:D2}", _inGame.ZvTime % 60), vectorFill, Color.Lime, 1f, 0.1f, spriteBatch);
             vectorFill.X = 1016;
             vectorFill.Y = 547;
             LemmingsNetGame.Instance.Fonts.TextLem(string.Format("{0,2:D2}", zv / 60) + ":" + string.Format("{0,2:D2}", zv % 60), vectorFill, Color.Green, 0.5f, 0.1f, spriteBatch);
@@ -673,14 +673,14 @@ namespace Lemmings.NET.Screens
 
             vectorFill.X = 45 + 11 * 55;
             vectorFill.Y = posymenu + 31;
-            spriteBatch.Draw(LemmingsNetGame.Instance.Sprites.Circulo_led, vectorFill, rectangleFill, (_inGame._allBlow ? Color.White : sombramenu), (_inGame._allBlow ? cosa : 0), vectorFill2, 1f, SpriteEffects.None, 0.1f);
+            spriteBatch.Draw(LemmingsNetGame.Instance.Sprites.Circulo_led, vectorFill, rectangleFill, (_inGame.AllBlow ? Color.White : sombramenu), (_inGame.AllBlow ? cosa : 0), vectorFill2, 1f, SpriteEffects.None, 0.1f);
             vectorFill.X = 24 + 11 * 55;
             vectorFill.Y = posymenu + 6;
             rectangleFill2.X = 0;
-            rectangleFill2.Y = (_inGame._allBlow ? 40 : 0);
+            rectangleFill2.Y = (_inGame.AllBlow ? 40 : 0);
             rectangleFill2.Width = 32;
             rectangleFill2.Height = 40;
-            spriteBatch.Draw(LemmingsNetGame.Instance.Sprites.Bomba, vectorFill, rectangleFill2, (_inGame._allBlow ? Color.White : sombramenu), 0f, Vector2.Zero, 1.3f, SpriteEffects.None, 0.11f);
+            spriteBatch.Draw(LemmingsNetGame.Instance.Sprites.Bomba, vectorFill, rectangleFill2, (_inGame.AllBlow ? Color.White : sombramenu), 0f, Vector2.Zero, 1.3f, SpriteEffects.None, 0.11f);
 
             vectorFill.X = 45 + 12 * 55;
             vectorFill.Y = posymenu + 31;

@@ -470,12 +470,12 @@ namespace Lemmings.NET.Screens
                 LemmingsNetGame.Instance.Exit();
             }
             LemmingsNetGame.Instance.ScreenInGame.Frame2++;
-            LemmingsNetGame.Instance.ScreenInGame.dibuja = false;
+            LemmingsNetGame.Instance.ScreenInGame.Dibuja = false;
             if (LemmingsNetGame.Instance.ScreenInGame.Frame2 > 6)
             {
                 LemmingsNetGame.Instance.ScreenInGame.Frame2 = 0;
                 LemmingsNetGame.Instance.ScreenInGame.Frame++;
-                LemmingsNetGame.Instance.ScreenInGame.dibuja = true;
+                LemmingsNetGame.Instance.ScreenInGame.Dibuja = true;
             }
             if (LemmingsNetGame.Instance.ScreenInGame.r1 == 0)
             {
@@ -494,7 +494,7 @@ namespace Lemmings.NET.Screens
                 framblink1 = 0;
                 blink1on = true;
             }  // bbbbbbbbbbbbbbllllllllllllllblinking eyes menu 1-2-3
-            if (blink1on && LemmingsNetGame.Instance.ScreenInGame.dibuja)
+            if (blink1on && LemmingsNetGame.Instance.ScreenInGame.Dibuja)
             {
                 framblink1++;
                 if (framblink1 > 8)
@@ -508,7 +508,7 @@ namespace Lemmings.NET.Screens
                 framblink2 = 0;
                 blink2on = true;
             }
-            if (blink2on && LemmingsNetGame.Instance.ScreenInGame.dibuja)
+            if (blink2on && LemmingsNetGame.Instance.ScreenInGame.Dibuja)
             {
                 framblink2++;
                 if (framblink2 > 8)
@@ -522,7 +522,7 @@ namespace Lemmings.NET.Screens
                 framblink3 = 0;
                 blink3on = true;
             }
-            if (blink3on && LemmingsNetGame.Instance.ScreenInGame.dibuja)
+            if (blink3on && LemmingsNetGame.Instance.ScreenInGame.Dibuja)
             {
                 framblink3++;
                 if (framblink3 > 8)
