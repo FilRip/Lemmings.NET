@@ -5,7 +5,7 @@ namespace Lemmings.NET.Datatables;
 
 internal class Vfx
 {
-    public Effect Efecto { get; private set; }
+    internal Effect Efecto { get; private set; }
 
     internal void Load(ContentManager content)
     {

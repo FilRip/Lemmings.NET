@@ -5,22 +5,22 @@ namespace Lemmings.NET.Datatables;
 
 internal class Sprites
 {
-    public Texture2D Climber { get; private set; }
-    public Texture2D Builder { get; private set; }
-    public Texture2D Walker { get; private set; }
-    public Texture2D Blocker { get; private set; }
-    public Texture2D Digger { get; private set; }
-    public Texture2D Falling { get; private set; }
-    public Texture2D Exploder { get; private set; }
-    public Texture2D Drowner { get; private set; }
-    public Texture2D EyeBlink1 { get; private set; }
-    public Texture2D EyeBlink2 { get; private set; }
-    public Texture2D EyeBlink3 { get; private set; }
-    public Texture2D Circulo_led { get; private set; }
-    public Texture2D Avanzar { get; private set; }
-    public Texture2D Mas, Menos, Paraguas, Puente, Pausa, Pared, Pico, Bomba, Rompesuelo, Agua2, Nubes_2, Nubes;
-    public Texture2D Cuadrado_menu, Chink;
-    public Texture2D Lohno;
+    internal Texture2D Climber { get; private set; }
+    internal Texture2D Builder { get; private set; }
+    internal Texture2D Walker { get; private set; }
+    internal Texture2D Blocker { get; private set; }
+    internal Texture2D Digger { get; private set; }
+    internal Texture2D Falling { get; private set; }
+    internal Texture2D Exploder { get; private set; }
+    internal Texture2D Drowner { get; private set; }
+    internal Texture2D EyeBlink1 { get; private set; }
+    internal Texture2D EyeBlink2 { get; private set; }
+    internal Texture2D EyeBlink3 { get; private set; }
+    internal Texture2D Circulo_led { get; private set; }
+    internal Texture2D Avanzar { get; private set; }
+    internal Texture2D Mas, Menos, Paraguas, Puente, Pausa, Pared, Pico, Bomba, Rompesuelo, Agua2, Nubes_2, Nubes;
+    internal Texture2D Cuadrado_menu, Chink;
+    internal Texture2D Lohno;
 
     internal void LoadContent(ContentManager content)
     {

@@ -1,16 +1,25 @@
-﻿using Microsoft.Xna.Framework.Content;
+﻿using Lemmings.NET.Models;
+
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace Lemmings.NET.Datatables;
 
 internal class MouseManager
 {
-    public Texture2D MouseCross { get; private set; }
-    public Texture2D MouseOverLemmings { get; private set; }
+    internal Texture2D MouseCross { get; private set; }
+    internal Texture2D MouseOverLemmings { get; private set; }
 
-    public void LoadContent(ContentManager content)
+    internal void LoadContent(ContentManager content)
     {
         MouseOverLemmings = content.Load<Texture2D>("raton_on1");
         MouseCross = content.Load<Texture2D>("raton_off1");
+    }
+
+    internal void Draw(SpriteBatch spriteBatch, bool MouseOnLem = false)
+    {
+        spriteBatch.Draw((MouseOnLem ? MouseOverLemmings : MouseCross), new Vector2(Input.CurrentMouseState.X, Input.CurrentMouseState.Y), new Rectangle(0, 0, 34, 34), Color.White, 0f, Vector2.Zero,
+            1f, SpriteEffects.None, 0f);
     }
 }

@@ -49,7 +49,7 @@
     <Compile Include="Constants\ECurrentScreen.cs" />
     <Compile Include="Constants\ECurrentSkill.cs" />
     <Compile Include="Constants\ELevelCategory.cs" />
-    <Compile Include="Constants\MyGame.cs" />
+    <Compile Include="Constants\GlobalConst.cs" />
     <Compile Include="Constants\SizeSprites.cs" />
     <Compile Include="Datatables\Fonts.cs" />
     <Compile Include="Datatables\Gfx.cs" />
@@ -62,8 +62,9 @@
     <Compile Include="Datatables\Sprites.cs" />
     <Compile Include="Datatables\Vfx.cs" />
     <Compile Include="GlobalSuppressions.cs" />
-    <Compile Include="LemmingsNetGame.cs" />
+    <Compile Include="MyGame.cs" />
     <Compile Include="Models\OneLemming.cs" />
+    <Compile Include="Models\SaveGame.cs" />
     <Compile Include="Screens\DebugOsd.cs" />
     <Compile Include="Screens\InGameMenu.cs" />
     <Compile Include="Structures\Door.cs" />

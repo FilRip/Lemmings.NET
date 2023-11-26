@@ -5,26 +5,26 @@ namespace Lemmings.NET.Datatables;
 
 internal class Sfx
 {
-    public SoundEffectInstance Letsgo { get; private set; }
-    public SoundEffectInstance EntryLemmings { get; private set; }
-    public SoundEffectInstance Yippe { get; private set; }
-    public SoundEffectInstance Die { get; private set; }
-    public SoundEffectInstance Splat { get; private set; }
-    public SoundEffectInstance OhNo { get; private set; }
-    public SoundEffectInstance Explode { get; private set; }
-    public SoundEffectInstance Chink { get; private set; }
-    public SoundEffectInstance Fire { get; private set; }
-    public SoundEffectInstance Glup { get; private set; }
-    public SoundEffectInstance Ting { get; private set; }
-    public SoundEffectInstance MousePre { get; private set; }
-    public SoundEffectInstance ChangeOp { get; private set; }
-    public SoundEffectInstance StrapTenton { get; private set; }
-    public SoundEffectInstance StrapMan { get; private set; }
-    public SoundEffectInstance StrapChain { get; private set; }
-    public SoundEffectInstance StrapChupar { get; private set; }
-    public SoundEffectInstance StrapTenTonnes { get; private set; }
+    internal SoundEffectInstance Letsgo { get; private set; }
+    internal SoundEffectInstance EntryLemmings { get; private set; }
+    internal SoundEffectInstance Yippe { get; private set; }
+    internal SoundEffectInstance Die { get; private set; }
+    internal SoundEffectInstance Splat { get; private set; }
+    internal SoundEffectInstance OhNo { get; private set; }
+    internal SoundEffectInstance Explode { get; private set; }
+    internal SoundEffectInstance Chink { get; private set; }
+    internal SoundEffectInstance Fire { get; private set; }
+    internal SoundEffectInstance Glup { get; private set; }
+    internal SoundEffectInstance Ting { get; private set; }
+    internal SoundEffectInstance MousePre { get; private set; }
+    internal SoundEffectInstance ChangeOp { get; private set; }
+    internal SoundEffectInstance StrapTenton { get; private set; }
+    internal SoundEffectInstance StrapMan { get; private set; }
+    internal SoundEffectInstance StrapChain { get; private set; }
+    internal SoundEffectInstance StrapChupar { get; private set; }
+    internal SoundEffectInstance StrapTenTonnes { get; private set; }
 
-    public void PlaySoundMenu()
+    internal void PlaySoundMenu()
     {
         if (ChangeOp.State == SoundState.Playing)
         {

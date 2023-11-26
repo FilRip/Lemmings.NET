@@ -1,5 +1,5 @@
 ﻿using System;
-using System.IO;
+using System.Linq;
 
 using Lemmings.NET.Constants;
 using Lemmings.NET.Models;
@@ -64,7 +64,6 @@ internal class InGame
     internal int Frame { get; set; }
     internal SoundEffectInstance CurrentMusic { get; set; }
     internal Texture2D MyTexture { get; set; }
-    internal bool[] LevelEnd { get; set; } = new bool[MyGame.NumTotalLevels]; //full number of levels to see which are finished or not
     internal int ActLEM { get; set; }
     internal InGameMenu InGameMenu
     {
@@ -82,7 +81,13 @@ internal class InGame
     internal Color[] Colorsobre2 { get; set; } = new Color[20 * 20];
     internal Color[] C25 { get; set; } = new Color[4096 * 4096]; // Maximun size of a color array used for mask all the level
     internal Color[] Colormask22 { get; set; } = new Color[500 * 512];
-    internal int NumSaved { get; set; }
+    internal int NumSaved
+    {
+        get
+        {
+            return Lemming.Count(l => l.Exit);
+        }
+    }
     internal Color[] Colorsobre33 { get; set; } = new Color[38 * 53];
 
     private float Contadortime2;
@@ -140,12 +145,11 @@ internal class InGame
 
     internal void LoadLevel(int newLevel, ContentManager content)
     {
-        if (LemmingsNetGame.Instance.Music.WinMusic.State == SoundState.Playing)
-            LemmingsNetGame.Instance.Music.WinMusic.Stop();
-        if (LemmingsNetGame.Instance.Music.MenuMusic.State == SoundState.Playing)
-            LemmingsNetGame.Instance.Music.MenuMusic.Stop();
+        if (MyGame.Instance.Music.WinMusic.State == SoundState.Playing)
+            MyGame.Instance.Music.WinMusic.Stop();
+        if (MyGame.Instance.Music.MenuMusic.State == SoundState.Playing)
+            MyGame.Instance.Music.MenuMusic.Stop();
         Numlemnow = 0;
-        NumSaved = 0;
         frameDoor = 0;
         frameExit = 0;
         Frame3 = 0;
@@ -153,14 +157,14 @@ internal class InGame
         doorOn = true;
         MillisecondsElapsed = 0;
         NumLemmings = 0;
-        puerta_ani = content.Load<Texture2D>("puerta" + string.Format("{0}", LemmingsNetGame.Instance.Levels.AllLevel[LemmingsNetGame.Instance.CurrentLevelNumber].TypeOfDoor)); // type of door puerta1-2-3-4 etc.
-        string xx455 = string.Format("{0}", LemmingsNetGame.Instance.Levels.AllLevel[LemmingsNetGame.Instance.CurrentLevelNumber].TypeOfExit);
+        puerta_ani = content.Load<Texture2D>("puerta" + string.Format("{0}", MyGame.Instance.Levels.AllLevel[MyGame.Instance.CurrentLevelNumber].TypeOfDoor)); // type of door puerta1-2-3-4 etc.
+        string xx455 = string.Format("{0}", MyGame.Instance.Levels.AllLevel[MyGame.Instance.CurrentLevelNumber].TypeOfExit);
         salida_ani1 = content.Load<Texture2D>("salida" + xx455);
         salida_ani1_1 = content.Load<Texture2D>("salida" + xx455 + "_1");
         sale = content.Load<Texture2D>("sale");
-        LemmingsNetGame.Instance.CurrentLevelNumber = newLevel;
+        MyGame.Instance.CurrentLevelNumber = newLevel;
         LemSkill = "";
-        MyGame.Paused = false;
+        GlobalConst.Paused = false;
         ZvTime = 0;
         AllBlow = false;
         actualBlow = 0;
@@ -188,34 +192,34 @@ internal class InGame
         ExitLevel = false;
         ExitBad = false;
 
-        Texture2D level = LemmingsNetGame.Instance.Content.Load<Texture2D>(LemmingsNetGame.Instance.Levels.AllLevel[LemmingsNetGame.Instance.CurrentLevelNumber].NameLev);
-        Earth = new Texture2D(LemmingsNetGame.Instance.GraphicsDevice, level.Width, level.Height);
+        Texture2D level = MyGame.Instance.Content.Load<Texture2D>(MyGame.Instance.Levels.AllLevel[MyGame.Instance.CurrentLevelNumber].NameLev);
+        Earth = new Texture2D(MyGame.Instance.GraphicsDevice, level.Width, level.Height);
         Color[] pixels = new Color[level.Width * level.Height];
         level.GetData(pixels);
         Earth.SetData(pixels);
         Earth.GetData(C25, 0, Earth.Height * Earth.Width); //better here than moverlemming() for performance see issues 
                                                            //see differences with old getdata, see size important (x * y)
-        door1X = LemmingsNetGame.Instance.Levels.AllLevel[LemmingsNetGame.Instance.CurrentLevelNumber].doorX;
-        door1Y = LemmingsNetGame.Instance.Levels.AllLevel[LemmingsNetGame.Instance.CurrentLevelNumber].doorY;
-        output1X = LemmingsNetGame.Instance.Levels.AllLevel[LemmingsNetGame.Instance.CurrentLevelNumber].exitX;
-        output1Y = LemmingsNetGame.Instance.Levels.AllLevel[LemmingsNetGame.Instance.CurrentLevelNumber].exitY;
+        door1X = MyGame.Instance.Levels.AllLevel[MyGame.Instance.CurrentLevelNumber].doorX;
+        door1Y = MyGame.Instance.Levels.AllLevel[MyGame.Instance.CurrentLevelNumber].doorY;
+        output1X = MyGame.Instance.Levels.AllLevel[MyGame.Instance.CurrentLevelNumber].exitX;
+        output1Y = MyGame.Instance.Levels.AllLevel[MyGame.Instance.CurrentLevelNumber].exitY;
         // this is the depth of the exit and doors animated sprites -- See level 58 the exit is behind the mountain (0.6f)
-        if (LemmingsNetGame.Instance.Levels.AllLevel[LemmingsNetGame.Instance.CurrentLevelNumber].DoorExitDepth != 0)
+        if (MyGame.Instance.Levels.AllLevel[MyGame.Instance.CurrentLevelNumber].DoorExitDepth != 0)
         {
-            DoorExitDepth = LemmingsNetGame.Instance.Levels.AllLevel[LemmingsNetGame.Instance.CurrentLevelNumber].DoorExitDepth;
+            DoorExitDepth = MyGame.Instance.Levels.AllLevel[MyGame.Instance.CurrentLevelNumber].DoorExitDepth;
         }
         else
         {
             DoorExitDepth = 0.403f;
         }
-        NbClimberRemaining = LemmingsNetGame.Instance.Levels.AllLevel[LemmingsNetGame.Instance.CurrentLevelNumber].numberClimbers;
-        NbFloaterRemaining = LemmingsNetGame.Instance.Levels.AllLevel[LemmingsNetGame.Instance.CurrentLevelNumber].numberUmbrellas;
-        NbExploderRemaining = LemmingsNetGame.Instance.Levels.AllLevel[LemmingsNetGame.Instance.CurrentLevelNumber].numberExploders;
-        NbBlockerRemaining = LemmingsNetGame.Instance.Levels.AllLevel[LemmingsNetGame.Instance.CurrentLevelNumber].numberBlockers;
-        NbBuilderRemaining = LemmingsNetGame.Instance.Levels.AllLevel[LemmingsNetGame.Instance.CurrentLevelNumber].numberBuilders;
-        NbBasherRemaining = LemmingsNetGame.Instance.Levels.AllLevel[LemmingsNetGame.Instance.CurrentLevelNumber].numberBashers;
-        NbMinerRemaining = LemmingsNetGame.Instance.Levels.AllLevel[LemmingsNetGame.Instance.CurrentLevelNumber].numberMiners;
-        NbDiggerRemaining = LemmingsNetGame.Instance.Levels.AllLevel[LemmingsNetGame.Instance.CurrentLevelNumber].numberDiggers;
+        NbClimberRemaining = MyGame.Instance.Levels.AllLevel[MyGame.Instance.CurrentLevelNumber].numberClimbers;
+        NbFloaterRemaining = MyGame.Instance.Levels.AllLevel[MyGame.Instance.CurrentLevelNumber].numberUmbrellas;
+        NbExploderRemaining = MyGame.Instance.Levels.AllLevel[MyGame.Instance.CurrentLevelNumber].numberExploders;
+        NbBlockerRemaining = MyGame.Instance.Levels.AllLevel[MyGame.Instance.CurrentLevelNumber].numberBlockers;
+        NbBuilderRemaining = MyGame.Instance.Levels.AllLevel[MyGame.Instance.CurrentLevelNumber].numberBuilders;
+        NbBasherRemaining = MyGame.Instance.Levels.AllLevel[MyGame.Instance.CurrentLevelNumber].numberBashers;
+        NbMinerRemaining = MyGame.Instance.Levels.AllLevel[MyGame.Instance.CurrentLevelNumber].numberMiners;
+        NbDiggerRemaining = MyGame.Instance.Levels.AllLevel[MyGame.Instance.CurrentLevelNumber].numberDiggers;
         if (NbClimberRemaining > 0)
         {
             _inGameMenu.CurrentSelectedSkill = ECurrentSkill.CLIMBER;
@@ -249,12 +253,12 @@ internal class InGame
             _inGameMenu.CurrentSelectedSkill = ECurrentSkill.DIGGER;
         }
         _inGameMenu.Init();
-        Numlems = LemmingsNetGame.Instance.Levels.AllLevel[LemmingsNetGame.Instance.CurrentLevelNumber].TotalLemmings;
-        Lemsneeded = LemmingsNetGame.Instance.Levels.AllLevel[LemmingsNetGame.Instance.CurrentLevelNumber].NbLemmingsToSave;
-        ScrollX = LemmingsNetGame.Instance.Levels.AllLevel[LemmingsNetGame.Instance.CurrentLevelNumber].InitPosX;
+        Numlems = MyGame.Instance.Levels.AllLevel[MyGame.Instance.CurrentLevelNumber].TotalLemmings;
+        Lemsneeded = MyGame.Instance.Levels.AllLevel[MyGame.Instance.CurrentLevelNumber].NbLemmingsToSave;
+        ScrollX = MyGame.Instance.Levels.AllLevel[MyGame.Instance.CurrentLevelNumber].InitPosX;
         ScrollY = 0;
         Lemming = new Lem[Numlems];
-        LemmingsNetGame.Instance.Levels.VariablesTraps();
+        MyGame.Instance.Levels.VariablesTraps();
     }
 
     private void Update_level()
@@ -283,7 +287,7 @@ internal class InGame
         {
             Frame2 = 0;
             Dibuja = true;
-            if (!MyGame.Paused)
+            if (!GlobalConst.Paused)
                 Frame++;
         } //without this Frame affects door speed exit
         if (Frame3 > Framesecond2)
@@ -300,7 +304,7 @@ internal class InGame
         // stop all things for exit prepare
         if (LevelEnded)
         {
-            MyGame.Paused = true;
+            GlobalConst.Paused = true;
         }
         MoverLemming();
         if (Sprite != null) //sprites logic if necessary puto77
@@ -386,7 +390,7 @@ internal class InGame
                 }
             }
         }
-        if (PlatsON && !MyGame.Paused)
+        if (PlatsON && !GlobalConst.Paused)
         {
             for (int i = 0; i < NumTOTplats; i++)
             {
@@ -427,14 +431,14 @@ internal class InGame
                             }
                         }
                     }
-                    if (LemmingsNetGame.Instance.DebugOsd.debug)
+                    if (MyGame.Instance.DebugOsd.Debug)
                         Earth.SetData(C25, 0, Earth.Width * Earth.Height); //set this only for debugger and see the real c25 redraw
                 }
                 Plats[i].frame++;
             }
         }
 
-        if (AddsON && !MyGame.Paused)
+        if (AddsON && !GlobalConst.Paused)
         {
             int startposy = Adds[0].sprite.Height / Adds[0].numFrames; // height of each frame inside the whole sprite
             int framepos = startposy * Adds[0].actFrame; // actual y position of the frame
@@ -471,7 +475,7 @@ internal class InGame
             }
             Adds[0].frame++;
         }
-        if (TrapsON && Dibuja && !MyGame.Paused)
+        if (TrapsON && Dibuja && !GlobalConst.Paused)
         {
             for (int s = 0; s < NumTotTraps; s++)
             {
@@ -494,7 +498,7 @@ internal class InGame
                 }
             }
         }
-        if (!MyGame.Paused)
+        if (!GlobalConst.Paused)
         {
             Contadortime++;
         }
@@ -552,17 +556,17 @@ internal class InGame
         z3 %= 4; // mumero de frames del agua a ver 4 de 5 que tiene la ultima esta vacia nose porque
         if (Dibuja)
         {
-            int xx66 = LemmingsNetGame.Instance.Levels.VarExit[LemmingsNetGame.Instance.Levels.AllLevel[LemmingsNetGame.Instance.CurrentLevelNumber].TypeOfExit].numFram - 1;
+            int xx66 = MyGame.Instance.Levels.VarExit[MyGame.Instance.Levels.AllLevel[MyGame.Instance.CurrentLevelNumber].TypeOfExit].numFram - 1;
             frameExit++;
             if (frameExit > xx66)
             {
                 frameExit = 0;
             }
         }
-        if (!MyGame.Paused)
+        if (!GlobalConst.Paused)
             Door();
         _inGameMenu.Update();
-        MyTexture = LemmingsNetGame.Instance.Content.Load<Texture2D>("luces/" + Contador);// okokokokokokokok
+        MyTexture = MyGame.Instance.Content.Load<Texture2D>("luces/" + Contador);// okokokokokokokok
 
         if (Dibuja && NumTotArrow > 0) // dibuja or dibuja2 test performance-- this is the worst part of the code NEED OPTIMIZATION
         {
@@ -658,7 +662,7 @@ internal class InGame
         spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.NonPremultiplied, SamplerState.AnisotropicWrap, null, null, null);
         graphics.Clear(Color.Black);  //BACKGROUND COLOR darkslategray,cornblue,dimgray,black,gray,lighslategray
                                       //draws back image for all the level
-        if (LemmingsNetGame.Instance.ParticleTab != null)
+        if (MyGame.Instance.ParticleTab != null)
         {
             rectangleFill.X = 0;
             rectangleFill.Y = 0;
@@ -668,47 +672,47 @@ internal class InGame
             colorFill.G = 255;
             colorFill.B = 255;
             colorFill.A = 150;
-            for (int varParticle = 0; varParticle < MyGame.NumParticles; varParticle++)
+            for (int varParticle = 0; varParticle < GlobalConst.NumParticles; varParticle++)
             {
-                spriteBatch.Draw(LemmingsNetGame.Instance.ParticleTab[varParticle].Sprite, LemmingsNetGame.Instance.ParticleTab[varParticle].Pos, rectangleFill, colorFill, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0.50001f);
+                spriteBatch.Draw(MyGame.Instance.ParticleTab[varParticle].Sprite, MyGame.Instance.ParticleTab[varParticle].Pos, rectangleFill, colorFill, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0.50001f);
             }
         }
         bool rayLigths = true;
         // logic of background stars moving from -50 to 50
         actWaves333 = 50 * Math.Sin(actWaves / 60);  // 50 height of the wave  // 60 length of it
         actWaves444 = -70 * Math.Sin(actWaves / -80); // 10,100 -70,100
-        if (LemmingsNetGame.Instance.CurrentLevelNumber != 159)
+        if (MyGame.Instance.CurrentLevelNumber != 159)
         {
             rectangleFill.X = 0;
             rectangleFill.Y = 0;
-            rectangleFill.Width = MyGame.GameResolution.X;
-            rectangleFill.Height = (int)(MyGame.GameResolution.Y * 0.732);
+            rectangleFill.Width = GlobalConst.GameResolution.X;
+            rectangleFill.Height = (int)(GlobalConst.GameResolution.Y * 0.732);
             colorFill.R = 150;
             colorFill.G = 150;
             colorFill.B = 150;
             colorFill.A = 160;
-            spriteBatch.Draw(LemmingsNetGame.Instance.Gfx.Logo_fondo, rectangleFill, rectangleFill, colorFill, 0f, Vector2.Zero, SpriteEffects.None, 0.806f);
+            spriteBatch.Draw(MyGame.Instance.Gfx.Logo_fondo, rectangleFill, rectangleFill, colorFill, 0f, Vector2.Zero, SpriteEffects.None, 0.806f);
         }
         else
         {
             rectangleFill.X = 0;
             rectangleFill.Y = 0;
-            rectangleFill.Width = MyGame.GameResolution.X;
-            rectangleFill.Height = (int)(MyGame.GameResolution.Y * 0.732);
+            rectangleFill.Width = GlobalConst.GameResolution.X;
+            rectangleFill.Height = (int)(GlobalConst.GameResolution.Y * 0.732);
             colorFill.R = 255;
             colorFill.G = 255;
             colorFill.B = 255;
             colorFill.A = 250;
             rectangleFill2.X = 0 + z1;
             rectangleFill2.Y = 0 - (int)actWaves333;
-            rectangleFill2.Width = MyGame.GameResolution.X;
-            rectangleFill2.Height = MyGame.GameResolution.Y - 188;
-            spriteBatch.Draw(LemmingsNetGame.Instance.InGameMenuGfx.Logo666, rectangleFill, rectangleFill2, colorFill, 0f, Vector2.Zero, SpriteEffects.None, 0.8091f);
-            Texture2D logo555 = LemmingsNetGame.Instance.Content.Load<Texture2D>("fondos/ice outttt");
+            rectangleFill2.Width = GlobalConst.GameResolution.X;
+            rectangleFill2.Height = GlobalConst.GameResolution.Y - 188;
+            spriteBatch.Draw(MyGame.Instance.InGameMenuGfx.Logo666, rectangleFill, rectangleFill2, colorFill, 0f, Vector2.Zero, SpriteEffects.None, 0.8091f);
+            Texture2D logo555 = MyGame.Instance.Content.Load<Texture2D>("fondos/ice outttt");
             rectangleFill2.X = 0 + (int)actWaves444;
             rectangleFill2.Y = 0 + (int)actWaves444;
-            rectangleFill2.Width = MyGame.GameResolution.X;
-            rectangleFill2.Height = MyGame.GameResolution.Y - 188;
+            rectangleFill2.Width = GlobalConst.GameResolution.X;
+            rectangleFill2.Height = GlobalConst.GameResolution.Y - 188;
             colorFill.R = 150;
             colorFill.G = 150;
             colorFill.B = 150;
@@ -777,54 +781,54 @@ internal class InGame
                     rectangleFill2.Height = spY;
                     spriteBatch.Draw(Trap[r].sprite, rectangleFill, rectangleFill2, colorFill, 0f, Vector2.Zero, SpriteEffects.None, Trap[r].depth);
                 }
-                if (LemmingsNetGame.Instance.DebugOsd.debug)
+                if (MyGame.Instance.DebugOsd.Debug)
                 {
-                    spriteBatch.Draw(LemmingsNetGame.Instance.Gfx.Texture1pixel, new Rectangle(Trap[r].areaTrap.Left - ScrollX, Trap[r].areaTrap.Top - ScrollY, Trap[r].areaTrap.Width, Trap[r].areaTrap.Height),
+                    spriteBatch.Draw(MyGame.Instance.Gfx.Texture1pixel, new Rectangle(Trap[r].areaTrap.Left - ScrollX, Trap[r].areaTrap.Top - ScrollY, Trap[r].areaTrap.Width, Trap[r].areaTrap.Height),
                         null, new Color(255, 255, 255, 140), 0f, Vector2.Zero, SpriteEffects.None, 0.1f);
                 }
             }
         }
-        switch (LemmingsNetGame.Instance.CurrentLevelNumber)  // effect draws water cascade,stars,etc...
+        switch (MyGame.Instance.CurrentLevelNumber)  // effect draws water cascade,stars,etc...
         {
             case 1:
-                spriteBatch.Draw(LemmingsNetGame.Instance.Sprites.Agua2, new Rectangle(1560 - ScrollX, -80, 260, 750), new Rectangle(0 + z3 * 192, 0, 192, 192), new Color(230, 50, 255, 160), 0f,
+                spriteBatch.Draw(MyGame.Instance.Sprites.Agua2, new Rectangle(1560 - ScrollX, -80, 260, 750), new Rectangle(0 + z3 * 192, 0, 192, 192), new Color(230, 50, 255, 160), 0f,
                     Vector2.Zero, SpriteEffects.None, 0.802f); //0.802f  
                 rayLigths = false;
                 break;
             case 4:
-                spriteBatch.Draw(LemmingsNetGame.Instance.Sprites.Agua2, new Rectangle(1530 - ScrollX, -80, 260, 650), new Rectangle(0 + z3 * 192, 0, 192, 192), new Color(50, 255, 240, 100), 0f,
+                spriteBatch.Draw(MyGame.Instance.Sprites.Agua2, new Rectangle(1530 - ScrollX, -80, 260, 650), new Rectangle(0 + z3 * 192, 0, 192, 192), new Color(50, 255, 240, 100), 0f,
                     Vector2.Zero, SpriteEffects.None, 0.802f); //0.802f
-                spriteBatch.Draw(LemmingsNetGame.Instance.Sprites.Agua2, new Rectangle(1560 - ScrollX, -80, 260, 750), new Rectangle(0 + z3 * 192, 0, 192, 192), new Color(230, 50, 255, 160), 0f,
+                spriteBatch.Draw(MyGame.Instance.Sprites.Agua2, new Rectangle(1560 - ScrollX, -80, 260, 750), new Rectangle(0 + z3 * 192, 0, 192, 192), new Color(230, 50, 255, 160), 0f,
                     Vector2.Zero, SpriteEffects.None, 0.803f); //0.802f  
                 rayLigths = false;
                 break;
             case 5:
-                spriteBatch.Draw(LemmingsNetGame.Instance.Sprites.Agua2, new Rectangle(760 - ScrollX, -80, 260, 650), new Rectangle(0 + z3 * 192, 0, 192, 192), new Color(50, 255, 240, 100), 0f,
+                spriteBatch.Draw(MyGame.Instance.Sprites.Agua2, new Rectangle(760 - ScrollX, -80, 260, 650), new Rectangle(0 + z3 * 192, 0, 192, 192), new Color(50, 255, 240, 100), 0f,
                     Vector2.Zero, SpriteEffects.None, 0.802f); //0.802f  
                 break;
             case 6:
-                spriteBatch.Draw(LemmingsNetGame.Instance.Sprites.Agua2, new Rectangle(2000 - ScrollX, -80, 260, 680), new Rectangle(0 + z3 * 192, 0, 192, 192),
+                spriteBatch.Draw(MyGame.Instance.Sprites.Agua2, new Rectangle(2000 - ScrollX, -80, 260, 680), new Rectangle(0 + z3 * 192, 0, 192, 192),
                     new Color(255, 50, 80, 170), 0f, Vector2.Zero, SpriteEffects.None, 0.802f); //0.802f                            
                 break;
             default:
                 break;
         }
 
-        if (LemmingsNetGame.Instance.CurrentLevelNumber != 159) //nubes clouds moving in background
+        if (MyGame.Instance.CurrentLevelNumber != 159) //nubes clouds moving in background
         {
             if (rayLigths)
             {
-                spriteBatch.Draw(MyTexture, new Vector2(MyGame.GameResolution.X / 2, (MyGame.GameResolution.Y - 188) / 2), new Rectangle(0, 0, MyTexture.Width, MyTexture.Height), new Color(255, 255, 255, 10 + Contador * 2),
+                spriteBatch.Draw(MyTexture, new Vector2(GlobalConst.GameResolution.X / 2, (GlobalConst.GameResolution.Y - 188) / 2), new Rectangle(0, 0, MyTexture.Width, MyTexture.Height), new Color(255, 255, 255, 10 + Contador * 2),
                     0.4f + Contador2 * 0.001f, new Vector2(MyTexture.Width / 2, MyTexture.Height / 2), 3f, SpriteEffects.FlipHorizontally, 0.805f); // okokok
             }
             // rayligts effect
-            spriteBatch.Draw(LemmingsNetGame.Instance.Sprites.Nubes_2, new Rectangle(0, 50 - (int)actWaves444, MyGame.GameResolution.X, LemmingsNetGame.Instance.Sprites.Nubes_2.Height), new Rectangle(z1, 0, MyGame.GameResolution.X, LemmingsNetGame.Instance.Sprites.Nubes_2.Height),
+            spriteBatch.Draw(MyGame.Instance.Sprites.Nubes_2, new Rectangle(0, 50 - (int)actWaves444, GlobalConst.GameResolution.X, MyGame.Instance.Sprites.Nubes_2.Height), new Rectangle(z1, 0, GlobalConst.GameResolution.X, MyGame.Instance.Sprites.Nubes_2.Height),
                 new Color(255, 255, 255, 110), 0f, Vector2.Zero, SpriteEffects.None, 0.804f);
 
-            spriteBatch.Draw(LemmingsNetGame.Instance.Sprites.Nubes, new Rectangle(0, 220, MyGame.GameResolution.X, LemmingsNetGame.Instance.Sprites.Nubes.Height), new Rectangle(z2, 0, MyGame.GameResolution.X, LemmingsNetGame.Instance.Sprites.Nubes.Height), new Color(255, 255, 255, 110), 0f,
+            spriteBatch.Draw(MyGame.Instance.Sprites.Nubes, new Rectangle(0, 220, GlobalConst.GameResolution.X, MyGame.Instance.Sprites.Nubes.Height), new Rectangle(z2, 0, GlobalConst.GameResolution.X, MyGame.Instance.Sprites.Nubes.Height), new Color(255, 255, 255, 110), 0f,
                 Vector2.Zero, SpriteEffects.None, 0.803f);
         }
-        spriteBatch.Draw(Earth, new Vector2(0, 0), new Rectangle(ScrollX, ScrollY, MyGame.GameResolution.X, MyGame.GameResolution.Y - 188), //512 size of window draw
+        spriteBatch.Draw(Earth, new Vector2(0, 0), new Rectangle(ScrollX, ScrollY, GlobalConst.GameResolution.X, GlobalConst.GameResolution.Y - 188), //512 size of window draw
             Color.White, 0f, Vector2.Zero, 1, SpriteEffects.None, 0.500f);
         if (NumTotArrow > 0)
         {
@@ -842,42 +846,42 @@ internal class InGame
             {
                 if (CurrentMusic.State == SoundState.Playing)
                     CurrentMusic.Stop();
-                if (ExitBad && LemmingsNetGame.Instance.Sfx.OhNo.State != SoundState.Playing)
-                    LemmingsNetGame.Instance.Sfx.OhNo.Play();
-                else if (!ExitBad && LemmingsNetGame.Instance.Music.WinMusic.State != SoundState.Playing)
-                    LemmingsNetGame.Instance.Music.WinMusic.Play();
+                if (ExitBad && MyGame.Instance.Sfx.OhNo.State != SoundState.Playing)
+                    MyGame.Instance.Sfx.OhNo.Play();
+                else if (!ExitBad && MyGame.Instance.Music.WinMusic.State != SoundState.Playing)
+                    MyGame.Instance.Music.WinMusic.Play();
             }
             _endSongPlayed = true;
             colorFill.R = 0; //color.black for this change to see differents options
             colorFill.G = 0;
             colorFill.B = 0;
             colorFill.A = 150;
-            spriteBatch.Draw(LemmingsNetGame.Instance.Gfx.Texture1pixel, new Rectangle(45, 32, 1005, 600), null, colorFill, 0f, Vector2.Zero, SpriteEffects.None, 0.001f);
-            spriteBatch.Draw(LemmingsNetGame.Instance.ScreenMainMenu.MainMenuGfx.mainMenuSign2, new Rectangle(-200, -120, 1500, 900), null,
+            spriteBatch.Draw(MyGame.Instance.Gfx.Texture1pixel, new Rectangle(45, 32, 1005, 600), null, colorFill, 0f, Vector2.Zero, SpriteEffects.None, 0.001f);
+            spriteBatch.Draw(MyGame.Instance.ScreenMainMenu.MainMenuGfx.mainMenuSign2, new Rectangle(-200, -120, 1500, 900), null,
                Color.White, 0f, Vector2.Zero, SpriteEffects.None, 0.00005f);
-            int percent = (100 * NumSaved) / LemmingsNetGame.Instance.Levels.AllLevel[LemmingsNetGame.Instance.ScreenMainMenu.MouseLevelChoose].TotalLemmings;
-            LemmingsNetGame.Instance.Fonts.TextLem("All lemmings accounted for:", new Vector2(150, 100), Color.Cyan, 1.5f, 0.0000000001f, spriteBatch);
-            LemmingsNetGame.Instance.Fonts.TextLem("You rescued " + string.Format("{0}", percent) + "%",
+            int percent = (100 * NumSaved) / MyGame.Instance.Levels.AllLevel[MyGame.Instance.ScreenMainMenu.MouseLevelChoose].TotalLemmings;
+            MyGame.Instance.Fonts.TextLem("All lemmings accounted for:", new Vector2(150, 100), Color.Cyan, 1.5f, 0.0000000001f, spriteBatch);
+            MyGame.Instance.Fonts.TextLem("You rescued " + string.Format("{0}", percent) + "%",
                  new Vector2(270, 160), Color.Violet, 1.5f, 0.0000000001f, spriteBatch);
-            percent = (100 * Lemsneeded) / LemmingsNetGame.Instance.Levels.AllLevel[LemmingsNetGame.Instance.ScreenMainMenu.MouseLevelChoose].TotalLemmings;
-            LemmingsNetGame.Instance.Fonts.TextLem("You needed " + string.Format("{0}", percent) + "%",
+            percent = (100 * Lemsneeded) / MyGame.Instance.Levels.AllLevel[MyGame.Instance.ScreenMainMenu.MouseLevelChoose].TotalLemmings;
+            MyGame.Instance.Fonts.TextLem("You needed " + string.Format("{0}", percent) + "%",
                  new Vector2(300, 220), Color.DodgerBlue, 1.5f, 0.0000000001f, spriteBatch);
-            LemmingsNetGame.Instance.Fonts.TextLem("Press <ESC> or <Left Mouse Button>", new Vector2(70, 400), Color.LightCyan, 1.3f, 0.0000000001f, spriteBatch);
+            MyGame.Instance.Fonts.TextLem("Press <ESC> or <Left Mouse Button>", new Vector2(70, 400), Color.LightCyan, 1.3f, 0.0000000001f, spriteBatch);
             if (ExitBad)
-                LemmingsNetGame.Instance.Fonts.TextLem("to retry level...", new Vector2(100, 440), Color.LightCyan, 1.3f, 0.0000000001f, spriteBatch);
+                MyGame.Instance.Fonts.TextLem("to retry level...", new Vector2(100, 440), Color.LightCyan, 1.3f, 0.0000000001f, spriteBatch);
             else if (NumSaved >= Lemsneeded)
             {
-                LemmingsNetGame.Instance.Fonts.TextLem("to next level...", new Vector2(100, 440), Color.LightCyan, 1.3f, 0.0000000001f, spriteBatch);
+                MyGame.Instance.Fonts.TextLem("to next level...", new Vector2(100, 440), Color.LightCyan, 1.3f, 0.0000000001f, spriteBatch);
             }
             else
             {
-                LemmingsNetGame.Instance.Fonts.TextLem("to continue...", new Vector2(100, 440), Color.LightCyan, 1.3f, 0.0000000001f, spriteBatch);
+                MyGame.Instance.Fonts.TextLem("to continue...", new Vector2(100, 440), Color.LightCyan, 1.3f, 0.0000000001f, spriteBatch);
             }
-            LemmingsNetGame.Instance.Fonts.TextLem("Press <Enter> or <Right Mouse Button>", new Vector2(70, 520), Color.Yellow, 1.3f, 0.0000000001f, spriteBatch);
-            LemmingsNetGame.Instance.Fonts.TextLem("to Main Menu...", new Vector2(100, 560), Color.Yellow, 1.3f, 0.0000000001f, spriteBatch);
+            MyGame.Instance.Fonts.TextLem("Press <Enter> or <Right Mouse Button>", new Vector2(70, 520), Color.Yellow, 1.3f, 0.0000000001f, spriteBatch);
+            MyGame.Instance.Fonts.TextLem("to Main Menu...", new Vector2(100, 560), Color.Yellow, 1.3f, 0.0000000001f, spriteBatch);
         }
-        int xx55 = LemmingsNetGame.Instance.Levels.VarDoor[LemmingsNetGame.Instance.Levels.AllLevel[LemmingsNetGame.Instance.CurrentLevelNumber].TypeOfDoor].xWidth;
-        int yy55 = LemmingsNetGame.Instance.Levels.VarDoor[LemmingsNetGame.Instance.Levels.AllLevel[LemmingsNetGame.Instance.CurrentLevelNumber].TypeOfDoor].yWidth;
+        int xx55 = MyGame.Instance.Levels.VarDoor[MyGame.Instance.Levels.AllLevel[MyGame.Instance.CurrentLevelNumber].TypeOfDoor].xWidth;
+        int yy55 = MyGame.Instance.Levels.VarDoor[MyGame.Instance.Levels.AllLevel[MyGame.Instance.CurrentLevelNumber].TypeOfDoor].yWidth;
         framereal565 = (frameDoor * yy55);
         if (Sprite != null) //draw sprites
         {
@@ -896,8 +900,8 @@ internal class InGame
                 {
                     Sprite[ssi].pos.X -= Sprite[ssi].typescroll;
                     if (Sprite[ssi].pos.X < 0 - (Sprite[ssi].sprite.Width * Sprite[ssi].scale))
-                        Sprite[ssi].pos.X = MyGame.GameResolution.X;
-                    if (Sprite[ssi].pos.X > MyGame.GameResolution.X)
+                        Sprite[ssi].pos.X = GlobalConst.GameResolution.X;
+                    if (Sprite[ssi].pos.X > GlobalConst.GameResolution.X)
                         Sprite[ssi].pos.X = -100;
                     spriteBatch.Draw(Sprite[ssi].sprite, new Vector2(Sprite[ssi].pos.X, Sprite[ssi].pos.Y - ScrollY),
                         new Rectangle(sx1, sy1, swidth, sheight), new Color(Sprite[ssi].R, Sprite[ssi].G, Sprite[ssi].B, Sprite[ssi].transparency),
@@ -965,12 +969,12 @@ internal class InGame
                     Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, DoorExitDepth);
             }
         }
-        int xx66 = LemmingsNetGame.Instance.Levels.VarExit[LemmingsNetGame.Instance.Levels.AllLevel[LemmingsNetGame.Instance.CurrentLevelNumber].TypeOfExit].xWidth;
-        int yy66 = LemmingsNetGame.Instance.Levels.VarExit[LemmingsNetGame.Instance.Levels.AllLevel[LemmingsNetGame.Instance.CurrentLevelNumber].TypeOfExit].yWidth;
-        int xx88 = LemmingsNetGame.Instance.Levels.VarExit[LemmingsNetGame.Instance.Levels.AllLevel[LemmingsNetGame.Instance.CurrentLevelNumber].TypeOfExit].moreX;
-        int xx99 = LemmingsNetGame.Instance.Levels.VarExit[LemmingsNetGame.Instance.Levels.AllLevel[LemmingsNetGame.Instance.CurrentLevelNumber].TypeOfExit].moreX2;
-        int yy88 = LemmingsNetGame.Instance.Levels.VarExit[LemmingsNetGame.Instance.Levels.AllLevel[LemmingsNetGame.Instance.CurrentLevelNumber].TypeOfExit].moreY;
-        int yy99 = LemmingsNetGame.Instance.Levels.VarExit[LemmingsNetGame.Instance.Levels.AllLevel[LemmingsNetGame.Instance.CurrentLevelNumber].TypeOfExit].moreY2;
+        int xx66 = MyGame.Instance.Levels.VarExit[MyGame.Instance.Levels.AllLevel[MyGame.Instance.CurrentLevelNumber].TypeOfExit].xWidth;
+        int yy66 = MyGame.Instance.Levels.VarExit[MyGame.Instance.Levels.AllLevel[MyGame.Instance.CurrentLevelNumber].TypeOfExit].yWidth;
+        int xx88 = MyGame.Instance.Levels.VarExit[MyGame.Instance.Levels.AllLevel[MyGame.Instance.CurrentLevelNumber].TypeOfExit].moreX;
+        int xx99 = MyGame.Instance.Levels.VarExit[MyGame.Instance.Levels.AllLevel[MyGame.Instance.CurrentLevelNumber].TypeOfExit].moreX2;
+        int yy88 = MyGame.Instance.Levels.VarExit[MyGame.Instance.Levels.AllLevel[MyGame.Instance.CurrentLevelNumber].TypeOfExit].moreY;
+        int yy99 = MyGame.Instance.Levels.VarExit[MyGame.Instance.Levels.AllLevel[MyGame.Instance.CurrentLevelNumber].TypeOfExit].moreY2;
         frameact = (frameExit * yy66);
         if (Moreexits == null)
         {
@@ -978,10 +982,10 @@ internal class InGame
                 0f, Vector2.Zero, 1f, SpriteEffects.None, DoorExitDepth);
             spriteBatch.Draw(salida_ani1, new Vector2(output1X - ScrollX - xx99, output1Y - yy99 - ScrollY), new Rectangle(0, 0, salida_ani1.Width, salida_ani1.Height),
                 Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, DoorExitDepth);
-            if (LemmingsNetGame.Instance.DebugOsd.debug) //exits debug
+            if (MyGame.Instance.DebugOsd.Debug) //exits debug
             {
                 exit_rect = new Rectangle(output1X - 5, output1Y - 5, 10, 10);
-                spriteBatch.Draw(LemmingsNetGame.Instance.Gfx.Texture1pixel, new Rectangle(exit_rect.Left - ScrollX, exit_rect.Top - ScrollY, exit_rect.Width, exit_rect.Height), null,
+                spriteBatch.Draw(MyGame.Instance.Gfx.Texture1pixel, new Rectangle(exit_rect.Left - ScrollX, exit_rect.Top - ScrollY, exit_rect.Width, exit_rect.Height), null,
                     Color.White, 0f, Vector2.Zero, SpriteEffects.None, 0.1f);
             }
         }
@@ -995,10 +999,10 @@ internal class InGame
                     0f, Vector2.Zero, 1f, SpriteEffects.None, DoorExitDepth);
                 spriteBatch.Draw(salida_ani1, new Vector2(output1X - ScrollX - xx99, output1Y - yy99 - ScrollY), new Rectangle(0, 0, salida_ani1.Width, salida_ani1.Height),
                     Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, DoorExitDepth);
-                if (LemmingsNetGame.Instance.DebugOsd.debug) //exits debug
+                if (MyGame.Instance.DebugOsd.Debug) //exits debug
                 {
                     exit_rect = new Rectangle(output1X - 5, output1Y - 5, 10, 10);
-                    spriteBatch.Draw(LemmingsNetGame.Instance.Gfx.Texture1pixel, new Rectangle(exit_rect.Left - ScrollX, exit_rect.Top - ScrollY, exit_rect.Width, exit_rect.Height), null,
+                    spriteBatch.Draw(MyGame.Instance.Gfx.Texture1pixel, new Rectangle(exit_rect.Left - ScrollX, exit_rect.Top - ScrollY, exit_rect.Width, exit_rect.Height), null,
                         Color.White, 0f, Vector2.Zero, SpriteEffects.None, 0.1f);
                 }
             }
@@ -1017,17 +1021,17 @@ internal class InGame
                     Lemming[ActLEM].Time = TotalTime;
                 double timez = TotalTime - Lemming[ActLEM].Time;
                 int crono = (int)(6f - (float)timez);
-                LemmingsNetGame.Instance.Fonts.TextLem(string.Format("{0}", crono), new Vector2(Lemming[ActLEM].PosX + 3 - ScrollX, Lemming[ActLEM].PosY - 10 - ScrollY), Color.White, 0.4f, 0.000000000004f, spriteBatch);
+                MyGame.Instance.Fonts.TextLem(string.Format("{0}", crono), new Vector2(Lemming[ActLEM].PosX + 3 - ScrollX, Lemming[ActLEM].PosY - 10 - ScrollY), Color.White, 0.4f, 0.000000000004f, spriteBatch);
                 if (crono <= 0)
                 {
                     // luto luto sound monogame 3.2 works ok without catch exception
-                    if (LemmingsNetGame.Instance.Sfx.OhNo.State == SoundState.Playing)
+                    if (MyGame.Instance.Sfx.OhNo.State == SoundState.Playing)
                     {
-                        LemmingsNetGame.Instance.Sfx.OhNo.Stop();
+                        MyGame.Instance.Sfx.OhNo.Stop();
                     }
                     try
                     {
-                        LemmingsNetGame.Instance.Sfx.OhNo.Play();
+                        MyGame.Instance.Sfx.OhNo.Play();
                     }
                     catch (InstancePlayLimitException) { /* Ignore errors */ }
                     Lemming[ActLEM].Explode = true;
@@ -1052,69 +1056,69 @@ internal class InGame
             int framereal55;
             if (Lemming[ActLEM].Burned) // scale POSDraw x+0,y+0 at 1.2f x-5,y+0 at 1.35f
             {
-                spriteBatch.Draw(LemmingsNetGame.Instance.Gfx.Squemado, new Vector2(Lemming[ActLEM].PosX - ScrollX - 5, Lemming[ActLEM].PosY - ScrollY), new Rectangle(0, Lemming[ActLEM].Actualframe * 28, 32, 28),
+                spriteBatch.Draw(MyGame.Instance.Gfx.Squemado, new Vector2(Lemming[ActLEM].PosX - ScrollX - 5, Lemming[ActLEM].PosY - ScrollY), new Rectangle(0, Lemming[ActLEM].Actualframe * 28, 32, 28),
                 (Lemming[ActLEM].Onmouse ? Color.Red : Color.White), 0f, Vector2.Zero, SizeL, SpriteEffects.None, Lem_depth + (ActLEM * 0.00001f));
-                spriteBatch.Draw(LemmingsNetGame.Instance.Gfx.Lhiss, new Vector2(Lemming[ActLEM].PosX - ScrollX, Lemming[ActLEM].PosY - 20 - ScrollY), new Rectangle(0, 0, LemmingsNetGame.Instance.Gfx.Lhiss.Width, LemmingsNetGame.Instance.Gfx.Lhiss.Height),
+                spriteBatch.Draw(MyGame.Instance.Gfx.Lhiss, new Vector2(Lemming[ActLEM].PosX - ScrollX, Lemming[ActLEM].PosY - 20 - ScrollY), new Rectangle(0, 0, MyGame.Instance.Gfx.Lhiss.Width, MyGame.Instance.Gfx.Lhiss.Height),
                     Color.White, 0f, Vector2.Zero, (0.5f + (0.01f * Lemming[ActLEM].Actualframe)), SpriteEffects.None, Lem_depth + (ActLEM * 0.00001f));
             }
             if (Lemming[ActLEM].Drown) // scale POSDraw x+0,y+10 at 1.2f x-8,y+7 at 1.35f  //puto ahoga
             {
-                spriteBatch.Draw(LemmingsNetGame.Instance.Sprites.Drowner, new Vector2(Lemming[ActLEM].PosX - ScrollX + SizeSprites.water_xpos, Lemming[ActLEM].PosY + SizeSprites.water_ypos - ScrollY), new Rectangle(Lemming[ActLEM].Actualframe * SizeSprites.water_with, 0, SizeSprites.water_with, SizeSprites.water_height),
+                spriteBatch.Draw(MyGame.Instance.Sprites.Drowner, new Vector2(Lemming[ActLEM].PosX - ScrollX + SizeSprites.water_xpos, Lemming[ActLEM].PosY + SizeSprites.water_ypos - ScrollY), new Rectangle(Lemming[ActLEM].Actualframe * SizeSprites.water_with, 0, SizeSprites.water_with, SizeSprites.water_height),
                     (Lemming[ActLEM].Onmouse ? Color.Red : Color.White), 0f, Vector2.Zero, SizeSprites.water_size, SpriteEffects.None, Lem_depth + (ActLEM * 0.00001f));
             }
             if (Lemming[ActLEM].Walker)
             {
                 framereal55 = (Lemming[ActLEM].Actualframe * SizeSprites.walker_with);
-                spriteBatch.Draw(LemmingsNetGame.Instance.Sprites.Walker, new Vector2((Lemming[ActLEM].PosX - ScrollX + SizeSprites.walker_xpos), Lemming[ActLEM].PosY - ScrollY + SizeSprites.walker_ypos), new Rectangle(framereal55, 0, SizeSprites.walker_with, SizeSprites.walker_height), (Lemming[ActLEM].Onmouse ? Color.Red : Color.White), 0f, Vector2.Zero, SizeSprites.walker_size, (Lemming[ActLEM].Right ? SpriteEffects.FlipHorizontally : SpriteEffects.None), Lem_depth + (ActLEM * 0.00001f));
+                spriteBatch.Draw(MyGame.Instance.Sprites.Walker, new Vector2((Lemming[ActLEM].PosX - ScrollX + SizeSprites.walker_xpos), Lemming[ActLEM].PosY - ScrollY + SizeSprites.walker_ypos), new Rectangle(framereal55, 0, SizeSprites.walker_with, SizeSprites.walker_height), (Lemming[ActLEM].Onmouse ? Color.Red : Color.White), 0f, Vector2.Zero, SizeSprites.walker_size, (Lemming[ActLEM].Right ? SpriteEffects.FlipHorizontally : SpriteEffects.None), Lem_depth + (ActLEM * 0.00001f));
             }
             if (Lemming[ActLEM].Blocker) // blocker scale POSDraw x-5 y+4 at 1.2f x-7 y+1 at 1.35f  //puto
             {
                 framesale = (Lemming[ActLEM].Actualframe * SizeSprites.blocker_with);
-                spriteBatch.Draw(LemmingsNetGame.Instance.Sprites.Blocker, new Vector2(Lemming[ActLEM].PosX - ScrollX + SizeSprites.blocker_xpos, Lemming[ActLEM].PosY + SizeSprites.blocker_ypos - ScrollY), new Rectangle(framesale, 0, SizeSprites.blocker_with, SizeSprites.blocker_height), (Lemming[ActLEM].Onmouse ? Color.Red : Color.White), 0f, Vector2.Zero, SizeSprites.blocker_size, SpriteEffects.None, Lem_depth + (ActLEM * 0.00001f));
-                if (LemmingsNetGame.Instance.DebugOsd.debug)
+                spriteBatch.Draw(MyGame.Instance.Sprites.Blocker, new Vector2(Lemming[ActLEM].PosX - ScrollX + SizeSprites.blocker_xpos, Lemming[ActLEM].PosY + SizeSprites.blocker_ypos - ScrollY), new Rectangle(framesale, 0, SizeSprites.blocker_with, SizeSprites.blocker_height), (Lemming[ActLEM].Onmouse ? Color.Red : Color.White), 0f, Vector2.Zero, SizeSprites.blocker_size, SpriteEffects.None, Lem_depth + (ActLEM * 0.00001f));
+                if (MyGame.Instance.DebugOsd.Debug)
                 {
                     Rectangle bloqueo = new(Lemming[ActLEM].PosX, Lemming[ActLEM].PosY, 28, 28);
-                    spriteBatch.Draw(LemmingsNetGame.Instance.Gfx.Texture1pixel, new Rectangle(bloqueo.Left - ScrollX, bloqueo.Top - ScrollY, bloqueo.Width, bloqueo.Height), null,
+                    spriteBatch.Draw(MyGame.Instance.Gfx.Texture1pixel, new Rectangle(bloqueo.Left - ScrollX, bloqueo.Top - ScrollY, bloqueo.Width, bloqueo.Height), null,
                         Color.White, 0f, Vector2.Zero, SpriteEffects.None, 0.1f);
                 }
             }
             if (Lemming[ActLEM].Bridge) // scale POSDraw x-5,y-3 at 1.2f x-7,y-7 at 1.35f
             {
                 framesale = (Lemming[ActLEM].Actualframe * 26);
-                spriteBatch.Draw(LemmingsNetGame.Instance.Gfx.Puente_nomas, new Vector2(Lemming[ActLEM].PosX - ScrollX - 7, Lemming[ActLEM].PosY - 7 - ScrollY), new Rectangle(0, framesale, 32, 26), (Lemming[ActLEM].Onmouse ? Color.Red : Color.White), 0f, Vector2.Zero, SizeL, (Lemming[ActLEM].Right ? SpriteEffects.None : SpriteEffects.FlipHorizontally), Lem_depth + (ActLEM * 0.00001f));
+                spriteBatch.Draw(MyGame.Instance.Gfx.Puente_nomas, new Vector2(Lemming[ActLEM].PosX - ScrollX - 7, Lemming[ActLEM].PosY - 7 - ScrollY), new Rectangle(0, framesale, 32, 26), (Lemming[ActLEM].Onmouse ? Color.Red : Color.White), 0f, Vector2.Zero, SizeL, (Lemming[ActLEM].Right ? SpriteEffects.None : SpriteEffects.FlipHorizontally), Lem_depth + (ActLEM * 0.00001f));
             }
             if (Lemming[ActLEM].Builder)  //scale POSDraw x-5,y-3 at 1.2f x-7,y-7 at 1.35f  builder builder draws
             {
                 if (Lemming[ActLEM].Numstairs >= 10) // chink draws
                 {
-                    spriteBatch.Draw(LemmingsNetGame.Instance.Sprites.Chink, new Vector2(Lemming[ActLEM].PosX - ScrollX - 10, Lemming[ActLEM].PosY - 30 - ScrollY), new Rectangle(0, 0, LemmingsNetGame.Instance.Sprites.Chink.Width, LemmingsNetGame.Instance.Sprites.Chink.Height),
+                    spriteBatch.Draw(MyGame.Instance.Sprites.Chink, new Vector2(Lemming[ActLEM].PosX - ScrollX - 10, Lemming[ActLEM].PosY - 30 - ScrollY), new Rectangle(0, 0, MyGame.Instance.Sprites.Chink.Width, MyGame.Instance.Sprites.Chink.Height),
                         Color.White, 0f, Vector2.Zero, 0.7f + (0.01f * Lemming[ActLEM].Actualframe), SpriteEffects.None, Lem_depth + (ActLEM * 0.00001f));
                 }
                 framesale = (Lemming[ActLEM].Actualframe * SizeSprites.builder_with);
-                spriteBatch.Draw(LemmingsNetGame.Instance.Sprites.Puente, new Vector2(Lemming[ActLEM].PosX - ScrollX + SizeSprites.builder_xpos, Lemming[ActLEM].PosY + SizeSprites.builder_ypos - ScrollY), new Rectangle(framesale, 0, SizeSprites.builder_with, SizeSprites.builder_height), (Lemming[ActLEM].Onmouse ? Color.Red : Color.White), 0f, Vector2.Zero, SizeSprites.builder_size, (Lemming[ActLEM].Right ? SpriteEffects.FlipHorizontally : SpriteEffects.None), Lem_depth + (ActLEM * 0.00001f));
+                spriteBatch.Draw(MyGame.Instance.Sprites.Puente, new Vector2(Lemming[ActLEM].PosX - ScrollX + SizeSprites.builder_xpos, Lemming[ActLEM].PosY + SizeSprites.builder_ypos - ScrollY), new Rectangle(framesale, 0, SizeSprites.builder_with, SizeSprites.builder_height), (Lemming[ActLEM].Onmouse ? Color.Red : Color.White), 0f, Vector2.Zero, SizeSprites.builder_size, (Lemming[ActLEM].Right ? SpriteEffects.FlipHorizontally : SpriteEffects.None), Lem_depth + (ActLEM * 0.00001f));
             }
             if (Lemming[ActLEM].Miner)  //scale POSDraw x-5,y-2 at 1.2f x-9,y-7 at 1.35f pico pico miner miner
             {
                 framesale = (Lemming[ActLEM].Actualframe * SizeSprites.pico_with);
-                spriteBatch.Draw(LemmingsNetGame.Instance.Sprites.Pico, new Vector2(Lemming[ActLEM].PosX - ScrollX + SizeSprites.pico_xpos + (Lemming[ActLEM].Right ? 0 : 10), Lemming[ActLEM].PosY + SizeSprites.pico_ypos - ScrollY), new Rectangle(framesale, 0, SizeSprites.pico_with, SizeSprites.pico_height), (Lemming[ActLEM].Onmouse ? Color.Red : Color.White), 0f, Vector2.Zero, SizeSprites.pico_size, (Lemming[ActLEM].Right ? SpriteEffects.FlipHorizontally : SpriteEffects.None), Lem_depth + (ActLEM * 0.00001f));
+                spriteBatch.Draw(MyGame.Instance.Sprites.Pico, new Vector2(Lemming[ActLEM].PosX - ScrollX + SizeSprites.pico_xpos + (Lemming[ActLEM].Right ? 0 : 10), Lemming[ActLEM].PosY + SizeSprites.pico_ypos - ScrollY), new Rectangle(framesale, 0, SizeSprites.pico_with, SizeSprites.pico_height), (Lemming[ActLEM].Onmouse ? Color.Red : Color.White), 0f, Vector2.Zero, SizeSprites.pico_size, (Lemming[ActLEM].Right ? SpriteEffects.FlipHorizontally : SpriteEffects.None), Lem_depth + (ActLEM * 0.00001f));
             }
             if (Lemming[ActLEM].Basher) //puto
             {           // scale basher RIGHT POSDRAW x-10,y+4 at 1.2f x-15,y+1 at 1.35f
                 framesale = (Lemming[ActLEM].Actualframe * SizeSprites.basher_with);
-                spriteBatch.Draw(LemmingsNetGame.Instance.Sprites.Pared, new Vector2(Lemming[ActLEM].PosX - ScrollX + (Lemming[ActLEM].Right ? SizeSprites.basher_xpos : SizeSprites.basher_xposleft), Lemming[ActLEM].PosY + SizeSprites.basher_ypos - ScrollY), new Rectangle(framesale, 0, SizeSprites.basher_with, SizeSprites.basher_height), (Lemming[ActLEM].Onmouse ? Color.Red : Color.White), 0f, Vector2.Zero, SizeSprites.basher_size, (Lemming[ActLEM].Right ? SpriteEffects.FlipHorizontally : SpriteEffects.None), Lem_depth + (ActLEM * 0.00001f));
+                spriteBatch.Draw(MyGame.Instance.Sprites.Pared, new Vector2(Lemming[ActLEM].PosX - ScrollX + (Lemming[ActLEM].Right ? SizeSprites.basher_xpos : SizeSprites.basher_xposleft), Lemming[ActLEM].PosY + SizeSprites.basher_ypos - ScrollY), new Rectangle(framesale, 0, SizeSprites.basher_with, SizeSprites.basher_height), (Lemming[ActLEM].Onmouse ? Color.Red : Color.White), 0f, Vector2.Zero, SizeSprites.basher_size, (Lemming[ActLEM].Right ? SpriteEffects.FlipHorizontally : SpriteEffects.None), Lem_depth + (ActLEM * 0.00001f));
             }
             if (Lemming[ActLEM].Explode) // explotando explotando bomber bomber
             {
                 // bomber scale POSDraw x-5,y+4 at 1.2f x-9,y+2 at 1.35f
                 framesale = (Lemming[ActLEM].Actualframe * SizeSprites.bomber_with);
-                spriteBatch.Draw(LemmingsNetGame.Instance.Sprites.Exploder, new Vector2(Lemming[ActLEM].PosX - ScrollX + SizeSprites.bomber_xpos, Lemming[ActLEM].PosY + SizeSprites.bomber_ypos - ScrollY), new Rectangle(framesale, 0, SizeSprites.bomber_with, SizeSprites.bomber_height), (Lemming[ActLEM].Onmouse ? Color.Red : Color.White), 0f, Vector2.Zero, SizeSprites.bomber_size, SpriteEffects.None, Lem_depth + (ActLEM * 0.00001f));
-                spriteBatch.Draw(LemmingsNetGame.Instance.Sprites.Lohno, new Vector2(Lemming[ActLEM].PosX - ScrollX - 20, Lemming[ActLEM].PosY - 25 - ScrollY), new Rectangle(0, 0, LemmingsNetGame.Instance.Sprites.Lohno.Width, LemmingsNetGame.Instance.Sprites.Lohno.Height),
+                spriteBatch.Draw(MyGame.Instance.Sprites.Exploder, new Vector2(Lemming[ActLEM].PosX - ScrollX + SizeSprites.bomber_xpos, Lemming[ActLEM].PosY + SizeSprites.bomber_ypos - ScrollY), new Rectangle(framesale, 0, SizeSprites.bomber_with, SizeSprites.bomber_height), (Lemming[ActLEM].Onmouse ? Color.Red : Color.White), 0f, Vector2.Zero, SizeSprites.bomber_size, SpriteEffects.None, Lem_depth + (ActLEM * 0.00001f));
+                spriteBatch.Draw(MyGame.Instance.Sprites.Lohno, new Vector2(Lemming[ActLEM].PosX - ScrollX - 20, Lemming[ActLEM].PosY - 25 - ScrollY), new Rectangle(0, 0, MyGame.Instance.Sprites.Lohno.Width, MyGame.Instance.Sprites.Lohno.Height),
                     Color.White, 0f, Vector2.Zero, 0.7f + (0.01f * Lemming[ActLEM].Actualframe), SpriteEffects.None, Lem_depth + (ActLEM * 0.00001f));
             }
             if (Lemming[ActLEM].Breakfloor) // scale POSDraw x-5,y+4 at 1.2f  x-9,y+2 at 1.35f breakfloor breakfloor
             {
                 framesale = (Lemming[ActLEM].Actualframe * SizeSprites.floor_with);
-                spriteBatch.Draw(LemmingsNetGame.Instance.Sprites.Rompesuelo, new Vector2(Lemming[ActLEM].PosX - ScrollX + SizeSprites.floor_xpos, Lemming[ActLEM].PosY + SizeSprites.floor_ypos - ScrollY), new Rectangle(framesale, 0, SizeSprites.floor_with, SizeSprites.floor_height), (Lemming[ActLEM].Onmouse ? Color.Red : Color.White), 0f, Vector2.Zero, SizeSprites.floor_size, SpriteEffects.None, Lem_depth + (ActLEM * 0.00001f));
+                spriteBatch.Draw(MyGame.Instance.Sprites.Rompesuelo, new Vector2(Lemming[ActLEM].PosX - ScrollX + SizeSprites.floor_xpos, Lemming[ActLEM].PosY + SizeSprites.floor_ypos - ScrollY), new Rectangle(framesale, 0, SizeSprites.floor_with, SizeSprites.floor_height), (Lemming[ActLEM].Onmouse ? Color.Red : Color.White), 0f, Vector2.Zero, SizeSprites.floor_size, SpriteEffects.None, Lem_depth + (ActLEM * 0.00001f));
                 if (Lemming[ActLEM].Actualframe == SizeSprites.floor_frames - 1)
                 {
                     Lemming[ActLEM].Dead = true;
@@ -1135,12 +1139,12 @@ internal class InGame
                     framesale = (Lemming[ActLEM].Actualframe * SizeSprites.floater_with);
                 else
                     framesale = (Lemming[ActLEM].Actualframe + 4) * SizeSprites.floater_with; // scale floater POSDraw x-5,y-4 at 1.2f x-9,y-7 at 1.35f
-                spriteBatch.Draw(LemmingsNetGame.Instance.Sprites.Paraguas, new Vector2(Lemming[ActLEM].PosX - ScrollX + SizeSprites.floater_xpos, Lemming[ActLEM].PosY + SizeSprites.floater_ypos - ScrollY), new Rectangle(framesale, 0, SizeSprites.floater_with, SizeSprites.floater_height), (Lemming[ActLEM].Onmouse ? Color.Red : Color.White), 0f, Vector2.Zero, SizeSprites.floater_size, (Lemming[ActLEM].Right ? SpriteEffects.FlipHorizontally : SpriteEffects.None), Lem_depth + (ActLEM * 0.00001f));
+                spriteBatch.Draw(MyGame.Instance.Sprites.Paraguas, new Vector2(Lemming[ActLEM].PosX - ScrollX + SizeSprites.floater_xpos, Lemming[ActLEM].PosY + SizeSprites.floater_ypos - ScrollY), new Rectangle(framesale, 0, SizeSprites.floater_with, SizeSprites.floater_height), (Lemming[ActLEM].Onmouse ? Color.Red : Color.White), 0f, Vector2.Zero, SizeSprites.floater_size, (Lemming[ActLEM].Right ? SpriteEffects.FlipHorizontally : SpriteEffects.None), Lem_depth + (ActLEM * 0.00001f));
             }
             if (Lemming[ActLEM].Fall) //fall cae
             {
                 framereal55 = (Lemming[ActLEM].Actualframe * SizeSprites.faller_with);
-                spriteBatch.Draw(LemmingsNetGame.Instance.Sprites.Falling, new Vector2(Lemming[ActLEM].PosX - ScrollX + SizeSprites.faller_xpos, Lemming[ActLEM].PosY - ScrollY + SizeSprites.faller_ypos), new Rectangle(framereal55, 0, SizeSprites.faller_with, SizeSprites.faller_height), (Lemming[ActLEM].Onmouse ? Color.Red : Color.White), 0f, Vector2.Zero, SizeSprites.faller_size, (Lemming[ActLEM].Right ? SpriteEffects.FlipHorizontally : SpriteEffects.None), Lem_depth + (ActLEM * 0.00001f));
+                spriteBatch.Draw(MyGame.Instance.Sprites.Falling, new Vector2(Lemming[ActLEM].PosX - ScrollX + SizeSprites.faller_xpos, Lemming[ActLEM].PosY - ScrollY + SizeSprites.faller_ypos), new Rectangle(framereal55, 0, SizeSprites.faller_with, SizeSprites.faller_height), (Lemming[ActLEM].Onmouse ? Color.Red : Color.White), 0f, Vector2.Zero, SizeSprites.faller_size, (Lemming[ActLEM].Right ? SpriteEffects.FlipHorizontally : SpriteEffects.None), Lem_depth + (ActLEM * 0.00001f));
             }
             if (Lemming[ActLEM].Exit && !Lemming[ActLEM].Dead) //sale sale exit exit out out
             {
@@ -1150,13 +1154,13 @@ internal class InGame
             if (Lemming[ActLEM].Digger)
             {
                 framereal55 = (Lemming[ActLEM].Actualframe * SizeSprites.digger_with);
-                spriteBatch.Draw(LemmingsNetGame.Instance.Sprites.Digger, new Vector2(Lemming[ActLEM].PosX - ScrollX + SizeSprites.digger_xpos, Lemming[ActLEM].PosY + 6 - ScrollY + SizeSprites.digger_ypos), new Rectangle(framereal55, 0, SizeSprites.digger_with, SizeSprites.digger_height), (Lemming[ActLEM].Onmouse ? Color.Red : Color.White), 0f, Vector2.Zero, SizeSprites.digger_size, SpriteEffects.None, Lem_depth + (ActLEM * 0.00001f));
+                spriteBatch.Draw(MyGame.Instance.Sprites.Digger, new Vector2(Lemming[ActLEM].PosX - ScrollX + SizeSprites.digger_xpos, Lemming[ActLEM].PosY + 6 - ScrollY + SizeSprites.digger_ypos), new Rectangle(framereal55, 0, SizeSprites.digger_with, SizeSprites.digger_height), (Lemming[ActLEM].Onmouse ? Color.Red : Color.White), 0f, Vector2.Zero, SizeSprites.digger_size, SpriteEffects.None, Lem_depth + (ActLEM * 0.00001f));
             }
 
             if (Lemming[ActLEM].Climbing) // scale POSDraw x-5,y+6 at 1.2f x-8.y+3 at 1.35f  //puto33
             {
                 framesale = (Lemming[ActLEM].Actualframe * SizeSprites.climber_with);
-                spriteBatch.Draw(LemmingsNetGame.Instance.Sprites.Climber, new Vector2(Lemming[ActLEM].PosX - ScrollX + (Lemming[ActLEM].Right ? SizeSprites.climber_xpos : SizeSprites.climber_xposleft), Lemming[ActLEM].PosY + SizeSprites.climber_ypos - ScrollY), new Rectangle(framesale, 0, SizeSprites.climber_with, SizeSprites.climber_height), (Lemming[ActLEM].Onmouse ? Color.Red : Color.White), 0f, Vector2.Zero, SizeSprites.climber_size, (Lemming[ActLEM].Right ? SpriteEffects.FlipHorizontally : SpriteEffects.None), Lem_depth + (ActLEM * 0.00001f));
+                spriteBatch.Draw(MyGame.Instance.Sprites.Climber, new Vector2(Lemming[ActLEM].PosX - ScrollX + (Lemming[ActLEM].Right ? SizeSprites.climber_xpos : SizeSprites.climber_xposleft), Lemming[ActLEM].PosY + SizeSprites.climber_ypos - ScrollY), new Rectangle(framesale, 0, SizeSprites.climber_with, SizeSprites.climber_height), (Lemming[ActLEM].Onmouse ? Color.Red : Color.White), 0f, Vector2.Zero, SizeSprites.climber_size, (Lemming[ActLEM].Right ? SpriteEffects.FlipHorizontally : SpriteEffects.None), Lem_depth + (ActLEM * 0.00001f));
             }
         }
         if (Fade)
@@ -1165,15 +1169,15 @@ internal class InGame
             int rest2 = rest * 7;
             if (rest2 < 70)
                 rest2 = 0;
-            LemmingsNetGame.Instance.Gfx.DrawLine(spriteBatch, new Vector2(0, 0), new Vector2(MyGame.GameResolution.X, 0), new Color(0, 0, 0, 255 - rest2), MyGame.GameResolution.Y, 0f);
+            MyGame.Instance.Gfx.DrawLine(spriteBatch, new Vector2(0, 0), new Vector2(GlobalConst.GameResolution.X, 0), new Color(0, 0, 0, 255 - rest2), GlobalConst.GameResolution.Y, 0f);
             if (Frame > 19)
             {
                 Fade = false;
                 rest = 0;
                 TotalTime = 0;
-                if (LemmingsNetGame.Instance.Sfx.Letsgo.State == SoundState.Stopped && !initON)
+                if (MyGame.Instance.Sfx.Letsgo.State == SoundState.Stopped && !initON)
                 {
-                    LemmingsNetGame.Instance.Sfx.Letsgo.Play();
+                    MyGame.Instance.Sfx.Letsgo.Play();
                     initON = true;
                 }
             }
@@ -1183,17 +1187,17 @@ internal class InGame
         {
             for (int Qexplo = 0; Qexplo < ActItem; Qexplo++)
             {
-                for (int Iexplo = 0; Iexplo < MyGame.PARTICLE_NUM; Iexplo++)
+                for (int Iexplo = 0; Iexplo < GlobalConst.PARTICLE_NUM; Iexplo++)
                 {
-                    if (LemmingsNetGame.Instance.Explosion[Qexplo, Iexplo].LifeCtr < 0)
+                    if (MyGame.Instance.Explosion[Qexplo, Iexplo].LifeCtr < 0)
                         continue;
 
-                    vectorFill.X = (float)LemmingsNetGame.Instance.Explosion[Qexplo, Iexplo].x - ScrollX;
-                    vectorFill.Y = (float)LemmingsNetGame.Instance.Explosion[Qexplo, Iexplo].y - ScrollY;
-                    spriteBatch.Draw(LemmingsNetGame.Instance.Gfx.Explosion_particle, vectorFill, new Rectangle(0, 0, LemmingsNetGame.Instance.Gfx.Explosion_particle.Width, LemmingsNetGame.Instance.Gfx.Explosion_particle.Height), LemmingsNetGame.Instance.Explosion[Qexplo, Iexplo].Color,
-                        LemmingsNetGame.Instance.Explosion[Qexplo, Iexplo].Rotation, Vector2.Zero, LemmingsNetGame.Instance.Explosion[Qexplo, Iexplo].Size, SpriteEffects.None, 0.300f);
-                    LemmingsNetGame.Instance.Explosion[Qexplo, Iexplo].Rotation += 0.03f;
-                    LemmingsNetGame.Instance.Explosion[Qexplo, Iexplo].Size += 0.01f;
+                    vectorFill.X = (float)MyGame.Instance.Explosion[Qexplo, Iexplo].x - ScrollX;
+                    vectorFill.Y = (float)MyGame.Instance.Explosion[Qexplo, Iexplo].y - ScrollY;
+                    spriteBatch.Draw(MyGame.Instance.Gfx.Explosion_particle, vectorFill, new Rectangle(0, 0, MyGame.Instance.Gfx.Explosion_particle.Width, MyGame.Instance.Gfx.Explosion_particle.Height), MyGame.Instance.Explosion[Qexplo, Iexplo].Color,
+                        MyGame.Instance.Explosion[Qexplo, Iexplo].Rotation, Vector2.Zero, MyGame.Instance.Explosion[Qexplo, Iexplo].Size, SpriteEffects.None, 0.300f);
+                    MyGame.Instance.Explosion[Qexplo, Iexplo].Rotation += 0.03f;
+                    MyGame.Instance.Explosion[Qexplo, Iexplo].Size += 0.01f;
                 }
             }
 
@@ -1205,42 +1209,42 @@ internal class InGame
 
         vectorFill.X = 650;
         vectorFill.Y = 518;
-        LemmingsNetGame.Instance.Fonts.TextLem("Home:" + string.Format("{0}", NumSaved) + "/" + string.Format("{0}", Lemsneeded), vectorFill, Color.Cyan, 1f, 0.1f, spriteBatch);
+        MyGame.Instance.Fonts.TextLem("Home:" + string.Format("{0}", NumSaved) + "/" + string.Format("{0}", Lemsneeded), vectorFill, Color.Cyan, 1f, 0.1f, spriteBatch);
         vectorFill.X = 320;
         vectorFill.Y = 518;
-        LemmingsNetGame.Instance.Fonts.TextLem("Out:" + string.Format("{0}", NumLemmings) + "/" + string.Format("{0}", Numlems), vectorFill, Color.Magenta, 1f, 0.1f, spriteBatch);
+        MyGame.Instance.Fonts.TextLem("Out:" + string.Format("{0}", NumLemmings) + "/" + string.Format("{0}", Numlems), vectorFill, Color.Magenta, 1f, 0.1f, spriteBatch);
         vectorFill.X = 530;
         vectorFill.Y = 518;
-        LemmingsNetGame.Instance.Fonts.TextLem("In:" + string.Format("{0}", Numlemnow), vectorFill, Color.AliceBlue, 1f, 0.1f, spriteBatch);
+        MyGame.Instance.Fonts.TextLem("In:" + string.Format("{0}", Numlemnow), vectorFill, Color.AliceBlue, 1f, 0.1f, spriteBatch);
 
         _inGameMenu.Draw(spriteBatch);
 
-        spriteBatch.Draw((MouseOnLem ? LemmingsNetGame.Instance.MouseManager.MouseOverLemmings : LemmingsNetGame.Instance.MouseManager.MouseCross), new Vector2(Input.CurrentMouseState.X, Input.CurrentMouseState.Y), new Rectangle(0, 0, 34, 34), Color.White, 0f, Vector2.Zero,
-            1f, SpriteEffects.None, 0f);
+        MyGame.Instance.MouseManager.Draw(spriteBatch, MouseOnLem);
+
         spriteBatch.End();
     }
 
     internal void Update(GameTime gameTime)
     {
         MillisecondsElapsed += gameTime.ElapsedGameTime.Milliseconds;
-        if (Exploding && dibuja3 && !MyGame.Paused)  //logic explosions particles
+        if (Exploding && dibuja3 && !GlobalConst.Paused)  //logic explosions particles
         {
             int _totalExploding = ActItem;
             for (int Qexplo = 0; Qexplo < ActItem; Qexplo++)
             {
-                int TopY = MyGame.GameResolution.Y;
+                int TopY = GlobalConst.GameResolution.Y;
                 if (Earth != null)
                     TopY = Earth.Height - 2;
                 int NumberAlive = 0;
-                for (int Iexplo = 0; Iexplo < MyGame.PARTICLE_NUM; Iexplo++)
+                for (int Iexplo = 0; Iexplo < GlobalConst.PARTICLE_NUM; Iexplo++)
                 {
-                    if (LemmingsNetGame.Instance.Explosion[Qexplo, Iexplo].LifeCtr == -100)
+                    if (MyGame.Instance.Explosion[Qexplo, Iexplo].LifeCtr == -100)
                         NumberAlive++;
-                    if (LemmingsNetGame.Instance.Explosion[Qexplo, Iexplo].LifeCtr > 0)
+                    if (MyGame.Instance.Explosion[Qexplo, Iexplo].LifeCtr > 0)
                     {
                         //this change alpha channel from half life and fade out every particle
-                        int xx33 = LemmingsNetGame.Instance.Explosion[Qexplo, Iexplo].LifeCtr;
-                        int yy33 = LemmingsNetGame.Instance.Explosion[Qexplo, 0].Counter;
+                        int xx33 = MyGame.Instance.Explosion[Qexplo, Iexplo].LifeCtr;
+                        int yy33 = MyGame.Instance.Explosion[Qexplo, 0].Counter;
                         int xx55 = (xx33 + yy33) / 2;
                         if (yy33 > xx55)
                         {
@@ -1249,26 +1253,26 @@ internal class InGame
                             yy55 *= 2;
                             if (yy55 > 255)
                                 yy55 = 255;
-                            LemmingsNetGame.Instance.Explosion[Qexplo, Iexplo].SetColorA(Convert.ToByte(255 - yy55)); //total alpha - % of death value
+                            MyGame.Instance.Explosion[Qexplo, Iexplo].SetColorA(Convert.ToByte(255 - yy55)); //total alpha - % of death value
                         }
                         //calculate new position
-                        LemmingsNetGame.Instance.Explosion[Qexplo, Iexplo].x += LemmingsNetGame.Instance.Explosion[Qexplo, Iexplo].dx;
-                        LemmingsNetGame.Instance.Explosion[Qexplo, Iexplo].y += LemmingsNetGame.Instance.Explosion[Qexplo, Iexplo].dy + LemmingsNetGame.Instance.Explosion[Qexplo, 0].Counter * GRAVITY;
-                        if (LemmingsNetGame.Instance.Explosion[Qexplo, Iexplo].y > TopY)
+                        MyGame.Instance.Explosion[Qexplo, Iexplo].x += MyGame.Instance.Explosion[Qexplo, Iexplo].dx;
+                        MyGame.Instance.Explosion[Qexplo, Iexplo].y += MyGame.Instance.Explosion[Qexplo, Iexplo].dy + MyGame.Instance.Explosion[Qexplo, 0].Counter * GRAVITY;
+                        if (MyGame.Instance.Explosion[Qexplo, Iexplo].y > TopY)
                         {
                             //explosion[qexplo, iexplo].y = topY;  //bottom of drawable sets y to max
-                            LemmingsNetGame.Instance.Explosion[Qexplo, Iexplo].LifeCtr = -100;  //bottom of drawable area kills particle
+                            MyGame.Instance.Explosion[Qexplo, Iexplo].LifeCtr = -100;  //bottom of drawable area kills particle
                         }
                         // check life counter
-                        if (LemmingsNetGame.Instance.Explosion[Qexplo, Iexplo].LifeCtr > 0)
-                            LemmingsNetGame.Instance.Explosion[Qexplo, Iexplo].LifeCtr--;
-                        if (LemmingsNetGame.Instance.Explosion[Qexplo, Iexplo].LifeCtr == 0)
-                            LemmingsNetGame.Instance.Explosion[Qexplo, Iexplo].LifeCtr = -100;
+                        if (MyGame.Instance.Explosion[Qexplo, Iexplo].LifeCtr > 0)
+                            MyGame.Instance.Explosion[Qexplo, Iexplo].LifeCtr--;
+                        if (MyGame.Instance.Explosion[Qexplo, Iexplo].LifeCtr == 0)
+                            MyGame.Instance.Explosion[Qexplo, Iexplo].LifeCtr = -100;
 
                     }
                 }
-                LemmingsNetGame.Instance.Explosion[Qexplo, 0].Counter++;
-                if (NumberAlive >= MyGame.PARTICLE_NUM)
+                MyGame.Instance.Explosion[Qexplo, 0].Counter++;
+                if (NumberAlive >= GlobalConst.PARTICLE_NUM)
                 {
                     _totalExploding--;
                 }
@@ -1281,14 +1285,14 @@ internal class InGame
         }
         if (!LevelEnded && ((AllBlow && Numlemnow == 0) || ZvTime < 0 || (NumLemmings == Numlems && Numlemnow == 0)))
         {
-            if (!MyGame.Paused)
+            if (!GlobalConst.Paused)
                 rest++;  // var to wait until menu appears gives this way 4 seconds plus more
             if (rest > 180)
             {
                 Exploding = false;
                 ActItem = 0;  //see when finish time and are more particles ON
                 LevelEnded = true;
-                MyGame.Paused = true;
+                GlobalConst.Paused = true;
                 if (NumSaved < Lemsneeded)
                     ExitBad = true;
             }
@@ -1333,11 +1337,11 @@ internal class InGame
                 {
                     ExitBad = true;
                     LevelEnded = true;
-                    MyGame.Paused = true;
+                    GlobalConst.Paused = true;
                 }
                 else
                 {
-                    MyGame.Paused = false;
+                    GlobalConst.Paused = false;
                     LevelEnded = false;
                 }
             }
@@ -1348,13 +1352,12 @@ internal class InGame
         {
             ExitLevel = true;
             ExitBad = false;
-            NumSaved = 0;
         }
         if ((Input.PreviousMouseState.LeftButton == ButtonState.Released && Input.CurrentMouseState.LeftButton == ButtonState.Pressed) && LevelEnded)
         {
             if (!ExitBad)
             {
-                MyGame.Paused = false;
+                GlobalConst.Paused = false;
                 LevelEnded = false;
             }
             else
@@ -1366,22 +1369,13 @@ internal class InGame
         {
             if (NumSaved >= Lemsneeded) //see here if level is finished or not
             {
-                LevelEnd[LemmingsNetGame.Instance.ScreenMainMenu.MouseLevelChoose] = true;
-                BinaryWriter writer = new(File.Open(MyGame.SaveGameFileName, FileMode.Create));
-                for (int i = 0; i < MyGame.NumTotalLevels; i++)
-                {
-                    //LevelEnd[za] = false; // first time create all the levels vars to false --> not finished
-                    writer.Write(LevelEnd[i]);
-                }
-                writer.Write("(c) 2023 FilRip from CoolBytes");
-                writer.Close();
-                LemmingsNetGame.Instance.MustReadFile = true;
-                LemmingsNetGame.Instance.CurrentLevelNumber++;
-                if (LemmingsNetGame.Instance.CurrentLevelNumber >= MyGame.NumTotalLevels - 1)
-                    LemmingsNetGame.Instance.CurrentLevelNumber = MyGame.NumTotalLevels - 1;
-                LemmingsNetGame.Instance.ScreenMainMenu.MouseLevelChoose = LemmingsNetGame.Instance.CurrentLevelNumber;
-                LemmingsNetGame.Instance.CurrentScreen = ECurrentScreen.InGame;
-                NumSaved = 0;
+                SaveGame.FinishedLevel[MyGame.Instance.CurrentLevelNumber] = true;
+                SaveGame.SaveSavedGame();
+                MyGame.Instance.CurrentLevelNumber++;
+                if (MyGame.Instance.CurrentLevelNumber >= GlobalConst.NumTotalLevels - 1)
+                    MyGame.Instance.CurrentLevelNumber = GlobalConst.NumTotalLevels - 1;
+                MyGame.Instance.ScreenMainMenu.MouseLevelChoose = MyGame.Instance.CurrentLevelNumber;
+                MyGame.Instance.CurrentScreen = ECurrentScreen.InGame;
                 Numlemnow = 0;
                 NumLemmings = 0;
                 Fade = true;
@@ -1398,14 +1392,13 @@ internal class InGame
                 AllBlow = false;
                 ZvTime = 0;
                 ExitBad = false;
-                LemmingsNetGame.Instance.ReloadContent();
+                MyGame.Instance.ReloadContent();
                 return; //next level
             }
 
             if (ExitBad) //repeat level
             {
-                LemmingsNetGame.Instance.CurrentScreen = ECurrentScreen.InGame;
-                NumSaved = 0;
+                MyGame.Instance.CurrentScreen = ECurrentScreen.InGame;
                 Numlemnow = 0;
                 NumLemmings = 0;
                 Fade = true;
@@ -1422,19 +1415,19 @@ internal class InGame
                 AllBlow = false;
                 ZvTime = 0;
                 ExitBad = false;
-                LemmingsNetGame.Instance.ReloadContent();
+                MyGame.Instance.ReloadContent();
                 return;
             }
             CurrentMusic.Stop();
-            LemmingsNetGame.Instance.ScreenMainMenu.MouseLevelChoose = 0;
+            MyGame.Instance.ScreenMainMenu.MouseLevelChoose = 0;
             LevelEnded = false;
             ExitLevel = false;
             AllBlow = false;
             ZvTime = 0;
             ExitBad = false;
             NumLemmings = 0;
-            LemmingsNetGame.Instance.ReloadContent();
-            LemmingsNetGame.Instance.BackToMenu();
+            MyGame.Instance.ReloadContent();
+            MyGame.Instance.BackToMenu();
             return;
         }
 
@@ -1446,8 +1439,8 @@ internal class InGame
         }
         if (Input.PreviousKeyState.IsKeyDown(Keys.P) && Input.CurrentKeyState.IsKeyUp(Keys.P))
         {
-            LemmingsNetGame.Instance.Sfx.PlaySoundMenu();
-            MyGame.Paused = !MyGame.Paused;
+            MyGame.Instance.Sfx.PlaySoundMenu();
+            GlobalConst.Paused = !GlobalConst.Paused;
         }
         else if (Input.PreviousKeyState.IsKeyDown(Keys.D1))
             _inGameMenu._decreaseOn = true;
@@ -1459,42 +1452,42 @@ internal class InGame
             _inGameMenu._increaseOn = false;
         if (NbClimberRemaining > 0 && Input.PreviousKeyState.IsKeyDown(Keys.D3) && Input.CurrentKeyState.IsKeyUp(Keys.D3))
         {
-            LemmingsNetGame.Instance.Sfx.PlaySoundMenu();
+            MyGame.Instance.Sfx.PlaySoundMenu();
             _inGameMenu.CurrentSelectedSkill = ECurrentSkill.CLIMBER;
         }
         else if (NbFloaterRemaining > 0 && Input.PreviousKeyState.IsKeyDown(Keys.D4) && Input.CurrentKeyState.IsKeyUp(Keys.D4))
         {
-            LemmingsNetGame.Instance.Sfx.PlaySoundMenu();
+            MyGame.Instance.Sfx.PlaySoundMenu();
             _inGameMenu.CurrentSelectedSkill = ECurrentSkill.FLOATER;
         }
         else if (NbExploderRemaining > 0 && Input.PreviousKeyState.IsKeyDown(Keys.D5) && Input.CurrentKeyState.IsKeyUp(Keys.D5))
         {
-            LemmingsNetGame.Instance.Sfx.PlaySoundMenu();
+            MyGame.Instance.Sfx.PlaySoundMenu();
             _inGameMenu.CurrentSelectedSkill = ECurrentSkill.EXPLODER;
         }
         else if (NbBlockerRemaining > 0 && Input.PreviousKeyState.IsKeyDown(Keys.D6) && Input.CurrentKeyState.IsKeyUp(Keys.D6))
         {
-            LemmingsNetGame.Instance.Sfx.PlaySoundMenu();
+            MyGame.Instance.Sfx.PlaySoundMenu();
             _inGameMenu.CurrentSelectedSkill = ECurrentSkill.BLOCKER;
         }
         else if (NbBuilderRemaining > 0 && Input.PreviousKeyState.IsKeyDown(Keys.D7) && Input.CurrentKeyState.IsKeyUp(Keys.D7))
         {
-            LemmingsNetGame.Instance.Sfx.PlaySoundMenu();
+            MyGame.Instance.Sfx.PlaySoundMenu();
             _inGameMenu.CurrentSelectedSkill = ECurrentSkill.BUILDER;
         }
         else if (NbBasherRemaining > 0 && Input.PreviousKeyState.IsKeyDown(Keys.D8) && Input.CurrentKeyState.IsKeyUp(Keys.D8))
         {
-            LemmingsNetGame.Instance.Sfx.PlaySoundMenu();
+            MyGame.Instance.Sfx.PlaySoundMenu();
             _inGameMenu.CurrentSelectedSkill = ECurrentSkill.BASHER;
         }
         else if (NbMinerRemaining > 0 && Input.PreviousKeyState.IsKeyDown(Keys.D9) && Input.CurrentKeyState.IsKeyUp(Keys.D9))
         {
-            LemmingsNetGame.Instance.Sfx.PlaySoundMenu();
+            MyGame.Instance.Sfx.PlaySoundMenu();
             _inGameMenu.CurrentSelectedSkill = ECurrentSkill.MINER;
         }
         else if (NbDiggerRemaining > 0 && Input.PreviousKeyState.IsKeyDown(Keys.D0) && Input.CurrentKeyState.IsKeyUp(Keys.D0))
         {
-            LemmingsNetGame.Instance.Sfx.PlaySoundMenu();
+            MyGame.Instance.Sfx.PlaySoundMenu();
             _inGameMenu.CurrentSelectedSkill = ECurrentSkill.DIGGER;
         }
         Update_level();
@@ -1503,14 +1496,14 @@ internal class InGame
     private void Scrolling()
     {
         Point mousepos = Input.CurrentMouseState.Position;
-        if (mousepos.X + 20 > MyGame.GameResolution.X &&
-            ScrollX + MyGame.GameResolution.X < Earth.Width)
+        if (mousepos.X + 20 > GlobalConst.GameResolution.X &&
+            ScrollX + GlobalConst.GameResolution.X < Earth.Width)
         {
             ScrollX += 5;
         }
-        if (ScrollX + MyGame.GameResolution.X > Earth.Width)
+        if (ScrollX + GlobalConst.GameResolution.X > Earth.Width)
         {
-            ScrollX = Earth.Width - MyGame.GameResolution.X;
+            ScrollX = Earth.Width - GlobalConst.GameResolution.X;
         }
         if (mousepos.X < -10 && ScrollX > 0)
         {
@@ -1520,7 +1513,7 @@ internal class InGame
         {
             ScrollX = 0;
         }
-        if (mousepos.Y + 20 > MyGame.GameResolution.Y && ScrollY + 512 < Earth.Height)
+        if (mousepos.Y + 20 > GlobalConst.GameResolution.Y && ScrollY + 512 < Earth.Height)
         {
             ScrollY += 5;
         }
@@ -1538,12 +1531,12 @@ internal class InGame
         }
         if (mousepos.Y < -14)
             mousepos.Y = -14;
-        if (mousepos.Y > MyGame.GameResolution.Y * (LemmingsNetGame.Instance.Scaled ? 2 : 1))
-            mousepos.Y = MyGame.GameResolution.Y * (LemmingsNetGame.Instance.Scaled ? 2 : 1);
+        if (mousepos.Y > GlobalConst.GameResolution.Y * (MyGame.Instance.Scaled ? 2 : 1))
+            mousepos.Y = GlobalConst.GameResolution.Y * (MyGame.Instance.Scaled ? 2 : 1);
         if (mousepos.X < -14)
             mousepos.X = -14;
-        if (mousepos.X > MyGame.GameResolution.X * (LemmingsNetGame.Instance.Scaled ? 2 : 1))
-            mousepos.X = MyGame.GameResolution.X * (LemmingsNetGame.Instance.Scaled ? 2 : 1);
+        if (mousepos.X > GlobalConst.GameResolution.X * (MyGame.Instance.Scaled ? 2 : 1))
+            mousepos.X = GlobalConst.GameResolution.X * (MyGame.Instance.Scaled ? 2 : 1);
         if (LockMouse)
             Mouse.SetPosition(mousepos.X, mousepos.Y); // setposition //this is for my son kids don't know move mouse so good  
     }
@@ -1557,11 +1550,11 @@ internal class InGame
         if (Draw2 && doorOn && Frame > 30)
         {
             TotalTime = 0;
-            int xx55 = LemmingsNetGame.Instance.Levels.VarDoor[LemmingsNetGame.Instance.Levels.AllLevel[LemmingsNetGame.Instance.CurrentLevelNumber].TypeOfDoor].numFram - 1;
+            int xx55 = MyGame.Instance.Levels.VarDoor[MyGame.Instance.Levels.AllLevel[MyGame.Instance.CurrentLevelNumber].TypeOfDoor].numFram - 1;
             frameDoor++;
-            if (frameDoor == 1 && LemmingsNetGame.Instance.Sfx.EntryLemmings.State == SoundState.Stopped && !doorWaveOn)
+            if (frameDoor == 1 && MyGame.Instance.Sfx.EntryLemmings.State == SoundState.Stopped && !doorWaveOn)
             {
-                LemmingsNetGame.Instance.Sfx.EntryLemmings.Play();
+                MyGame.Instance.Sfx.EntryLemmings.Play();
                 doorWaveOn = true;
             }
             if (frameDoor > xx55)
@@ -1641,13 +1634,13 @@ internal class InGame
             x.Y = Lemming[actLEM2].PosY + 25;
             if (Lemming[actLEM2].Exit && Lemming[actLEM2].Actualframe == 13) // change frame of yipee sound, old frame was init or 0 now different for frames
             {
-                if (LemmingsNetGame.Instance.Sfx.Yippe.State == SoundState.Playing)
+                if (MyGame.Instance.Sfx.Yippe.State == SoundState.Playing)
                 {
-                    LemmingsNetGame.Instance.Sfx.Yippe.Stop();
+                    MyGame.Instance.Sfx.Yippe.Stop();
                 }
                 try
                 {
-                    LemmingsNetGame.Instance.Sfx.Yippe.Play();
+                    MyGame.Instance.Sfx.Yippe.Play();
                 }
                 catch (InstancePlayLimitException) { /* Ignore errors */ }
             }

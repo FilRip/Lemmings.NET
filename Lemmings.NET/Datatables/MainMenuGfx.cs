@@ -6,12 +6,12 @@ namespace Lemmings.NET.Datatables;
 
 internal class MainMenuGfx
 {
-    public Texture2D RainbowPic { get; private set; }
-    public Color[] Looplogo { get; set; } = new Color[100 * 100];
-    public Color[] Looplogo2 { get; set; } = new Color[100 * 100];
-    public RenderTarget2D Colors88 { get; set; }
-    public RenderTarget2D Normals { get; set; }
-    public Texture2D mainMenuSign, mainMenuSign2, ranksign1, ranksign2, ranksign3, ranksign5, ranksign6, Mascaraexplosion;
+    internal Texture2D RainbowPic { get; private set; }
+    internal Color[] Looplogo { get; set; } = new Color[100 * 100];
+    internal Color[] Looplogo2 { get; set; } = new Color[100 * 100];
+    internal RenderTarget2D Colors88 { get; set; }
+    internal RenderTarget2D Normals { get; set; }
+    internal Texture2D mainMenuSign, mainMenuSign2, ranksign1, ranksign2, ranksign3, ranksign5, ranksign6, Mascaraexplosion;
 
     public void Load(GraphicsDevice GraphicsDevice, ContentManager content)
     {

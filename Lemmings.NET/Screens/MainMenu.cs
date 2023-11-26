@@ -37,7 +37,7 @@ internal class MainMenu
 
     internal void LoadGfx()
     {
-        _mainMenuGfx.Load(LemmingsNetGame.Instance.GraphicsDevice, LemmingsNetGame.Instance.Content);
+        _mainMenuGfx.Load(MyGame.Instance.GraphicsDevice, MyGame.Instance.Content);
     }
 
     internal void BackToMenu()
@@ -47,8 +47,8 @@ internal class MainMenu
 
     internal void Draw(GraphicsDevice graphics, SpriteBatch spriteBatch)
     {
-        if (LemmingsNetGame.Instance.Music.WinMusic.State == SoundState.Playing)
-            LemmingsNetGame.Instance.Music.WinMusic.Stop();
+        if (MyGame.Instance.Music.WinMusic.State == SoundState.Playing)
+            MyGame.Instance.Music.WinMusic.Stop();
         // rainbow over lemmings logo text into rendertarget
         graphics.SetRenderTarget(_mainMenuGfx.Colors88);
         graphics.Clear(ClearOptions.Target, Color.Transparent, 1.0f, 0);
@@ -66,9 +66,9 @@ internal class MainMenu
             _mainMenuGfx.RainbowPic.GetData(0, new Rectangle(0, 0, loopcolor, 75), _mainMenuGfx.Looplogo2, 0, loopcolor * 75);
             _mainMenuGfx.RainbowPic.SetData(0, new Rectangle(45 - loopcolor, 0, loopcolor, 75), _mainMenuGfx.Looplogo2, 0, loopcolor * 75);
         }
-        LemmingsNetGame.Instance.Vfx.Efecto.Parameters["rainbow"].SetValue(_mainMenuGfx.RainbowPic); //rainbowpic
-        LemmingsNetGame.Instance.Vfx.Efecto.CurrentTechnique.Passes[0].Apply();
-        spriteBatch.Draw(LemmingsNetGame.Instance.Gfx.Text, new Vector2(0, 0), Color.White);
+        MyGame.Instance.Vfx.Efecto.Parameters["rainbow"].SetValue(_mainMenuGfx.RainbowPic); //rainbowpic
+        MyGame.Instance.Vfx.Efecto.CurrentTechnique.Passes[0].Apply();
+        spriteBatch.Draw(MyGame.Instance.Gfx.Text, new Vector2(0, 0), Color.White);
         spriteBatch.End();
 
         // light NMAP effect over lemmings logo with mouse pos into other rendertarget
@@ -79,9 +79,9 @@ internal class MainMenu
         graphics.Clear(ClearOptions.Target,
             new Color(128, 128, 255, 255), 1.0f, 0); // Clear the target with the default normal, pointing up (0, 0, 1)
         spriteBatch.Begin();
-        spriteBatch.Draw(LemmingsNetGame.Instance.Gfx.CrateNormals, cratePosition, Color.White);
+        spriteBatch.Draw(MyGame.Instance.Gfx.CrateNormals, cratePosition, Color.White);
         spriteBatch.End();
-        graphics.SetRenderTarget(LemmingsNetGame.Instance.MainRenderTarget);
+        graphics.SetRenderTarget(MyGame.Instance.MainRenderTarget);
 
         //normal target
         spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.AnisotropicWrap, null, null);
@@ -125,13 +125,13 @@ internal class MainMenu
         {
             MouseLevelChoose = 0;
         }
-        spriteBatch.Draw(LemmingsNetGame.Instance.Gfx.Logo_fondo, new Rectangle(0, 0, MyGame.GameResolution.X, MyGame.GameResolution.Y), new Rectangle(0, 0, MyGame.GameResolution.X, MyGame.GameResolution.Y), new Color(255, 255, 255, 100));
-        spriteBatch.Draw(LemmingsNetGame.Instance.Gfx.Backlogo, new Vector2(215, 20), Color.White);
-        spriteBatch.Draw(LemmingsNetGame.Instance.Sprites.EyeBlink1, new Vector2(239, 58), new Rectangle(0, framblink1 * 12, LemmingsNetGame.Instance.Sprites.EyeBlink1.Width, 12), Color.White,
+        spriteBatch.Draw(MyGame.Instance.Gfx.Logo_fondo, new Rectangle(0, 0, GlobalConst.GameResolution.X, GlobalConst.GameResolution.Y), new Rectangle(0, 0, GlobalConst.GameResolution.X, GlobalConst.GameResolution.Y), new Color(255, 255, 255, 100));
+        spriteBatch.Draw(MyGame.Instance.Gfx.Backlogo, new Vector2(215, 20), Color.White);
+        spriteBatch.Draw(MyGame.Instance.Sprites.EyeBlink1, new Vector2(239, 58), new Rectangle(0, framblink1 * 12, MyGame.Instance.Sprites.EyeBlink1.Width, 12), Color.White,
             0f, Vector2.Zero, 1f, SpriteEffects.None, 0.104f);
-        spriteBatch.Draw(LemmingsNetGame.Instance.Sprites.EyeBlink2, new Vector2(463, 58), new Rectangle(0, framblink2 * 12, LemmingsNetGame.Instance.Sprites.EyeBlink2.Width, 12), Color.White,
+        spriteBatch.Draw(MyGame.Instance.Sprites.EyeBlink2, new Vector2(463, 58), new Rectangle(0, framblink2 * 12, MyGame.Instance.Sprites.EyeBlink2.Width, 12), Color.White,
             0f, Vector2.Zero, 1f, SpriteEffects.None, 0.104f);
-        spriteBatch.Draw(LemmingsNetGame.Instance.Sprites.EyeBlink3, new Vector2(703, 50), new Rectangle(0, framblink3 * 12, LemmingsNetGame.Instance.Sprites.EyeBlink3.Width, 12), Color.White,
+        spriteBatch.Draw(MyGame.Instance.Sprites.EyeBlink3, new Vector2(703, 50), new Rectangle(0, framblink3 * 12, MyGame.Instance.Sprites.EyeBlink3.Width, 12), Color.White,
             0f, Vector2.Zero, 1f, SpriteEffects.None, 0.104f);
         //water effect waves okokok mainMenu
         frameWater++;
@@ -171,18 +171,18 @@ internal class MainMenu
                     Updown = true;
             }
         }
-        Texture2D foregroundTexture = new(LemmingsNetGame.Instance.GraphicsDevice, width, 512, false, SurfaceFormat.Color);
+        Texture2D foregroundTexture = new(MyGame.Instance.GraphicsDevice, width, 512, false, SurfaceFormat.Color);
         foregroundTexture.SetData(foregroundColors);
         Rectangle rectangleFill = new();
         Rectangle rectangleFill2 = new();
         rectangleFill.X = 0;
         rectangleFill.Y = 0;
-        rectangleFill.Width = MyGame.GameResolution.X;
-        rectangleFill.Height = MyGame.GameResolution.Y;
+        rectangleFill.Width = GlobalConst.GameResolution.X;
+        rectangleFill.Height = GlobalConst.GameResolution.Y;
         rectangleFill2.X = 0 + (int)frameWater * 4;
         rectangleFill2.Y = 0;
-        rectangleFill2.Width = MyGame.GameResolution.X;
-        rectangleFill2.Height = MyGame.GameResolution.Y;
+        rectangleFill2.Width = GlobalConst.GameResolution.X;
+        rectangleFill2.Height = GlobalConst.GameResolution.Y;
         Color colorFill = new()
         {
             R = 255,
@@ -193,19 +193,19 @@ internal class MainMenu
         spriteBatch.Draw(foregroundTexture, rectangleFill, rectangleFill2, colorFill);
         rectangleFill2.X = 0 - (int)frameWater;
         rectangleFill2.Y = 100;
-        rectangleFill2.Width = MyGame.GameResolution.X;
-        rectangleFill2.Height = MyGame.GameResolution.Y;
+        rectangleFill2.Width = GlobalConst.GameResolution.X;
+        rectangleFill2.Height = GlobalConst.GameResolution.Y;
         colorFill.A = 80;
         spriteBatch.Draw(foregroundTexture, rectangleFill, rectangleFill2, colorFill); // second wave position depth by order of draw
-        if (LemmingsNetGame.Instance.ParticleTab != null)
+        if (MyGame.Instance.ParticleTab != null)
         {
             rectangleFill.X = 0;
             rectangleFill.Y = 0;
             rectangleFill.Width = 10;
             rectangleFill.Height = 10;
-            for (int varParticle = 0; varParticle < MyGame.NumParticles; varParticle++)
+            for (int varParticle = 0; varParticle < GlobalConst.NumParticles; varParticle++)
             {
-                spriteBatch.Draw(LemmingsNetGame.Instance.ParticleTab[varParticle].Sprite, LemmingsNetGame.Instance.ParticleTab[varParticle].Pos, rectangleFill, Color.Magenta, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0.90001f);
+                spriteBatch.Draw(MyGame.Instance.ParticleTab[varParticle].Sprite, MyGame.Instance.ParticleTab[varParticle].Pos, rectangleFill, Color.Magenta, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0.90001f);
             }
         }
         if (_levelCategory == ELevelCategory.Fun)
@@ -272,7 +272,7 @@ internal class MainMenu
             colorFill.G = 0;
             colorFill.B = 0;
             colorFill.A = 170;
-            spriteBatch.Draw(LemmingsNetGame.Instance.Gfx.Texture1pixel, new Rectangle(mmX - 10, 130, 955, 420), null, // 7 x 6 mini levels maps
+            spriteBatch.Draw(MyGame.Instance.Gfx.Texture1pixel, new Rectangle(mmX - 10, 130, 955, 420), null, // 7 x 6 mini levels maps
                 colorFill, 0f, Vector2.Zero, SpriteEffects.None, 0.1f);
             spriteBatch.Draw(_mainMenuGfx.mainMenuSign2, new Rectangle(-110, 15, 1429, 638), null, // 7 x 6 mini levels maps
                 Color.White, 0f, Vector2.Zero, SpriteEffects.None, 0.1f);
@@ -286,11 +286,11 @@ internal class MainMenu
                 if (mmlev.Contains(x))
                 {
                     MouseLevelChoose = s + (30 * (((int)_levelCategory) - 1));
-                    if (LemmingsNetGame.Instance.ScreenInGame.LevelEnd[MouseLevelChoose])
+                    if (SaveGame.FinishedLevel[MouseLevelChoose])
                         colorFill = Color.ForestGreen;
                     else
                         colorFill = Color.Red;
-                    spriteBatch.Draw(LemmingsNetGame.Instance.Gfx.Texture1pixel, new Rectangle(mmx, mmy, 130, 55), null, // 7 x 6 mini levels maps
+                    spriteBatch.Draw(MyGame.Instance.Gfx.Texture1pixel, new Rectangle(mmx, mmy, 130, 55), null, // 7 x 6 mini levels maps
                         colorFill, 0f, Vector2.Zero, SpriteEffects.None, 0.1f);
                     break;
                 }
@@ -301,12 +301,12 @@ internal class MainMenu
                     mmy += 70;
                 }
             }
-            if (LemmingsNetGame.Instance.ScreenInGame.MyTexture == null || LemmingsNetGame.Instance.ScreenInGame.MyTexture.Name != "levels/mini_levels" + ((int)_levelCategory).ToString())
+            if (MyGame.Instance.ScreenInGame.MyTexture == null || MyGame.Instance.ScreenInGame.MyTexture.Name != "levels/mini_levels" + ((int)_levelCategory).ToString())
             {
-                Console.WriteLine("Load texture " + (MyGame.Rnd.Next(65535)).ToString());
-                LemmingsNetGame.Instance.ScreenInGame.MyTexture = LemmingsNetGame.Instance.Content.Load<Texture2D>("levels/mini_levels" + ((int)_levelCategory).ToString());
+                Console.WriteLine("Load texture " + (GlobalConst.Rnd.Next(65535)).ToString());
+                MyGame.Instance.ScreenInGame.MyTexture = MyGame.Instance.Content.Load<Texture2D>("levels/mini_levels" + ((int)_levelCategory).ToString());
             }
-            spriteBatch.Draw(LemmingsNetGame.Instance.ScreenInGame.MyTexture, new Vector2(mmX, 130), Color.White);
+            spriteBatch.Draw(MyGame.Instance.ScreenInGame.MyTexture, new Vector2(mmX, 130), Color.White);
         }
         else if (_levelCategory == ELevelCategory.Bonus)
         {
@@ -314,7 +314,7 @@ internal class MainMenu
             colorFill.G = 0;
             colorFill.B = 0;
             colorFill.A = 170;
-            spriteBatch.Draw(LemmingsNetGame.Instance.Gfx.Texture1pixel, new Rectangle(mmX - 10, 130, 955, 420), null, // 7 x 6 mini levels maps
+            spriteBatch.Draw(MyGame.Instance.Gfx.Texture1pixel, new Rectangle(mmX - 10, 130, 955, 420), null, // 7 x 6 mini levels maps
                 colorFill, 0f, Vector2.Zero, SpriteEffects.None, 0.1f);
             spriteBatch.Draw(_mainMenuGfx.mainMenuSign2, new Rectangle(-110, 15, 1429, 638), null, // 7 x 6 mini levels maps
                 Color.White, 0f, Vector2.Zero, SpriteEffects.None, 0.1f);
@@ -328,11 +328,11 @@ internal class MainMenu
                 if (mmlev.Contains(x))
                 {
                     MouseLevelChoose = 120 + s;
-                    if (LemmingsNetGame.Instance.ScreenInGame.LevelEnd[MouseLevelChoose])
+                    if (SaveGame.FinishedLevel[MouseLevelChoose])
                         colorFill = Color.ForestGreen;
                     else
                         colorFill = Color.Red;
-                    spriteBatch.Draw(LemmingsNetGame.Instance.Gfx.Texture1pixel, new Rectangle(mmx, mmy, 130, 55), null, // 7 x 6 mini levels maps
+                    spriteBatch.Draw(MyGame.Instance.Gfx.Texture1pixel, new Rectangle(mmx, mmy, 130, 55), null, // 7 x 6 mini levels maps
                         colorFill, 0f, Vector2.Zero, SpriteEffects.None, 0.1f);
                     break;
                 }
@@ -343,8 +343,8 @@ internal class MainMenu
                     mmy += 70;
                 }
             }
-            LemmingsNetGame.Instance.ScreenInGame.MyTexture = LemmingsNetGame.Instance.Content.Load<Texture2D>("levels/mini_levels5");
-            spriteBatch.Draw(LemmingsNetGame.Instance.ScreenInGame.MyTexture, new Vector2(mmX, 130), Color.White);
+            MyGame.Instance.ScreenInGame.MyTexture = MyGame.Instance.Content.Load<Texture2D>("levels/mini_levels5");
+            spriteBatch.Draw(MyGame.Instance.ScreenInGame.MyTexture, new Vector2(mmX, 130), Color.White);
         }
         else if (_levelCategory == ELevelCategory.User)
         {
@@ -352,7 +352,7 @@ internal class MainMenu
             colorFill.G = 0;
             colorFill.B = 0;
             colorFill.A = 170;
-            spriteBatch.Draw(LemmingsNetGame.Instance.Gfx.Texture1pixel, new Rectangle(mmX - 10, 130, 955, 420), null, // 7 x 6 mini levels maps
+            spriteBatch.Draw(MyGame.Instance.Gfx.Texture1pixel, new Rectangle(mmX - 10, 130, 955, 420), null, // 7 x 6 mini levels maps
                 colorFill, 0f, Vector2.Zero, SpriteEffects.None, 0.1f);
             spriteBatch.Draw(_mainMenuGfx.mainMenuSign2, new Rectangle(-110, 15, 1429, 638), null, // 7 x 6 mini levels maps
                 Color.White, 0f, Vector2.Zero, SpriteEffects.None, 0.1f);
@@ -366,11 +366,11 @@ internal class MainMenu
                 if (mmlev.Contains(x))
                 {
                     MouseLevelChoose = 156 + s;
-                    if (LemmingsNetGame.Instance.ScreenInGame.LevelEnd[MouseLevelChoose])
+                    if (SaveGame.FinishedLevel[MouseLevelChoose])
                         colorFill = Color.ForestGreen;
                     else
                         colorFill = Color.Red;
-                    spriteBatch.Draw(LemmingsNetGame.Instance.Gfx.Texture1pixel, new Rectangle(mmx, mmy, 130, 55), null, // 7 x 6 mini levels maps
+                    spriteBatch.Draw(MyGame.Instance.Gfx.Texture1pixel, new Rectangle(mmx, mmy, 130, 55), null, // 7 x 6 mini levels maps
                         colorFill, 0f, Vector2.Zero, SpriteEffects.None, 0.1f);
                     break;
                 }
@@ -385,8 +385,8 @@ internal class MainMenu
             mmy = 130;
             for (int s = 1; s < 26; s++) //number user levels to show okok be careful
             {
-                LemmingsNetGame.Instance.ScreenInGame.MyTexture = LemmingsNetGame.Instance.Content.Load<Texture2D>("levels/user/user" + string.Format("{0,3:D3}", s));
-                spriteBatch.Draw(LemmingsNetGame.Instance.ScreenInGame.MyTexture, new Rectangle(mmx, mmy, 130, 55), new Rectangle(0, 0, LemmingsNetGame.Instance.ScreenInGame.MyTexture.Width, LemmingsNetGame.Instance.ScreenInGame.MyTexture.Height), Color.White);
+                MyGame.Instance.ScreenInGame.MyTexture = MyGame.Instance.Content.Load<Texture2D>("levels/user/user" + string.Format("{0,3:D3}", s));
+                spriteBatch.Draw(MyGame.Instance.ScreenInGame.MyTexture, new Rectangle(mmx, mmy, 130, 55), new Rectangle(0, 0, MyGame.Instance.ScreenInGame.MyTexture.Width, MyGame.Instance.ScreenInGame.MyTexture.Height), Color.White);
                 mmx += 135;
                 if (s % 7 == 0)
                 {
@@ -395,7 +395,7 @@ internal class MainMenu
                 }
             }
         }
-        if (MouseLevelChoose != 0 && MouseLevelChoose <= MyGame.NumTotalLevels - 1) // MENU SHOW LEVELS DETAILS
+        if (MouseLevelChoose != 0 && MouseLevelChoose <= GlobalConst.NumTotalLevels - 1) // MENU SHOW LEVELS DETAILS
         {
             int mmKX = 100;
             int mmKY = 555;
@@ -407,47 +407,47 @@ internal class MainMenu
                 levelACT -= 120;
             else if (levelACT > 156)
                 levelACT -= 156;
-            LemmingsNetGame.Instance.Fonts.TextLem("Level " + string.Format("{0}", levelACT), new Vector2(mmKX, mmKY), Color.Red, 1f, 0.1f, spriteBatch);
-            LemmingsNetGame.Instance.Fonts.TextLem(LemmingsNetGame.Instance.Levels.AllLevel[MouseLevelChoose].nameOfLevel, new Vector2(mmKX + 200, mmKY), Color.Red, 1f, 0.1f, spriteBatch);
-            LemmingsNetGame.Instance.Fonts.TextLem("Number of Lemmings " + string.Format("{0}", LemmingsNetGame.Instance.Levels.AllLevel[MouseLevelChoose].TotalLemmings), new Vector2(mmKX, mmKY + mmKplusY), Color.Blue, 1f, 0.1f, spriteBatch);
-            LemmingsNetGame.Instance.Fonts.TextLem(string.Format("{0}", LemmingsNetGame.Instance.Levels.AllLevel[MouseLevelChoose].NbLemmingsToSave) + " to be saved", new Vector2(mmKX, mmKY + mmKplusY * 2), Color.Green, 1f, 0.1f, spriteBatch);
-            LemmingsNetGame.Instance.Fonts.TextLem("Release Rate " + string.Format("{0}", LemmingsNetGame.Instance.Levels.AllLevel[MouseLevelChoose].MinFrequencyComming), new Vector2(mmKX, mmKY + mmKplusY * 3), Color.Yellow, 1f, 0.1f, spriteBatch);
-            LemmingsNetGame.Instance.Fonts.TextLem("Time " + string.Format("{0}", LemmingsNetGame.Instance.Levels.AllLevel[MouseLevelChoose].totalTime) + " Minutes", new Vector2(mmKX, mmKY + mmKplusY * 4), Color.Cyan, 1f, 0.1f, spriteBatch);
+            MyGame.Instance.Fonts.TextLem("Level " + string.Format("{0}", levelACT), new Vector2(mmKX, mmKY), Color.Red, 1f, 0.1f, spriteBatch);
+            MyGame.Instance.Fonts.TextLem(MyGame.Instance.Levels.AllLevel[MouseLevelChoose].nameOfLevel, new Vector2(mmKX + 200, mmKY), Color.Red, 1f, 0.1f, spriteBatch);
+            MyGame.Instance.Fonts.TextLem("Number of Lemmings " + string.Format("{0}", MyGame.Instance.Levels.AllLevel[MouseLevelChoose].TotalLemmings), new Vector2(mmKX, mmKY + mmKplusY), Color.Blue, 1f, 0.1f, spriteBatch);
+            MyGame.Instance.Fonts.TextLem(string.Format("{0}", MyGame.Instance.Levels.AllLevel[MouseLevelChoose].NbLemmingsToSave) + " to be saved", new Vector2(mmKX, mmKY + mmKplusY * 2), Color.Green, 1f, 0.1f, spriteBatch);
+            MyGame.Instance.Fonts.TextLem("Release Rate " + string.Format("{0}", MyGame.Instance.Levels.AllLevel[MouseLevelChoose].MinFrequencyComming), new Vector2(mmKX, mmKY + mmKplusY * 3), Color.Yellow, 1f, 0.1f, spriteBatch);
+            MyGame.Instance.Fonts.TextLem("Time " + string.Format("{0}", MyGame.Instance.Levels.AllLevel[MouseLevelChoose].totalTime) + " Minutes", new Vector2(mmKX, mmKY + mmKplusY * 4), Color.Cyan, 1f, 0.1f, spriteBatch);
             if (_levelCategory == ELevelCategory.Fun)
             {
-                LemmingsNetGame.Instance.Fonts.TextLem("Rating FUN", new Vector2(mmKX + 470, mmKY + mmKplusY * 4), Color.Magenta, 1f, 0.1f, spriteBatch);
+                MyGame.Instance.Fonts.TextLem("Rating FUN", new Vector2(mmKX + 470, mmKY + mmKplusY * 4), Color.Magenta, 1f, 0.1f, spriteBatch);
             }
             else if (_levelCategory == ELevelCategory.Tricky)
             {
-                LemmingsNetGame.Instance.Fonts.TextLem("Rating TRICKY", new Vector2(mmKX + 470, mmKY + mmKplusY * 4), Color.Magenta, 1f, 0.1f, spriteBatch);
+                MyGame.Instance.Fonts.TextLem("Rating TRICKY", new Vector2(mmKX + 470, mmKY + mmKplusY * 4), Color.Magenta, 1f, 0.1f, spriteBatch);
             }
             else if (_levelCategory == ELevelCategory.Taxing)
             {
-                LemmingsNetGame.Instance.Fonts.TextLem("Rating TAXING", new Vector2(mmKX + 470, mmKY + mmKplusY * 4), Color.Magenta, 1f, 0.1f, spriteBatch);
+                MyGame.Instance.Fonts.TextLem("Rating TAXING", new Vector2(mmKX + 470, mmKY + mmKplusY * 4), Color.Magenta, 1f, 0.1f, spriteBatch);
             }
             else if (_levelCategory == ELevelCategory.Mayhem)
             {
-                LemmingsNetGame.Instance.Fonts.TextLem("Rating MAYHEM", new Vector2(mmKX + 470, mmKY + mmKplusY * 4), Color.Magenta, 1f, 0.1f, spriteBatch);
+                MyGame.Instance.Fonts.TextLem("Rating MAYHEM", new Vector2(mmKX + 470, mmKY + mmKplusY * 4), Color.Magenta, 1f, 0.1f, spriteBatch);
             }
             else if (MouseLevelChoose > 120 && MouseLevelChoose <= 156)
             {
-                LemmingsNetGame.Instance.Fonts.TextLem("Rating BONUS", new Vector2(mmKX + 470, mmKY + mmKplusY * 4), Color.Magenta, 1f, 0.1f, spriteBatch);
+                MyGame.Instance.Fonts.TextLem("Rating BONUS", new Vector2(mmKX + 470, mmKY + mmKplusY * 4), Color.Magenta, 1f, 0.1f, spriteBatch);
             }
             else if (MouseLevelChoose > 156)
             {
-                LemmingsNetGame.Instance.Fonts.TextLem("Rating USER", new Vector2(mmKX + 470, mmKY + mmKplusY * 4), Color.Magenta, 1f, 0.1f, spriteBatch);
+                MyGame.Instance.Fonts.TextLem("Rating USER", new Vector2(mmKX + 470, mmKY + mmKplusY * 4), Color.Magenta, 1f, 0.1f, spriteBatch);
             }
             int mmKindX = 960;
             int mmKindY = 580;
             int mmPlusy = 15;
-            LemmingsNetGame.Instance.Fonts.TextLem("Climbers: " + string.Format("{0}", LemmingsNetGame.Instance.Levels.AllLevel[MouseLevelChoose].numberClimbers), new Vector2(mmKindX, mmKindY), Color.Linen, 0.5f, 0.1f, spriteBatch);
-            LemmingsNetGame.Instance.Fonts.TextLem("Floaters: " + string.Format("{0}", LemmingsNetGame.Instance.Levels.AllLevel[MouseLevelChoose].numberUmbrellas), new Vector2(mmKindX, mmKindY + mmPlusy), Color.LimeGreen, 0.5f, 0.1f, spriteBatch);
-            LemmingsNetGame.Instance.Fonts.TextLem(" Bombers: " + string.Format("{0}", LemmingsNetGame.Instance.Levels.AllLevel[MouseLevelChoose].numberExploders), new Vector2(mmKindX, mmKindY + mmPlusy * 2), Color.SteelBlue, 0.5f, 0.1f, spriteBatch);
-            LemmingsNetGame.Instance.Fonts.TextLem("Blockers: " + string.Format("{0}", LemmingsNetGame.Instance.Levels.AllLevel[MouseLevelChoose].numberBlockers), new Vector2(mmKindX, mmKindY + mmPlusy * 3), Color.Red, 0.5f, 0.1f, spriteBatch);
-            LemmingsNetGame.Instance.Fonts.TextLem("Builders: " + string.Format("{0}", LemmingsNetGame.Instance.Levels.AllLevel[MouseLevelChoose].numberBuilders), new Vector2(mmKindX, mmKindY + mmPlusy * 4), Color.Orange, 0.5f, 0.1f, spriteBatch);
-            LemmingsNetGame.Instance.Fonts.TextLem(" Bashers: " + string.Format("{0}", LemmingsNetGame.Instance.Levels.AllLevel[MouseLevelChoose].numberBashers), new Vector2(mmKindX, mmKindY + mmPlusy * 5), Color.Violet, 0.5f, 0.1f, spriteBatch);
-            LemmingsNetGame.Instance.Fonts.TextLem("  Miners: " + string.Format("{0}", LemmingsNetGame.Instance.Levels.AllLevel[MouseLevelChoose].numberMiners), new Vector2(mmKindX, mmKindY + mmPlusy * 6), Color.Turquoise, 0.5f, 0.1f, spriteBatch);
-            LemmingsNetGame.Instance.Fonts.TextLem(" Diggers: " + string.Format("{0}", LemmingsNetGame.Instance.Levels.AllLevel[MouseLevelChoose].numberDiggers), new Vector2(mmKindX, mmKindY + mmPlusy * 7), Color.Tomato, 0.5f, 0.1f, spriteBatch);
+            MyGame.Instance.Fonts.TextLem("Climbers: " + string.Format("{0}", MyGame.Instance.Levels.AllLevel[MouseLevelChoose].numberClimbers), new Vector2(mmKindX, mmKindY), Color.Linen, 0.5f, 0.1f, spriteBatch);
+            MyGame.Instance.Fonts.TextLem("Floaters: " + string.Format("{0}", MyGame.Instance.Levels.AllLevel[MouseLevelChoose].numberUmbrellas), new Vector2(mmKindX, mmKindY + mmPlusy), Color.LimeGreen, 0.5f, 0.1f, spriteBatch);
+            MyGame.Instance.Fonts.TextLem(" Bombers: " + string.Format("{0}", MyGame.Instance.Levels.AllLevel[MouseLevelChoose].numberExploders), new Vector2(mmKindX, mmKindY + mmPlusy * 2), Color.SteelBlue, 0.5f, 0.1f, spriteBatch);
+            MyGame.Instance.Fonts.TextLem("Blockers: " + string.Format("{0}", MyGame.Instance.Levels.AllLevel[MouseLevelChoose].numberBlockers), new Vector2(mmKindX, mmKindY + mmPlusy * 3), Color.Red, 0.5f, 0.1f, spriteBatch);
+            MyGame.Instance.Fonts.TextLem("Builders: " + string.Format("{0}", MyGame.Instance.Levels.AllLevel[MouseLevelChoose].numberBuilders), new Vector2(mmKindX, mmKindY + mmPlusy * 4), Color.Orange, 0.5f, 0.1f, spriteBatch);
+            MyGame.Instance.Fonts.TextLem(" Bashers: " + string.Format("{0}", MyGame.Instance.Levels.AllLevel[MouseLevelChoose].numberBashers), new Vector2(mmKindX, mmKindY + mmPlusy * 5), Color.Violet, 0.5f, 0.1f, spriteBatch);
+            MyGame.Instance.Fonts.TextLem("  Miners: " + string.Format("{0}", MyGame.Instance.Levels.AllLevel[MouseLevelChoose].numberMiners), new Vector2(mmKindX, mmKindY + mmPlusy * 6), Color.Turquoise, 0.5f, 0.1f, spriteBatch);
+            MyGame.Instance.Fonts.TextLem(" Diggers: " + string.Format("{0}", MyGame.Instance.Levels.AllLevel[MouseLevelChoose].numberDiggers), new Vector2(mmKindX, mmKindY + mmPlusy * 7), Color.Tomato, 0.5f, 0.1f, spriteBatch);
         }
 
         spriteBatch.Draw(_mainMenuGfx.Colors88, new Vector2(560, 480), new Rectangle(0, 0, _mainMenuGfx.Colors88.Width, _mainMenuGfx.Colors88.Height), Color.White, 0f, Vector2.Zero, .8f,
@@ -456,8 +456,7 @@ internal class MainMenu
 
         spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
 
-        spriteBatch.Draw(LemmingsNetGame.Instance.MouseManager.MouseCross, new Vector2(Input.CurrentMouseState.X - 17, Input.CurrentMouseState.Y - 17), new Rectangle(0, 0, 34, 34), Color.White, 0f, Vector2.Zero,
-            1f, SpriteEffects.None, 0f);
+        MyGame.Instance.MouseManager.Draw(spriteBatch);
 
         spriteBatch.End();
     }
@@ -467,77 +466,77 @@ internal class MainMenu
         dibujaloop++;
         if (Input.PreviousKeyState.IsKeyDown(Keys.Escape) && Input.CurrentKeyState.IsKeyUp(Keys.Escape))
         {
-            LemmingsNetGame.Instance.Exit();
+            MyGame.Instance.Exit();
         }
-        LemmingsNetGame.Instance.ScreenInGame.Frame2++;
-        LemmingsNetGame.Instance.ScreenInGame.Dibuja = false;
-        if (LemmingsNetGame.Instance.ScreenInGame.Frame2 > 6)
+        MyGame.Instance.ScreenInGame.Frame2++;
+        MyGame.Instance.ScreenInGame.Dibuja = false;
+        if (MyGame.Instance.ScreenInGame.Frame2 > 6)
         {
-            LemmingsNetGame.Instance.ScreenInGame.Frame2 = 0;
-            LemmingsNetGame.Instance.ScreenInGame.Frame++;
-            LemmingsNetGame.Instance.ScreenInGame.Dibuja = true;
+            MyGame.Instance.ScreenInGame.Frame2 = 0;
+            MyGame.Instance.ScreenInGame.Frame++;
+            MyGame.Instance.ScreenInGame.Dibuja = true;
         }
-        if (LemmingsNetGame.Instance.ScreenInGame.R1 == 0)
+        if (MyGame.Instance.ScreenInGame.R1 == 0)
         {
-            LemmingsNetGame.Instance.ScreenInGame.R1 = MyGame.Rnd.Next(1, 30);
+            MyGame.Instance.ScreenInGame.R1 = GlobalConst.Rnd.Next(1, 30);
         }
-        if (LemmingsNetGame.Instance.ScreenInGame.R2 == 0)
+        if (MyGame.Instance.ScreenInGame.R2 == 0)
         {
-            LemmingsNetGame.Instance.ScreenInGame.R2 = MyGame.Rnd.Next(1, 45);
+            MyGame.Instance.ScreenInGame.R2 = GlobalConst.Rnd.Next(1, 45);
         }
-        if (LemmingsNetGame.Instance.ScreenInGame.R3 == 0)
+        if (MyGame.Instance.ScreenInGame.R3 == 0)
         {
-            LemmingsNetGame.Instance.ScreenInGame.R3 = MyGame.Rnd.Next(1, 35);
+            MyGame.Instance.ScreenInGame.R3 = GlobalConst.Rnd.Next(1, 35);
         }
-        if (LemmingsNetGame.Instance.ScreenInGame.Frame % LemmingsNetGame.Instance.ScreenInGame.R1 == 0 && !blink1on)
+        if (MyGame.Instance.ScreenInGame.Frame % MyGame.Instance.ScreenInGame.R1 == 0 && !blink1on)
         {
             framblink1 = 0;
             blink1on = true;
         }  // bbbbbbbbbbbbbbllllllllllllllblinking eyes menu 1-2-3
-        if (blink1on && LemmingsNetGame.Instance.ScreenInGame.Dibuja)
+        if (blink1on && MyGame.Instance.ScreenInGame.Dibuja)
         {
             framblink1++;
             if (framblink1 > 8)
             {
                 blink1on = false;
-                LemmingsNetGame.Instance.ScreenInGame.R1 = 0;
+                MyGame.Instance.ScreenInGame.R1 = 0;
             }
         }
-        if (LemmingsNetGame.Instance.ScreenInGame.Frame % LemmingsNetGame.Instance.ScreenInGame.R2 == 0 && !blink2on)
+        if (MyGame.Instance.ScreenInGame.Frame % MyGame.Instance.ScreenInGame.R2 == 0 && !blink2on)
         {
             framblink2 = 0;
             blink2on = true;
         }
-        if (blink2on && LemmingsNetGame.Instance.ScreenInGame.Dibuja)
+        if (blink2on && MyGame.Instance.ScreenInGame.Dibuja)
         {
             framblink2++;
             if (framblink2 > 8)
             {
                 blink2on = false;
-                LemmingsNetGame.Instance.ScreenInGame.R2 = 0;
+                MyGame.Instance.ScreenInGame.R2 = 0;
             }
         }
-        if (LemmingsNetGame.Instance.ScreenInGame.Frame % LemmingsNetGame.Instance.ScreenInGame.R3 == 0 && !blink3on)
+        if (MyGame.Instance.ScreenInGame.Frame % MyGame.Instance.ScreenInGame.R3 == 0 && !blink3on)
         {
             framblink3 = 0;
             blink3on = true;
         }
-        if (blink3on && LemmingsNetGame.Instance.ScreenInGame.Dibuja)
+        if (blink3on && MyGame.Instance.ScreenInGame.Dibuja)
         {
             framblink3++;
             if (framblink3 > 8)
             {
                 blink3on = false;
-                LemmingsNetGame.Instance.ScreenInGame.R3 = 0;
+                MyGame.Instance.ScreenInGame.R3 = 0;
             }
         }
         if (MouseLevelChoose != 0 && (Input.PreviousMouseState.LeftButton == ButtonState.Released && Input.CurrentMouseState.LeftButton == ButtonState.Pressed))
         {
-            LemmingsNetGame.Instance.CurrentScreen = ECurrentScreen.InGame;
-            LemmingsNetGame.Instance.CurrentLevelNumber = MouseLevelChoose;
-            LemmingsNetGame.Instance.ScreenInGame.Frame = 0;
-            LemmingsNetGame.Instance.ScreenInGame.Frame2 = 0;
-            LemmingsNetGame.Instance.ReloadContent();
+            MyGame.Instance.CurrentScreen = ECurrentScreen.InGame;
+            MyGame.Instance.CurrentLevelNumber = MouseLevelChoose;
+            MyGame.Instance.ScreenInGame.Frame = 0;
+            MyGame.Instance.ScreenInGame.Frame2 = 0;
+            MyGame.Instance.ReloadContent();
         }
     }
 }

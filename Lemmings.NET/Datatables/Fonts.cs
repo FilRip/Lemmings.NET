@@ -8,10 +8,10 @@ namespace Lemmings.NET.Datatables;
 
 internal class Fonts
 {
-    public Texture2D Lemmings { get; private set; }
-    public SpriteFont Standard { get; private set; }
+    internal Texture2D Lemmings { get; private set; }
+    internal SpriteFont Standard { get; private set; }
 
-    public void TextLem(string txt, Vector2 start, Color pinta, float size, float layer, SpriteBatch spriteBatch)
+    internal void TextLem(string txt, Vector2 start, Color pinta, float size, float layer, SpriteBatch spriteBatch)
     {
         for (int i = 0; i <= txt.Length - 1; i++)
         {

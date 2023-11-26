@@ -5,28 +5,28 @@ namespace Lemmings.NET.Datatables;
 
 internal class Music
 {
-    public SoundEffectInstance Music1 { get; private set; }
-    public SoundEffectInstance Music2 { get; private set; }
-    public SoundEffectInstance Music3 { get; private set; }
-    public SoundEffectInstance Music4 { get; private set; }
-    public SoundEffectInstance Music5 { get; private set; }
-    public SoundEffectInstance Music6 { get; private set; }
-    public SoundEffectInstance Music7 { get; private set; }
-    public SoundEffectInstance Music8 { get; private set; }
-    public SoundEffectInstance Music9 { get; private set; }
-    public SoundEffectInstance Music10 { get; private set; }
-    public SoundEffectInstance Music11 { get; private set; }
-    public SoundEffectInstance Music12 { get; private set; }
-    public SoundEffectInstance Music13 { get; private set; }
-    public SoundEffectInstance MenuMusic { get; private set; }
-    public SoundEffectInstance Music15 { get; private set; }
-    public SoundEffectInstance Music16 { get; private set; }
-    public SoundEffectInstance Music17 { get; private set; }
-    public SoundEffectInstance Music18 { get; private set; }
-    public SoundEffectInstance Music19 { get; private set; }
-    public SoundEffectInstance WinMusic { get; private set; }
+    internal SoundEffectInstance Music1 { get; private set; }
+    internal SoundEffectInstance Music2 { get; private set; }
+    internal SoundEffectInstance Music3 { get; private set; }
+    internal SoundEffectInstance Music4 { get; private set; }
+    internal SoundEffectInstance Music5 { get; private set; }
+    internal SoundEffectInstance Music6 { get; private set; }
+    internal SoundEffectInstance Music7 { get; private set; }
+    internal SoundEffectInstance Music8 { get; private set; }
+    internal SoundEffectInstance Music9 { get; private set; }
+    internal SoundEffectInstance Music10 { get; private set; }
+    internal SoundEffectInstance Music11 { get; private set; }
+    internal SoundEffectInstance Music12 { get; private set; }
+    internal SoundEffectInstance Music13 { get; private set; }
+    internal SoundEffectInstance MenuMusic { get; private set; }
+    internal SoundEffectInstance Music15 { get; private set; }
+    internal SoundEffectInstance Music16 { get; private set; }
+    internal SoundEffectInstance Music17 { get; private set; }
+    internal SoundEffectInstance Music18 { get; private set; }
+    internal SoundEffectInstance Music19 { get; private set; }
+    internal SoundEffectInstance WinMusic { get; private set; }
 
-    public SoundEffectInstance GetMusic(int numMusic)
+    internal SoundEffectInstance GetMusic(int numMusic)
     {
         return numMusic switch
         {
@@ -51,7 +51,7 @@ internal class Music
         };
     }
 
-    public void LoadContent(ContentManager content)
+    internal void LoadContent(ContentManager content)
     {
         SoundEffect _music1 = content.Load<SoundEffect>("music/tim1");
         Music1 = _music1.CreateInstance();

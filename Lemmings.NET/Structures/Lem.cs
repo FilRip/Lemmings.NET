@@ -1,11 +1,11 @@
-﻿using Lemmings.NET.Constants;
+﻿using System;
+
+using Lemmings.NET.Constants;
 using Lemmings.NET.Models;
-using Lemmings.NET.Screens;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Input;
-using System;
 
 namespace Lemmings.NET.Structs;
 
@@ -59,38 +59,38 @@ public struct Lem //puto
         // LOGIC BLOCKER BLOCKER BLOQUEO LOGIC bbbbbbbbbbbbbbbbbbbbllllllllloooooooccccccccccckkkkkkkkkkkeeeeeeeeeeeeedddddddddddddddddd
         int medx = 14;
         int medy = 14;
-        for (int b = 0; b < LemmingsNetGame.Instance.ScreenInGame.NumLemmings; b++)
+        for (int b = 0; b < MyGame.Instance.ScreenInGame.NumLemmings; b++)
         {
-            if (LemmingsNetGame.Instance.ScreenInGame.Lemming[b].Blocker && b != LemmingsNetGame.Instance.ScreenInGame.ActLEM)
+            if (MyGame.Instance.ScreenInGame.Lemming[b].Blocker && b != MyGame.Instance.ScreenInGame.ActLEM)
             {
-                bloqueo.X = LemmingsNetGame.Instance.ScreenInGame.Lemming[b].PosX;
-                bloqueo.Y = LemmingsNetGame.Instance.ScreenInGame.Lemming[b].PosY;
+                bloqueo.X = MyGame.Instance.ScreenInGame.Lemming[b].PosX;
+                bloqueo.Y = MyGame.Instance.ScreenInGame.Lemming[b].PosY;
                 bloqueo.Width = 28;
                 bloqueo.Height = 28;
-                if (LemmingsNetGame.Instance.ScreenInGame.Lemming[LemmingsNetGame.Instance.ScreenInGame.ActLEM].Miner)
+                if (MyGame.Instance.ScreenInGame.Lemming[MyGame.Instance.ScreenInGame.ActLEM].Miner)
                 {
-                    bloqueo.X = LemmingsNetGame.Instance.ScreenInGame.Lemming[b].PosX + 10;
-                    bloqueo.Y = LemmingsNetGame.Instance.ScreenInGame.Lemming[b].PosY;
+                    bloqueo.X = MyGame.Instance.ScreenInGame.Lemming[b].PosX + 10;
+                    bloqueo.Y = MyGame.Instance.ScreenInGame.Lemming[b].PosY;
                     bloqueo.Width = 9;
                     bloqueo.Height = 28;
                 }
-                poslem.X = LemmingsNetGame.Instance.ScreenInGame.Lemming[LemmingsNetGame.Instance.ScreenInGame.ActLEM].PosX + medx;
-                poslem.Y = LemmingsNetGame.Instance.ScreenInGame.Lemming[LemmingsNetGame.Instance.ScreenInGame.ActLEM].PosY + medy;
+                poslem.X = MyGame.Instance.ScreenInGame.Lemming[MyGame.Instance.ScreenInGame.ActLEM].PosX + medx;
+                poslem.Y = MyGame.Instance.ScreenInGame.Lemming[MyGame.Instance.ScreenInGame.ActLEM].PosY + medy;
                 if (bloqueo.Contains(poslem))
                 {
-                    if (LemmingsNetGame.Instance.ScreenInGame.Lemming[LemmingsNetGame.Instance.ScreenInGame.ActLEM].Right)
+                    if (MyGame.Instance.ScreenInGame.Lemming[MyGame.Instance.ScreenInGame.ActLEM].Right)
                     {
-                        if (LemmingsNetGame.Instance.ScreenInGame.Lemming[LemmingsNetGame.Instance.ScreenInGame.ActLEM].PosX < LemmingsNetGame.Instance.ScreenInGame.Lemming[b].PosX)
+                        if (MyGame.Instance.ScreenInGame.Lemming[MyGame.Instance.ScreenInGame.ActLEM].PosX < MyGame.Instance.ScreenInGame.Lemming[b].PosX)
                         {
-                            LemmingsNetGame.Instance.ScreenInGame.Lemming[LemmingsNetGame.Instance.ScreenInGame.ActLEM].Right = false;
+                            MyGame.Instance.ScreenInGame.Lemming[MyGame.Instance.ScreenInGame.ActLEM].Right = false;
                             break;
                         }
                     }
                     else
                     {
-                        if (LemmingsNetGame.Instance.ScreenInGame.Lemming[LemmingsNetGame.Instance.ScreenInGame.ActLEM].PosX > LemmingsNetGame.Instance.ScreenInGame.Lemming[b].PosX - 1)
+                        if (MyGame.Instance.ScreenInGame.Lemming[MyGame.Instance.ScreenInGame.ActLEM].PosX > MyGame.Instance.ScreenInGame.Lemming[b].PosX - 1)
                         {
-                            LemmingsNetGame.Instance.ScreenInGame.Lemming[LemmingsNetGame.Instance.ScreenInGame.ActLEM].Right = true;
+                            MyGame.Instance.ScreenInGame.Lemming[MyGame.Instance.ScreenInGame.ActLEM].Right = true;
                             break;
                         }
                     }
@@ -99,97 +99,97 @@ public struct Lem //puto
             }
         }
         Onmouse = false; //LEMMING SKILL STRING MOUSE ON
-        if ((Input.CurrentMouseState.X + 16 >= PosX - LemmingsNetGame.Instance.ScreenInGame.ScrollX && Input.CurrentMouseState.X + 16 <= PosX - LemmingsNetGame.Instance.ScreenInGame.ScrollX + 28
-            && Input.CurrentMouseState.Y + 16 >= PosY - LemmingsNetGame.Instance.ScreenInGame.ScrollY && Input.CurrentMouseState.Y + 16 <= PosY + 28 - LemmingsNetGame.Instance.ScreenInGame.ScrollY) && !LemmingsNetGame.Instance.ScreenInGame.MouseOnLem)
+        if ((Input.CurrentMouseState.X + 16 >= PosX - MyGame.Instance.ScreenInGame.ScrollX && Input.CurrentMouseState.X + 16 <= PosX - MyGame.Instance.ScreenInGame.ScrollX + 28
+            && Input.CurrentMouseState.Y + 16 >= PosY - MyGame.Instance.ScreenInGame.ScrollY && Input.CurrentMouseState.Y + 16 <= PosY + 28 - MyGame.Instance.ScreenInGame.ScrollY) && !MyGame.Instance.ScreenInGame.MouseOnLem)
         {
             if (Walker)
-                LemmingsNetGame.Instance.ScreenInGame.LemSkill = "Walker";
+                MyGame.Instance.ScreenInGame.LemSkill = "Walker";
             else if (Builder)
-                LemmingsNetGame.Instance.ScreenInGame.LemSkill = "Builder";
+                MyGame.Instance.ScreenInGame.LemSkill = "Builder";
             else if (Basher)
-                LemmingsNetGame.Instance.ScreenInGame.LemSkill = "Basher";
+                MyGame.Instance.ScreenInGame.LemSkill = "Basher";
             else if (Blocker)
-                LemmingsNetGame.Instance.ScreenInGame.LemSkill = "Blocker";
+                MyGame.Instance.ScreenInGame.LemSkill = "Blocker";
             else if (Miner)
-                LemmingsNetGame.Instance.ScreenInGame.LemSkill = "Miner";
+                MyGame.Instance.ScreenInGame.LemSkill = "Miner";
             else if (Digger)
-                LemmingsNetGame.Instance.ScreenInGame.LemSkill = "Digger";
+                MyGame.Instance.ScreenInGame.LemSkill = "Digger";
             if (Climber)
-                LemmingsNetGame.Instance.ScreenInGame.LemSkill += ",C";
+                MyGame.Instance.ScreenInGame.LemSkill += ",C";
             if (Umbrella)
-                LemmingsNetGame.Instance.ScreenInGame.LemSkill += ",F";
+                MyGame.Instance.ScreenInGame.LemSkill += ",F";
             if (Climbing)
-                LemmingsNetGame.Instance.ScreenInGame.LemSkill = "Climber";
+                MyGame.Instance.ScreenInGame.LemSkill = "Climber";
             else if (Climbing && Umbrella)
-                LemmingsNetGame.Instance.ScreenInGame.LemSkill = "Climber,F";
+                MyGame.Instance.ScreenInGame.LemSkill = "Climber,F";
             else if ((Fall || Falling) && !Umbrella)
-                LemmingsNetGame.Instance.ScreenInGame.LemSkill = "Faller";
+                MyGame.Instance.ScreenInGame.LemSkill = "Faller";
             else if ((Fall || Falling) && Umbrella)
-                LemmingsNetGame.Instance.ScreenInGame.LemSkill = "Floater";
-            LemmingsNetGame.Instance.ScreenInGame.MouseOnLem = true;
+                MyGame.Instance.ScreenInGame.LemSkill = "Floater";
+            MyGame.Instance.ScreenInGame.MouseOnLem = true;
             Onmouse = true;
         } //  inside the mouse rectangle lemming ON
-        if (LemmingsNetGame.Instance.ScreenInGame.TrapsON && !MyGame.Paused) //Traps logic and sounds
+        if (MyGame.Instance.ScreenInGame.TrapsON && !GlobalConst.Paused) //Traps logic and sounds
         {
-            for (int ti = 0; ti < LemmingsNetGame.Instance.ScreenInGame.NumTotTraps; ti++)
+            for (int ti = 0; ti < MyGame.Instance.ScreenInGame.NumTotTraps; ti++)
             {
                 x.X = PosX + 14;
                 x.Y = PosY + 25;
-                if (LemmingsNetGame.Instance.ScreenInGame.Trap[ti].areaTrap.Contains(x) && !LemmingsNetGame.Instance.ScreenInGame.Trap[ti].isOn && LemmingsNetGame.Instance.ScreenInGame.Trap[ti].type == 666)
+                if (MyGame.Instance.ScreenInGame.Trap[ti].areaTrap.Contains(x) && !MyGame.Instance.ScreenInGame.Trap[ti].isOn && MyGame.Instance.ScreenInGame.Trap[ti].type == 666)
                 {
-                    LemmingsNetGame.Instance.ScreenInGame.Trap[ti].isOn = true;
+                    MyGame.Instance.ScreenInGame.Trap[ti].isOn = true;
                     Active = false;
                     Walker = false;
                     Dead = true;
-                    LemmingsNetGame.Instance.ScreenInGame.Numlemnow--;
+                    MyGame.Instance.ScreenInGame.Numlemnow--;
                     Explode = false;
                     Exploser = false;
-                    switch (LemmingsNetGame.Instance.ScreenInGame.Trap[ti].sprite.Name)
+                    switch (MyGame.Instance.ScreenInGame.Trap[ti].sprite.Name)
                     {
                         case "traps/dead_marble":
                         case "traps/dead_marble2_fix":
-                            if (LemmingsNetGame.Instance.Sfx.StrapTenton.State == SoundState.Playing)
+                            if (MyGame.Instance.Sfx.StrapTenton.State == SoundState.Playing)
                             {
-                                LemmingsNetGame.Instance.Sfx.StrapTenton.Stop();
+                                MyGame.Instance.Sfx.StrapTenton.Stop();
                             }
-                            LemmingsNetGame.Instance.Sfx.StrapTenton.Play();
+                            MyGame.Instance.Sfx.StrapTenton.Play();
                             break;
                         case "traps/dead_trampa":
-                            if (LemmingsNetGame.Instance.Sfx.StrapMan.State == SoundState.Playing)
+                            if (MyGame.Instance.Sfx.StrapMan.State == SoundState.Playing)
                             {
-                                LemmingsNetGame.Instance.Sfx.StrapMan.Stop();
+                                MyGame.Instance.Sfx.StrapMan.Stop();
                             }
-                            LemmingsNetGame.Instance.Sfx.StrapMan.Play();
+                            MyGame.Instance.Sfx.StrapMan.Play();
                             break;
                         case "traps/dead_soga":
-                            if (LemmingsNetGame.Instance.Sfx.StrapChain.State == SoundState.Playing)
+                            if (MyGame.Instance.Sfx.StrapChain.State == SoundState.Playing)
                             {
-                                LemmingsNetGame.Instance.Sfx.StrapChain.Stop();
+                                MyGame.Instance.Sfx.StrapChain.Stop();
                             }
-                            LemmingsNetGame.Instance.Sfx.StrapChain.Play();
+                            MyGame.Instance.Sfx.StrapChain.Play();
                             break;
                         case "traps/dead_bombona":
-                            if (LemmingsNetGame.Instance.Sfx.StrapChupar.State == SoundState.Playing)
+                            if (MyGame.Instance.Sfx.StrapChupar.State == SoundState.Playing)
                             {
-                                LemmingsNetGame.Instance.Sfx.StrapChupar.Stop();
+                                MyGame.Instance.Sfx.StrapChupar.Stop();
                             }
-                            LemmingsNetGame.Instance.Sfx.StrapChupar.Play();
+                            MyGame.Instance.Sfx.StrapChupar.Play();
                             break;
                         case "traps/dead_10":
-                            if (LemmingsNetGame.Instance.Sfx.StrapTenTonnes.State == SoundState.Playing)
+                            if (MyGame.Instance.Sfx.StrapTenTonnes.State == SoundState.Playing)
                             {
-                                LemmingsNetGame.Instance.Sfx.StrapTenTonnes.Stop();
+                                MyGame.Instance.Sfx.StrapTenTonnes.Stop();
                             }
-                            LemmingsNetGame.Instance.Sfx.StrapTenTonnes.Play();
+                            MyGame.Instance.Sfx.StrapTenTonnes.Play();
                             break;
                         default:
-                            if (LemmingsNetGame.Instance.Sfx.Die.State == SoundState.Playing)
+                            if (MyGame.Instance.Sfx.Die.State == SoundState.Playing)
                             {
-                                LemmingsNetGame.Instance.Sfx.Die.Stop();
+                                MyGame.Instance.Sfx.Die.Stop();
                             }
                             try
                             {
-                                LemmingsNetGame.Instance.Sfx.Die.Play();
+                                MyGame.Instance.Sfx.Die.Play();
                             }
                             catch (InstancePlayLimitException) { /* Ignore errors */ }
                             break;
@@ -200,22 +200,22 @@ public struct Lem //puto
                 rectangleFill.Y = PosY;
                 rectangleFill.Width = 1;
                 rectangleFill.Height = 28;
-                if (LemmingsNetGame.Instance.ScreenInGame.Trap[ti].areaTrap.Intersects(rectangleFill) && !Burned && !Drown && LemmingsNetGame.Instance.ScreenInGame.Trap[ti].type != 666)
+                if (MyGame.Instance.ScreenInGame.Trap[ti].areaTrap.Intersects(rectangleFill) && !Burned && !Drown && MyGame.Instance.ScreenInGame.Trap[ti].type != 666)
                 {
-                    switch (LemmingsNetGame.Instance.ScreenInGame.Trap[ti].sprite.Name)
+                    switch (MyGame.Instance.ScreenInGame.Trap[ti].sprite.Name)
                     {
                         case "traps/dead_spin":
                         case "traps/fuego1":
                         case "traps/fuego2":
                         case "traps/fuego3":
                         case "traps/fuego4":
-                            if (LemmingsNetGame.Instance.Sfx.Fire.State == SoundState.Playing)
+                            if (MyGame.Instance.Sfx.Fire.State == SoundState.Playing)
                             {
-                                LemmingsNetGame.Instance.Sfx.Fire.Stop();
+                                MyGame.Instance.Sfx.Fire.Stop();
                             }
                             try
                             {
-                                LemmingsNetGame.Instance.Sfx.Fire.Play();
+                                MyGame.Instance.Sfx.Fire.Play();
                             }
                             catch (InstancePlayLimitException) { /* Ignore errors */ }
                             Burned = true;
@@ -235,13 +235,13 @@ public struct Lem //puto
                         case "traps/ice_water2":
                         case "traps/water_blue":
                         case "traps/water_bubbles":
-                            if (LemmingsNetGame.Instance.Sfx.Glup.State == SoundState.Playing)
+                            if (MyGame.Instance.Sfx.Glup.State == SoundState.Playing)
                             {
-                                LemmingsNetGame.Instance.Sfx.Glup.Stop();
+                                MyGame.Instance.Sfx.Glup.Stop();
                             }
                             try
                             {
-                                LemmingsNetGame.Instance.Sfx.Glup.Play();
+                                MyGame.Instance.Sfx.Glup.Play();
                             }
                             catch (InstancePlayLimitException) { /* Ignore errors */ }
                             Drown = true;
@@ -256,13 +256,13 @@ public struct Lem //puto
                             Walker = false;
                             break;
                         default:
-                            if (LemmingsNetGame.Instance.Sfx.Die.State == SoundState.Playing)
+                            if (MyGame.Instance.Sfx.Die.State == SoundState.Playing)
                             {
-                                LemmingsNetGame.Instance.Sfx.Die.Stop();
+                                MyGame.Instance.Sfx.Die.Stop();
                             }
                             try
                             {
-                                LemmingsNetGame.Instance.Sfx.Die.Play();
+                                MyGame.Instance.Sfx.Die.Play();
                             }
                             catch (InstancePlayLimitException) { /* Ignore errors */ }
                             Explode = false;
@@ -270,35 +270,35 @@ public struct Lem //puto
                             Active = false;
                             Walker = false;
                             Dead = true;
-                            LemmingsNetGame.Instance.ScreenInGame.Numlemnow--;
+                            MyGame.Instance.ScreenInGame.Numlemnow--;
                             break;
                     }
                 }
             }
         }
         // assign skills to lemmings //////////////////////////////////////////////
-        if (LemmingsNetGame.Instance.ScreenInGame.MouseOnLem && (Input.PreviousMouseState.LeftButton == ButtonState.Released && Input.CurrentMouseState.LeftButton == ButtonState.Pressed))
+        if (MyGame.Instance.ScreenInGame.MouseOnLem && (Input.PreviousMouseState.LeftButton == ButtonState.Released && Input.CurrentMouseState.LeftButton == ButtonState.Pressed))
         {
-            if (LemmingsNetGame.Instance.ScreenInGame.InGameMenu.CurrentSelectedSkill == ECurrentSkill.DIGGER && !Digger && Onmouse //DIGGER
+            if (MyGame.Instance.ScreenInGame.InGameMenu.CurrentSelectedSkill == ECurrentSkill.DIGGER && !Digger && Onmouse //DIGGER
                 && (Walker || Builder || Basher || Miner))
             {
-                LemmingsNetGame.Instance.ScreenInGame.NbDiggerRemaining--;
-                if (LemmingsNetGame.Instance.ScreenInGame.NbDiggerRemaining < 0)
+                MyGame.Instance.ScreenInGame.NbDiggerRemaining--;
+                if (MyGame.Instance.ScreenInGame.NbDiggerRemaining < 0)
                 {
-                    LemmingsNetGame.Instance.ScreenInGame.NbDiggerRemaining = 0;
-                    if (LemmingsNetGame.Instance.Sfx.Ting.State == SoundState.Playing)
+                    MyGame.Instance.ScreenInGame.NbDiggerRemaining = 0;
+                    if (MyGame.Instance.Sfx.Ting.State == SoundState.Playing)
                     {
-                        LemmingsNetGame.Instance.Sfx.Ting.Stop();
+                        MyGame.Instance.Sfx.Ting.Stop();
                     }
-                    LemmingsNetGame.Instance.Sfx.Ting.Play();
+                    MyGame.Instance.Sfx.Ting.Play();
                 }
                 else
                 {
-                    if (LemmingsNetGame.Instance.Sfx.MousePre.State == SoundState.Playing)
+                    if (MyGame.Instance.Sfx.MousePre.State == SoundState.Playing)
                     {
-                        LemmingsNetGame.Instance.Sfx.MousePre.Stop();
+                        MyGame.Instance.Sfx.MousePre.Stop();
                     }
-                    LemmingsNetGame.Instance.Sfx.MousePre.Play();
+                    MyGame.Instance.Sfx.MousePre.Play();
                     Digger = true;
                     Fall = false;
                     Builder = false;
@@ -310,95 +310,95 @@ public struct Lem //puto
                     return;
                 }
             }
-            if (LemmingsNetGame.Instance.ScreenInGame.InGameMenu.CurrentSelectedSkill == ECurrentSkill.CLIMBER && Onmouse && !Climber) //CLIMBER
+            else if (MyGame.Instance.ScreenInGame.InGameMenu.CurrentSelectedSkill == ECurrentSkill.CLIMBER && Onmouse && !Climber) //CLIMBER
             {
-                LemmingsNetGame.Instance.ScreenInGame.NbClimberRemaining--;
-                if (LemmingsNetGame.Instance.ScreenInGame.NbClimberRemaining < 0)
+                MyGame.Instance.ScreenInGame.NbClimberRemaining--;
+                if (MyGame.Instance.ScreenInGame.NbClimberRemaining < 0)
                 {
-                    LemmingsNetGame.Instance.ScreenInGame.NbClimberRemaining = 0;
-                    if (LemmingsNetGame.Instance.Sfx.Ting.State == SoundState.Playing)
+                    MyGame.Instance.ScreenInGame.NbClimberRemaining = 0;
+                    if (MyGame.Instance.Sfx.Ting.State == SoundState.Playing)
                     {
-                        LemmingsNetGame.Instance.Sfx.Ting.Stop();
+                        MyGame.Instance.Sfx.Ting.Stop();
                     }
-                    LemmingsNetGame.Instance.Sfx.Ting.Play();
+                    MyGame.Instance.Sfx.Ting.Play();
                 }
                 else
                 {
-                    if (LemmingsNetGame.Instance.Sfx.MousePre.State == SoundState.Playing)
+                    if (MyGame.Instance.Sfx.MousePre.State == SoundState.Playing)
                     {
-                        LemmingsNetGame.Instance.Sfx.MousePre.Stop();
+                        MyGame.Instance.Sfx.MousePre.Stop();
                     }
-                    LemmingsNetGame.Instance.Sfx.MousePre.Play();
+                    MyGame.Instance.Sfx.MousePre.Play();
                     Climber = true;
                     return;
                 }
             }
-            if (LemmingsNetGame.Instance.ScreenInGame.InGameMenu.CurrentSelectedSkill == ECurrentSkill.FLOATER && Onmouse && !Umbrella && !Breakfloor) //FLOATER
+            else if (MyGame.Instance.ScreenInGame.InGameMenu.CurrentSelectedSkill == ECurrentSkill.FLOATER && Onmouse && !Umbrella && !Breakfloor) //FLOATER
             {
-                LemmingsNetGame.Instance.ScreenInGame.NbFloaterRemaining--;
-                if (LemmingsNetGame.Instance.ScreenInGame.NbFloaterRemaining < 0)
+                MyGame.Instance.ScreenInGame.NbFloaterRemaining--;
+                if (MyGame.Instance.ScreenInGame.NbFloaterRemaining < 0)
                 {
-                    LemmingsNetGame.Instance.ScreenInGame.NbFloaterRemaining = 0;
-                    if (LemmingsNetGame.Instance.Sfx.Ting.State == SoundState.Playing)
+                    MyGame.Instance.ScreenInGame.NbFloaterRemaining = 0;
+                    if (MyGame.Instance.Sfx.Ting.State == SoundState.Playing)
                     {
-                        LemmingsNetGame.Instance.Sfx.Ting.Stop();
+                        MyGame.Instance.Sfx.Ting.Stop();
                     }
-                    LemmingsNetGame.Instance.Sfx.Ting.Play();
+                    MyGame.Instance.Sfx.Ting.Play();
                 }
                 else
                 {
-                    if (LemmingsNetGame.Instance.Sfx.MousePre.State == SoundState.Playing)
+                    if (MyGame.Instance.Sfx.MousePre.State == SoundState.Playing)
                     {
-                        LemmingsNetGame.Instance.Sfx.MousePre.Stop();
+                        MyGame.Instance.Sfx.MousePre.Stop();
                     }
-                    LemmingsNetGame.Instance.Sfx.MousePre.Play();
+                    MyGame.Instance.Sfx.MousePre.Play();
                     Umbrella = true;
                     return;
                 }
             }
-            if (LemmingsNetGame.Instance.ScreenInGame.InGameMenu.CurrentSelectedSkill == ECurrentSkill.EXPLODER && Onmouse && !Exploser) //BOMBER
+            else if (MyGame.Instance.ScreenInGame.InGameMenu.CurrentSelectedSkill == ECurrentSkill.EXPLODER && Onmouse && !Exploser) //BOMBER
             {
-                LemmingsNetGame.Instance.ScreenInGame.NbExploderRemaining--;
-                if (LemmingsNetGame.Instance.ScreenInGame.NbExploderRemaining < 0)
+                MyGame.Instance.ScreenInGame.NbExploderRemaining--;
+                if (MyGame.Instance.ScreenInGame.NbExploderRemaining < 0)
                 {
-                    LemmingsNetGame.Instance.ScreenInGame.NbExploderRemaining = 0;
-                    if (LemmingsNetGame.Instance.Sfx.Ting.State == SoundState.Playing)
+                    MyGame.Instance.ScreenInGame.NbExploderRemaining = 0;
+                    if (MyGame.Instance.Sfx.Ting.State == SoundState.Playing)
                     {
-                        LemmingsNetGame.Instance.Sfx.Ting.Stop();
+                        MyGame.Instance.Sfx.Ting.Stop();
                     }
-                    LemmingsNetGame.Instance.Sfx.Ting.Play();
+                    MyGame.Instance.Sfx.Ting.Play();
                 }
                 else
                 {
-                    if (LemmingsNetGame.Instance.Sfx.MousePre.State == SoundState.Playing)
+                    if (MyGame.Instance.Sfx.MousePre.State == SoundState.Playing)
                     {
-                        LemmingsNetGame.Instance.Sfx.MousePre.Stop();
+                        MyGame.Instance.Sfx.MousePre.Stop();
                     }
-                    LemmingsNetGame.Instance.Sfx.MousePre.Play();
+                    MyGame.Instance.Sfx.MousePre.Play();
                     Exploser = true;
                     return;
                 }
             }
-            if (LemmingsNetGame.Instance.ScreenInGame.InGameMenu.CurrentSelectedSkill == ECurrentSkill.BLOCKER && Onmouse && !Blocker //BLOCKER
+            else if (MyGame.Instance.ScreenInGame.InGameMenu.CurrentSelectedSkill == ECurrentSkill.BLOCKER && Onmouse && !Blocker //BLOCKER
                 && (Walker || Digger || Builder || Basher || Miner))
             {
-                LemmingsNetGame.Instance.ScreenInGame.NbBlockerRemaining--;
-                if (LemmingsNetGame.Instance.ScreenInGame.NbBlockerRemaining < 0)
+                MyGame.Instance.ScreenInGame.NbBlockerRemaining--;
+                if (MyGame.Instance.ScreenInGame.NbBlockerRemaining < 0)
                 {
-                    LemmingsNetGame.Instance.ScreenInGame.NbBlockerRemaining = 0;
-                    if (LemmingsNetGame.Instance.Sfx.Ting.State == SoundState.Playing)
+                    MyGame.Instance.ScreenInGame.NbBlockerRemaining = 0;
+                    if (MyGame.Instance.Sfx.Ting.State == SoundState.Playing)
                     {
-                        LemmingsNetGame.Instance.Sfx.Ting.Stop();
+                        MyGame.Instance.Sfx.Ting.Stop();
                     }
-                    LemmingsNetGame.Instance.Sfx.Ting.Play();
+                    MyGame.Instance.Sfx.Ting.Play();
                 }
                 else
                 {
-                    if (LemmingsNetGame.Instance.Sfx.MousePre.State == SoundState.Playing)
+                    if (MyGame.Instance.Sfx.MousePre.State == SoundState.Playing)
                     {
-                        LemmingsNetGame.Instance.Sfx.MousePre.Stop();
+                        MyGame.Instance.Sfx.MousePre.Stop();
                     }
-                    LemmingsNetGame.Instance.Sfx.MousePre.Play();
+                    MyGame.Instance.Sfx.MousePre.Play();
                     Blocker = true;
                     Builder = false;
                     Basher = false;
@@ -410,26 +410,26 @@ public struct Lem //puto
                     return;
                 }
             }
-            if (LemmingsNetGame.Instance.ScreenInGame.InGameMenu.CurrentSelectedSkill == ECurrentSkill.BUILDER && Onmouse && !Builder //BUILDER
+            else if (MyGame.Instance.ScreenInGame.InGameMenu.CurrentSelectedSkill == ECurrentSkill.BUILDER && Onmouse && !Builder //BUILDER
                 && (Walker || Digger || Basher || Miner || Bridge))
             {
-                LemmingsNetGame.Instance.ScreenInGame.NbBuilderRemaining--;
-                if (LemmingsNetGame.Instance.ScreenInGame.NbBuilderRemaining < 0)
+                MyGame.Instance.ScreenInGame.NbBuilderRemaining--;
+                if (MyGame.Instance.ScreenInGame.NbBuilderRemaining < 0)
                 {
-                    LemmingsNetGame.Instance.ScreenInGame.NbBuilderRemaining = 0;
-                    if (LemmingsNetGame.Instance.Sfx.Ting.State == SoundState.Playing)
+                    MyGame.Instance.ScreenInGame.NbBuilderRemaining = 0;
+                    if (MyGame.Instance.Sfx.Ting.State == SoundState.Playing)
                     {
-                        LemmingsNetGame.Instance.Sfx.Ting.Stop();
+                        MyGame.Instance.Sfx.Ting.Stop();
                     }
-                    LemmingsNetGame.Instance.Sfx.Ting.Play();
+                    MyGame.Instance.Sfx.Ting.Play();
                 }
                 else
                 {
-                    if (LemmingsNetGame.Instance.Sfx.MousePre.State == SoundState.Playing)
+                    if (MyGame.Instance.Sfx.MousePre.State == SoundState.Playing)
                     {
-                        LemmingsNetGame.Instance.Sfx.MousePre.Stop();
+                        MyGame.Instance.Sfx.MousePre.Stop();
                     }
-                    LemmingsNetGame.Instance.Sfx.MousePre.Play();
+                    MyGame.Instance.Sfx.MousePre.Play();
                     Bridge = false;
                     Builder = true;
                     Actualframe = 0;
@@ -442,26 +442,26 @@ public struct Lem //puto
                     return;
                 }
             }
-            if (LemmingsNetGame.Instance.ScreenInGame.InGameMenu.CurrentSelectedSkill == ECurrentSkill.BASHER && Onmouse && !Basher //BASHER
+            else if (MyGame.Instance.ScreenInGame.InGameMenu.CurrentSelectedSkill == ECurrentSkill.BASHER && Onmouse && !Basher //BASHER
                 && (Walker || Digger || Builder || Miner))
             {
-                LemmingsNetGame.Instance.ScreenInGame.NbBasherRemaining--;
-                if (LemmingsNetGame.Instance.ScreenInGame.NbBasherRemaining < 0)
+                MyGame.Instance.ScreenInGame.NbBasherRemaining--;
+                if (MyGame.Instance.ScreenInGame.NbBasherRemaining < 0)
                 {
-                    LemmingsNetGame.Instance.ScreenInGame.NbBasherRemaining = 0;
-                    if (LemmingsNetGame.Instance.Sfx.Ting.State == SoundState.Playing)
+                    MyGame.Instance.ScreenInGame.NbBasherRemaining = 0;
+                    if (MyGame.Instance.Sfx.Ting.State == SoundState.Playing)
                     {
-                        LemmingsNetGame.Instance.Sfx.Ting.Stop();
+                        MyGame.Instance.Sfx.Ting.Stop();
                     }
-                    LemmingsNetGame.Instance.Sfx.Ting.Play();
+                    MyGame.Instance.Sfx.Ting.Play();
                 }
                 else
                 {
-                    if (LemmingsNetGame.Instance.Sfx.MousePre.State == SoundState.Playing)
+                    if (MyGame.Instance.Sfx.MousePre.State == SoundState.Playing)
                     {
-                        LemmingsNetGame.Instance.Sfx.MousePre.Stop();
+                        MyGame.Instance.Sfx.MousePre.Stop();
                     }
-                    LemmingsNetGame.Instance.Sfx.MousePre.Play();
+                    MyGame.Instance.Sfx.MousePre.Play();
                     Basher = true;
                     Actualframe = 0;
                     Walker = false;
@@ -472,26 +472,26 @@ public struct Lem //puto
                     return;
                 }
             }
-            if (LemmingsNetGame.Instance.ScreenInGame.InGameMenu.CurrentSelectedSkill == ECurrentSkill.MINER && Onmouse && !Miner //MINER
+            else if (MyGame.Instance.ScreenInGame.InGameMenu.CurrentSelectedSkill == ECurrentSkill.MINER && Onmouse && !Miner //MINER
                 && (Walker || Digger || Basher || Builder))
             {
-                LemmingsNetGame.Instance.ScreenInGame.NbMinerRemaining--;
-                if (LemmingsNetGame.Instance.ScreenInGame.NbMinerRemaining < 0)
+                MyGame.Instance.ScreenInGame.NbMinerRemaining--;
+                if (MyGame.Instance.ScreenInGame.NbMinerRemaining < 0)
                 {
-                    LemmingsNetGame.Instance.ScreenInGame.NbMinerRemaining = 0;
-                    if (LemmingsNetGame.Instance.Sfx.Ting.State == SoundState.Playing)
+                    MyGame.Instance.ScreenInGame.NbMinerRemaining = 0;
+                    if (MyGame.Instance.Sfx.Ting.State == SoundState.Playing)
                     {
-                        LemmingsNetGame.Instance.Sfx.Ting.Stop();
+                        MyGame.Instance.Sfx.Ting.Stop();
                     }
-                    LemmingsNetGame.Instance.Sfx.Ting.Play();
+                    MyGame.Instance.Sfx.Ting.Play();
                 }
                 else
                 {
-                    if (LemmingsNetGame.Instance.Sfx.MousePre.State == SoundState.Playing)
+                    if (MyGame.Instance.Sfx.MousePre.State == SoundState.Playing)
                     {
-                        LemmingsNetGame.Instance.Sfx.MousePre.Stop();
+                        MyGame.Instance.Sfx.MousePre.Stop();
                     }
-                    LemmingsNetGame.Instance.Sfx.MousePre.Play();
+                    MyGame.Instance.Sfx.MousePre.Play();
                     Miner = true;
                     Actualframe = 0;
                     Walker = false;
@@ -504,9 +504,9 @@ public struct Lem //puto
             }
 
         }
-        if (MyGame.Paused)
+        if (GlobalConst.Paused)
             return;
-        if (LemmingsNetGame.Instance.ScreenInGame.Draw_builder && Builder)
+        if (MyGame.Instance.ScreenInGame.Draw_builder && Builder)
         {
             Actualframe++;
             if (Actualframe > Numframes - 1 && !Explode)
@@ -514,7 +514,7 @@ public struct Lem //puto
                 Actualframe = 0;
             }
         }
-        if (LemmingsNetGame.Instance.ScreenInGame.Draw_walker && !Builder && !Basher && !Miner
+        if (MyGame.Instance.ScreenInGame.Draw_walker && !Builder && !Basher && !Miner
             && !Burned && !Drown)
         {
             Actualframe++;
@@ -524,7 +524,7 @@ public struct Lem //puto
             }
             //be carefull with bomber frames actualization
         }
-        if (LemmingsNetGame.Instance.ScreenInGame.Draw2 && (Basher || Miner
+        if (MyGame.Instance.ScreenInGame.Draw2 && (Basher || Miner
             || Burned || Drown)) // see careful frames
         {
             Actualframe++;
@@ -536,7 +536,7 @@ public struct Lem //puto
                 Dead = true;
                 Explode = false;
                 Exploser = false;
-                LemmingsNetGame.Instance.ScreenInGame.Numlemnow--;
+                MyGame.Instance.ScreenInGame.Numlemnow--;
             }
             if (Actualframe > Numframes - 1 && !Explode)
             {
@@ -550,8 +550,7 @@ public struct Lem //puto
                 Dead = true;
                 Explode = false;
                 Exploser = false;
-                LemmingsNetGame.Instance.ScreenInGame.Numlemnow--;
-                LemmingsNetGame.Instance.ScreenInGame.NumSaved++;  // here is where the lemming go inside after door animation
+                MyGame.Instance.ScreenInGame.Numlemnow--;
             }
             return;
         }
@@ -561,33 +560,33 @@ public struct Lem //puto
         for (int x55 = 0; x55 <= 8; x55++)
         {
             int pos_real = PosY + x55 + medy + medy;  ///////////// pixel por debajo -> beneath.............
-            if (pos_real == LemmingsNetGame.Instance.ScreenInGame.Earth.Height)
+            if (pos_real == MyGame.Instance.ScreenInGame.Earth.Height)
             {
                 _below = 9;
                 break;
             }
             if (pos_real < 0)
                 pos_real = 0;
-            if (pos_real > LemmingsNetGame.Instance.ScreenInGame.Earth.Height)
+            if (pos_real > MyGame.Instance.ScreenInGame.Earth.Height)
             {
                 Dead = true;
                 _below = 9;
                 Active = false;
-                LemmingsNetGame.Instance.ScreenInGame.Numlemnow--;
+                MyGame.Instance.ScreenInGame.Numlemnow--;
                 Explode = false;
                 Exploser = false;
-                if (LemmingsNetGame.Instance.Sfx.Die.State == SoundState.Playing)
+                if (MyGame.Instance.Sfx.Die.State == SoundState.Playing)
                 {
-                    LemmingsNetGame.Instance.Sfx.Die.Stop();
+                    MyGame.Instance.Sfx.Die.Stop();
                 }
                 try
                 {
-                    LemmingsNetGame.Instance.Sfx.Die.Play();
+                    MyGame.Instance.Sfx.Die.Play();
                 }
                 catch (InstancePlayLimitException) { /* Ignore errors */ }
                 break;
             }
-            if (LemmingsNetGame.Instance.ScreenInGame.C25[(pos_real * LemmingsNetGame.Instance.ScreenInGame.Earth.Width) + pixx].R == 0 && LemmingsNetGame.Instance.ScreenInGame.C25[(pos_real * LemmingsNetGame.Instance.ScreenInGame.Earth.Width) + pixx].G == 0 && LemmingsNetGame.Instance.ScreenInGame.C25[(pos_real * LemmingsNetGame.Instance.ScreenInGame.Earth.Width) + pixx].B == 0)
+            if (MyGame.Instance.ScreenInGame.C25[(pos_real * MyGame.Instance.ScreenInGame.Earth.Width) + pixx].R == 0 && MyGame.Instance.ScreenInGame.C25[(pos_real * MyGame.Instance.ScreenInGame.Earth.Width) + pixx].G == 0 && MyGame.Instance.ScreenInGame.C25[(pos_real * MyGame.Instance.ScreenInGame.Earth.Width) + pixx].B == 0)
             {
                 _below++;
             }
@@ -597,7 +596,7 @@ public struct Lem //puto
             }
         }
         // very important to check digger and miner before change to falling
-        if (Pixelscaida > MyGame.useumbrella && !Falling && Umbrella
+        if (Pixelscaida > GlobalConst.useumbrella && !Falling && Umbrella
             && (!Digger && !Miner && !Builder) && Active)
         {
             Pixelscaida = 11;
@@ -623,7 +622,7 @@ public struct Lem //puto
         }
         if ((_below == 0) && (Fall || Falling) && (!Digger && !Miner)) //OJO LOCO A VECES AL CAVAR Y SIGUE WALKER
         {
-            if (Pixelscaida <= MyGame.maxnumberfalling)
+            if (Pixelscaida <= GlobalConst.maxnumberfalling)
             {
                 Pixelscaida = 0;
                 Framescut = false;
@@ -635,13 +634,13 @@ public struct Lem //puto
             }
             else
             {
-                if (LemmingsNetGame.Instance.Sfx.Splat.State == SoundState.Playing)
+                if (MyGame.Instance.Sfx.Splat.State == SoundState.Playing)
                 {
-                    LemmingsNetGame.Instance.Sfx.Splat.Stop();
+                    MyGame.Instance.Sfx.Splat.Stop();
                 }
                 try
                 {
-                    LemmingsNetGame.Instance.Sfx.Splat.Play();
+                    MyGame.Instance.Sfx.Splat.Play();
                 }
                 catch (InstancePlayLimitException) { /* Ignore errors */ }
                 Fall = false;
@@ -664,14 +663,14 @@ public struct Lem //puto
         for (int x55 = 0; x55 <= 20; x55++)
         {
             int pos_real = PosY + medy + medy - x55;
-            if (pos_real == LemmingsNetGame.Instance.ScreenInGame.Earth.Height)    // rompe los calculos si sale de la pantalla o se cuelga AARRIBBBAAAA
+            if (pos_real == MyGame.Instance.ScreenInGame.Earth.Height)    // rompe los calculos si sale de la pantalla o se cuelga AARRIBBBAAAA
             {
                 Active = false;
                 break;
             }
-            if (pos_real < LemmingsNetGame.Instance.ScreenInGame.Earth.Height && pos_real > 0)
+            if (pos_real < MyGame.Instance.ScreenInGame.Earth.Height && pos_real > 0)
             {
-                if (LemmingsNetGame.Instance.ScreenInGame.C25[(pos_real * LemmingsNetGame.Instance.ScreenInGame.Earth.Width) + pixx].R > 0 || LemmingsNetGame.Instance.ScreenInGame.C25[(pos_real * LemmingsNetGame.Instance.ScreenInGame.Earth.Width) + pixx].G > 0 || LemmingsNetGame.Instance.ScreenInGame.C25[(pos_real * LemmingsNetGame.Instance.ScreenInGame.Earth.Width) + pixx].B > 0)
+                if (MyGame.Instance.ScreenInGame.C25[(pos_real * MyGame.Instance.ScreenInGame.Earth.Width) + pixx].R > 0 || MyGame.Instance.ScreenInGame.C25[(pos_real * MyGame.Instance.ScreenInGame.Earth.Width) + pixx].G > 0 || MyGame.Instance.ScreenInGame.C25[(pos_real * MyGame.Instance.ScreenInGame.Earth.Width) + pixx].B > 0)
                 {
                     arriba++;
                 }
@@ -690,9 +689,9 @@ public struct Lem //puto
             Numframes = SizeSprites.faller_frames;
             return;
         }
-        if (Miner && LemmingsNetGame.Instance.ScreenInGame.Draw2 && Actualframe == 42)  // miner logic pico logic
+        if (Miner && MyGame.Instance.ScreenInGame.Draw2 && Actualframe == 42)  // miner logic pico logic
         {
-            if (LemmingsNetGame.Instance.ScreenInGame.ArrowsON) // miner arrows logic areaTrap Intersects
+            if (MyGame.Instance.ScreenInGame.ArrowsON) // miner arrows logic areaTrap Intersects
             {
                 bool nominer = false;
                 Rectangle arrowLem;
@@ -700,25 +699,25 @@ public struct Lem //puto
                 arrowLem.Y = PosY;
                 arrowLem.Width = 28;
                 arrowLem.Height = 28;
-                for (int wer3 = 0; wer3 < LemmingsNetGame.Instance.ScreenInGame.NumTotArrow; wer3++)
+                for (int wer3 = 0; wer3 < MyGame.Instance.ScreenInGame.NumTotArrow; wer3++)
                 {
-                    if (LemmingsNetGame.Instance.ScreenInGame.Arrow[wer3].area.Intersects(arrowLem) && Right && !LemmingsNetGame.Instance.ScreenInGame.Arrow[wer3].right)
+                    if (MyGame.Instance.ScreenInGame.Arrow[wer3].area.Intersects(arrowLem) && Right && !MyGame.Instance.ScreenInGame.Arrow[wer3].right)
                     {
                         nominer = true;
                         continue;
                     }
-                    if (LemmingsNetGame.Instance.ScreenInGame.Arrow[wer3].area.Intersects(arrowLem) && Left && LemmingsNetGame.Instance.ScreenInGame.Arrow[wer3].right)
+                    if (MyGame.Instance.ScreenInGame.Arrow[wer3].area.Intersects(arrowLem) && Left && MyGame.Instance.ScreenInGame.Arrow[wer3].right)
                     {
                         nominer = true;
                     }
                 }
                 if (nominer)
                 {
-                    if (LemmingsNetGame.Instance.Sfx.Ting.State == SoundState.Playing)
+                    if (MyGame.Instance.Sfx.Ting.State == SoundState.Playing)
                     {
-                        LemmingsNetGame.Instance.Sfx.Ting.Stop();
+                        MyGame.Instance.Sfx.Ting.Stop();
                     }
-                    LemmingsNetGame.Instance.Sfx.Ting.Play();
+                    MyGame.Instance.Sfx.Ting.Play();
                     Miner = false;
                     Walker = true;
                     Actualframe = 0;
@@ -740,37 +739,37 @@ public struct Lem //puto
                 {
                     px = 0;
                 }
-                if (px + width2 >= LemmingsNetGame.Instance.ScreenInGame.Earth.Width)
+                if (px + width2 >= MyGame.Instance.ScreenInGame.Earth.Width)
                 {
-                    width2 = LemmingsNetGame.Instance.ScreenInGame.Earth.Width - px;
+                    width2 = MyGame.Instance.ScreenInGame.Earth.Width - px;
                 }
-                if (py + top2 >= LemmingsNetGame.Instance.ScreenInGame.Earth.Height)
+                if (py + top2 >= MyGame.Instance.ScreenInGame.Earth.Height)
                 {
-                    top2 = LemmingsNetGame.Instance.ScreenInGame.Earth.Height - py;
+                    top2 = MyGame.Instance.ScreenInGame.Earth.Height - py;
                 }
-                LemmingsNetGame.Instance.Gfx.Mascarapared.GetData(LemmingsNetGame.Instance.ScreenInGame.Colormask2);
+                MyGame.Instance.Gfx.Mascarapared.GetData(MyGame.Instance.ScreenInGame.Colormask2);
                 //////// optimized for hd3000 laptop ARROWS OPTIMIZED
                 int amount = 0;
                 for (int yy88 = 0; yy88 < top2; yy88++)
                 {
-                    int yypos888 = (yy88 + py) * LemmingsNetGame.Instance.ScreenInGame.Earth.Width;
+                    int yypos888 = (yy88 + py) * MyGame.Instance.ScreenInGame.Earth.Width;
                     for (int xx88 = 0; xx88 < width2; xx88++)
                     {
-                        LemmingsNetGame.Instance.ScreenInGame.Colorsobre2[amount].PackedValue = LemmingsNetGame.Instance.ScreenInGame.C25[yypos888 + px + xx88].PackedValue;
+                        MyGame.Instance.ScreenInGame.Colorsobre2[amount].PackedValue = MyGame.Instance.ScreenInGame.C25[yypos888 + px + xx88].PackedValue;
                         amount++;
                     }
                 }
                 for (int r = 0; r < amount; r++)
                 {
-                    if (LemmingsNetGame.Instance.ScreenInGame.SteelON)
+                    if (MyGame.Instance.ScreenInGame.SteelON)
                     {
                         sx = r % width2;
                         int sy = r / width2;
                         x.X = px + sx;
                         x.Y = py + sy;
-                        for (int xz = 0; xz < LemmingsNetGame.Instance.ScreenInGame.NumTOTsteel; xz++)
+                        for (int xz = 0; xz < MyGame.Instance.ScreenInGame.NumTOTsteel; xz++)
                         {
-                            if (LemmingsNetGame.Instance.ScreenInGame.Steel[xz].area.Contains(x))
+                            if (MyGame.Instance.ScreenInGame.Steel[xz].area.Contains(x))
                             {
                                 sx = -777;
                                 break;
@@ -785,28 +784,28 @@ public struct Lem //puto
                             break;
                         }
                     }
-                    if (LemmingsNetGame.Instance.ScreenInGame.Colorsobre2[r].R > 0 || LemmingsNetGame.Instance.ScreenInGame.Colorsobre2[r].G > 0 || LemmingsNetGame.Instance.ScreenInGame.Colorsobre2[r].B > 0)
+                    if (MyGame.Instance.ScreenInGame.Colorsobre2[r].R > 0 || MyGame.Instance.ScreenInGame.Colorsobre2[r].G > 0 || MyGame.Instance.ScreenInGame.Colorsobre2[r].B > 0)
                     {
-                        LemmingsNetGame.Instance.ScreenInGame.Frente2++;
+                        MyGame.Instance.ScreenInGame.Frente2++;
                     }
-                    if (LemmingsNetGame.Instance.ScreenInGame.Colormask2[r].R > 0 || LemmingsNetGame.Instance.ScreenInGame.Colormask2[r].G > 0 || LemmingsNetGame.Instance.ScreenInGame.Colormask2[r].B > 0)
+                    if (MyGame.Instance.ScreenInGame.Colormask2[r].R > 0 || MyGame.Instance.ScreenInGame.Colormask2[r].G > 0 || MyGame.Instance.ScreenInGame.Colormask2[r].B > 0)
                     {
-                        LemmingsNetGame.Instance.ScreenInGame.Colorsobre2[r].PackedValue = 0;
+                        MyGame.Instance.ScreenInGame.Colorsobre2[r].PackedValue = 0;
                     }
                 }
                 rectangleFill.X = px;
                 rectangleFill.Y = py;
                 rectangleFill.Width = width2;
                 rectangleFill.Height = top2;
-                LemmingsNetGame.Instance.ScreenInGame.Earth.SetData(0, rectangleFill, LemmingsNetGame.Instance.ScreenInGame.Colorsobre2, 0, amount);
+                MyGame.Instance.ScreenInGame.Earth.SetData(0, rectangleFill, MyGame.Instance.ScreenInGame.Colorsobre2, 0, amount);
                 // this code update c25 rectangle px-py-ancho66-alto66 only not all like before
                 amount = 0;
                 for (int yy33 = 0; yy33 < top2; yy33++)
                 {
-                    int yypos555 = (yy33 + py) * LemmingsNetGame.Instance.ScreenInGame.Earth.Width;
+                    int yypos555 = (yy33 + py) * MyGame.Instance.ScreenInGame.Earth.Width;
                     for (int xx33 = 0; xx33 < width2; xx33++)
                     {
-                        LemmingsNetGame.Instance.ScreenInGame.C25[yypos555 + px + xx33].PackedValue = LemmingsNetGame.Instance.ScreenInGame.Colorsobre2[amount].PackedValue;
+                        MyGame.Instance.ScreenInGame.C25[yypos555 + px + xx33].PackedValue = MyGame.Instance.ScreenInGame.Colorsobre2[amount].PackedValue;
                         amount++;
                     }
                 }
@@ -814,7 +813,7 @@ public struct Lem //puto
                     return;
                 PosX += 12;
                 PosY++;
-                if (LemmingsNetGame.Instance.ScreenInGame.Frente2 == 0)
+                if (MyGame.Instance.ScreenInGame.Frente2 == 0)
                 {
                     Miner = false;
                     Walker = true;
@@ -841,37 +840,37 @@ public struct Lem //puto
                 {
                     px = 0;
                 }
-                if (px + width2 >= LemmingsNetGame.Instance.ScreenInGame.Earth.Width)
+                if (px + width2 >= MyGame.Instance.ScreenInGame.Earth.Width)
                 {
-                    width2 = LemmingsNetGame.Instance.ScreenInGame.Earth.Width - px;
+                    width2 = MyGame.Instance.ScreenInGame.Earth.Width - px;
                 }
-                if (py + top2 >= LemmingsNetGame.Instance.ScreenInGame.Earth.Height)
+                if (py + top2 >= MyGame.Instance.ScreenInGame.Earth.Height)
                 {
-                    top2 = LemmingsNetGame.Instance.ScreenInGame.Earth.Height - py;
+                    top2 = MyGame.Instance.ScreenInGame.Earth.Height - py;
                 }
-                LemmingsNetGame.Instance.Gfx.Mascarapared.GetData(LemmingsNetGame.Instance.ScreenInGame.Colormask2);
+                MyGame.Instance.Gfx.Mascarapared.GetData(MyGame.Instance.ScreenInGame.Colormask2);
                 //////// optimized for hd3000 laptop ARROWS OPTIMIZED
                 int amount = 0;
                 for (int yy88 = 0; yy88 < top2; yy88++)
                 {
-                    int yypos888 = (yy88 + py) * LemmingsNetGame.Instance.ScreenInGame.Earth.Width;
+                    int yypos888 = (yy88 + py) * MyGame.Instance.ScreenInGame.Earth.Width;
                     for (int xx88 = 0; xx88 < width2; xx88++)
                     {
-                        LemmingsNetGame.Instance.ScreenInGame.Colorsobre2[amount].PackedValue = LemmingsNetGame.Instance.ScreenInGame.C25[yypos888 + px + xx88].PackedValue;
+                        MyGame.Instance.ScreenInGame.Colorsobre2[amount].PackedValue = MyGame.Instance.ScreenInGame.C25[yypos888 + px + xx88].PackedValue;
                         amount++;
                     }
                 }
                 for (int r = 0; r < amount; r++)
                 {
-                    if (LemmingsNetGame.Instance.ScreenInGame.SteelON)
+                    if (MyGame.Instance.ScreenInGame.SteelON)
                     {
                         sx = r % width2;
                         int sy = r / width2;
                         x.X = px + sx;
                         x.Y = py + sy;
-                        for (int xz = 0; xz < LemmingsNetGame.Instance.ScreenInGame.NumTOTsteel; xz++)
+                        for (int xz = 0; xz < MyGame.Instance.ScreenInGame.NumTOTsteel; xz++)
                         {
-                            if (LemmingsNetGame.Instance.ScreenInGame.Steel[xz].area.Contains(x))
+                            if (MyGame.Instance.ScreenInGame.Steel[xz].area.Contains(x))
                             {
                                 sx = -777;
                                 break;
@@ -886,28 +885,28 @@ public struct Lem //puto
                             break;
                         }
                     }
-                    if (LemmingsNetGame.Instance.ScreenInGame.Colorsobre2[amount - 1 - r].R > 0 || LemmingsNetGame.Instance.ScreenInGame.Colorsobre2[amount - 1 - r].G > 0 || LemmingsNetGame.Instance.ScreenInGame.Colorsobre2[amount - 1 - r].B > 0)
+                    if (MyGame.Instance.ScreenInGame.Colorsobre2[amount - 1 - r].R > 0 || MyGame.Instance.ScreenInGame.Colorsobre2[amount - 1 - r].G > 0 || MyGame.Instance.ScreenInGame.Colorsobre2[amount - 1 - r].B > 0)
                     {
-                        LemmingsNetGame.Instance.ScreenInGame.Frente2++;
+                        MyGame.Instance.ScreenInGame.Frente2++;
                     }
-                    if (LemmingsNetGame.Instance.ScreenInGame.Colormask2[amount - 1 - r].R > 0 || LemmingsNetGame.Instance.ScreenInGame.Colormask2[amount - 1 - r].G > 0 || LemmingsNetGame.Instance.ScreenInGame.Colormask2[amount - 1 - r].B > 0)
+                    if (MyGame.Instance.ScreenInGame.Colormask2[amount - 1 - r].R > 0 || MyGame.Instance.ScreenInGame.Colormask2[amount - 1 - r].G > 0 || MyGame.Instance.ScreenInGame.Colormask2[amount - 1 - r].B > 0)
                     {
-                        LemmingsNetGame.Instance.ScreenInGame.Colorsobre2[r].PackedValue = 0;
+                        MyGame.Instance.ScreenInGame.Colorsobre2[r].PackedValue = 0;
                     }
                 }
                 rectangleFill.X = px;
                 rectangleFill.Y = py;
                 rectangleFill.Width = width2;
                 rectangleFill.Height = top2;
-                LemmingsNetGame.Instance.ScreenInGame.Earth.SetData(0, rectangleFill, LemmingsNetGame.Instance.ScreenInGame.Colorsobre2, 0, amount);
+                MyGame.Instance.ScreenInGame.Earth.SetData(0, rectangleFill, MyGame.Instance.ScreenInGame.Colorsobre2, 0, amount);
                 // this code update c25 rectangle px-py-ancho66-alto66 only not all like before
                 amount = 0;
                 for (int yy33 = 0; yy33 < top2; yy33++)
                 {
-                    int yypos555 = (yy33 + py) * LemmingsNetGame.Instance.ScreenInGame.Earth.Width;
+                    int yypos555 = (yy33 + py) * MyGame.Instance.ScreenInGame.Earth.Width;
                     for (int xx33 = 0; xx33 < width2; xx33++)
                     {
-                        LemmingsNetGame.Instance.ScreenInGame.C25[yypos555 + px + xx33].PackedValue = LemmingsNetGame.Instance.ScreenInGame.Colorsobre2[amount].PackedValue;
+                        MyGame.Instance.ScreenInGame.C25[yypos555 + px + xx33].PackedValue = MyGame.Instance.ScreenInGame.Colorsobre2[amount].PackedValue;
                         amount++;
                     }
                 }
@@ -915,7 +914,7 @@ public struct Lem //puto
                     return;
                 PosX -= 12;
                 PosY++;
-                if (LemmingsNetGame.Instance.ScreenInGame.Frente2 == 0)
+                if (MyGame.Instance.ScreenInGame.Frente2 == 0)
                 {
                     Basher = false;
                     Walker = true;
@@ -924,12 +923,12 @@ public struct Lem //puto
                     return;
                 }
             }
-            LemmingsNetGame.Instance.ScreenInGame.Frente2 = 0;  /////// PPPPPPPPIIIIIIIIIICCCCCCCCCCCCCCCCCOOOOOOOOOOOOOOOOOOO  BASHER LOGIC puto33
+            MyGame.Instance.ScreenInGame.Frente2 = 0;  /////// PPPPPPPPIIIIIIIIIICCCCCCCCCCCCCCCCCOOOOOOOOOOOOOOOOOOO  BASHER LOGIC puto33
         }
 
-        if (Basher && (Actualframe == 10 || Actualframe == 37) && LemmingsNetGame.Instance.ScreenInGame.Draw2)
+        if (Basher && (Actualframe == 10 || Actualframe == 37) && MyGame.Instance.ScreenInGame.Draw2)
         {
-            if (LemmingsNetGame.Instance.ScreenInGame.ArrowsON) // basher arrows logic areaTrap Intersects
+            if (MyGame.Instance.ScreenInGame.ArrowsON) // basher arrows logic areaTrap Intersects
             {
                 bool nobasher = false;
                 Rectangle arrowLem;
@@ -937,25 +936,25 @@ public struct Lem //puto
                 arrowLem.Y = PosY;
                 arrowLem.Width = 28;
                 arrowLem.Height = 28;
-                for (int wer3 = 0; wer3 < LemmingsNetGame.Instance.ScreenInGame.NumTotArrow; wer3++)
+                for (int wer3 = 0; wer3 < MyGame.Instance.ScreenInGame.NumTotArrow; wer3++)
                 {
-                    if (LemmingsNetGame.Instance.ScreenInGame.Arrow[wer3].area.Intersects(arrowLem) && Right && !LemmingsNetGame.Instance.ScreenInGame.Arrow[wer3].right)
+                    if (MyGame.Instance.ScreenInGame.Arrow[wer3].area.Intersects(arrowLem) && Right && !MyGame.Instance.ScreenInGame.Arrow[wer3].right)
                     {
                         nobasher = true;
                         continue;
                     }
-                    if (LemmingsNetGame.Instance.ScreenInGame.Arrow[wer3].area.Intersects(arrowLem) && Left && LemmingsNetGame.Instance.ScreenInGame.Arrow[wer3].right)
+                    if (MyGame.Instance.ScreenInGame.Arrow[wer3].area.Intersects(arrowLem) && Left && MyGame.Instance.ScreenInGame.Arrow[wer3].right)
                     {
                         nobasher = true;
                     }
                 }
                 if (nobasher)
                 {
-                    if (LemmingsNetGame.Instance.Sfx.Ting.State == SoundState.Playing)
+                    if (MyGame.Instance.Sfx.Ting.State == SoundState.Playing)
                     {
-                        LemmingsNetGame.Instance.Sfx.Ting.Stop();
+                        MyGame.Instance.Sfx.Ting.Stop();
                     }
-                    LemmingsNetGame.Instance.Sfx.Ting.Play();
+                    MyGame.Instance.Sfx.Ting.Play();
                     Basher = false;
                     Walker = true;
                     Actualframe = 0;
@@ -977,42 +976,42 @@ public struct Lem //puto
                 {
                     px = 0;
                 }
-                if (px + width2 >= LemmingsNetGame.Instance.ScreenInGame.Earth.Width)
+                if (px + width2 >= MyGame.Instance.ScreenInGame.Earth.Width)
                 {
-                    width2 = LemmingsNetGame.Instance.ScreenInGame.Earth.Width - px;
+                    width2 = MyGame.Instance.ScreenInGame.Earth.Width - px;
                 }
-                if (py + top2 >= LemmingsNetGame.Instance.ScreenInGame.Earth.Height)
+                if (py + top2 >= MyGame.Instance.ScreenInGame.Earth.Height)
                 {
-                    top2 = LemmingsNetGame.Instance.ScreenInGame.Earth.Height - py;
+                    top2 = MyGame.Instance.ScreenInGame.Earth.Height - py;
                 }
-                LemmingsNetGame.Instance.Gfx.Mascarapared.GetData(LemmingsNetGame.Instance.ScreenInGame.Colormask2);
+                MyGame.Instance.Gfx.Mascarapared.GetData(MyGame.Instance.ScreenInGame.Colormask2);
                 //////// optimized for hd3000 laptop
                 int amount = 0;
                 for (int yy88 = 0; yy88 < top2; yy88++)
                 {
-                    int yypos888 = (yy88 + py) * LemmingsNetGame.Instance.ScreenInGame.Earth.Width;
+                    int yypos888 = (yy88 + py) * MyGame.Instance.ScreenInGame.Earth.Width;
                     for (int xx88 = 0; xx88 < width2; xx88++)
                     {
-                        LemmingsNetGame.Instance.ScreenInGame.Colorsobre2[amount].PackedValue = LemmingsNetGame.Instance.ScreenInGame.C25[yypos888 + px + xx88].PackedValue;
+                        MyGame.Instance.ScreenInGame.Colorsobre2[amount].PackedValue = MyGame.Instance.ScreenInGame.C25[yypos888 + px + xx88].PackedValue;
                         amount++;
                     }
                 }
                 int xEmpty = 0;
                 int xErase = width2;
-                LemmingsNetGame.Instance.ScreenInGame.Frente = 0;
+                MyGame.Instance.ScreenInGame.Frente = 0;
                 sx = 0;
                 for (int valX = 0; valX < width2; valX++)
                 {
-                    LemmingsNetGame.Instance.ScreenInGame.Frente = 0;
+                    MyGame.Instance.ScreenInGame.Frente = 0;
                     for (int valY = 0; valY < top2; valY++)
                     {
-                        if (LemmingsNetGame.Instance.ScreenInGame.SteelON)
+                        if (MyGame.Instance.ScreenInGame.SteelON)
                         {
                             x.X = px + valX;
                             x.Y = py + valY;
-                            for (int xz = 0; xz < LemmingsNetGame.Instance.ScreenInGame.NumTOTsteel; xz++)
+                            for (int xz = 0; xz < MyGame.Instance.ScreenInGame.NumTOTsteel; xz++)
                             {
-                                if (LemmingsNetGame.Instance.ScreenInGame.Steel[xz].area.Contains(x))
+                                if (MyGame.Instance.ScreenInGame.Steel[xz].area.Contains(x))
                                 {
                                     sx = -777;
                                     break;
@@ -1027,18 +1026,18 @@ public struct Lem //puto
                                 break;
                             }
                         }
-                        if ((LemmingsNetGame.Instance.ScreenInGame.Colormask2[(valY * width2) + valX].R > 0 || LemmingsNetGame.Instance.ScreenInGame.Colormask2[(valY * width2) + valX].G > 0 || LemmingsNetGame.Instance.ScreenInGame.Colormask2[(valY * width2) + valX].B > 0) &&
-                            (LemmingsNetGame.Instance.ScreenInGame.Colorsobre2[(valY * width2) + valX].R > 0 || LemmingsNetGame.Instance.ScreenInGame.Colorsobre2[(valY * width2) + valX].G > 0 || LemmingsNetGame.Instance.ScreenInGame.Colorsobre2[(valY * width2) + valX].B > 0))
+                        if ((MyGame.Instance.ScreenInGame.Colormask2[(valY * width2) + valX].R > 0 || MyGame.Instance.ScreenInGame.Colormask2[(valY * width2) + valX].G > 0 || MyGame.Instance.ScreenInGame.Colormask2[(valY * width2) + valX].B > 0) &&
+                            (MyGame.Instance.ScreenInGame.Colorsobre2[(valY * width2) + valX].R > 0 || MyGame.Instance.ScreenInGame.Colorsobre2[(valY * width2) + valX].G > 0 || MyGame.Instance.ScreenInGame.Colorsobre2[(valY * width2) + valX].B > 0))
                         {
-                            LemmingsNetGame.Instance.ScreenInGame.Colorsobre2[(valY * width2) + valX].PackedValue = 0;
-                            LemmingsNetGame.Instance.ScreenInGame.Frente++;
+                            MyGame.Instance.ScreenInGame.Colorsobre2[(valY * width2) + valX].PackedValue = 0;
+                            MyGame.Instance.ScreenInGame.Frente++;
                         }
                     }
                     if (sx == -777)
                         break;
-                    if (LemmingsNetGame.Instance.ScreenInGame.Frente == 0)
+                    if (MyGame.Instance.ScreenInGame.Frente == 0)
                         xEmpty = valX;
-                    if (LemmingsNetGame.Instance.ScreenInGame.Frente > 0)
+                    if (MyGame.Instance.ScreenInGame.Frente > 0)
                     {
                         xErase = valX;
                     }
@@ -1051,15 +1050,15 @@ public struct Lem //puto
                 rectangleFill.Y = py;
                 rectangleFill.Width = width2;
                 rectangleFill.Height = top2;
-                LemmingsNetGame.Instance.ScreenInGame.Earth.SetData(0, rectangleFill, LemmingsNetGame.Instance.ScreenInGame.Colorsobre2, 0, amount);
+                MyGame.Instance.ScreenInGame.Earth.SetData(0, rectangleFill, MyGame.Instance.ScreenInGame.Colorsobre2, 0, amount);
                 // this code update c25 rectangle px-py-ancho66-alto66 only not all like before
                 amount = 0;
                 for (int yy33 = 0; yy33 < top2; yy33++)
                 {
-                    int yypos555 = (yy33 + py) * LemmingsNetGame.Instance.ScreenInGame.Earth.Width;
+                    int yypos555 = (yy33 + py) * MyGame.Instance.ScreenInGame.Earth.Width;
                     for (int xx33 = 0; xx33 < width2; xx33++)
                     {
-                        LemmingsNetGame.Instance.ScreenInGame.C25[yypos555 + px + xx33].PackedValue = LemmingsNetGame.Instance.ScreenInGame.Colorsobre2[amount].PackedValue;
+                        MyGame.Instance.ScreenInGame.C25[yypos555 + px + xx33].PackedValue = MyGame.Instance.ScreenInGame.Colorsobre2[amount].PackedValue;
                         amount++;
                     }
                 }
@@ -1094,40 +1093,40 @@ public struct Lem //puto
                 {
                     px = 0;
                 }
-                if (px + width2 >= LemmingsNetGame.Instance.ScreenInGame.Earth.Width)
+                if (px + width2 >= MyGame.Instance.ScreenInGame.Earth.Width)
                 {
-                    width2 = LemmingsNetGame.Instance.ScreenInGame.Earth.Width - px;
+                    width2 = MyGame.Instance.ScreenInGame.Earth.Width - px;
                 }
-                if (py + top2 >= LemmingsNetGame.Instance.ScreenInGame.Earth.Height)
+                if (py + top2 >= MyGame.Instance.ScreenInGame.Earth.Height)
                 {
-                    top2 = LemmingsNetGame.Instance.ScreenInGame.Earth.Height - py;
+                    top2 = MyGame.Instance.ScreenInGame.Earth.Height - py;
                 }
                 int amount = 0;
                 for (int yy88 = 0; yy88 < top2; yy88++)
                 {
-                    int yypos888 = (yy88 + py) * LemmingsNetGame.Instance.ScreenInGame.Earth.Width;
+                    int yypos888 = (yy88 + py) * MyGame.Instance.ScreenInGame.Earth.Width;
                     for (int xx88 = 0; xx88 < width2; xx88++)
                     {
-                        LemmingsNetGame.Instance.ScreenInGame.Colorsobre2[amount].PackedValue = LemmingsNetGame.Instance.ScreenInGame.C25[yypos888 + px + xx88].PackedValue;
+                        MyGame.Instance.ScreenInGame.Colorsobre2[amount].PackedValue = MyGame.Instance.ScreenInGame.C25[yypos888 + px + xx88].PackedValue;
                         amount++;
                     }
                 }
                 int xEmpty = width2;
                 int xErase = 0;
-                LemmingsNetGame.Instance.ScreenInGame.Frente = 0;
+                MyGame.Instance.ScreenInGame.Frente = 0;
                 sx = 0;
                 for (int valX = width2 - 1; valX >= 0; valX--)
                 {
-                    LemmingsNetGame.Instance.ScreenInGame.Frente = 0;
+                    MyGame.Instance.ScreenInGame.Frente = 0;
                     for (int valY = 0; valY < top2; valY++)
                     {
-                        if (LemmingsNetGame.Instance.ScreenInGame.SteelON)
+                        if (MyGame.Instance.ScreenInGame.SteelON)
                         {
                             x.X = px + valX;
                             x.Y = py + valY;
-                            for (int xz = 0; xz < LemmingsNetGame.Instance.ScreenInGame.NumTOTsteel; xz++)
+                            for (int xz = 0; xz < MyGame.Instance.ScreenInGame.NumTOTsteel; xz++)
                             {
-                                if (LemmingsNetGame.Instance.ScreenInGame.Steel[xz].area.Contains(x))
+                                if (MyGame.Instance.ScreenInGame.Steel[xz].area.Contains(x))
                                 {
                                     sx = -777;
                                     break;
@@ -1142,18 +1141,18 @@ public struct Lem //puto
                                 break;
                             }
                         }
-                        if ((LemmingsNetGame.Instance.ScreenInGame.Colormask2[valY * width2 + valX].R > 0 || LemmingsNetGame.Instance.ScreenInGame.Colormask2[valY * width2 + valX].G > 0 || LemmingsNetGame.Instance.ScreenInGame.Colormask2[valY * width2 + valX].B > 0) &&
-                            (LemmingsNetGame.Instance.ScreenInGame.Colorsobre2[valY * width2 + valX].R > 0 || LemmingsNetGame.Instance.ScreenInGame.Colorsobre2[valY * width2 + valX].G > 0 || LemmingsNetGame.Instance.ScreenInGame.Colorsobre2[valY * width2 + valX].B > 0))
+                        if ((MyGame.Instance.ScreenInGame.Colormask2[valY * width2 + valX].R > 0 || MyGame.Instance.ScreenInGame.Colormask2[valY * width2 + valX].G > 0 || MyGame.Instance.ScreenInGame.Colormask2[valY * width2 + valX].B > 0) &&
+                            (MyGame.Instance.ScreenInGame.Colorsobre2[valY * width2 + valX].R > 0 || MyGame.Instance.ScreenInGame.Colorsobre2[valY * width2 + valX].G > 0 || MyGame.Instance.ScreenInGame.Colorsobre2[valY * width2 + valX].B > 0))
                         {
-                            LemmingsNetGame.Instance.ScreenInGame.Colorsobre2[valY * width2 + valX].PackedValue = 0;
-                            LemmingsNetGame.Instance.ScreenInGame.Frente++;
+                            MyGame.Instance.ScreenInGame.Colorsobre2[valY * width2 + valX].PackedValue = 0;
+                            MyGame.Instance.ScreenInGame.Frente++;
                         }
                     }
                     if (sx == -777)
                         break;
-                    if (LemmingsNetGame.Instance.ScreenInGame.Frente == 0)
+                    if (MyGame.Instance.ScreenInGame.Frente == 0)
                         xEmpty = valX;
-                    if (LemmingsNetGame.Instance.ScreenInGame.Frente > 0)
+                    if (MyGame.Instance.ScreenInGame.Frente > 0)
                     {
                         xErase = valX;
                     }
@@ -1166,15 +1165,15 @@ public struct Lem //puto
                 rectangleFill.Y = py;
                 rectangleFill.Width = width2;
                 rectangleFill.Height = top2;
-                LemmingsNetGame.Instance.ScreenInGame.Earth.SetData(0, rectangleFill, LemmingsNetGame.Instance.ScreenInGame.Colorsobre2, 0, amount);
+                MyGame.Instance.ScreenInGame.Earth.SetData(0, rectangleFill, MyGame.Instance.ScreenInGame.Colorsobre2, 0, amount);
                 // this code update c25 rectangle px-py-ancho66-alto66 only not all like before
                 amount = 0;
                 for (int yy33 = 0; yy33 < top2; yy33++)
                 {
-                    int yypos555 = (yy33 + py) * LemmingsNetGame.Instance.ScreenInGame.Earth.Width;
+                    int yypos555 = (yy33 + py) * MyGame.Instance.ScreenInGame.Earth.Width;
                     for (int xx33 = 0; xx33 < width2; xx33++)
                     {
-                        LemmingsNetGame.Instance.ScreenInGame.C25[yypos555 + px + xx33].PackedValue = LemmingsNetGame.Instance.ScreenInGame.Colorsobre2[amount].PackedValue;
+                        MyGame.Instance.ScreenInGame.C25[yypos555 + px + xx33].PackedValue = MyGame.Instance.ScreenInGame.Colorsobre2[amount].PackedValue;
                         amount++;
                     }
                 }
@@ -1191,7 +1190,7 @@ public struct Lem //puto
                     return;
                 }
             }
-            LemmingsNetGame.Instance.ScreenInGame.Frente2 = 0;
+            MyGame.Instance.ScreenInGame.Frente2 = 0;
             ////////////////////////////////////////////////////////////////////// PPPPPPPPPAAAAAAARRRRRRRRRRRRRRRREEEEEEEDDDDDDDDD
         }
         if (Basher && _below > 3)
@@ -1202,11 +1201,11 @@ public struct Lem //puto
             Numframes = SizeSprites.walker_frames;
             return;
         }
-        if (Builder && LemmingsNetGame.Instance.ScreenInGame.Draw_builder) // BUILDER LOGIC HERE chink sound see limits tooo FIX FIX FIX
+        if (Builder && MyGame.Instance.ScreenInGame.Draw_builder) // BUILDER LOGIC HERE chink sound see limits tooo FIX FIX FIX
         {
             if (Actualframe >= 48 && Numstairs < 12) // >=33 old with dibuja2
             {
-                LemmingsNetGame.Instance.ScreenInGame.Frente = 0;
+                MyGame.Instance.ScreenInGame.Frente = 0;
                 Actualframe = SizeSprites.builder_frames + 1;  // erase with // no compiling//  to see full frames
                 if (Right)
                 {
@@ -1234,10 +1233,10 @@ public struct Lem //puto
                     }
                     for (int y = 1; y <= 3; y++)  // 14 es la posicion de los pies del lemming[i].posy porque tiene 28 pixels de alto 28/2=14
                     {
-                        int posi_real = (PosY + 24 + y) * LemmingsNetGame.Instance.ScreenInGame.Earth.Width + PosX;
+                        int posi_real = (PosY + 24 + y) * MyGame.Instance.ScreenInGame.Earth.Width + PosX;
                         for (int xx88 = 14; xx88 <= 28; xx88++)
                         {
-                            if (LemmingsNetGame.Instance.ScreenInGame.C25[posi_real + xx88].R == 0 && LemmingsNetGame.Instance.ScreenInGame.C25[posi_real + xx88].G == 0 && LemmingsNetGame.Instance.ScreenInGame.C25[posi_real + xx88].B == 0)
+                            if (MyGame.Instance.ScreenInGame.C25[posi_real + xx88].R == 0 && MyGame.Instance.ScreenInGame.C25[posi_real + xx88].G == 0 && MyGame.Instance.ScreenInGame.C25[posi_real + xx88].B == 0)
                             {
                                 Color colorFill = new()
                                 {
@@ -1246,12 +1245,12 @@ public struct Lem //puto
                                     B = Convert.ToByte(255 - (Numstairs * 10)),
                                     A = 255,
                                 };
-                                LemmingsNetGame.Instance.ScreenInGame.C25[posi_real + xx88] = colorFill;
+                                MyGame.Instance.ScreenInGame.C25[posi_real + xx88] = colorFill;
                             } //steps color stairs
                             else
                             {
                                 if (xx88 == 19)
-                                    LemmingsNetGame.Instance.ScreenInGame.Frente++;
+                                    MyGame.Instance.ScreenInGame.Frente++;
                             }
                         }
                     }
@@ -1260,19 +1259,19 @@ public struct Lem //puto
                     PosX += 6;
                     if (Numstairs >= 10)
                     {
-                        if (LemmingsNetGame.Instance.Sfx.Chink.State == SoundState.Playing)
+                        if (MyGame.Instance.Sfx.Chink.State == SoundState.Playing)
                         {
-                            LemmingsNetGame.Instance.Sfx.Chink.Stop();
+                            MyGame.Instance.Sfx.Chink.Stop();
                         }
-                        LemmingsNetGame.Instance.Sfx.Chink.Play();
+                        MyGame.Instance.Sfx.Chink.Play();
                     }
                     int amount = 0;
                     for (int ykk = 27; ykk < 31; ykk++)
                     {
-                        int posi_real = (PosY + ykk) * LemmingsNetGame.Instance.ScreenInGame.Earth.Width + PosX;
+                        int posi_real = (PosY + ykk) * MyGame.Instance.ScreenInGame.Earth.Width + PosX;
                         for (int xkk = 0; xkk < 28; xkk++)
                         {
-                            LemmingsNetGame.Instance.ScreenInGame.Colormask22[amount] = LemmingsNetGame.Instance.ScreenInGame.C25[posi_real + xkk];
+                            MyGame.Instance.ScreenInGame.Colormask22[amount] = MyGame.Instance.ScreenInGame.C25[posi_real + xkk];
                             amount++;
                         }
                     }
@@ -1280,8 +1279,8 @@ public struct Lem //puto
                     rectangleFill.Y = PosY + 27;
                     rectangleFill.Width = 28;
                     rectangleFill.Height = 4;
-                    LemmingsNetGame.Instance.ScreenInGame.Earth.SetData(0, rectangleFill, LemmingsNetGame.Instance.ScreenInGame.Colormask22, 0, 28 * 4);
-                    if (LemmingsNetGame.Instance.ScreenInGame.Frente == 3)
+                    MyGame.Instance.ScreenInGame.Earth.SetData(0, rectangleFill, MyGame.Instance.ScreenInGame.Colormask22, 0, 28 * 4);
+                    if (MyGame.Instance.ScreenInGame.Frente == 3)
                     {
                         Builder = false;
                         Walker = true;
@@ -1320,10 +1319,10 @@ public struct Lem //puto
                     }
                     for (int y = 1; y <= 3; y++)  // 14 es la posicion de los pies del lemming[i].posy porque tiene 28 pixels de alto 28/2=14
                     {
-                        int posi_real = (PosY + 24 + y) * LemmingsNetGame.Instance.ScreenInGame.Earth.Width + PosX;
+                        int posi_real = (PosY + 24 + y) * MyGame.Instance.ScreenInGame.Earth.Width + PosX;
                         for (int xx88 = 0; xx88 <= 14; xx88++)
                         {
-                            if (LemmingsNetGame.Instance.ScreenInGame.C25[posi_real + xx88].R == 0 && LemmingsNetGame.Instance.ScreenInGame.C25[posi_real + xx88].G == 0 && LemmingsNetGame.Instance.ScreenInGame.C25[posi_real + xx88].B == 0)
+                            if (MyGame.Instance.ScreenInGame.C25[posi_real + xx88].R == 0 && MyGame.Instance.ScreenInGame.C25[posi_real + xx88].G == 0 && MyGame.Instance.ScreenInGame.C25[posi_real + xx88].B == 0)
                             {
                                 Color colorFill = new()
                                 {
@@ -1332,12 +1331,12 @@ public struct Lem //puto
                                     B = Convert.ToByte(255 - (Numstairs * 10)),
                                     A = 255,
                                 };
-                                LemmingsNetGame.Instance.ScreenInGame.C25[posi_real + xx88] = colorFill;
+                                MyGame.Instance.ScreenInGame.C25[posi_real + xx88] = colorFill;
                             }//magenta stairs
                             else
                             {
                                 if (xx88 == 9)
-                                    LemmingsNetGame.Instance.ScreenInGame.Frente++;
+                                    MyGame.Instance.ScreenInGame.Frente++;
                             }
                         }
                     }
@@ -1346,11 +1345,11 @@ public struct Lem //puto
                     PosX -= 6;
                     if (Numstairs >= 10)
                     {
-                        if (LemmingsNetGame.Instance.Sfx.Chink.State == SoundState.Playing)
+                        if (MyGame.Instance.Sfx.Chink.State == SoundState.Playing)
                         {
-                            LemmingsNetGame.Instance.Sfx.Chink.Stop();
+                            MyGame.Instance.Sfx.Chink.Stop();
                         }
-                        LemmingsNetGame.Instance.Sfx.Chink.Play();
+                        MyGame.Instance.Sfx.Chink.Play();
                     }
                     //earth.SetData<Color>(c25); //OPTIMIZED BUILDER SETDATA
                     int amount = 0;
@@ -1359,10 +1358,10 @@ public struct Lem //puto
                         px = 0;
                     for (int ykk = 27; ykk < 31; ykk++)
                     {
-                        int posi_real = (PosY + ykk) * LemmingsNetGame.Instance.ScreenInGame.Earth.Width + px;
+                        int posi_real = (PosY + ykk) * MyGame.Instance.ScreenInGame.Earth.Width + px;
                         for (int xkk = 0; xkk < 28; xkk++)
                         {
-                            LemmingsNetGame.Instance.ScreenInGame.Colormask22[amount] = LemmingsNetGame.Instance.ScreenInGame.C25[posi_real + xkk];
+                            MyGame.Instance.ScreenInGame.Colormask22[amount] = MyGame.Instance.ScreenInGame.C25[posi_real + xkk];
                             amount++;
                         }
                     }
@@ -1370,8 +1369,8 @@ public struct Lem //puto
                     rectangleFill.Y = PosY + 27;
                     rectangleFill.Width = 28;
                     rectangleFill.Height = 4;
-                    LemmingsNetGame.Instance.ScreenInGame.Earth.SetData(0, rectangleFill, LemmingsNetGame.Instance.ScreenInGame.Colormask22, 0, 28 * 4);
-                    if (LemmingsNetGame.Instance.ScreenInGame.Frente == 3)
+                    MyGame.Instance.ScreenInGame.Earth.SetData(0, rectangleFill, MyGame.Instance.ScreenInGame.Colormask22, 0, 28 * 4);
+                    if (MyGame.Instance.ScreenInGame.Frente == 3)
                     {
                         Builder = false;
                         Walker = true;
@@ -1420,18 +1419,18 @@ public struct Lem //puto
                 for (int xx88 = 0; xx88 <= 4; xx88++)
                 {
                     int pos_real2 = PosY + xx88 + 28;  ///////////// pixel por debajo.............
-                    if (pos_real2 == LemmingsNetGame.Instance.ScreenInGame.Earth.Height)
+                    if (pos_real2 == MyGame.Instance.ScreenInGame.Earth.Height)
                     {
                         abajo2 = 9;
                         break;
                     }
                     if (pos_real2 < 0)
                         pos_real2 = 0;
-                    if (pos_real2 > LemmingsNetGame.Instance.ScreenInGame.Earth.Height)
+                    if (pos_real2 > MyGame.Instance.ScreenInGame.Earth.Height)
                     {
-                        pos_real2 = LemmingsNetGame.Instance.ScreenInGame.Earth.Height;
+                        pos_real2 = MyGame.Instance.ScreenInGame.Earth.Height;
                     }
-                    if (LemmingsNetGame.Instance.ScreenInGame.C25[(pos_real2 * LemmingsNetGame.Instance.ScreenInGame.Earth.Width) + pixx2].R > 0 || LemmingsNetGame.Instance.ScreenInGame.C25[(pos_real2 * LemmingsNetGame.Instance.ScreenInGame.Earth.Width) + pixx2].G > 0 || LemmingsNetGame.Instance.ScreenInGame.C25[(pos_real2 * LemmingsNetGame.Instance.ScreenInGame.Earth.Width) + pixx2].B > 0)
+                    if (MyGame.Instance.ScreenInGame.C25[(pos_real2 * MyGame.Instance.ScreenInGame.Earth.Width) + pixx2].R > 0 || MyGame.Instance.ScreenInGame.C25[(pos_real2 * MyGame.Instance.ScreenInGame.Earth.Width) + pixx2].G > 0 || MyGame.Instance.ScreenInGame.C25[(pos_real2 * MyGame.Instance.ScreenInGame.Earth.Width) + pixx2].B > 0)
                     {
                         abajo2++;
                     }
@@ -1440,25 +1439,25 @@ public struct Lem //puto
                         break;
                     }
                 }
-                if ((Actualframe == 11 || Actualframe == 26) && LemmingsNetGame.Instance.ScreenInGame.Draw_walker)
+                if ((Actualframe == 11 || Actualframe == 26) && MyGame.Instance.ScreenInGame.Draw_walker)
                 {
                     sx = 0;
                     for (int y = 9; y <= 18; y++)  // 14 es la posicion de los pies del lemming[i].posy porque tiene 28 pixels de alto 28/2=14
                     {
-                        int posi_real = (PosY + 14 + y) * LemmingsNetGame.Instance.ScreenInGame.Earth.Width + PosX;
-                        if (PosY + 14 + y > LemmingsNetGame.Instance.ScreenInGame.Earth.Height)
+                        int posi_real = (PosY + 14 + y) * MyGame.Instance.ScreenInGame.Earth.Width + PosX;
+                        if (PosY + 14 + y > MyGame.Instance.ScreenInGame.Earth.Height)
                         {
                             break;
                         } // cortar si esta en el limite por debajo 512=earth.height
                         for (int xx88 = 4; xx88 <= 24; xx88++)
                         {
-                            if (LemmingsNetGame.Instance.ScreenInGame.SteelON)
+                            if (MyGame.Instance.ScreenInGame.SteelON)
                             {
                                 x.X = PosX + xx88;
                                 x.Y = PosY + 14 + y;
-                                for (int xz = 0; xz < LemmingsNetGame.Instance.ScreenInGame.NumTOTsteel; xz++)
+                                for (int xz = 0; xz < MyGame.Instance.ScreenInGame.NumTOTsteel; xz++)
                                 {
-                                    if (LemmingsNetGame.Instance.ScreenInGame.Steel[xz].area.Contains(x))
+                                    if (MyGame.Instance.ScreenInGame.Steel[xz].area.Contains(x))
                                     {
                                         sx = -777;
                                         break;
@@ -1482,17 +1481,17 @@ public struct Lem //puto
                                 B = 0,
                                 A = 0,
                             };
-                            LemmingsNetGame.Instance.ScreenInGame.C25[posi_real + xx88] = colorFill; // Color.TransparentBlack is the same i think. 0,0,0,0.
+                            MyGame.Instance.ScreenInGame.C25[posi_real + xx88] = colorFill; // Color.TransparentBlack is the same i think. 0,0,0,0.
                         }
                     }
                     //earth.SetData<Color>(c25); //OPTIMIZED digger SETDATA
                     int amount = 0;
                     for (int ykk = 9; ykk <= 18; ykk++)
                     {
-                        int posi_real = (PosY + 14 + ykk) * LemmingsNetGame.Instance.ScreenInGame.Earth.Width + PosX;
+                        int posi_real = (PosY + 14 + ykk) * MyGame.Instance.ScreenInGame.Earth.Width + PosX;
                         for (int xkk = 0; xkk < 28; xkk++)
                         {
-                            LemmingsNetGame.Instance.ScreenInGame.Colormask22[amount] = LemmingsNetGame.Instance.ScreenInGame.C25[posi_real + xkk];
+                            MyGame.Instance.ScreenInGame.Colormask22[amount] = MyGame.Instance.ScreenInGame.C25[posi_real + xkk];
                             amount++;
                         }
                     }
@@ -1500,7 +1499,7 @@ public struct Lem //puto
                     rectangleFill.Y = PosY + 23;
                     rectangleFill.Width = 28;
                     rectangleFill.Height = 10;
-                    LemmingsNetGame.Instance.ScreenInGame.Earth.SetData(0, rectangleFill, LemmingsNetGame.Instance.ScreenInGame.Colormask22, 0, 28 * 10);
+                    MyGame.Instance.ScreenInGame.Earth.SetData(0, rectangleFill, MyGame.Instance.ScreenInGame.Colormask22, 0, 28 * 10);
                     if (sx == -777)
                         return;
                     PosY += abajo2;
@@ -1509,17 +1508,17 @@ public struct Lem //puto
             }
             else
             {
-                if (PosY + 28 >= LemmingsNetGame.Instance.ScreenInGame.Earth.Height) // erase draws bottom when die and exit level height 21x10
+                if (PosY + 28 >= MyGame.Instance.ScreenInGame.Earth.Height) // erase draws bottom when die and exit level height 21x10
                 {
                     for (int ykk = 0; ykk < 210; ykk++)
                     {
-                        LemmingsNetGame.Instance.ScreenInGame.Colormask22[ykk].PackedValue = 0;
+                        MyGame.Instance.ScreenInGame.Colormask22[ykk].PackedValue = 0;
                     }
                     rectangleFill.Y = 502;
                     rectangleFill.X = PosX + 4;
                     rectangleFill.Width = 21;
                     rectangleFill.Height = 10;
-                    LemmingsNetGame.Instance.ScreenInGame.Earth.SetData(0, rectangleFill, LemmingsNetGame.Instance.ScreenInGame.Colormask22, 0, 210);
+                    MyGame.Instance.ScreenInGame.Earth.SetData(0, rectangleFill, MyGame.Instance.ScreenInGame.Colormask22, 0, 210);
                 }
                 Basher = false;
                 Builder = false;
@@ -1552,7 +1551,7 @@ public struct Lem //puto
             if (Right)
             {
                 int pos_real2 = PosY + 27;
-                if (LemmingsNetGame.Instance.ScreenInGame.C25[(pos_real2 * LemmingsNetGame.Instance.ScreenInGame.Earth.Width) + pixx - 2].R > 0 || LemmingsNetGame.Instance.ScreenInGame.C25[(pos_real2 * LemmingsNetGame.Instance.ScreenInGame.Earth.Width) + pixx - 2].G > 0 || LemmingsNetGame.Instance.ScreenInGame.C25[(pos_real2 * LemmingsNetGame.Instance.ScreenInGame.Earth.Width) + pixx - 2].B > 0)
+                if (MyGame.Instance.ScreenInGame.C25[(pos_real2 * MyGame.Instance.ScreenInGame.Earth.Width) + pixx - 2].R > 0 || MyGame.Instance.ScreenInGame.C25[(pos_real2 * MyGame.Instance.ScreenInGame.Earth.Width) + pixx - 2].G > 0 || MyGame.Instance.ScreenInGame.C25[(pos_real2 * MyGame.Instance.ScreenInGame.Earth.Width) + pixx - 2].B > 0)
                 {
                     Right = false;
                     PosX -= 2;   // 1 o 2 LOOK
@@ -1566,7 +1565,7 @@ public struct Lem //puto
             else
             {
                 int pos_real2 = PosY + 27;
-                if (LemmingsNetGame.Instance.ScreenInGame.C25[(pos_real2 * LemmingsNetGame.Instance.ScreenInGame.Earth.Width) + pixx + 2].R > 0 || LemmingsNetGame.Instance.ScreenInGame.C25[(pos_real2 * LemmingsNetGame.Instance.ScreenInGame.Earth.Width) + pixx + 2].G > 0 || LemmingsNetGame.Instance.ScreenInGame.C25[(pos_real2 * LemmingsNetGame.Instance.ScreenInGame.Earth.Width) + pixx + 2].B > 0)
+                if (MyGame.Instance.ScreenInGame.C25[(pos_real2 * MyGame.Instance.ScreenInGame.Earth.Width) + pixx + 2].R > 0 || MyGame.Instance.ScreenInGame.C25[(pos_real2 * MyGame.Instance.ScreenInGame.Earth.Width) + pixx + 2].G > 0 || MyGame.Instance.ScreenInGame.C25[(pos_real2 * MyGame.Instance.ScreenInGame.Earth.Width) + pixx + 2].B > 0)
                 {
                     Right = true;
                     PosX += 2; // 1 o 2 LOOK
@@ -1577,7 +1576,7 @@ public struct Lem //puto
                     return;
                 }
             }
-            if (arriba > 0 && LemmingsNetGame.Instance.ScreenInGame.Dibuja)
+            if (arriba > 0 && MyGame.Instance.ScreenInGame.Dibuja)
             {
                 PosY--;
             }
@@ -1664,41 +1663,41 @@ public struct Lem //puto
                 ancho66 -= px2;
                 px = 0;
             }
-            if (px + ancho66 >= LemmingsNetGame.Instance.ScreenInGame.Earth.Width)  // right of the level
+            if (px + ancho66 >= MyGame.Instance.ScreenInGame.Earth.Width)  // right of the level
             {
-                ancho66 = LemmingsNetGame.Instance.ScreenInGame.Earth.Width - px;
+                ancho66 = MyGame.Instance.ScreenInGame.Earth.Width - px;
             }
-            if (py + alto66 >= LemmingsNetGame.Instance.ScreenInGame.Earth.Height) //bottom of the level
+            if (py + alto66 >= MyGame.Instance.ScreenInGame.Earth.Height) //bottom of the level
             {
-                alto66 = LemmingsNetGame.Instance.ScreenInGame.Earth.Height - py;
+                alto66 = MyGame.Instance.ScreenInGame.Earth.Height - py;
             }
             int amount = ancho66 * alto66;
             rectangleFill.X = px2;
             rectangleFill.Y = py2;
             rectangleFill.Width = ancho66;
             rectangleFill.Height = alto66;
-            LemmingsNetGame.Instance.ScreenMainMenu.MainMenuGfx.Mascaraexplosion.GetData(0, rectangleFill, LemmingsNetGame.Instance.ScreenInGame.Colormask33, 0, amount);
+            MyGame.Instance.ScreenMainMenu.MainMenuGfx.Mascaraexplosion.GetData(0, rectangleFill, MyGame.Instance.ScreenInGame.Colormask33, 0, amount);
             amount = 0;
             for (int yy88 = 0; yy88 < alto66; yy88++)
             {
-                int yypos888 = (yy88 + py) * LemmingsNetGame.Instance.ScreenInGame.Earth.Width;
+                int yypos888 = (yy88 + py) * MyGame.Instance.ScreenInGame.Earth.Width;
                 for (int xx88 = 0; xx88 < ancho66; xx88++)
                 {
-                    LemmingsNetGame.Instance.ScreenInGame.Colorsobre33[amount].PackedValue = LemmingsNetGame.Instance.ScreenInGame.C25[yypos888 + px + xx88].PackedValue;
+                    MyGame.Instance.ScreenInGame.Colorsobre33[amount].PackedValue = MyGame.Instance.ScreenInGame.C25[yypos888 + px + xx88].PackedValue;
                     amount++;
                 }
             }
             for (int r = 0; r < amount; r++)
             {
-                if (LemmingsNetGame.Instance.ScreenInGame.SteelON)
+                if (MyGame.Instance.ScreenInGame.SteelON)
                 {
                     sx = r % ancho66;
                     int sy = r / ancho66;
                     x.X = px + sx;
                     x.Y = py + sy;
-                    for (int xz = 0; xz < LemmingsNetGame.Instance.ScreenInGame.NumTOTsteel; xz++)
+                    for (int xz = 0; xz < MyGame.Instance.ScreenInGame.NumTOTsteel; xz++)
                     {
-                        if (LemmingsNetGame.Instance.ScreenInGame.Steel[xz].area.Contains(x))
+                        if (MyGame.Instance.ScreenInGame.Steel[xz].area.Contains(x))
                         {
                             sx = -777;
                             break;
@@ -1707,52 +1706,52 @@ public struct Lem //puto
                     if (sx == -777)
                         continue;
                 }
-                if (LemmingsNetGame.Instance.ScreenInGame.Colormask33[r].R > 0 || LemmingsNetGame.Instance.ScreenInGame.Colormask33[r].G > 0 || LemmingsNetGame.Instance.ScreenInGame.Colormask33[r].B > 0)
+                if (MyGame.Instance.ScreenInGame.Colormask33[r].R > 0 || MyGame.Instance.ScreenInGame.Colormask33[r].G > 0 || MyGame.Instance.ScreenInGame.Colormask33[r].B > 0)
                 {
-                    LemmingsNetGame.Instance.ScreenInGame.Colorsobre33[r].PackedValue = 0;
+                    MyGame.Instance.ScreenInGame.Colorsobre33[r].PackedValue = 0;
                 }
             }
             rectangleFill.X = px;
             rectangleFill.Y = py;
             rectangleFill.Width = ancho66;
             rectangleFill.Height = alto66;
-            LemmingsNetGame.Instance.ScreenInGame.Earth.SetData(0, rectangleFill, LemmingsNetGame.Instance.ScreenInGame.Colorsobre33, 0, amount);
+            MyGame.Instance.ScreenInGame.Earth.SetData(0, rectangleFill, MyGame.Instance.ScreenInGame.Colorsobre33, 0, amount);
             // this code update c25 rectangle px-py-ancho66-alto66 only not all like before
             amount = 0;
             for (int yy33 = 0; yy33 < alto66; yy33++)
             {
-                int yypos555 = (yy33 + py) * LemmingsNetGame.Instance.ScreenInGame.Earth.Width;
+                int yypos555 = (yy33 + py) * MyGame.Instance.ScreenInGame.Earth.Width;
                 for (int xx33 = 0; xx33 < ancho66; xx33++)
                 {
-                    LemmingsNetGame.Instance.ScreenInGame.C25[yypos555 + px + xx33].PackedValue = LemmingsNetGame.Instance.ScreenInGame.Colorsobre33[amount].PackedValue;
+                    MyGame.Instance.ScreenInGame.C25[yypos555 + px + xx33].PackedValue = MyGame.Instance.ScreenInGame.Colorsobre33[amount].PackedValue;
                     amount++;
                 }
             }
             Dead = true;
-            LemmingsNetGame.Instance.ScreenInGame.Numlemnow--;
+            MyGame.Instance.ScreenInGame.Numlemnow--;
             Explode = false;
             Exploser = false;
             // luto luto sound fix
-            if (LemmingsNetGame.Instance.Sfx.Explode.State == SoundState.Playing)
+            if (MyGame.Instance.Sfx.Explode.State == SoundState.Playing)
             {
-                LemmingsNetGame.Instance.Sfx.Explode.Stop();
+                MyGame.Instance.Sfx.Explode.Stop();
             }
             try
             {
-                LemmingsNetGame.Instance.Sfx.Explode.Play();
+                MyGame.Instance.Sfx.Explode.Play();
             }
             catch (InstancePlayLimitException) { /* Ignore errors */ }
             //explosions addons emitter - particles logic add
             int xExp = PosX + 14;
             int yExp = PosY + 14;
-            LemmingsNetGame.Instance.Explosion[LemmingsNetGame.Instance.ScreenInGame.ActItem, 0].MaxCounter = 0;
-            LemmingsNetGame.Instance.Explosion[LemmingsNetGame.Instance.ScreenInGame.ActItem, 0].Counter = 0;
-            for (int Iexplo = 0; Iexplo < MyGame.PARTICLE_NUM; Iexplo++)
+            MyGame.Instance.Explosion[MyGame.Instance.ScreenInGame.ActItem, 0].MaxCounter = 0;
+            MyGame.Instance.Explosion[MyGame.Instance.ScreenInGame.ActItem, 0].Counter = 0;
+            for (int Iexplo = 0; Iexplo < GlobalConst.PARTICLE_NUM; Iexplo++)
             {
-                LemmingsNetGame.Instance.Explosion[LemmingsNetGame.Instance.ScreenInGame.ActItem, Iexplo].MaxCounter = 0;
-                byte colorr = (byte)MyGame.Rnd.Next(255);
-                byte colorg = (byte)MyGame.Rnd.Next(255);
-                byte colorb = (byte)MyGame.Rnd.Next(255);
+                MyGame.Instance.Explosion[MyGame.Instance.ScreenInGame.ActItem, Iexplo].MaxCounter = 0;
+                byte colorr = (byte)GlobalConst.Rnd.Next(255);
+                byte colorg = (byte)GlobalConst.Rnd.Next(255);
+                byte colorb = (byte)GlobalConst.Rnd.Next(255);
                 Color colorFill = new()
                 {
                     R = colorr,
@@ -1760,22 +1759,22 @@ public struct Lem //puto
                     B = colorb,
                     A = 255,
                 };
-                int LifeCount = MyGame.LIFE_COUNTER + (int)(MyGame.Rnd.NextDouble() * 2 * MyGame.LIFE_VARIANCE) - MyGame.LIFE_VARIANCE;
-                if (LifeCount > LemmingsNetGame.Instance.Explosion[LemmingsNetGame.Instance.ScreenInGame.ActItem, 0].MaxCounter)
-                    LemmingsNetGame.Instance.Explosion[0, 0].MaxCounter = LifeCount;
-                LemmingsNetGame.Instance.Explosion[LemmingsNetGame.Instance.ScreenInGame.ActItem, Iexplo].dx = (MyGame.Rnd.NextDouble() * (SizeSprites.MAX_DX - SizeSprites.MIN_DX) + SizeSprites.MIN_DX);
-                LemmingsNetGame.Instance.Explosion[LemmingsNetGame.Instance.ScreenInGame.ActItem, Iexplo].dy = (MyGame.Rnd.NextDouble() * (SizeSprites.MAX_DY - SizeSprites.MIN_DY) + SizeSprites.MIN_DY);
-                LemmingsNetGame.Instance.Explosion[LemmingsNetGame.Instance.ScreenInGame.ActItem, Iexplo].x = xExp;
-                LemmingsNetGame.Instance.Explosion[LemmingsNetGame.Instance.ScreenInGame.ActItem, Iexplo].y = yExp;
-                LemmingsNetGame.Instance.Explosion[LemmingsNetGame.Instance.ScreenInGame.ActItem, Iexplo].Color = colorFill;
-                LemmingsNetGame.Instance.Explosion[LemmingsNetGame.Instance.ScreenInGame.ActItem, Iexplo].LifeCtr = LifeCount;
-                LemmingsNetGame.Instance.Explosion[LemmingsNetGame.Instance.ScreenInGame.ActItem, Iexplo].Rotation = (float)MyGame.Rnd.NextDouble();
-                LemmingsNetGame.Instance.Explosion[LemmingsNetGame.Instance.ScreenInGame.ActItem, Iexplo].Size = (float)(MyGame.Rnd.NextDouble() / 2);
+                int LifeCount = GlobalConst.LIFE_COUNTER + (int)(GlobalConst.Rnd.NextDouble() * 2 * GlobalConst.LIFE_VARIANCE) - GlobalConst.LIFE_VARIANCE;
+                if (LifeCount > MyGame.Instance.Explosion[MyGame.Instance.ScreenInGame.ActItem, 0].MaxCounter)
+                    MyGame.Instance.Explosion[0, 0].MaxCounter = LifeCount;
+                MyGame.Instance.Explosion[MyGame.Instance.ScreenInGame.ActItem, Iexplo].dx = (GlobalConst.Rnd.NextDouble() * (SizeSprites.MAX_DX - SizeSprites.MIN_DX) + SizeSprites.MIN_DX);
+                MyGame.Instance.Explosion[MyGame.Instance.ScreenInGame.ActItem, Iexplo].dy = (GlobalConst.Rnd.NextDouble() * (SizeSprites.MAX_DY - SizeSprites.MIN_DY) + SizeSprites.MIN_DY);
+                MyGame.Instance.Explosion[MyGame.Instance.ScreenInGame.ActItem, Iexplo].x = xExp;
+                MyGame.Instance.Explosion[MyGame.Instance.ScreenInGame.ActItem, Iexplo].y = yExp;
+                MyGame.Instance.Explosion[MyGame.Instance.ScreenInGame.ActItem, Iexplo].Color = colorFill;
+                MyGame.Instance.Explosion[MyGame.Instance.ScreenInGame.ActItem, Iexplo].LifeCtr = LifeCount;
+                MyGame.Instance.Explosion[MyGame.Instance.ScreenInGame.ActItem, Iexplo].Rotation = (float)GlobalConst.Rnd.NextDouble();
+                MyGame.Instance.Explosion[MyGame.Instance.ScreenInGame.ActItem, Iexplo].Size = (float)(GlobalConst.Rnd.NextDouble() / 2);
             }
-            LemmingsNetGame.Instance.ScreenInGame.Exploding = true;
-            LemmingsNetGame.Instance.ScreenInGame.ActItem++;
-            if (LemmingsNetGame.Instance.ScreenInGame.ActItem > MyGame.totalExplosions - 1)
-                LemmingsNetGame.Instance.ScreenInGame.ActItem = MyGame.totalExplosions - 1;
+            MyGame.Instance.ScreenInGame.Exploding = true;
+            MyGame.Instance.ScreenInGame.ActItem++;
+            if (MyGame.Instance.ScreenInGame.ActItem > GlobalConst.totalExplosions - 1)
+                MyGame.Instance.ScreenInGame.ActItem = GlobalConst.totalExplosions - 1;
             return;
         }
         if (!Falling && Active)
@@ -1793,7 +1792,7 @@ public struct Lem //puto
         }
         else
         {
-            if (!Drown && LemmingsNetGame.Instance.ScreenInGame.Dibuja)
+            if (!Drown && MyGame.Instance.ScreenInGame.Dibuja)
             {
                 if (_below >= 3)
                 {
@@ -1820,37 +1819,21 @@ public struct Lem //puto
                 PosY++;
             }
         }
-        if (PosX < -16)// limits of the screen from LEFT
+        if (PosX < -16 ||
+            PosX + 14 > MyGame.Instance.ScreenInGame.Earth.Width)// limits of the screen from LEFT
         {
             Active = false;
             Dead = true;
-            LemmingsNetGame.Instance.ScreenInGame.Numlemnow--;
+            MyGame.Instance.ScreenInGame.Numlemnow--;
             Explode = false;
             Exploser = false;
-            if (LemmingsNetGame.Instance.Sfx.Die.State == SoundState.Playing)
+            if (MyGame.Instance.Sfx.Die.State == SoundState.Playing)
             {
-                LemmingsNetGame.Instance.Sfx.Die.Stop();
+                MyGame.Instance.Sfx.Die.Stop();
             }
             try
             {
-                LemmingsNetGame.Instance.Sfx.Die.Play();
-            }
-            catch (InstancePlayLimitException) { /* Ignore errors */ }
-        }
-        if (PosX + 14 > LemmingsNetGame.Instance.ScreenInGame.Earth.Width)// limits of the screen from RIGHT
-        {
-            Active = false;
-            Dead = true;
-            LemmingsNetGame.Instance.ScreenInGame.Numlemnow--;
-            Explode = false;
-            Exploser = false;
-            if (LemmingsNetGame.Instance.Sfx.Die.State == SoundState.Playing)
-            {
-                LemmingsNetGame.Instance.Sfx.Die.Stop();
-            }
-            try
-            {
-                LemmingsNetGame.Instance.Sfx.Die.Play();
+                MyGame.Instance.Sfx.Die.Play();
             }
             catch (InstancePlayLimitException) { /* Ignore errors */ }
         }

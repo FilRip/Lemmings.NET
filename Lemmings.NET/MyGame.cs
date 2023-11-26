@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 
 using Lemmings.NET.Constants;
 using Lemmings.NET.Datatables;
@@ -14,14 +13,14 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Lemmings.NET;
 
-public partial class LemmingsNetGame : Game
+public partial class MyGame : Game
 {
     #region Fields
     private Color letterboxingColor = new(0, 0, 0);
     public RenderTarget2D MainRenderTarget { get; private set; }
     private Rectangle renderTargetDestination;
     public bool Scaled { get; set; }
-    public static LemmingsNetGame Instance { get; private set; }
+    public static MyGame Instance { get; private set; }
     // Datatables
     private Sprites _sprites;
     private Music _music;
@@ -100,25 +99,24 @@ public partial class LemmingsNetGame : Game
         CurrentScreen = ECurrentScreen.MainMenu;
     }
 
-    public bool MustReadFile { get; set; } = true;
     public bool LevelEnded { get; set; } = false;
 
-    internal Particle[,] Explosion { get; set; } = new Particle[MyGame.totalExplosions, 24];
-    public Structs.Particles[] ParticleTab { get; set; }
+    internal Particle[,] Explosion { get; set; } = new Particle[GlobalConst.totalExplosions, 24];
+    public Particles[] ParticleTab { get; set; }
     private float rparticle1;
     private bool rightparticle;
     private readonly GraphicsDeviceManager _graphics;
     SpriteBatch _spriteBatch;
     //vita touch textures
 
-    public LemmingsNetGame()
+    public MyGame()
     {
         Instance = this;
         _graphics = new GraphicsDeviceManager(this)
         {
             PreferredDepthStencilFormat = DepthFormat.Depth24Stencil8,
-            PreferredBackBufferWidth = MyGame.GameResolution.X,
-            PreferredBackBufferHeight = MyGame.GameResolution.Y,
+            PreferredBackBufferWidth = GlobalConst.GameResolution.X,
+            PreferredBackBufferHeight = GlobalConst.GameResolution.Y,
         };
         //// this.IsMouseVisible = true;  //WINDOWS MOUSE VISIBLE OR NOT
         Content.RootDirectory = "Content";
@@ -226,8 +224,8 @@ public partial class LemmingsNetGame : Game
             _levels.VariablesLevels();
         }
         Mouse.SetPosition(0, 0);
-        MainRenderTarget = new RenderTarget2D(GraphicsDevice, MyGame.GameResolution.X, MyGame.GameResolution.Y);
-        renderTargetDestination = GetRenderTargetDestination(MyGame.GameResolution, _graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight);
+        MainRenderTarget = new RenderTarget2D(GraphicsDevice, GlobalConst.GameResolution.X, GlobalConst.GameResolution.Y);
+        renderTargetDestination = GetRenderTargetDestination(GlobalConst.GameResolution, _graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight);
 
         //background_02  logo  llama  fondos/nubes  crateN
         //Crate = Content.Load<Texture2D>("crate");
@@ -237,30 +235,7 @@ public partial class LemmingsNetGame : Game
         {
             //mainMenuLogo = Content.Load<Texture2D>("lem1/logo_mainmenu");
             _music.MenuMusic.Play();
-            if (MustReadFile)
-            {
-                if (File.Exists(MyGame.SaveGameFileName))
-                {
-                    BinaryReader reader = new(File.Open(MyGame.SaveGameFileName, FileMode.Open));
-                    for (int i = 0; i < MyGame.NumTotalLevels; i++)
-                    {
-                        _screenInGame.LevelEnd[i] = reader.ReadBoolean();
-                    }
-                    reader.Close();
-                    MustReadFile = false;
-                }
-                else
-                {
-                    BinaryWriter writer = new(File.Open(MyGame.SaveGameFileName, FileMode.Create));
-                    for (int i = 0; i < MyGame.NumTotalLevels; i++)
-                    {
-                        writer.Write(_screenInGame.LevelEnd[i]);
-                    }
-                    writer.Write("(c) 2023 FilRip from CoolBytes");
-                    writer.Close();
-                    MustReadFile = false;
-                }
-            }
+            SaveGame.LoadSavedGame();
 
         }
         else if (CurrentScreen == ECurrentScreen.InGame) //when level starts all the vars and reset all
@@ -351,22 +326,22 @@ public partial class LemmingsNetGame : Game
             else
             {
                 rightparticle = false;
-                rparticle1 = MyGame.Rnd.Next(0, 1);
+                rparticle1 = GlobalConst.Rnd.Next(0, 1);
                 if (rparticle1 == 0)
                     rightparticle = false;
                 else
                     rightparticle = true;
-                ParticleTab = new Structs.Particles[MyGame.NumParticles];
-                for (int varParticle = 0; varParticle < MyGame.NumParticles; varParticle++)
+                ParticleTab = new Structs.Particles[GlobalConst.NumParticles];
+                for (int varParticle = 0; varParticle < GlobalConst.NumParticles; varParticle++)
                 {
-                    vectorFill.X = MyGame.Rnd.Next(20, 1080);
-                    vectorFill.Y = MyGame.Rnd.Next(5, 650) - 660;
+                    vectorFill.X = GlobalConst.Rnd.Next(20, 1080);
+                    vectorFill.Y = GlobalConst.Rnd.Next(5, 650) - 660;
                     ParticleTab[varParticle].Pos = vectorFill;
                     vectorFill.X = 1;
                     vectorFill.Y = 2;
                     ParticleTab[varParticle].Direction = vectorFill;
                     ParticleTab[varParticle].Sprite = Content.Load<Texture2D>("sprite/particle");
-                    rparticle1 = (float)MyGame.Rnd.NextDouble() * 3;
+                    rparticle1 = (float)GlobalConst.Rnd.NextDouble() * 3;
                     ParticleTab[varParticle].DirectionTime = rparticle1;
                 }
             }
@@ -374,7 +349,7 @@ public partial class LemmingsNetGame : Game
         }
         if (ParticleTab != null)
         {
-            for (int varParticle = 0; varParticle < MyGame.NumParticles; varParticle++)
+            for (int varParticle = 0; varParticle < GlobalConst.NumParticles; varParticle++)
             {
                 ParticleTab[varParticle].DirectionTime -= (float)gameTime.ElapsedGameTime.TotalSeconds;
                 ParticleTab[varParticle].Lifetime += (float)gameTime.ElapsedGameTime.TotalSeconds;
@@ -383,19 +358,19 @@ public partial class LemmingsNetGame : Game
                     ParticleTab[varParticle].SetPosX(ParticleTab[varParticle].DirectionTime);
                 else
                     ParticleTab[varParticle].SetPosX(ParticleTab[varParticle].Pos.X - ParticleTab[varParticle].DirectionTime);
-                ParticleTab[varParticle].SetPosY(ParticleTab[varParticle].Pos.Y - (float)MyGame.Rnd.NextDouble());
+                ParticleTab[varParticle].SetPosY(ParticleTab[varParticle].Pos.Y - (float)GlobalConst.Rnd.NextDouble());
                 if (ParticleTab[varParticle].DirectionTime < 0)
                 {
                     rightparticle = false;
-                    rparticle1 = MyGame.Rnd.Next(0, 1);
+                    rparticle1 = GlobalConst.Rnd.Next(0, 1);
                     if (rparticle1 == 0)
                         rightparticle = false;
                     else
                         rightparticle = true;
-                    rparticle1 = (float)MyGame.Rnd.NextDouble() * 3;
+                    rparticle1 = (float)GlobalConst.Rnd.NextDouble() * 3;
                     ParticleTab[varParticle].DirectionTime = rparticle1;
                 }
-                if (ParticleTab[varParticle].Pos.Y > MyGame.GameResolution.Y)
+                if (ParticleTab[varParticle].Pos.Y > GlobalConst.GameResolution.Y)
                     ParticleTab[varParticle].SetPosY(0);
             }
 
@@ -407,27 +382,27 @@ public partial class LemmingsNetGame : Game
     {
         Scaled = !Scaled;
 
-        _graphics.PreferredBackBufferWidth = MyGame.GameResolution.X * (Scaled ? 2 : 1);
-        _graphics.PreferredBackBufferHeight = MyGame.GameResolution.Y * (Scaled ? 2 : 1);
+        _graphics.PreferredBackBufferWidth = GlobalConst.GameResolution.X * (Scaled ? 2 : 1);
+        _graphics.PreferredBackBufferHeight = GlobalConst.GameResolution.Y * (Scaled ? 2 : 1);
 
         _graphics.ApplyChanges();
 
-        renderTargetDestination = GetRenderTargetDestination(MyGame.GameResolution, _graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight);
+        renderTargetDestination = GetRenderTargetDestination(GlobalConst.GameResolution, _graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight);
     }
 
     private void ToggleFullScreen()
     {
         if (_graphics.IsFullScreen)
         {
-            _graphics.PreferredBackBufferWidth = MyGame.GameResolution.X;
-            _graphics.PreferredBackBufferHeight = MyGame.GameResolution.Y;
+            _graphics.PreferredBackBufferWidth = GlobalConst.GameResolution.X;
+            _graphics.PreferredBackBufferHeight = GlobalConst.GameResolution.Y;
         }
         else
         {
             _graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
             _graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
         }
-        renderTargetDestination = GetRenderTargetDestination(MyGame.GameResolution, _graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight);
+        renderTargetDestination = GetRenderTargetDestination(GlobalConst.GameResolution, _graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight);
         _graphics.ToggleFullScreen();
     }
 
