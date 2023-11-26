@@ -345,7 +345,6 @@ public partial class MyGame : Game
                     ParticleTab[varParticle].DirectionTime = rparticle1;
                 }
             }
-
         }
         if (ParticleTab != null)
         {
