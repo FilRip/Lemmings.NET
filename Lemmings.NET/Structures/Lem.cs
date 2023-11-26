@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Lemmings.NET.Constants;
+using Lemmings.NET.Helpers;
 using Lemmings.NET.Models;
 
 using Microsoft.Xna.Framework;
@@ -54,7 +55,7 @@ public struct Lem //puto
         Point poslem, x;
         int sx = 0;
 
-        if (Dead)
+        if (Dead || Exit)
             return;
         // LOGIC BLOCKER BLOCKER BLOQUEO LOGIC bbbbbbbbbbbbbbbbbbbbllllllllloooooooccccccccccckkkkkkkkkkkeeeeeeeeeeeeedddddddddddddddddd
         int medx = 14;
@@ -148,50 +149,22 @@ public struct Lem //puto
                     {
                         case "traps/dead_marble":
                         case "traps/dead_marble2_fix":
-                            if (MyGame.Instance.Sfx.StrapTenton.State == SoundState.Playing)
-                            {
-                                MyGame.Instance.Sfx.StrapTenton.Stop();
-                            }
-                            MyGame.Instance.Sfx.StrapTenton.Play();
+                            MyGame.Instance.Sfx.StrapTenton.Replay();
                             break;
                         case "traps/dead_trampa":
-                            if (MyGame.Instance.Sfx.StrapMan.State == SoundState.Playing)
-                            {
-                                MyGame.Instance.Sfx.StrapMan.Stop();
-                            }
-                            MyGame.Instance.Sfx.StrapMan.Play();
+                            MyGame.Instance.Sfx.StrapMan.Replay();
                             break;
                         case "traps/dead_soga":
-                            if (MyGame.Instance.Sfx.StrapChain.State == SoundState.Playing)
-                            {
-                                MyGame.Instance.Sfx.StrapChain.Stop();
-                            }
-                            MyGame.Instance.Sfx.StrapChain.Play();
+                            MyGame.Instance.Sfx.StrapChain.Replay();
                             break;
                         case "traps/dead_bombona":
-                            if (MyGame.Instance.Sfx.StrapChupar.State == SoundState.Playing)
-                            {
-                                MyGame.Instance.Sfx.StrapChupar.Stop();
-                            }
-                            MyGame.Instance.Sfx.StrapChupar.Play();
+                            MyGame.Instance.Sfx.StrapChupar.Replay();
                             break;
                         case "traps/dead_10":
-                            if (MyGame.Instance.Sfx.StrapTenTonnes.State == SoundState.Playing)
-                            {
-                                MyGame.Instance.Sfx.StrapTenTonnes.Stop();
-                            }
-                            MyGame.Instance.Sfx.StrapTenTonnes.Play();
+                            MyGame.Instance.Sfx.StrapTenTonnes.Replay();
                             break;
                         default:
-                            if (MyGame.Instance.Sfx.Die.State == SoundState.Playing)
-                            {
-                                MyGame.Instance.Sfx.Die.Stop();
-                            }
-                            try
-                            {
-                                MyGame.Instance.Sfx.Die.Play();
-                            }
-                            catch (InstancePlayLimitException) { /* Ignore errors */ }
+                            MyGame.Instance.Sfx.Die.Replay();
                             break;
                     }
                     break;
@@ -209,15 +182,7 @@ public struct Lem //puto
                         case "traps/fuego2":
                         case "traps/fuego3":
                         case "traps/fuego4":
-                            if (MyGame.Instance.Sfx.Fire.State == SoundState.Playing)
-                            {
-                                MyGame.Instance.Sfx.Fire.Stop();
-                            }
-                            try
-                            {
-                                MyGame.Instance.Sfx.Fire.Play();
-                            }
-                            catch (InstancePlayLimitException) { /* Ignore errors */ }
+                            MyGame.Instance.Sfx.Fire.Replay();
                             Burned = true;
                             Drown = false;
                             Explode = false;
@@ -235,15 +200,7 @@ public struct Lem //puto
                         case "traps/ice_water2":
                         case "traps/water_blue":
                         case "traps/water_bubbles":
-                            if (MyGame.Instance.Sfx.Glup.State == SoundState.Playing)
-                            {
-                                MyGame.Instance.Sfx.Glup.Stop();
-                            }
-                            try
-                            {
-                                MyGame.Instance.Sfx.Glup.Play();
-                            }
-                            catch (InstancePlayLimitException) { /* Ignore errors */ }
+                            MyGame.Instance.Sfx.Glup.Replay();
                             Drown = true;
                             Burned = false;
                             Explode = false;
@@ -256,15 +213,7 @@ public struct Lem //puto
                             Walker = false;
                             break;
                         default:
-                            if (MyGame.Instance.Sfx.Die.State == SoundState.Playing)
-                            {
-                                MyGame.Instance.Sfx.Die.Stop();
-                            }
-                            try
-                            {
-                                MyGame.Instance.Sfx.Die.Play();
-                            }
-                            catch (InstancePlayLimitException) { /* Ignore errors */ }
+                            MyGame.Instance.Sfx.Die.Replay();
                             Explode = false;
                             Exploser = false;
                             Active = false;
@@ -286,19 +235,11 @@ public struct Lem //puto
                 if (MyGame.Instance.ScreenInGame.NbDiggerRemaining < 0)
                 {
                     MyGame.Instance.ScreenInGame.NbDiggerRemaining = 0;
-                    if (MyGame.Instance.Sfx.Ting.State == SoundState.Playing)
-                    {
-                        MyGame.Instance.Sfx.Ting.Stop();
-                    }
-                    MyGame.Instance.Sfx.Ting.Play();
+                    MyGame.Instance.Sfx.Ting.Replay();
                 }
                 else
                 {
-                    if (MyGame.Instance.Sfx.MousePre.State == SoundState.Playing)
-                    {
-                        MyGame.Instance.Sfx.MousePre.Stop();
-                    }
-                    MyGame.Instance.Sfx.MousePre.Play();
+                    MyGame.Instance.Sfx.MousePre.Replay();
                     Digger = true;
                     Fall = false;
                     Builder = false;
@@ -316,19 +257,11 @@ public struct Lem //puto
                 if (MyGame.Instance.ScreenInGame.NbClimberRemaining < 0)
                 {
                     MyGame.Instance.ScreenInGame.NbClimberRemaining = 0;
-                    if (MyGame.Instance.Sfx.Ting.State == SoundState.Playing)
-                    {
-                        MyGame.Instance.Sfx.Ting.Stop();
-                    }
-                    MyGame.Instance.Sfx.Ting.Play();
+                    MyGame.Instance.Sfx.Ting.Replay();
                 }
                 else
                 {
-                    if (MyGame.Instance.Sfx.MousePre.State == SoundState.Playing)
-                    {
-                        MyGame.Instance.Sfx.MousePre.Stop();
-                    }
-                    MyGame.Instance.Sfx.MousePre.Play();
+                    MyGame.Instance.Sfx.MousePre.Replay();
                     Climber = true;
                     return;
                 }
@@ -339,19 +272,11 @@ public struct Lem //puto
                 if (MyGame.Instance.ScreenInGame.NbFloaterRemaining < 0)
                 {
                     MyGame.Instance.ScreenInGame.NbFloaterRemaining = 0;
-                    if (MyGame.Instance.Sfx.Ting.State == SoundState.Playing)
-                    {
-                        MyGame.Instance.Sfx.Ting.Stop();
-                    }
-                    MyGame.Instance.Sfx.Ting.Play();
+                    MyGame.Instance.Sfx.Ting.Replay();
                 }
                 else
                 {
-                    if (MyGame.Instance.Sfx.MousePre.State == SoundState.Playing)
-                    {
-                        MyGame.Instance.Sfx.MousePre.Stop();
-                    }
-                    MyGame.Instance.Sfx.MousePre.Play();
+                    MyGame.Instance.Sfx.MousePre.Replay();
                     Umbrella = true;
                     return;
                 }
@@ -362,19 +287,11 @@ public struct Lem //puto
                 if (MyGame.Instance.ScreenInGame.NbExploderRemaining < 0)
                 {
                     MyGame.Instance.ScreenInGame.NbExploderRemaining = 0;
-                    if (MyGame.Instance.Sfx.Ting.State == SoundState.Playing)
-                    {
-                        MyGame.Instance.Sfx.Ting.Stop();
-                    }
-                    MyGame.Instance.Sfx.Ting.Play();
+                    MyGame.Instance.Sfx.Ting.Replay();
                 }
                 else
                 {
-                    if (MyGame.Instance.Sfx.MousePre.State == SoundState.Playing)
-                    {
-                        MyGame.Instance.Sfx.MousePre.Stop();
-                    }
-                    MyGame.Instance.Sfx.MousePre.Play();
+                    MyGame.Instance.Sfx.MousePre.Replay();
                     Exploser = true;
                     return;
                 }
@@ -386,19 +303,11 @@ public struct Lem //puto
                 if (MyGame.Instance.ScreenInGame.NbBlockerRemaining < 0)
                 {
                     MyGame.Instance.ScreenInGame.NbBlockerRemaining = 0;
-                    if (MyGame.Instance.Sfx.Ting.State == SoundState.Playing)
-                    {
-                        MyGame.Instance.Sfx.Ting.Stop();
-                    }
-                    MyGame.Instance.Sfx.Ting.Play();
+                    MyGame.Instance.Sfx.Ting.Replay();
                 }
                 else
                 {
-                    if (MyGame.Instance.Sfx.MousePre.State == SoundState.Playing)
-                    {
-                        MyGame.Instance.Sfx.MousePre.Stop();
-                    }
-                    MyGame.Instance.Sfx.MousePre.Play();
+                    MyGame.Instance.Sfx.MousePre.Replay();
                     Blocker = true;
                     Builder = false;
                     Basher = false;
@@ -417,19 +326,11 @@ public struct Lem //puto
                 if (MyGame.Instance.ScreenInGame.NbBuilderRemaining < 0)
                 {
                     MyGame.Instance.ScreenInGame.NbBuilderRemaining = 0;
-                    if (MyGame.Instance.Sfx.Ting.State == SoundState.Playing)
-                    {
-                        MyGame.Instance.Sfx.Ting.Stop();
-                    }
-                    MyGame.Instance.Sfx.Ting.Play();
+                    MyGame.Instance.Sfx.Ting.Replay();
                 }
                 else
                 {
-                    if (MyGame.Instance.Sfx.MousePre.State == SoundState.Playing)
-                    {
-                        MyGame.Instance.Sfx.MousePre.Stop();
-                    }
-                    MyGame.Instance.Sfx.MousePre.Play();
+                    MyGame.Instance.Sfx.MousePre.Replay();
                     Bridge = false;
                     Builder = true;
                     Actualframe = 0;
@@ -449,19 +350,11 @@ public struct Lem //puto
                 if (MyGame.Instance.ScreenInGame.NbBasherRemaining < 0)
                 {
                     MyGame.Instance.ScreenInGame.NbBasherRemaining = 0;
-                    if (MyGame.Instance.Sfx.Ting.State == SoundState.Playing)
-                    {
-                        MyGame.Instance.Sfx.Ting.Stop();
-                    }
-                    MyGame.Instance.Sfx.Ting.Play();
+                    MyGame.Instance.Sfx.Ting.Replay();
                 }
                 else
                 {
-                    if (MyGame.Instance.Sfx.MousePre.State == SoundState.Playing)
-                    {
-                        MyGame.Instance.Sfx.MousePre.Stop();
-                    }
-                    MyGame.Instance.Sfx.MousePre.Play();
+                    MyGame.Instance.Sfx.MousePre.Replay();
                     Basher = true;
                     Actualframe = 0;
                     Walker = false;
@@ -479,19 +372,11 @@ public struct Lem //puto
                 if (MyGame.Instance.ScreenInGame.NbMinerRemaining < 0)
                 {
                     MyGame.Instance.ScreenInGame.NbMinerRemaining = 0;
-                    if (MyGame.Instance.Sfx.Ting.State == SoundState.Playing)
-                    {
-                        MyGame.Instance.Sfx.Ting.Stop();
-                    }
-                    MyGame.Instance.Sfx.Ting.Play();
+                    MyGame.Instance.Sfx.Ting.Replay();
                 }
                 else
                 {
-                    if (MyGame.Instance.Sfx.MousePre.State == SoundState.Playing)
-                    {
-                        MyGame.Instance.Sfx.MousePre.Stop();
-                    }
-                    MyGame.Instance.Sfx.MousePre.Play();
+                    MyGame.Instance.Sfx.MousePre.Replay();
                     Miner = true;
                     Actualframe = 0;
                     Walker = false;
@@ -575,15 +460,7 @@ public struct Lem //puto
                 MyGame.Instance.ScreenInGame.Numlemnow--;
                 Explode = false;
                 Exploser = false;
-                if (MyGame.Instance.Sfx.Die.State == SoundState.Playing)
-                {
-                    MyGame.Instance.Sfx.Die.Stop();
-                }
-                try
-                {
-                    MyGame.Instance.Sfx.Die.Play();
-                }
-                catch (InstancePlayLimitException) { /* Ignore errors */ }
+                MyGame.Instance.Sfx.Die.Replay();
                 break;
             }
             if (MyGame.Instance.ScreenInGame.C25[(pos_real * MyGame.Instance.ScreenInGame.Earth.Width) + pixx].R == 0 && MyGame.Instance.ScreenInGame.C25[(pos_real * MyGame.Instance.ScreenInGame.Earth.Width) + pixx].G == 0 && MyGame.Instance.ScreenInGame.C25[(pos_real * MyGame.Instance.ScreenInGame.Earth.Width) + pixx].B == 0)
@@ -634,15 +511,7 @@ public struct Lem //puto
             }
             else
             {
-                if (MyGame.Instance.Sfx.Splat.State == SoundState.Playing)
-                {
-                    MyGame.Instance.Sfx.Splat.Stop();
-                }
-                try
-                {
-                    MyGame.Instance.Sfx.Splat.Play();
-                }
-                catch (InstancePlayLimitException) { /* Ignore errors */ }
+                MyGame.Instance.Sfx.Splat.Replay();
                 Fall = false;
                 Walker = false;
                 Falling = false;
@@ -713,11 +582,7 @@ public struct Lem //puto
                 }
                 if (nominer)
                 {
-                    if (MyGame.Instance.Sfx.Ting.State == SoundState.Playing)
-                    {
-                        MyGame.Instance.Sfx.Ting.Stop();
-                    }
-                    MyGame.Instance.Sfx.Ting.Play();
+                    MyGame.Instance.Sfx.Ting.Replay();
                     Miner = false;
                     Walker = true;
                     Actualframe = 0;
@@ -950,11 +815,7 @@ public struct Lem //puto
                 }
                 if (nobasher)
                 {
-                    if (MyGame.Instance.Sfx.Ting.State == SoundState.Playing)
-                    {
-                        MyGame.Instance.Sfx.Ting.Stop();
-                    }
-                    MyGame.Instance.Sfx.Ting.Play();
+                    MyGame.Instance.Sfx.Ting.Replay();
                     Basher = false;
                     Walker = true;
                     Actualframe = 0;
@@ -1259,11 +1120,7 @@ public struct Lem //puto
                     PosX += 6;
                     if (Numstairs >= 10)
                     {
-                        if (MyGame.Instance.Sfx.Chink.State == SoundState.Playing)
-                        {
-                            MyGame.Instance.Sfx.Chink.Stop();
-                        }
-                        MyGame.Instance.Sfx.Chink.Play();
+                        MyGame.Instance.Sfx.Chink.Replay();
                     }
                     int amount = 0;
                     for (int ykk = 27; ykk < 31; ykk++)
@@ -1345,11 +1202,7 @@ public struct Lem //puto
                     PosX -= 6;
                     if (Numstairs >= 10)
                     {
-                        if (MyGame.Instance.Sfx.Chink.State == SoundState.Playing)
-                        {
-                            MyGame.Instance.Sfx.Chink.Stop();
-                        }
-                        MyGame.Instance.Sfx.Chink.Play();
+                        MyGame.Instance.Sfx.Chink.Replay();
                     }
                     //earth.SetData<Color>(c25); //OPTIMIZED BUILDER SETDATA
                     int amount = 0;
@@ -1732,15 +1585,7 @@ public struct Lem //puto
             Explode = false;
             Exploser = false;
             // luto luto sound fix
-            if (MyGame.Instance.Sfx.Explode.State == SoundState.Playing)
-            {
-                MyGame.Instance.Sfx.Explode.Stop();
-            }
-            try
-            {
-                MyGame.Instance.Sfx.Explode.Play();
-            }
-            catch (InstancePlayLimitException) { /* Ignore errors */ }
+            MyGame.Instance.Sfx.Explode.Replay();
             //explosions addons emitter - particles logic add
             int xExp = PosX + 14;
             int yExp = PosY + 14;
@@ -1827,15 +1672,7 @@ public struct Lem //puto
             MyGame.Instance.ScreenInGame.Numlemnow--;
             Explode = false;
             Exploser = false;
-            if (MyGame.Instance.Sfx.Die.State == SoundState.Playing)
-            {
-                MyGame.Instance.Sfx.Die.Stop();
-            }
-            try
-            {
-                MyGame.Instance.Sfx.Die.Play();
-            }
-            catch (InstancePlayLimitException) { /* Ignore errors */ }
+            MyGame.Instance.Sfx.Die.Replay();
         }
     }
 }

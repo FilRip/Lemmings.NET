@@ -62,6 +62,7 @@
     <Compile Include="Datatables\Sprites.cs" />
     <Compile Include="Datatables\Vfx.cs" />
     <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="Helpers\Extensions.cs" />
     <Compile Include="MyGame.cs" />
     <Compile Include="Models\OneLemming.cs" />
     <Compile Include="Models\SaveGame.cs" />

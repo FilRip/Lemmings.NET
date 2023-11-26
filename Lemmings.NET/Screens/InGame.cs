@@ -2,6 +2,7 @@
 using System.Linq;
 
 using Lemmings.NET.Constants;
+using Lemmings.NET.Helpers;
 using Lemmings.NET.Models;
 using Lemmings.NET.Structs;
 
@@ -1013,7 +1014,7 @@ internal class InGame
         {
             if (doorOn)
                 break;
-            if (Lemming[ActLEM].Dead)
+            if (Lemming[ActLEM].Dead || Lemming[ActLEM].Exit)
                 continue;
             if (Lemming[ActLEM].Exploser && !Lemming[ActLEM].Explode)
             {
@@ -1025,15 +1026,7 @@ internal class InGame
                 if (crono <= 0)
                 {
                     // luto luto sound monogame 3.2 works ok without catch exception
-                    if (MyGame.Instance.Sfx.OhNo.State == SoundState.Playing)
-                    {
-                        MyGame.Instance.Sfx.OhNo.Stop();
-                    }
-                    try
-                    {
-                        MyGame.Instance.Sfx.OhNo.Play();
-                    }
-                    catch (InstancePlayLimitException) { /* Ignore errors */ }
+                    MyGame.Instance.Sfx.OhNo.Replay();
                     Lemming[ActLEM].Explode = true;
                     Lemming[ActLEM].Active = false;
                     Lemming[ActLEM].Umbrella = false;
@@ -1439,7 +1432,7 @@ internal class InGame
         }
         if (Input.PreviousKeyState.IsKeyDown(Keys.P) && Input.CurrentKeyState.IsKeyUp(Keys.P))
         {
-            MyGame.Instance.Sfx.PlaySoundMenu();
+            MyGame.Instance.Sfx.ChangeOp.Replay();
             GlobalConst.Paused = !GlobalConst.Paused;
         }
         else if (Input.PreviousKeyState.IsKeyDown(Keys.D1))
@@ -1452,42 +1445,42 @@ internal class InGame
             _inGameMenu._increaseOn = false;
         if (NbClimberRemaining > 0 && Input.PreviousKeyState.IsKeyDown(Keys.D3) && Input.CurrentKeyState.IsKeyUp(Keys.D3))
         {
-            MyGame.Instance.Sfx.PlaySoundMenu();
+            MyGame.Instance.Sfx.ChangeOp.Replay();
             _inGameMenu.CurrentSelectedSkill = ECurrentSkill.CLIMBER;
         }
         else if (NbFloaterRemaining > 0 && Input.PreviousKeyState.IsKeyDown(Keys.D4) && Input.CurrentKeyState.IsKeyUp(Keys.D4))
         {
-            MyGame.Instance.Sfx.PlaySoundMenu();
+            MyGame.Instance.Sfx.ChangeOp.Replay();
             _inGameMenu.CurrentSelectedSkill = ECurrentSkill.FLOATER;
         }
         else if (NbExploderRemaining > 0 && Input.PreviousKeyState.IsKeyDown(Keys.D5) && Input.CurrentKeyState.IsKeyUp(Keys.D5))
         {
-            MyGame.Instance.Sfx.PlaySoundMenu();
+            MyGame.Instance.Sfx.ChangeOp.Replay();
             _inGameMenu.CurrentSelectedSkill = ECurrentSkill.EXPLODER;
         }
         else if (NbBlockerRemaining > 0 && Input.PreviousKeyState.IsKeyDown(Keys.D6) && Input.CurrentKeyState.IsKeyUp(Keys.D6))
         {
-            MyGame.Instance.Sfx.PlaySoundMenu();
+            MyGame.Instance.Sfx.ChangeOp.Replay();
             _inGameMenu.CurrentSelectedSkill = ECurrentSkill.BLOCKER;
         }
         else if (NbBuilderRemaining > 0 && Input.PreviousKeyState.IsKeyDown(Keys.D7) && Input.CurrentKeyState.IsKeyUp(Keys.D7))
         {
-            MyGame.Instance.Sfx.PlaySoundMenu();
+            MyGame.Instance.Sfx.ChangeOp.Replay();
             _inGameMenu.CurrentSelectedSkill = ECurrentSkill.BUILDER;
         }
         else if (NbBasherRemaining > 0 && Input.PreviousKeyState.IsKeyDown(Keys.D8) && Input.CurrentKeyState.IsKeyUp(Keys.D8))
         {
-            MyGame.Instance.Sfx.PlaySoundMenu();
+            MyGame.Instance.Sfx.ChangeOp.Replay();
             _inGameMenu.CurrentSelectedSkill = ECurrentSkill.BASHER;
         }
         else if (NbMinerRemaining > 0 && Input.PreviousKeyState.IsKeyDown(Keys.D9) && Input.CurrentKeyState.IsKeyUp(Keys.D9))
         {
-            MyGame.Instance.Sfx.PlaySoundMenu();
+            MyGame.Instance.Sfx.ChangeOp.Replay();
             _inGameMenu.CurrentSelectedSkill = ECurrentSkill.MINER;
         }
         else if (NbDiggerRemaining > 0 && Input.PreviousKeyState.IsKeyDown(Keys.D0) && Input.CurrentKeyState.IsKeyUp(Keys.D0))
         {
-            MyGame.Instance.Sfx.PlaySoundMenu();
+            MyGame.Instance.Sfx.ChangeOp.Replay();
             _inGameMenu.CurrentSelectedSkill = ECurrentSkill.DIGGER;
         }
         Update_level();
@@ -1634,15 +1627,7 @@ internal class InGame
             x.Y = Lemming[actLEM2].PosY + 25;
             if (Lemming[actLEM2].Exit && Lemming[actLEM2].Actualframe == 13) // change frame of yipee sound, old frame was init or 0 now different for frames
             {
-                if (MyGame.Instance.Sfx.Yippe.State == SoundState.Playing)
-                {
-                    MyGame.Instance.Sfx.Yippe.Stop();
-                }
-                try
-                {
-                    MyGame.Instance.Sfx.Yippe.Play();
-                }
-                catch (InstancePlayLimitException) { /* Ignore errors */ }
+                MyGame.Instance.Sfx.Yippe.Replay();
             }
             if (Moreexits == null)
             {

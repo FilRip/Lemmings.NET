@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Lemmings.NET.Constants;
+using Lemmings.NET.Helpers;
 using Lemmings.NET.Models;
 
 using Microsoft.Xna.Framework;
@@ -263,54 +264,54 @@ internal class InGameMenu
         }
         if (rectop3.Contains(Input.CurrentMouseState.Position) && _inGame.NbClimberRemaining > 0 && (Input.PreviousMouseState.LeftButton == ButtonState.Released && Input.CurrentMouseState.LeftButton == ButtonState.Pressed))
         {
-            MyGame.Instance.Sfx.PlaySoundMenu();
+            MyGame.Instance.Sfx.ChangeOp.Replay();
             CurrentSelectedSkill = ECurrentSkill.CLIMBER;
         }
         if (rectop4.Contains(Input.CurrentMouseState.Position) && _inGame.NbFloaterRemaining > 0 && (Input.PreviousMouseState.LeftButton == ButtonState.Released && Input.CurrentMouseState.LeftButton == ButtonState.Pressed))
         {
-            MyGame.Instance.Sfx.PlaySoundMenu();
+            MyGame.Instance.Sfx.ChangeOp.Replay();
             CurrentSelectedSkill = ECurrentSkill.FLOATER;
         }
         if (rectop5.Contains(Input.CurrentMouseState.Position) && _inGame.NbExploderRemaining > 0 && (Input.PreviousMouseState.LeftButton == ButtonState.Released && Input.CurrentMouseState.LeftButton == ButtonState.Pressed))
         {
-            MyGame.Instance.Sfx.PlaySoundMenu();
+            MyGame.Instance.Sfx.ChangeOp.Replay();
             CurrentSelectedSkill = ECurrentSkill.EXPLODER;
         }
         if (rectop6.Contains(Input.CurrentMouseState.Position) && _inGame.NbBlockerRemaining > 0 && (Input.PreviousMouseState.LeftButton == ButtonState.Released && Input.CurrentMouseState.LeftButton == ButtonState.Pressed))
         {
-            MyGame.Instance.Sfx.PlaySoundMenu();
+            MyGame.Instance.Sfx.ChangeOp.Replay();
             CurrentSelectedSkill = ECurrentSkill.BLOCKER;
         }
         if (rectop7.Contains(Input.CurrentMouseState.Position) && _inGame.NbBuilderRemaining > 0 && (Input.PreviousMouseState.LeftButton == ButtonState.Released && Input.CurrentMouseState.LeftButton == ButtonState.Pressed))
         {
-            MyGame.Instance.Sfx.PlaySoundMenu();
+            MyGame.Instance.Sfx.ChangeOp.Replay();
             CurrentSelectedSkill = ECurrentSkill.BUILDER;
         }
         if (rectop8.Contains(Input.CurrentMouseState.Position) && _inGame.NbBasherRemaining > 0 && (Input.PreviousMouseState.LeftButton == ButtonState.Released && Input.CurrentMouseState.LeftButton == ButtonState.Pressed))
         {
-            MyGame.Instance.Sfx.PlaySoundMenu();
+            MyGame.Instance.Sfx.ChangeOp.Replay();
             CurrentSelectedSkill = ECurrentSkill.BASHER;
         }
         if (rectop9.Contains(Input.CurrentMouseState.Position) && _inGame.NbMinerRemaining > 0 && (Input.PreviousMouseState.LeftButton == ButtonState.Released && Input.CurrentMouseState.LeftButton == ButtonState.Pressed))
         {
-            MyGame.Instance.Sfx.PlaySoundMenu();
+            MyGame.Instance.Sfx.ChangeOp.Replay();
             CurrentSelectedSkill = ECurrentSkill.MINER;
         }
         if (rectop10.Contains(Input.CurrentMouseState.Position) && _inGame.NbDiggerRemaining > 0 && (Input.PreviousMouseState.LeftButton == ButtonState.Released && Input.CurrentMouseState.LeftButton == ButtonState.Pressed))
         {
-            MyGame.Instance.Sfx.PlaySoundMenu();
+            MyGame.Instance.Sfx.ChangeOp.Replay();
             CurrentSelectedSkill = ECurrentSkill.DIGGER;
         }
         if (rectop11.Contains(Input.CurrentMouseState.Position) && (Input.PreviousMouseState.LeftButton == ButtonState.Released && Input.CurrentMouseState.LeftButton == ButtonState.Pressed))
         {
-            MyGame.Instance.Sfx.PlaySoundMenu();
+            MyGame.Instance.Sfx.ChangeOp.Replay();
             GlobalConst.Paused = !GlobalConst.Paused;
         }
         if (rectop12.Contains(Input.CurrentMouseState.Position) && (Input.PreviousMouseState.LeftButton == ButtonState.Released && Input.CurrentMouseState.LeftButton == ButtonState.Pressed) && !_inGame.AllBlow)
         {
             if (clickTimer1 > 0 && _inGame.MillisecondsElapsed - clickTimer1 < 300)
             {
-                MyGame.Instance.Sfx.PlaySoundMenu();
+                MyGame.Instance.Sfx.ChangeOp.Replay();
                 clickTimer1 = 0;
                 _inGame.AllBlow = true;
             }

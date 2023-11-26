@@ -1,4 +1,6 @@
-﻿using Microsoft.Xna.Framework.Audio;
+﻿using Lemmings.NET.Helpers;
+
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 
 namespace Lemmings.NET.Datatables;
@@ -23,19 +25,6 @@ internal class Sfx
     internal SoundEffectInstance StrapChain { get; private set; }
     internal SoundEffectInstance StrapChupar { get; private set; }
     internal SoundEffectInstance StrapTenTonnes { get; private set; }
-
-    internal void PlaySoundMenu()
-    {
-        if (ChangeOp.State == SoundState.Playing)
-        {
-            ChangeOp.Stop();
-        }
-        try
-        {
-            ChangeOp.Play();
-        }
-        catch (InstancePlayLimitException) { /* Ignore errors */ }
-    }
 
     internal void LoadContent(ContentManager content)
     {
