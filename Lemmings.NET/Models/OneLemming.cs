@@ -1,6 +1,5 @@
-﻿namespace Lemmings.NET.Models
+﻿namespace Lemmings.NET.Models;
+
+internal class OneLemming
 {
-    internal class OneLemming
-    {
-    }
 }

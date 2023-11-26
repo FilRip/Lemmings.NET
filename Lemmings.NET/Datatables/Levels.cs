@@ -1,6 +1,5 @@
-﻿namespace Lemmings.NET.Datatables
+﻿namespace Lemmings.NET.Datatables;
+
+internal class Levels
 {
-    internal class Levels
-    {
-    }
 }

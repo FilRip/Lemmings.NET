@@ -1,9 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 
-namespace Lemmings.NET.Structs
+namespace Lemmings.NET.Structs;
+
+internal struct Varsteel
 {
-    internal struct Varsteel
-    {
-        internal Rectangle area;
-    }
+    internal Rectangle area;
 }

@@ -1,8 +1,7 @@
-﻿namespace Lemmings.NET.Constants
+﻿namespace Lemmings.NET.Constants;
+
+internal enum ECurrentScreen
 {
-    internal enum ECurrentScreen
-    {
-        MainMenu = 0,
-        InGame = 1,
-    }
+    MainMenu = 0,
+    InGame = 1,
 }

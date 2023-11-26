@@ -1,7 +1,6 @@
-﻿namespace Lemmings.NET.Structs
+﻿namespace Lemmings.NET.Structs;
+
+internal struct Door
 {
-    internal struct Door
-    {
-        internal int xWidth, yWidth, numFram;
-    }
+    internal int xWidth, yWidth, numFram;
 }
