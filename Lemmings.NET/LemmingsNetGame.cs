@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Runtime.Serialization.Formatters;
 
 using Lemmings.NET.Constants;
 using Lemmings.NET.Datatables;
@@ -31,6 +32,7 @@ public partial class LemmingsNetGame : Game
     private Gfx _gfx;
     private Vfx _vfx;
     private InGameMenuGfx _inGameMenuGfx;
+    private Levels _levels;
     // Screens
     private MainMenu _screenMainMenu;
     private InGame _screenInGame;
@@ -83,6 +85,10 @@ public partial class LemmingsNetGame : Game
     {
         get { return _inGameMenuGfx; }
     }
+    internal Levels Levels
+    {
+        get { return _levels; }
+    }
     internal int CurrentLevelNumber { get; set; }
     internal ECurrentScreen CurrentScreen { get; set; }
     #endregion
@@ -124,7 +130,6 @@ public partial class LemmingsNetGame : Game
     protected override void Initialize()
     {
         _screenInGame = new InGame();
-        _screenInGame.VariablesLevels();
         SoundEffect.MasterVolume = 1.0f;
         _screenMainMenu = new MainMenu();
         base.Initialize();
@@ -215,6 +220,11 @@ public partial class LemmingsNetGame : Game
         {
             _vfx = new Vfx();
             _vfx.Load(Content);
+        }
+        if (_levels == null)
+        {
+            _levels = new Levels();
+            _levels.VariablesLevels();
         }
         Mouse.SetPosition(0, 0);
         MainRenderTarget = new RenderTarget2D(GraphicsDevice, MyGame.GameResolution.X, MyGame.GameResolution.Y);

@@ -408,11 +408,11 @@ internal class MainMenu
             else if (levelACT > 156)
                 levelACT -= 156;
             LemmingsNetGame.Instance.Fonts.TextLem("Level " + string.Format("{0}", levelACT), new Vector2(mmKX, mmKY), Color.Red, 1f, 0.1f, spriteBatch);
-            LemmingsNetGame.Instance.Fonts.TextLem(LemmingsNetGame.Instance.ScreenInGame.AllLevel[MouseLevelChoose].nameOfLevel, new Vector2(mmKX + 200, mmKY), Color.Red, 1f, 0.1f, spriteBatch);
-            LemmingsNetGame.Instance.Fonts.TextLem("Number of Lemmings " + string.Format("{0}", LemmingsNetGame.Instance.ScreenInGame.AllLevel[MouseLevelChoose].TotalLemmings), new Vector2(mmKX, mmKY + mmKplusY), Color.Blue, 1f, 0.1f, spriteBatch);
-            LemmingsNetGame.Instance.Fonts.TextLem(string.Format("{0}", LemmingsNetGame.Instance.ScreenInGame.AllLevel[MouseLevelChoose].NbLemmingsToSave) + " to be saved", new Vector2(mmKX, mmKY + mmKplusY * 2), Color.Green, 1f, 0.1f, spriteBatch);
-            LemmingsNetGame.Instance.Fonts.TextLem("Release Rate " + string.Format("{0}", LemmingsNetGame.Instance.ScreenInGame.AllLevel[MouseLevelChoose].MinFrequencyComming), new Vector2(mmKX, mmKY + mmKplusY * 3), Color.Yellow, 1f, 0.1f, spriteBatch);
-            LemmingsNetGame.Instance.Fonts.TextLem("Time " + string.Format("{0}", LemmingsNetGame.Instance.ScreenInGame.AllLevel[MouseLevelChoose].totalTime) + " Minutes", new Vector2(mmKX, mmKY + mmKplusY * 4), Color.Cyan, 1f, 0.1f, spriteBatch);
+            LemmingsNetGame.Instance.Fonts.TextLem(LemmingsNetGame.Instance.Levels.AllLevel[MouseLevelChoose].nameOfLevel, new Vector2(mmKX + 200, mmKY), Color.Red, 1f, 0.1f, spriteBatch);
+            LemmingsNetGame.Instance.Fonts.TextLem("Number of Lemmings " + string.Format("{0}", LemmingsNetGame.Instance.Levels.AllLevel[MouseLevelChoose].TotalLemmings), new Vector2(mmKX, mmKY + mmKplusY), Color.Blue, 1f, 0.1f, spriteBatch);
+            LemmingsNetGame.Instance.Fonts.TextLem(string.Format("{0}", LemmingsNetGame.Instance.Levels.AllLevel[MouseLevelChoose].NbLemmingsToSave) + " to be saved", new Vector2(mmKX, mmKY + mmKplusY * 2), Color.Green, 1f, 0.1f, spriteBatch);
+            LemmingsNetGame.Instance.Fonts.TextLem("Release Rate " + string.Format("{0}", LemmingsNetGame.Instance.Levels.AllLevel[MouseLevelChoose].MinFrequencyComming), new Vector2(mmKX, mmKY + mmKplusY * 3), Color.Yellow, 1f, 0.1f, spriteBatch);
+            LemmingsNetGame.Instance.Fonts.TextLem("Time " + string.Format("{0}", LemmingsNetGame.Instance.Levels.AllLevel[MouseLevelChoose].totalTime) + " Minutes", new Vector2(mmKX, mmKY + mmKplusY * 4), Color.Cyan, 1f, 0.1f, spriteBatch);
             if (_levelCategory == ELevelCategory.Fun)
             {
                 LemmingsNetGame.Instance.Fonts.TextLem("Rating FUN", new Vector2(mmKX + 470, mmKY + mmKplusY * 4), Color.Magenta, 1f, 0.1f, spriteBatch);
@@ -440,14 +440,14 @@ internal class MainMenu
             int mmKindX = 960;
             int mmKindY = 580;
             int mmPlusy = 15;
-            LemmingsNetGame.Instance.Fonts.TextLem("Climbers: " + string.Format("{0}", LemmingsNetGame.Instance.ScreenInGame.AllLevel[MouseLevelChoose].numberClimbers), new Vector2(mmKindX, mmKindY), Color.Linen, 0.5f, 0.1f, spriteBatch);
-            LemmingsNetGame.Instance.Fonts.TextLem("Floaters: " + string.Format("{0}", LemmingsNetGame.Instance.ScreenInGame.AllLevel[MouseLevelChoose].numberUmbrellas), new Vector2(mmKindX, mmKindY + mmPlusy), Color.LimeGreen, 0.5f, 0.1f, spriteBatch);
-            LemmingsNetGame.Instance.Fonts.TextLem(" Bombers: " + string.Format("{0}", LemmingsNetGame.Instance.ScreenInGame.AllLevel[MouseLevelChoose].numberExploders), new Vector2(mmKindX, mmKindY + mmPlusy * 2), Color.SteelBlue, 0.5f, 0.1f, spriteBatch);
-            LemmingsNetGame.Instance.Fonts.TextLem("Blockers: " + string.Format("{0}", LemmingsNetGame.Instance.ScreenInGame.AllLevel[MouseLevelChoose].numberBlockers), new Vector2(mmKindX, mmKindY + mmPlusy * 3), Color.Red, 0.5f, 0.1f, spriteBatch);
-            LemmingsNetGame.Instance.Fonts.TextLem("Builders: " + string.Format("{0}", LemmingsNetGame.Instance.ScreenInGame.AllLevel[MouseLevelChoose].numberBuilders), new Vector2(mmKindX, mmKindY + mmPlusy * 4), Color.Orange, 0.5f, 0.1f, spriteBatch);
-            LemmingsNetGame.Instance.Fonts.TextLem(" Bashers: " + string.Format("{0}", LemmingsNetGame.Instance.ScreenInGame.AllLevel[MouseLevelChoose].numberBashers), new Vector2(mmKindX, mmKindY + mmPlusy * 5), Color.Violet, 0.5f, 0.1f, spriteBatch);
-            LemmingsNetGame.Instance.Fonts.TextLem("  Miners: " + string.Format("{0}", LemmingsNetGame.Instance.ScreenInGame.AllLevel[MouseLevelChoose].numberMiners), new Vector2(mmKindX, mmKindY + mmPlusy * 6), Color.Turquoise, 0.5f, 0.1f, spriteBatch);
-            LemmingsNetGame.Instance.Fonts.TextLem(" Diggers: " + string.Format("{0}", LemmingsNetGame.Instance.ScreenInGame.AllLevel[MouseLevelChoose].numberDiggers), new Vector2(mmKindX, mmKindY + mmPlusy * 7), Color.Tomato, 0.5f, 0.1f, spriteBatch);
+            LemmingsNetGame.Instance.Fonts.TextLem("Climbers: " + string.Format("{0}", LemmingsNetGame.Instance.Levels.AllLevel[MouseLevelChoose].numberClimbers), new Vector2(mmKindX, mmKindY), Color.Linen, 0.5f, 0.1f, spriteBatch);
+            LemmingsNetGame.Instance.Fonts.TextLem("Floaters: " + string.Format("{0}", LemmingsNetGame.Instance.Levels.AllLevel[MouseLevelChoose].numberUmbrellas), new Vector2(mmKindX, mmKindY + mmPlusy), Color.LimeGreen, 0.5f, 0.1f, spriteBatch);
+            LemmingsNetGame.Instance.Fonts.TextLem(" Bombers: " + string.Format("{0}", LemmingsNetGame.Instance.Levels.AllLevel[MouseLevelChoose].numberExploders), new Vector2(mmKindX, mmKindY + mmPlusy * 2), Color.SteelBlue, 0.5f, 0.1f, spriteBatch);
+            LemmingsNetGame.Instance.Fonts.TextLem("Blockers: " + string.Format("{0}", LemmingsNetGame.Instance.Levels.AllLevel[MouseLevelChoose].numberBlockers), new Vector2(mmKindX, mmKindY + mmPlusy * 3), Color.Red, 0.5f, 0.1f, spriteBatch);
+            LemmingsNetGame.Instance.Fonts.TextLem("Builders: " + string.Format("{0}", LemmingsNetGame.Instance.Levels.AllLevel[MouseLevelChoose].numberBuilders), new Vector2(mmKindX, mmKindY + mmPlusy * 4), Color.Orange, 0.5f, 0.1f, spriteBatch);
+            LemmingsNetGame.Instance.Fonts.TextLem(" Bashers: " + string.Format("{0}", LemmingsNetGame.Instance.Levels.AllLevel[MouseLevelChoose].numberBashers), new Vector2(mmKindX, mmKindY + mmPlusy * 5), Color.Violet, 0.5f, 0.1f, spriteBatch);
+            LemmingsNetGame.Instance.Fonts.TextLem("  Miners: " + string.Format("{0}", LemmingsNetGame.Instance.Levels.AllLevel[MouseLevelChoose].numberMiners), new Vector2(mmKindX, mmKindY + mmPlusy * 6), Color.Turquoise, 0.5f, 0.1f, spriteBatch);
+            LemmingsNetGame.Instance.Fonts.TextLem(" Diggers: " + string.Format("{0}", LemmingsNetGame.Instance.Levels.AllLevel[MouseLevelChoose].numberDiggers), new Vector2(mmKindX, mmKindY + mmPlusy * 7), Color.Tomato, 0.5f, 0.1f, spriteBatch);
         }
 
         spriteBatch.Draw(_mainMenuGfx.Colors88, new Vector2(560, 480), new Rectangle(0, 0, _mainMenuGfx.Colors88.Width, _mainMenuGfx.Colors88.Height), Color.White, 0f, Vector2.Zero, .8f,

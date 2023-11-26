@@ -64,8 +64,8 @@ internal class InGameMenu
 
     internal void Init()
     {
-        numerominfrecuencia = _inGame.AllLevel[LemmingsNetGame.Instance.CurrentLevelNumber].MinFrequencyComming;
-        FrequencyNumber = _inGame.AllLevel[LemmingsNetGame.Instance.CurrentLevelNumber].FrequencyComming;
+        numerominfrecuencia = LemmingsNetGame.Instance.Levels.AllLevel[LemmingsNetGame.Instance.CurrentLevelNumber].MinFrequencyComming;
+        FrequencyNumber = LemmingsNetGame.Instance.Levels.AllLevel[LemmingsNetGame.Instance.CurrentLevelNumber].FrequencyComming;
     }
 
     internal void Update()
@@ -520,7 +520,7 @@ internal class InGameMenu
         vectorFill.X = 890;
         vectorFill.Y = 518;
         LemmingsNetGame.Instance.Fonts.TextLem("Time", vectorFill, Color.Yellow, 1f, 0.1f, spriteBatch);
-        _inGame.ZvTime = (_inGame.AllLevel[LemmingsNetGame.Instance.CurrentLevelNumber].totalTime * 60) - (int)_inGame.TotalTime;
+        _inGame.ZvTime = (LemmingsNetGame.Instance.Levels.AllLevel[LemmingsNetGame.Instance.CurrentLevelNumber].totalTime * 60) - (int)_inGame.TotalTime;
         if (_inGame.ZvTime < 0)
             _inGame.ZvTime = -1; //see that -1 is necesary for end by time -- it test (zvtime < 0)
         vectorFill.X = 982;
