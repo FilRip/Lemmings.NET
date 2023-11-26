@@ -8,7 +8,7 @@ namespace Lemmings.NET.Constants
     {
         public static Point GameResolution { get; } = new(1100, 700);
         public static int NumParticles { get; } = 300;
-
+        public static bool Paused { get; set; }
         public static Random Rnd { get; } = new(Environment.TickCount);
         public const string SaveGameFileName = "LevelStats.txt";
         public const int NumTotalLevels = 182;

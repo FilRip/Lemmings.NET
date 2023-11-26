@@ -58,7 +58,6 @@
     <Compile Include="Datatables\MainMenuGfx.cs" />
     <Compile Include="Datatables\MouseManager.cs" />
     <Compile Include="Datatables\Music.cs" />
-    <Compile Include="Datatables\Particles.cs" />
     <Compile Include="Datatables\Sfx.cs" />
     <Compile Include="Datatables\Sprites.cs" />
     <Compile Include="Datatables\Vfx.cs" />

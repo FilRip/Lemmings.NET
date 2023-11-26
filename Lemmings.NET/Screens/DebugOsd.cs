@@ -44,7 +44,7 @@ namespace Lemmings.NET.Screens
             if (debug)
             {
                 if (LemmingsNetGame.Instance.CurrentScreen == Constants.ECurrentScreen.MainMenu)
-                    spriteBatch.DrawString(LemmingsNetGame.Instance.Fonts.Standard, string.Format("numero={0}", LemmingsNetGame.Instance.ScreenMainMenu.Mmlevchoose), new Vector2(960, 100), Color.White);
+                    spriteBatch.DrawString(LemmingsNetGame.Instance.Fonts.Standard, string.Format("numero={0}", LemmingsNetGame.Instance.ScreenMainMenu.MouseLevelChoose), new Vector2(960, 100), Color.White);
                 spriteBatch.DrawString(LemmingsNetGame.Instance.Fonts.Standard, string.Format("FPS={0}", _fps), new Vector2(960, 50), Color.White, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0.1f);
                 spriteBatch.DrawString(LemmingsNetGame.Instance.Fonts.Standard, strPositionMouse, new Vector2(960, 10), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0.1f);
 
