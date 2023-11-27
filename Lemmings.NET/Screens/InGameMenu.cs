@@ -485,12 +485,12 @@ internal class InGameMenu
         vectorFill2.X = posm + mmscale2;
         vectorFill2.Y = posy + mmscaley2;
         MyGame.Instance.Gfx.DrawLine(spriteBatch, vectorFill, vectorFill2, Color.Yellow, 1, 0.007f);
-        for (int i = 0; i < _inGame.NumLemmings; i++)
+        foreach (OneLemming lemming in _inGame.AllLemmings)
         {
-            if (!_inGame.Lemming[i].Dead)
+            if (!lemming.Dead)
             {
-                float lemxscale = (_inGame.Lemming[i].PosX + 12) * xscale;
-                float lemyscale = (_inGame.Lemming[i].PosY + 20) * yscale;
+                float lemxscale = (lemming.PosX + 12) * xscale;
+                float lemyscale = (lemming.PosY + 20) * yscale;
                 vectorFill.X = posm + lemxscale;
                 vectorFill.Y = 572 + lemyscale;
                 vectorFill2.X = posm + lemxscale + 2;

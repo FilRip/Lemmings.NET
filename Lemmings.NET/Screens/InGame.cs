@@ -18,7 +18,6 @@ namespace Lemmings.NET.Screens;
 internal class InGame
 {
     internal int NumTOTsteel { get; set; }
-    internal int NumLemmings { get; set; }
     internal int ScrollX { get; set; }
     internal int NumACTdoor { get; set; }
     internal int NumTOTdoors { get; set; } = 1;
@@ -26,7 +25,7 @@ internal class InGame
     internal int ScrollY { get; set; }
     internal int NumTOTexits { get; set; } = 1;
     internal float Contadortime { get; set; }
-    internal List<OneLemming> Lemming { get; set; }
+    internal List<OneLemming> AllLemmings { get; set; }
     internal int Frame2 { get; set; }
     internal Varsprites[] Sprite { get; set; }
     internal int NbClimberRemaining { get; set; }
@@ -66,7 +65,6 @@ internal class InGame
     internal int Frame { get; set; }
     internal SoundEffectInstance CurrentMusic { get; set; }
     internal Texture2D MyTexture { get; set; }
-    internal int ActLEM { get; set; }
     internal InGameMenu InGameMenu
     {
         get { return _inGameMenu; }
@@ -87,7 +85,7 @@ internal class InGame
     {
         get
         {
-            return Lemming?.Count(l => l.Exit) ?? 0;
+            return AllLemmings?.Count(l => l.Exit) ?? 0;
         }
     }
     internal Color[] Colorsobre33 { get; set; } = new Color[38 * 53];
@@ -96,7 +94,7 @@ internal class InGame
     private double actWaves444, actWaves333, actWaves;
     private bool dibuja3, LevelEnded, ExitBad, ExitLevel;
     private int cantidad22;
-    private int rest = 0, Contador2, Contador = 1, actLEM2;
+    private int rest = 0, Contador2, Contador = 1;
     private bool doorOn = true;
     private double frameWaves;
     private int walker_frame;
@@ -127,7 +125,7 @@ internal class InGame
     private int z3;
     private bool luzmas = true, luzmas2 = true;
     private int alto;
-    private int Numlems = 1;
+    private int TotalNumLemmings = 1;
     private readonly Color[] Colorsobre22 = new Color[500 * 512];
     private readonly Color[] Colormasktotal = new Color[500 * 512];
     private bool doorWaveOn;
@@ -156,7 +154,6 @@ internal class InGame
         Fade = true;
         doorOn = true;
         MillisecondsElapsed = 0;
-        NumLemmings = 0;
         puerta_ani = content.Load<Texture2D>("puerta" + string.Format("{0}", MyGame.Instance.Levels.AllLevel[MyGame.Instance.CurrentLevelNumber].TypeOfDoor)); // type of door puerta1-2-3-4 etc.
         string xx455 = string.Format("{0}", MyGame.Instance.Levels.AllLevel[MyGame.Instance.CurrentLevelNumber].TypeOfExit);
         salida_ani1 = content.Load<Texture2D>("salida" + xx455);
@@ -252,15 +249,11 @@ internal class InGame
             _inGameMenu.CurrentSelectedSkill = ECurrentSkill.DIGGER;
         }
         _inGameMenu.Init();
-        Numlems = MyGame.Instance.Levels.AllLevel[MyGame.Instance.CurrentLevelNumber].TotalLemmings;
+        TotalNumLemmings = MyGame.Instance.Levels.AllLevel[MyGame.Instance.CurrentLevelNumber].TotalLemmings;
         Lemsneeded = MyGame.Instance.Levels.AllLevel[MyGame.Instance.CurrentLevelNumber].NbLemmingsToSave;
         ScrollX = MyGame.Instance.Levels.AllLevel[MyGame.Instance.CurrentLevelNumber].InitPosX;
         ScrollY = 0;
-        Lemming = [];
-        for (int i = 0; i < Numlems; i++)
-        {
-            Lemming.Add(new OneLemming());
-        }
+        AllLemmings = [];
         MyGame.Instance.Levels.VariablesTraps();
     }
 
@@ -654,7 +647,7 @@ internal class InGame
         Scrolling();
         if (doorOn)
             return; // start when door finish opening
-        foreach (OneLemming lemming in Lemming) // NumLemmings
+        foreach (OneLemming lemming in AllLemmings) // NumLemmings
         {
             lemming.Moving();
         }
@@ -1013,10 +1006,11 @@ internal class InGame
         // infos various for test only
 
         if (!doorOn)
-            for (ActLEM = 0; ActLEM < NumLemmings; ActLEM++) //si lo hace de 100 a cero dibujara los primeros encima y mejorara el aspecto
+            foreach (OneLemming lemming in AllLemmings) //si lo hace de 100 a cero dibujara los primeros encima y mejorara el aspecto
             {
-                Lemming[ActLEM].Draw(spriteBatch, ActLEM);
+                lemming.Draw(spriteBatch);
             }
+
         if (Fade)
         {
             rest++;
@@ -1054,9 +1048,8 @@ internal class InGame
                     MyGame.Instance.Explosion[Qexplo, Iexplo].Size += 0.01f;
                 }
             }
-
         }
-        if (MouseOnLem)
+        if (!MouseOnLem)
         {
             LemSkill = "";
         }
@@ -1066,7 +1059,7 @@ internal class InGame
         MyGame.Instance.Fonts.TextLem("Home:" + string.Format("{0}", NumSaved) + "/" + string.Format("{0}", Lemsneeded), vectorFill, Color.Cyan, 1f, 0.1f, spriteBatch);
         vectorFill.X = 320;
         vectorFill.Y = 518;
-        MyGame.Instance.Fonts.TextLem("Out:" + string.Format("{0}", NumLemmings) + "/" + string.Format("{0}", Numlems), vectorFill, Color.Magenta, 1f, 0.1f, spriteBatch);
+        MyGame.Instance.Fonts.TextLem("Out:" + string.Format("{0}", AllLemmings.Count) + "/" + string.Format("{0}", TotalNumLemmings), vectorFill, Color.Magenta, 1f, 0.1f, spriteBatch);
         vectorFill.X = 530;
         vectorFill.Y = 518;
         MyGame.Instance.Fonts.TextLem("In:" + string.Format("{0}", Numlemnow), vectorFill, Color.AliceBlue, 1f, 0.1f, spriteBatch);
@@ -1137,7 +1130,7 @@ internal class InGame
                 ActItem = 0;
             }
         }
-        if (!LevelEnded && ((AllBlow && Numlemnow == 0) || ZvTime < 0 || (NumLemmings == Numlems && Numlemnow == 0)))
+        if (!LevelEnded && ((AllBlow && Numlemnow == 0) || ZvTime < 0 || (AllLemmings.Count == TotalNumLemmings && Numlemnow == 0)))
         {
             if (!GlobalConst.Paused)
                 rest++;  // var to wait until menu appears gives this way 4 seconds plus more
@@ -1231,7 +1224,6 @@ internal class InGame
                 MyGame.Instance.ScreenMainMenu.MouseLevelChoose = MyGame.Instance.CurrentLevelNumber;
                 MyGame.Instance.CurrentScreen = ECurrentScreen.InGame;
                 Numlemnow = 0;
-                NumLemmings = 0;
                 Fade = true;
                 MillisecondsElapsed = 0;
                 doorOn = true;
@@ -1254,7 +1246,6 @@ internal class InGame
             {
                 MyGame.Instance.CurrentScreen = ECurrentScreen.InGame;
                 Numlemnow = 0;
-                NumLemmings = 0;
                 Fade = true;
                 MillisecondsElapsed = 0;
                 doorOn = true;
@@ -1279,16 +1270,15 @@ internal class InGame
             AllBlow = false;
             ZvTime = 0;
             ExitBad = false;
-            NumLemmings = 0;
             MyGame.Instance.ReloadContent();
             MyGame.Instance.BackToMenu();
             return;
         }
 
-        if (AllBlow && actualBlow < NumLemmings) // crash crash TEST TEST
+        if (AllBlow && actualBlow < AllLemmings.Count) // crash crash TEST TEST
         {
-            if (!Lemming[actualBlow].Dead && !Lemming[actualBlow].Explode)
-                Lemming[actualBlow].Exploser = true;
+            if (!AllLemmings[actualBlow].Dead && !AllLemmings[actualBlow].Explode)
+                AllLemmings[actualBlow].Exploser = true;
             actualBlow++;
         }
         if (Input.PreviousKeyState.IsKeyDown(Keys.P) && Input.CurrentKeyState.IsKeyUp(Keys.P))
@@ -1431,7 +1421,7 @@ internal class InGame
             }
         }
         //test to see difference with anterior process
-        if (pullLemmings && NumLemmings != Numlems && !AllBlow)
+        if (pullLemmings && AllLemmings.Count != TotalNumLemmings && !AllBlow)
         {
             if (NumTOTdoors > 1 && MoreDoors != null) // more than 1 door is different calculation
             {
@@ -1440,69 +1430,64 @@ internal class InGame
                 NumACTdoor++;
                 if (NumACTdoor >= NumTOTdoors)
                     NumACTdoor = 0;
-                Lemming[NumLemmings].PosY = door1Y;
-                Lemming[NumLemmings].PosX = door1X + 35;
             }
-            else
+            AllLemmings.Add(new OneLemming()
             {
-                Lemming[NumLemmings].PosY = door1Y;
-                Lemming[NumLemmings].PosX = door1X + 35;
-            }
-            Lemming[NumLemmings].PosY = door1Y;
-            Lemming[NumLemmings].PosX = door1X + 35;
-            Lemming[NumLemmings].Numframes = 0;
-            Lemming[NumLemmings].Right = true;
-            Lemming[NumLemmings].Fall = true;
-            Lemming[NumLemmings].Walker = false;
-            Lemming[NumLemmings].Pixelscaida = 0;
-            Lemming[NumLemmings].Numframes = SizeSprites.faller_frames;
-            Lemming[NumLemmings].Actualframe = 0;
-            Lemming[NumLemmings].Onmouse = false;
-            Lemming[NumLemmings].Active = true;
-            Lemming[NumLemmings].Exit = false;
-            Lemming[NumLemmings].Dead = false;
-            Lemming[NumLemmings].Digger = false;
-            Lemming[NumLemmings].Climber = false;
-            Lemming[NumLemmings].Climbing = false;
-            Lemming[NumLemmings].Umbrella = false;
-            Lemming[NumLemmings].Falling = false;
-            Lemming[NumLemmings].Framescut = false;
-            Lemming[NumLemmings].Breakfloor = false;
-            Lemming[NumLemmings].Exploser = false;
-            Lemming[NumLemmings].Explode = false;
-            Lemming[NumLemmings].Time = 0;
-            Lemming[NumLemmings].Blocker = false;
-            Lemming[NumLemmings].Builder = false;
-            Lemming[NumLemmings].Basher = false;
-            Lemming[NumLemmings].Miner = false;
-            Lemming[NumLemmings].Bridge = false;
-            Lemming[NumLemmings].Burned = false;
-            Lemming[NumLemmings].Drown = false;
-            NumLemmings++;
+                NumLemming = AllLemmings.Count,
+                PosY = door1Y,
+                PosX = door1X + 35,
+                Numframes = SizeSprites.faller_frames,
+                Right = true,
+                Fall = true,
+                Walker = false,
+                Pixelscaida = 0,
+                Actualframe = 0,
+                Onmouse = false,
+                Active = true,
+                Exit = false,
+                Dead = false,
+                Digger = false,
+                Climber = false,
+                Climbing = false,
+                Umbrella = false,
+                Falling = false,
+                Framescut = false,
+                Breakfloor = false,
+                Exploser = false,
+                Explode = false,
+                Time = 0,
+                Blocker = false,
+                Builder = false,
+                Basher = false,
+                Miner = false,
+                Bridge = false,
+                Burned = false,
+                Drown = false,
+            });
             Numlemnow++;
         }
 
-        for (actLEM2 = 0; actLEM2 < NumLemmings; actLEM2++)
+        foreach (OneLemming lemming in AllLemmings)
         {
-            x.X = Lemming[actLEM2].PosX + 14;
-            x.Y = Lemming[actLEM2].PosY + 25;
-            if (Lemming[actLEM2].Exit && Lemming[actLEM2].Actualframe == 13) // change frame of yipee sound, old frame was init or 0 now different for frames
+            x.X = lemming.PosX + 14;
+            x.Y = lemming.PosY + 25;
+            if (lemming.Exit && lemming.Actualframe == 13) // change frame of yipee sound, old frame was init or 0 now different for frames
             {
                 MyGame.Instance.Sfx.Yippe.Replay();
             }
             if (Moreexits == null)
             {
-                if (exit_rect.Contains(x) && !Lemming[actLEM2].Exit && !Lemming[actLEM2].Explode)
+                if (exit_rect.Contains(x) && !lemming.Exit && !lemming.Explode)
                 {
-                    Lemming[actLEM2].PosX = output1X - 19;
-                    Lemming[actLEM2].PosY = output1Y - 30;
-                    Lemming[actLEM2].Active = false;
-                    Lemming[actLEM2].Walker = false;
-                    Lemming[actLEM2].Fall = false;
-                    Lemming[actLEM2].Falling = false;
-                    Lemming[actLEM2].Exit = true;
-                    Lemming[actLEM2].Numframes = SizeSprites.sale_frames;
-                    Lemming[actLEM2].Actualframe = 0;
+                    lemming.PosX = output1X - 19;
+                    lemming.PosY = output1Y - 30;
+                    lemming.Active = false;
+                    lemming.Walker = false;
+                    lemming.Fall = false;
+                    lemming.Falling = false;
+                    lemming.Exit = true;
+                    lemming.Numframes = SizeSprites.sale_frames;
+                    lemming.Actualframe = 0;
                 }
             }
             else
@@ -1515,17 +1500,17 @@ internal class InGame
                     exit_rect.Y = output1Y - 5;
                     exit_rect.Width = 10;
                     exit_rect.Height = 10;
-                    if (exit_rect.Contains(x) && !Lemming[actLEM2].Exit && !Lemming[actLEM2].Explode)
+                    if (exit_rect.Contains(x) && !lemming.Exit && !lemming.Explode)
                     {
-                        Lemming[actLEM2].PosX = output1X - 19; //14+5 middle of the exit rect
-                        Lemming[actLEM2].PosY = output1Y - 30; //25+5
-                        Lemming[actLEM2].Active = false;
-                        Lemming[actLEM2].Walker = false;
-                        Lemming[actLEM2].Fall = false;
-                        Lemming[actLEM2].Falling = false;
-                        Lemming[actLEM2].Exit = true;
-                        Lemming[actLEM2].Numframes = SizeSprites.sale_frames;
-                        Lemming[actLEM2].Actualframe = 0; // break; //i'm not sure if it's necessary this break
+                        lemming.PosX = output1X - 19; //14+5 middle of the exit rect
+                        lemming.PosY = output1Y - 30; //25+5
+                        lemming.Active = false;
+                        lemming.Walker = false;
+                        lemming.Fall = false;
+                        lemming.Falling = false;
+                        lemming.Exit = true;
+                        lemming.Numframes = SizeSprites.sale_frames;
+                        lemming.Actualframe = 0; // break; //i'm not sure if it's necessary this break
                     }
                 }
             }
