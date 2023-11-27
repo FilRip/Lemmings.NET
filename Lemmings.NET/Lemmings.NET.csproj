@@ -71,7 +71,6 @@
     <Compile Include="Structures\Door.cs" />
     <Compile Include="Structures\Exit.cs" />
     <Compile Include="Models\Input.cs" />
-    <Compile Include="Structures\Lem.cs" />
     <Compile Include="Structures\Particle.cs" />
     <Compile Include="Structures\Particles.cs" />
     <Compile Include="Structures\Varadds.cs" />

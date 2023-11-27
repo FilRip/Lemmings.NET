@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 using Lemmings.NET.Constants;
@@ -25,7 +26,7 @@ internal class InGame
     internal int ScrollY { get; set; }
     internal int NumTOTexits { get; set; } = 1;
     internal float Contadortime { get; set; }
-    internal Lem[] Lemming { get; set; }
+    internal List<OneLemming> Lemming { get; set; }
     internal int Frame2 { get; set; }
     internal Varsprites[] Sprite { get; set; }
     internal int NbClimberRemaining { get; set; }
@@ -86,7 +87,7 @@ internal class InGame
     {
         get
         {
-            return Lemming.Count(l => l.Exit);
+            return Lemming?.Count(l => l.Exit) ?? 0;
         }
     }
     internal Color[] Colorsobre33 { get; set; } = new Color[38 * 53];
@@ -255,7 +256,11 @@ internal class InGame
         Lemsneeded = MyGame.Instance.Levels.AllLevel[MyGame.Instance.CurrentLevelNumber].NbLemmingsToSave;
         ScrollX = MyGame.Instance.Levels.AllLevel[MyGame.Instance.CurrentLevelNumber].InitPosX;
         ScrollY = 0;
-        Lemming = new Lem[Numlems];
+        Lemming = [];
+        for (int i = 0; i < Numlems; i++)
+        {
+            Lemming.Add(new OneLemming());
+        }
         MyGame.Instance.Levels.VariablesTraps();
     }
 
@@ -649,9 +654,9 @@ internal class InGame
         Scrolling();
         if (doorOn)
             return; // start when door finish opening
-        for (ActLEM = 0; ActLEM < NumLemmings; ActLEM++)
+        foreach (OneLemming lemming in Lemming) // NumLemmings
         {
-            Lemming[ActLEM].Moving();
+            lemming.Moving();
         }
     }
 
