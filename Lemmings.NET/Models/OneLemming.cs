@@ -1,10 +1,12 @@
-﻿using Lemmings.NET.Constants;
+﻿using System;
+using System.Linq;
+
+using Lemmings.NET.Constants;
 using Lemmings.NET.Helpers;
+
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework;
-using System;
-using System.Linq;
 
 namespace Lemmings.NET.Models;
 
