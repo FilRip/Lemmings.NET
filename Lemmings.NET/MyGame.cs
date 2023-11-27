@@ -31,6 +31,7 @@ public partial class MyGame : Game
     private Vfx _vfx;
     private InGameMenuGfx _inGameMenuGfx;
     private Levels _levels;
+    private Props _props;
     // Screens
     private MainMenu _screenMainMenu;
     private InGame _screenInGame;
@@ -86,6 +87,10 @@ public partial class MyGame : Game
     internal Levels Levels
     {
         get { return _levels; }
+    }
+    internal Props Props
+    {
+        get { return _props; }
     }
     internal int CurrentLevelNumber { get; set; }
     internal ECurrentScreen CurrentScreen { get; set; }
@@ -222,6 +227,11 @@ public partial class MyGame : Game
         {
             _levels = new Levels();
             _levels.VariablesLevels();
+        }
+        if (_props == null)
+        {
+            _props = new Props();
+            _props.Load();
         }
         Mouse.SetPosition(0, 0);
         MainRenderTarget = new RenderTarget2D(GraphicsDevice, GlobalConst.GameResolution.X, GlobalConst.GameResolution.Y);

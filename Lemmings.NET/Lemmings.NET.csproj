@@ -51,6 +51,7 @@
     <Compile Include="Constants\ELevelCategory.cs" />
     <Compile Include="Constants\GlobalConst.cs" />
     <Compile Include="Constants\SizeSprites.cs" />
+    <Compile Include="Datatables\Props.cs" />
     <Compile Include="Datatables\Fonts.cs" />
     <Compile Include="Datatables\Gfx.cs" />
     <Compile Include="Datatables\InGameMenuGfx.cs" />
@@ -63,13 +64,13 @@
     <Compile Include="Datatables\Vfx.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Helpers\Extensions.cs" />
+    <Compile Include="Models\OneEntry.cs" />
+    <Compile Include="Models\OneExit.cs" />
     <Compile Include="MyGame.cs" />
     <Compile Include="Models\OneLemming.cs" />
     <Compile Include="Models\SaveGame.cs" />
     <Compile Include="Screens\DebugOsd.cs" />
     <Compile Include="Screens\InGameMenu.cs" />
-    <Compile Include="Structures\Door.cs" />
-    <Compile Include="Structures\Exit.cs" />
     <Compile Include="Models\Input.cs" />
     <Compile Include="Structures\Particle.cs" />
     <Compile Include="Structures\Particles.cs" />

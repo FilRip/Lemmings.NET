@@ -552,7 +552,7 @@ internal class InGame
         z3 %= 4; // mumero de frames del agua a ver 4 de 5 que tiene la ultima esta vacia nose porque
         if (Dibuja)
         {
-            int xx66 = MyGame.Instance.Levels.VarExit[MyGame.Instance.Levels.AllLevel[MyGame.Instance.CurrentLevelNumber].TypeOfExit].numFram - 1;
+            int xx66 = MyGame.Instance.Props.GetExit(MyGame.Instance.Levels.AllLevel[MyGame.Instance.CurrentLevelNumber].TypeOfExit).NumFrame - 1;
             frameExit++;
             if (frameExit > xx66)
             {
@@ -876,8 +876,9 @@ internal class InGame
             MyGame.Instance.Fonts.TextLem("Press <Enter> or <Right Mouse Button>", new Vector2(70, 520), Color.Yellow, 1.3f, 0.0000000001f, spriteBatch);
             MyGame.Instance.Fonts.TextLem("to Main Menu...", new Vector2(100, 560), Color.Yellow, 1.3f, 0.0000000001f, spriteBatch);
         }
-        int xx55 = MyGame.Instance.Levels.VarDoor[MyGame.Instance.Levels.AllLevel[MyGame.Instance.CurrentLevelNumber].TypeOfDoor].xWidth;
-        int yy55 = MyGame.Instance.Levels.VarDoor[MyGame.Instance.Levels.AllLevel[MyGame.Instance.CurrentLevelNumber].TypeOfDoor].yWidth;
+        OneEntry entry = MyGame.Instance.Props.GetEntry(MyGame.Instance.Levels.AllLevel[MyGame.Instance.CurrentLevelNumber].TypeOfDoor);
+        int xx55 = entry.Width;
+        int yy55 = entry.Height;
         framereal565 = (frameDoor * yy55);
         if (Sprite != null) //draw sprites
         {
@@ -965,12 +966,13 @@ internal class InGame
                     Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, DoorExitDepth);
             }
         }
-        int xx66 = MyGame.Instance.Levels.VarExit[MyGame.Instance.Levels.AllLevel[MyGame.Instance.CurrentLevelNumber].TypeOfExit].xWidth;
-        int yy66 = MyGame.Instance.Levels.VarExit[MyGame.Instance.Levels.AllLevel[MyGame.Instance.CurrentLevelNumber].TypeOfExit].yWidth;
-        int xx88 = MyGame.Instance.Levels.VarExit[MyGame.Instance.Levels.AllLevel[MyGame.Instance.CurrentLevelNumber].TypeOfExit].moreX;
-        int xx99 = MyGame.Instance.Levels.VarExit[MyGame.Instance.Levels.AllLevel[MyGame.Instance.CurrentLevelNumber].TypeOfExit].moreX2;
-        int yy88 = MyGame.Instance.Levels.VarExit[MyGame.Instance.Levels.AllLevel[MyGame.Instance.CurrentLevelNumber].TypeOfExit].moreY;
-        int yy99 = MyGame.Instance.Levels.VarExit[MyGame.Instance.Levels.AllLevel[MyGame.Instance.CurrentLevelNumber].TypeOfExit].moreY2;
+        OneExit exit = MyGame.Instance.Props.GetExit(MyGame.Instance.Levels.AllLevel[MyGame.Instance.CurrentLevelNumber].TypeOfExit);
+        int xx66 = exit.Width;
+        int yy66 = exit.Height;
+        int xx88 = exit.MoreX;
+        int xx99 = exit.MoreX2;
+        int yy88 = exit.MoreY;
+        int yy99 = exit.MoreY2;
         frameact = (frameExit * yy66);
         if (Moreexits == null)
         {
@@ -1394,7 +1396,7 @@ internal class InGame
         if (Draw2 && doorOn && Frame > 30)
         {
             TotalTime = 0;
-            int xx55 = MyGame.Instance.Levels.VarDoor[MyGame.Instance.Levels.AllLevel[MyGame.Instance.CurrentLevelNumber].TypeOfDoor].numFram - 1;
+            int xx55 = MyGame.Instance.Props.GetEntry(MyGame.Instance.Levels.AllLevel[MyGame.Instance.CurrentLevelNumber].TypeOfDoor).NumFrame - 1;
             frameDoor++;
             if (frameDoor == 1 && MyGame.Instance.Sfx.EntryLemmings.State == SoundState.Stopped && !doorWaveOn)
             {
