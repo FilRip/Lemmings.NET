@@ -18,4 +18,6 @@ internal static class GlobalConst
     internal const int LIFE_VARIANCE = 16; //16
     internal const int useumbrella = 100;
     internal const int maxnumberfalling = 210;
+    internal const float SizeL = 1.35f; //1.2f was default in the beggining
+    internal const float Lem_depth = 0.300f;
 }

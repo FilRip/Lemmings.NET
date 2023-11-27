@@ -5,7 +5,7 @@ using Lemmings.NET.Helpers;
 using Lemmings.NET.Models;
 
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
 namespace Lemmings.NET.Structs;
@@ -1673,6 +1673,152 @@ public struct Lem //puto
             Explode = false;
             Exploser = false;
             MyGame.Instance.Sfx.Die.Replay();
+        }
+    }
+
+    public void Draw(SpriteBatch spriteBatch, int ActLEM)
+    {
+        int framesale;
+        if (Dead || Exit)
+            return;
+        if (Exploser && !Explode)
+        {
+            if (Time == 0)
+                Time = MyGame.Instance.ScreenInGame.TotalTime;
+            double timez = MyGame.Instance.ScreenInGame.TotalTime - Time;
+            int crono = (int)(6f - (float)timez);
+            MyGame.Instance.Fonts.TextLem(string.Format("{0}", crono), new Vector2(PosX + 3 - MyGame.Instance.ScreenInGame.ScrollX, PosY - 10 - MyGame.Instance.ScreenInGame.ScrollY), Color.White, 0.4f, 0.000000000004f, spriteBatch);
+            if (crono <= 0)
+            {
+                // luto luto sound monogame 3.2 works ok without catch exception
+                MyGame.Instance.Sfx.OhNo.Replay();
+                Explode = true;
+                Active = false;
+                Umbrella = false;
+                Walker = false;
+                Digger = false;
+                Climber = false;
+                Fall = false;
+                Falling = false;
+                Climbing = false;
+                Exit = false;
+                Blocker = false;
+                Builder = false;
+                Bridge = false;
+                Basher = false;
+                Miner = false;
+                Actualframe = 0;
+                Numframes = SizeSprites.bomber_frames;
+            }
+        }
+        int framereal55;
+        if (Burned) // scale POSDraw x+0,y+0 at 1.2f x-5,y+0 at 1.35f
+        {
+            spriteBatch.Draw(MyGame.Instance.Gfx.Squemado, new Vector2(PosX - MyGame.Instance.ScreenInGame.ScrollX - 5, PosY - MyGame.Instance.ScreenInGame.ScrollY), new Rectangle(0, Actualframe * 28, 32, 28),
+            (Onmouse ? Color.Red : Color.White), 0f, Vector2.Zero, GlobalConst.SizeL, SpriteEffects.None, GlobalConst.Lem_depth + (ActLEM * 0.00001f));
+            spriteBatch.Draw(MyGame.Instance.Gfx.Lhiss, new Vector2(PosX - MyGame.Instance.ScreenInGame.ScrollX, PosY - 20 - MyGame.Instance.ScreenInGame.ScrollY), new Rectangle(0, 0, MyGame.Instance.Gfx.Lhiss.Width, MyGame.Instance.Gfx.Lhiss.Height),
+                Color.White, 0f, Vector2.Zero, (0.5f + (0.01f * Actualframe)), SpriteEffects.None, GlobalConst.Lem_depth + (ActLEM * 0.00001f));
+        }
+        if (Drown) // scale POSDraw x+0,y+10 at 1.2f x-8,y+7 at 1.35f  //puto ahoga
+        {
+            spriteBatch.Draw(MyGame.Instance.Sprites.Drowner, new Vector2(PosX - MyGame.Instance.ScreenInGame.ScrollX + SizeSprites.water_xpos, PosY + SizeSprites.water_ypos - MyGame.Instance.ScreenInGame.ScrollY), new Rectangle(Actualframe * SizeSprites.water_with, 0, SizeSprites.water_with, SizeSprites.water_height),
+                (Onmouse ? Color.Red : Color.White), 0f, Vector2.Zero, SizeSprites.water_size, SpriteEffects.None, GlobalConst.Lem_depth + (ActLEM * 0.00001f));
+        }
+        if (Walker)
+        {
+            framereal55 = (Actualframe * SizeSprites.walker_with);
+            spriteBatch.Draw(MyGame.Instance.Sprites.Walker, new Vector2((PosX - MyGame.Instance.ScreenInGame.ScrollX + SizeSprites.walker_xpos), PosY - MyGame.Instance.ScreenInGame.ScrollY + SizeSprites.walker_ypos), new Rectangle(framereal55, 0, SizeSprites.walker_with, SizeSprites.walker_height), (Onmouse ? Color.Red : Color.White), 0f, Vector2.Zero, SizeSprites.walker_size, (Right ? SpriteEffects.FlipHorizontally : SpriteEffects.None), GlobalConst.Lem_depth + (ActLEM * 0.00001f));
+        }
+        if (Blocker) // blocker scale POSDraw x-5 y+4 at 1.2f x-7 y+1 at 1.35f  //puto
+        {
+            framesale = (Actualframe * SizeSprites.blocker_with);
+            spriteBatch.Draw(MyGame.Instance.Sprites.Blocker, new Vector2(PosX - MyGame.Instance.ScreenInGame.ScrollX + SizeSprites.blocker_xpos, PosY + SizeSprites.blocker_ypos - MyGame.Instance.ScreenInGame.ScrollY), new Rectangle(framesale, 0, SizeSprites.blocker_with, SizeSprites.blocker_height), (Onmouse ? Color.Red : Color.White), 0f, Vector2.Zero, SizeSprites.blocker_size, SpriteEffects.None, GlobalConst.Lem_depth + (ActLEM * 0.00001f));
+            if (MyGame.Instance.DebugOsd.Debug)
+            {
+                Rectangle bloqueo = new(PosX, PosY, 28, 28);
+                spriteBatch.Draw(MyGame.Instance.Gfx.Texture1pixel, new Rectangle(bloqueo.Left - MyGame.Instance.ScreenInGame.ScrollX, bloqueo.Top - MyGame.Instance.ScreenInGame.ScrollY, bloqueo.Width, bloqueo.Height), null,
+                    Color.White, 0f, Vector2.Zero, SpriteEffects.None, 0.1f);
+            }
+        }
+        if (Bridge) // scale POSDraw x-5,y-3 at 1.2f x-7,y-7 at 1.35f
+        {
+            framesale = (Actualframe * 26);
+            spriteBatch.Draw(MyGame.Instance.Gfx.Puente_nomas, new Vector2(PosX - MyGame.Instance.ScreenInGame.ScrollX - 7, PosY - 7 - MyGame.Instance.ScreenInGame.ScrollY), new Rectangle(0, framesale, 32, 26), (Onmouse ? Color.Red : Color.White), 0f, Vector2.Zero, GlobalConst.SizeL, (Right ? SpriteEffects.None : SpriteEffects.FlipHorizontally), GlobalConst.Lem_depth + (ActLEM * 0.00001f));
+        }
+        if (Builder)  //scale POSDraw x-5,y-3 at 1.2f x-7,y-7 at 1.35f  builder builder draws
+        {
+            if (Numstairs >= 10) // chink draws
+            {
+                spriteBatch.Draw(MyGame.Instance.Sprites.Chink, new Vector2(PosX - MyGame.Instance.ScreenInGame.ScrollX - 10, PosY - 30 - MyGame.Instance.ScreenInGame.ScrollY), new Rectangle(0, 0, MyGame.Instance.Sprites.Chink.Width, MyGame.Instance.Sprites.Chink.Height),
+                    Color.White, 0f, Vector2.Zero, 0.7f + (0.01f * Actualframe), SpriteEffects.None, GlobalConst.Lem_depth + (ActLEM * 0.00001f));
+            }
+            framesale = (Actualframe * SizeSprites.builder_with);
+            spriteBatch.Draw(MyGame.Instance.Sprites.Puente, new Vector2(PosX - MyGame.Instance.ScreenInGame.ScrollX + SizeSprites.builder_xpos, PosY + SizeSprites.builder_ypos - MyGame.Instance.ScreenInGame.ScrollY), new Rectangle(framesale, 0, SizeSprites.builder_with, SizeSprites.builder_height), (Onmouse ? Color.Red : Color.White), 0f, Vector2.Zero, SizeSprites.builder_size, (Right ? SpriteEffects.FlipHorizontally : SpriteEffects.None), GlobalConst.Lem_depth + (ActLEM * 0.00001f));
+        }
+        if (Miner)  //scale POSDraw x-5,y-2 at 1.2f x-9,y-7 at 1.35f pico pico miner miner
+        {
+            framesale = (Actualframe * SizeSprites.pico_with);
+            spriteBatch.Draw(MyGame.Instance.Sprites.Pico, new Vector2(PosX - MyGame.Instance.ScreenInGame.ScrollX + SizeSprites.pico_xpos + (Right ? 0 : 10), PosY + SizeSprites.pico_ypos - MyGame.Instance.ScreenInGame.ScrollY), new Rectangle(framesale, 0, SizeSprites.pico_with, SizeSprites.pico_height), (Onmouse ? Color.Red : Color.White), 0f, Vector2.Zero, SizeSprites.pico_size, (Right ? SpriteEffects.FlipHorizontally : SpriteEffects.None), GlobalConst.Lem_depth + (ActLEM * 0.00001f));
+        }
+        if (Basher) //puto
+        {           // scale basher RIGHT POSDRAW x-10,y+4 at 1.2f x-15,y+1 at 1.35f
+            framesale = (Actualframe * SizeSprites.basher_with);
+            spriteBatch.Draw(MyGame.Instance.Sprites.Pared, new Vector2(PosX - MyGame.Instance.ScreenInGame.ScrollX + (Right ? SizeSprites.basher_xpos : SizeSprites.basher_xposleft), PosY + SizeSprites.basher_ypos - MyGame.Instance.ScreenInGame.ScrollY), new Rectangle(framesale, 0, SizeSprites.basher_with, SizeSprites.basher_height), (Onmouse ? Color.Red : Color.White), 0f, Vector2.Zero, SizeSprites.basher_size, (Right ? SpriteEffects.FlipHorizontally : SpriteEffects.None), GlobalConst.Lem_depth + (ActLEM * 0.00001f));
+        }
+        if (Explode) // explotando explotando bomber bomber
+        {
+            // bomber scale POSDraw x-5,y+4 at 1.2f x-9,y+2 at 1.35f
+            framesale = (Actualframe * SizeSprites.bomber_with);
+            spriteBatch.Draw(MyGame.Instance.Sprites.Exploder, new Vector2(PosX - MyGame.Instance.ScreenInGame.ScrollX + SizeSprites.bomber_xpos, PosY + SizeSprites.bomber_ypos - MyGame.Instance.ScreenInGame.ScrollY), new Rectangle(framesale, 0, SizeSprites.bomber_with, SizeSprites.bomber_height), (Onmouse ? Color.Red : Color.White), 0f, Vector2.Zero, SizeSprites.bomber_size, SpriteEffects.None, GlobalConst.Lem_depth + (ActLEM * 0.00001f));
+            spriteBatch.Draw(MyGame.Instance.Sprites.Lohno, new Vector2(PosX - MyGame.Instance.ScreenInGame.ScrollX - 20, PosY - 25 - MyGame.Instance.ScreenInGame.ScrollY), new Rectangle(0, 0, MyGame.Instance.Sprites.Lohno.Width, MyGame.Instance.Sprites.Lohno.Height),
+                Color.White, 0f, Vector2.Zero, 0.7f + (0.01f * Actualframe), SpriteEffects.None, GlobalConst.Lem_depth + (ActLEM * 0.00001f));
+        }
+        if (Breakfloor) // scale POSDraw x-5,y+4 at 1.2f  x-9,y+2 at 1.35f breakfloor breakfloor
+        {
+            framesale = (Actualframe * SizeSprites.floor_with);
+            spriteBatch.Draw(MyGame.Instance.Sprites.Rompesuelo, new Vector2(PosX - MyGame.Instance.ScreenInGame.ScrollX + SizeSprites.floor_xpos, PosY + SizeSprites.floor_ypos - MyGame.Instance.ScreenInGame.ScrollY), new Rectangle(framesale, 0, SizeSprites.floor_with, SizeSprites.floor_height), (Onmouse ? Color.Red : Color.White), 0f, Vector2.Zero, SizeSprites.floor_size, SpriteEffects.None, GlobalConst.Lem_depth + (ActLEM * 0.00001f));
+            if (Actualframe == SizeSprites.floor_frames - 1)
+            {
+                Dead = true;
+                MyGame.Instance.ScreenInGame.Numlemnow--;
+                Explode = false;
+                Exploser = false;
+            }
+        }
+        if (Falling) //umbrella paraguas falling with umbrella
+        {
+            if (!Framescut && Actualframe == SizeSprites.floater_frames - 1)
+            {
+                Framescut = true;
+                Actualframe = 0;
+                Numframes = SizeSprites.floater_frames - 1 - 4;
+            }
+            if (!Framescut)
+                framesale = (Actualframe * SizeSprites.floater_with);
+            else
+                framesale = (Actualframe + 4) * SizeSprites.floater_with; // scale floater POSDraw x-5,y-4 at 1.2f x-9,y-7 at 1.35f
+            spriteBatch.Draw(MyGame.Instance.Sprites.Paraguas, new Vector2(PosX - MyGame.Instance.ScreenInGame.ScrollX + SizeSprites.floater_xpos, PosY + SizeSprites.floater_ypos - MyGame.Instance.ScreenInGame.ScrollY), new Rectangle(framesale, 0, SizeSprites.floater_with, SizeSprites.floater_height), (Onmouse ? Color.Red : Color.White), 0f, Vector2.Zero, SizeSprites.floater_size, (Right ? SpriteEffects.FlipHorizontally : SpriteEffects.None), GlobalConst.Lem_depth + (ActLEM * 0.00001f));
+        }
+        if (Fall) //fall cae
+        {
+            framereal55 = (Actualframe * SizeSprites.faller_with);
+            spriteBatch.Draw(MyGame.Instance.Sprites.Falling, new Vector2(PosX - MyGame.Instance.ScreenInGame.ScrollX + SizeSprites.faller_xpos, PosY - MyGame.Instance.ScreenInGame.ScrollY + SizeSprites.faller_ypos), new Rectangle(framereal55, 0, SizeSprites.faller_with, SizeSprites.faller_height), (Onmouse ? Color.Red : Color.White), 0f, Vector2.Zero, SizeSprites.faller_size, (Right ? SpriteEffects.FlipHorizontally : SpriteEffects.None), GlobalConst.Lem_depth + (ActLEM * 0.00001f));
+        }
+        if (Exit && !Dead) //sale sale exit exit out out
+        {
+            framesale = (Actualframe * SizeSprites.sale_with); // exit scale POSDraw  x-1,y+1 at 1.2f x-3,y-1 at 1.35f
+            spriteBatch.Draw(MyGame.Instance.Gfx.Sale, new Vector2(PosX - MyGame.Instance.ScreenInGame.ScrollX + SizeSprites.sale_xpos, PosY + SizeSprites.sale_ypos - MyGame.Instance.ScreenInGame.ScrollY), new Rectangle(framesale, 0, SizeSprites.sale_with, SizeSprites.sale_height), Color.White, 0f, Vector2.Zero, SizeSprites.sale_size, (Right ? SpriteEffects.FlipHorizontally : SpriteEffects.None), GlobalConst.Lem_depth + (ActLEM * 0.00001f));
+        }
+        if (Digger)
+        {
+            framereal55 = (Actualframe * SizeSprites.digger_with);
+            spriteBatch.Draw(MyGame.Instance.Sprites.Digger, new Vector2(PosX - MyGame.Instance.ScreenInGame.ScrollX + SizeSprites.digger_xpos, PosY + 6 - MyGame.Instance.ScreenInGame.ScrollY + SizeSprites.digger_ypos), new Rectangle(framereal55, 0, SizeSprites.digger_with, SizeSprites.digger_height), (Onmouse ? Color.Red : Color.White), 0f, Vector2.Zero, SizeSprites.digger_size, SpriteEffects.None, GlobalConst.Lem_depth + (ActLEM * 0.00001f));
+        }
+
+        if (Climbing) // scale POSDraw x-5,y+6 at 1.2f x-8.y+3 at 1.35f  //puto33
+        {
+            framesale = (Actualframe * SizeSprites.climber_with);
+            spriteBatch.Draw(MyGame.Instance.Sprites.Climber, new Vector2(PosX - MyGame.Instance.ScreenInGame.ScrollX + (Right ? SizeSprites.climber_xpos : SizeSprites.climber_xposleft), PosY + SizeSprites.climber_ypos - MyGame.Instance.ScreenInGame.ScrollY), new Rectangle(framesale, 0, SizeSprites.climber_with, SizeSprites.climber_height), (Onmouse ? Color.Red : Color.White), 0f, Vector2.Zero, SizeSprites.climber_size, (Right ? SpriteEffects.FlipHorizontally : SpriteEffects.None), GlobalConst.Lem_depth + (ActLEM * 0.00001f));
         }
     }
 }

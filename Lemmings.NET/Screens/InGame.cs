@@ -95,7 +95,7 @@ internal class InGame
     private double actWaves444, actWaves333, actWaves;
     private bool dibuja3, LevelEnded, ExitBad, ExitLevel;
     private int cantidad22;
-    private int rest = 0, framesale, Contador2, Contador = 1, actLEM2;
+    private int rest = 0, Contador2, Contador = 1, actLEM2;
     private bool doorOn = true;
     private double frameWaves;
     private int walker_frame;
@@ -127,14 +127,12 @@ internal class InGame
     private bool luzmas = true, luzmas2 = true;
     private int alto;
     private int Numlems = 1;
-    private readonly float Lem_depth = 0.300f;
     private readonly Color[] Colorsobre22 = new Color[500 * 512];
     private readonly Color[] Colormasktotal = new Color[500 * 512];
     private bool doorWaveOn;
     private int frameact;
     private readonly bool LockMouse;
-    private readonly float SizeL = 1.35f; //1.2f was default in the beggining
-    private Texture2D salida_ani1, salida_ani1_1, sale;
+    private Texture2D salida_ani1, salida_ani1_1;
     private Texture2D puerta_ani;
     private readonly InGameMenu _inGameMenu;
 
@@ -162,7 +160,6 @@ internal class InGame
         string xx455 = string.Format("{0}", MyGame.Instance.Levels.AllLevel[MyGame.Instance.CurrentLevelNumber].TypeOfExit);
         salida_ani1 = content.Load<Texture2D>("salida" + xx455);
         salida_ani1_1 = content.Load<Texture2D>("salida" + xx455 + "_1");
-        sale = content.Load<Texture2D>("sale");
         MyGame.Instance.CurrentLevelNumber = newLevel;
         LemSkill = "";
         GlobalConst.Paused = false;
@@ -1010,152 +1007,11 @@ internal class InGame
         }
         // infos various for test only
 
-        for (ActLEM = 0; ActLEM < NumLemmings; ActLEM++) //si lo hace de 100 a cero dibujara los primeros encima y mejorara el aspecto
-        {
-            if (doorOn)
-                break;
-            if (Lemming[ActLEM].Dead || Lemming[ActLEM].Exit)
-                continue;
-            if (Lemming[ActLEM].Exploser && !Lemming[ActLEM].Explode)
+        if (!doorOn)
+            for (ActLEM = 0; ActLEM < NumLemmings; ActLEM++) //si lo hace de 100 a cero dibujara los primeros encima y mejorara el aspecto
             {
-                if (Lemming[ActLEM].Time == 0)
-                    Lemming[ActLEM].Time = TotalTime;
-                double timez = TotalTime - Lemming[ActLEM].Time;
-                int crono = (int)(6f - (float)timez);
-                MyGame.Instance.Fonts.TextLem(string.Format("{0}", crono), new Vector2(Lemming[ActLEM].PosX + 3 - ScrollX, Lemming[ActLEM].PosY - 10 - ScrollY), Color.White, 0.4f, 0.000000000004f, spriteBatch);
-                if (crono <= 0)
-                {
-                    // luto luto sound monogame 3.2 works ok without catch exception
-                    MyGame.Instance.Sfx.OhNo.Replay();
-                    Lemming[ActLEM].Explode = true;
-                    Lemming[ActLEM].Active = false;
-                    Lemming[ActLEM].Umbrella = false;
-                    Lemming[ActLEM].Walker = false;
-                    Lemming[ActLEM].Digger = false;
-                    Lemming[ActLEM].Climber = false;
-                    Lemming[ActLEM].Fall = false;
-                    Lemming[ActLEM].Falling = false;
-                    Lemming[ActLEM].Climbing = false;
-                    Lemming[ActLEM].Exit = false;
-                    Lemming[ActLEM].Blocker = false;
-                    Lemming[ActLEM].Builder = false;
-                    Lemming[ActLEM].Bridge = false;
-                    Lemming[ActLEM].Basher = false;
-                    Lemming[ActLEM].Miner = false;
-                    Lemming[ActLEM].Actualframe = 0;
-                    Lemming[ActLEM].Numframes = SizeSprites.bomber_frames;
-                }
+                Lemming[ActLEM].Draw(spriteBatch, ActLEM);
             }
-            int framereal55;
-            if (Lemming[ActLEM].Burned) // scale POSDraw x+0,y+0 at 1.2f x-5,y+0 at 1.35f
-            {
-                spriteBatch.Draw(MyGame.Instance.Gfx.Squemado, new Vector2(Lemming[ActLEM].PosX - ScrollX - 5, Lemming[ActLEM].PosY - ScrollY), new Rectangle(0, Lemming[ActLEM].Actualframe * 28, 32, 28),
-                (Lemming[ActLEM].Onmouse ? Color.Red : Color.White), 0f, Vector2.Zero, SizeL, SpriteEffects.None, Lem_depth + (ActLEM * 0.00001f));
-                spriteBatch.Draw(MyGame.Instance.Gfx.Lhiss, new Vector2(Lemming[ActLEM].PosX - ScrollX, Lemming[ActLEM].PosY - 20 - ScrollY), new Rectangle(0, 0, MyGame.Instance.Gfx.Lhiss.Width, MyGame.Instance.Gfx.Lhiss.Height),
-                    Color.White, 0f, Vector2.Zero, (0.5f + (0.01f * Lemming[ActLEM].Actualframe)), SpriteEffects.None, Lem_depth + (ActLEM * 0.00001f));
-            }
-            if (Lemming[ActLEM].Drown) // scale POSDraw x+0,y+10 at 1.2f x-8,y+7 at 1.35f  //puto ahoga
-            {
-                spriteBatch.Draw(MyGame.Instance.Sprites.Drowner, new Vector2(Lemming[ActLEM].PosX - ScrollX + SizeSprites.water_xpos, Lemming[ActLEM].PosY + SizeSprites.water_ypos - ScrollY), new Rectangle(Lemming[ActLEM].Actualframe * SizeSprites.water_with, 0, SizeSprites.water_with, SizeSprites.water_height),
-                    (Lemming[ActLEM].Onmouse ? Color.Red : Color.White), 0f, Vector2.Zero, SizeSprites.water_size, SpriteEffects.None, Lem_depth + (ActLEM * 0.00001f));
-            }
-            if (Lemming[ActLEM].Walker)
-            {
-                framereal55 = (Lemming[ActLEM].Actualframe * SizeSprites.walker_with);
-                spriteBatch.Draw(MyGame.Instance.Sprites.Walker, new Vector2((Lemming[ActLEM].PosX - ScrollX + SizeSprites.walker_xpos), Lemming[ActLEM].PosY - ScrollY + SizeSprites.walker_ypos), new Rectangle(framereal55, 0, SizeSprites.walker_with, SizeSprites.walker_height), (Lemming[ActLEM].Onmouse ? Color.Red : Color.White), 0f, Vector2.Zero, SizeSprites.walker_size, (Lemming[ActLEM].Right ? SpriteEffects.FlipHorizontally : SpriteEffects.None), Lem_depth + (ActLEM * 0.00001f));
-            }
-            if (Lemming[ActLEM].Blocker) // blocker scale POSDraw x-5 y+4 at 1.2f x-7 y+1 at 1.35f  //puto
-            {
-                framesale = (Lemming[ActLEM].Actualframe * SizeSprites.blocker_with);
-                spriteBatch.Draw(MyGame.Instance.Sprites.Blocker, new Vector2(Lemming[ActLEM].PosX - ScrollX + SizeSprites.blocker_xpos, Lemming[ActLEM].PosY + SizeSprites.blocker_ypos - ScrollY), new Rectangle(framesale, 0, SizeSprites.blocker_with, SizeSprites.blocker_height), (Lemming[ActLEM].Onmouse ? Color.Red : Color.White), 0f, Vector2.Zero, SizeSprites.blocker_size, SpriteEffects.None, Lem_depth + (ActLEM * 0.00001f));
-                if (MyGame.Instance.DebugOsd.Debug)
-                {
-                    Rectangle bloqueo = new(Lemming[ActLEM].PosX, Lemming[ActLEM].PosY, 28, 28);
-                    spriteBatch.Draw(MyGame.Instance.Gfx.Texture1pixel, new Rectangle(bloqueo.Left - ScrollX, bloqueo.Top - ScrollY, bloqueo.Width, bloqueo.Height), null,
-                        Color.White, 0f, Vector2.Zero, SpriteEffects.None, 0.1f);
-                }
-            }
-            if (Lemming[ActLEM].Bridge) // scale POSDraw x-5,y-3 at 1.2f x-7,y-7 at 1.35f
-            {
-                framesale = (Lemming[ActLEM].Actualframe * 26);
-                spriteBatch.Draw(MyGame.Instance.Gfx.Puente_nomas, new Vector2(Lemming[ActLEM].PosX - ScrollX - 7, Lemming[ActLEM].PosY - 7 - ScrollY), new Rectangle(0, framesale, 32, 26), (Lemming[ActLEM].Onmouse ? Color.Red : Color.White), 0f, Vector2.Zero, SizeL, (Lemming[ActLEM].Right ? SpriteEffects.None : SpriteEffects.FlipHorizontally), Lem_depth + (ActLEM * 0.00001f));
-            }
-            if (Lemming[ActLEM].Builder)  //scale POSDraw x-5,y-3 at 1.2f x-7,y-7 at 1.35f  builder builder draws
-            {
-                if (Lemming[ActLEM].Numstairs >= 10) // chink draws
-                {
-                    spriteBatch.Draw(MyGame.Instance.Sprites.Chink, new Vector2(Lemming[ActLEM].PosX - ScrollX - 10, Lemming[ActLEM].PosY - 30 - ScrollY), new Rectangle(0, 0, MyGame.Instance.Sprites.Chink.Width, MyGame.Instance.Sprites.Chink.Height),
-                        Color.White, 0f, Vector2.Zero, 0.7f + (0.01f * Lemming[ActLEM].Actualframe), SpriteEffects.None, Lem_depth + (ActLEM * 0.00001f));
-                }
-                framesale = (Lemming[ActLEM].Actualframe * SizeSprites.builder_with);
-                spriteBatch.Draw(MyGame.Instance.Sprites.Puente, new Vector2(Lemming[ActLEM].PosX - ScrollX + SizeSprites.builder_xpos, Lemming[ActLEM].PosY + SizeSprites.builder_ypos - ScrollY), new Rectangle(framesale, 0, SizeSprites.builder_with, SizeSprites.builder_height), (Lemming[ActLEM].Onmouse ? Color.Red : Color.White), 0f, Vector2.Zero, SizeSprites.builder_size, (Lemming[ActLEM].Right ? SpriteEffects.FlipHorizontally : SpriteEffects.None), Lem_depth + (ActLEM * 0.00001f));
-            }
-            if (Lemming[ActLEM].Miner)  //scale POSDraw x-5,y-2 at 1.2f x-9,y-7 at 1.35f pico pico miner miner
-            {
-                framesale = (Lemming[ActLEM].Actualframe * SizeSprites.pico_with);
-                spriteBatch.Draw(MyGame.Instance.Sprites.Pico, new Vector2(Lemming[ActLEM].PosX - ScrollX + SizeSprites.pico_xpos + (Lemming[ActLEM].Right ? 0 : 10), Lemming[ActLEM].PosY + SizeSprites.pico_ypos - ScrollY), new Rectangle(framesale, 0, SizeSprites.pico_with, SizeSprites.pico_height), (Lemming[ActLEM].Onmouse ? Color.Red : Color.White), 0f, Vector2.Zero, SizeSprites.pico_size, (Lemming[ActLEM].Right ? SpriteEffects.FlipHorizontally : SpriteEffects.None), Lem_depth + (ActLEM * 0.00001f));
-            }
-            if (Lemming[ActLEM].Basher) //puto
-            {           // scale basher RIGHT POSDRAW x-10,y+4 at 1.2f x-15,y+1 at 1.35f
-                framesale = (Lemming[ActLEM].Actualframe * SizeSprites.basher_with);
-                spriteBatch.Draw(MyGame.Instance.Sprites.Pared, new Vector2(Lemming[ActLEM].PosX - ScrollX + (Lemming[ActLEM].Right ? SizeSprites.basher_xpos : SizeSprites.basher_xposleft), Lemming[ActLEM].PosY + SizeSprites.basher_ypos - ScrollY), new Rectangle(framesale, 0, SizeSprites.basher_with, SizeSprites.basher_height), (Lemming[ActLEM].Onmouse ? Color.Red : Color.White), 0f, Vector2.Zero, SizeSprites.basher_size, (Lemming[ActLEM].Right ? SpriteEffects.FlipHorizontally : SpriteEffects.None), Lem_depth + (ActLEM * 0.00001f));
-            }
-            if (Lemming[ActLEM].Explode) // explotando explotando bomber bomber
-            {
-                // bomber scale POSDraw x-5,y+4 at 1.2f x-9,y+2 at 1.35f
-                framesale = (Lemming[ActLEM].Actualframe * SizeSprites.bomber_with);
-                spriteBatch.Draw(MyGame.Instance.Sprites.Exploder, new Vector2(Lemming[ActLEM].PosX - ScrollX + SizeSprites.bomber_xpos, Lemming[ActLEM].PosY + SizeSprites.bomber_ypos - ScrollY), new Rectangle(framesale, 0, SizeSprites.bomber_with, SizeSprites.bomber_height), (Lemming[ActLEM].Onmouse ? Color.Red : Color.White), 0f, Vector2.Zero, SizeSprites.bomber_size, SpriteEffects.None, Lem_depth + (ActLEM * 0.00001f));
-                spriteBatch.Draw(MyGame.Instance.Sprites.Lohno, new Vector2(Lemming[ActLEM].PosX - ScrollX - 20, Lemming[ActLEM].PosY - 25 - ScrollY), new Rectangle(0, 0, MyGame.Instance.Sprites.Lohno.Width, MyGame.Instance.Sprites.Lohno.Height),
-                    Color.White, 0f, Vector2.Zero, 0.7f + (0.01f * Lemming[ActLEM].Actualframe), SpriteEffects.None, Lem_depth + (ActLEM * 0.00001f));
-            }
-            if (Lemming[ActLEM].Breakfloor) // scale POSDraw x-5,y+4 at 1.2f  x-9,y+2 at 1.35f breakfloor breakfloor
-            {
-                framesale = (Lemming[ActLEM].Actualframe * SizeSprites.floor_with);
-                spriteBatch.Draw(MyGame.Instance.Sprites.Rompesuelo, new Vector2(Lemming[ActLEM].PosX - ScrollX + SizeSprites.floor_xpos, Lemming[ActLEM].PosY + SizeSprites.floor_ypos - ScrollY), new Rectangle(framesale, 0, SizeSprites.floor_with, SizeSprites.floor_height), (Lemming[ActLEM].Onmouse ? Color.Red : Color.White), 0f, Vector2.Zero, SizeSprites.floor_size, SpriteEffects.None, Lem_depth + (ActLEM * 0.00001f));
-                if (Lemming[ActLEM].Actualframe == SizeSprites.floor_frames - 1)
-                {
-                    Lemming[ActLEM].Dead = true;
-                    Numlemnow--;
-                    Lemming[ActLEM].Explode = false;
-                    Lemming[ActLEM].Exploser = false;
-                }
-            }
-            if (Lemming[ActLEM].Falling) //umbrella paraguas falling with umbrella
-            {
-                if (!Lemming[ActLEM].Framescut && Lemming[ActLEM].Actualframe == SizeSprites.floater_frames - 1)
-                {
-                    Lemming[ActLEM].Framescut = true;
-                    Lemming[ActLEM].Actualframe = 0;
-                    Lemming[ActLEM].Numframes = SizeSprites.floater_frames - 1 - 4;
-                }
-                if (!Lemming[ActLEM].Framescut)
-                    framesale = (Lemming[ActLEM].Actualframe * SizeSprites.floater_with);
-                else
-                    framesale = (Lemming[ActLEM].Actualframe + 4) * SizeSprites.floater_with; // scale floater POSDraw x-5,y-4 at 1.2f x-9,y-7 at 1.35f
-                spriteBatch.Draw(MyGame.Instance.Sprites.Paraguas, new Vector2(Lemming[ActLEM].PosX - ScrollX + SizeSprites.floater_xpos, Lemming[ActLEM].PosY + SizeSprites.floater_ypos - ScrollY), new Rectangle(framesale, 0, SizeSprites.floater_with, SizeSprites.floater_height), (Lemming[ActLEM].Onmouse ? Color.Red : Color.White), 0f, Vector2.Zero, SizeSprites.floater_size, (Lemming[ActLEM].Right ? SpriteEffects.FlipHorizontally : SpriteEffects.None), Lem_depth + (ActLEM * 0.00001f));
-            }
-            if (Lemming[ActLEM].Fall) //fall cae
-            {
-                framereal55 = (Lemming[ActLEM].Actualframe * SizeSprites.faller_with);
-                spriteBatch.Draw(MyGame.Instance.Sprites.Falling, new Vector2(Lemming[ActLEM].PosX - ScrollX + SizeSprites.faller_xpos, Lemming[ActLEM].PosY - ScrollY + SizeSprites.faller_ypos), new Rectangle(framereal55, 0, SizeSprites.faller_with, SizeSprites.faller_height), (Lemming[ActLEM].Onmouse ? Color.Red : Color.White), 0f, Vector2.Zero, SizeSprites.faller_size, (Lemming[ActLEM].Right ? SpriteEffects.FlipHorizontally : SpriteEffects.None), Lem_depth + (ActLEM * 0.00001f));
-            }
-            if (Lemming[ActLEM].Exit && !Lemming[ActLEM].Dead) //sale sale exit exit out out
-            {
-                framesale = (Lemming[ActLEM].Actualframe * SizeSprites.sale_with); // exit scale POSDraw  x-1,y+1 at 1.2f x-3,y-1 at 1.35f
-                spriteBatch.Draw(sale, new Vector2(Lemming[ActLEM].PosX - ScrollX + SizeSprites.sale_xpos, Lemming[ActLEM].PosY + SizeSprites.sale_ypos - ScrollY), new Rectangle(framesale, 0, SizeSprites.sale_with, SizeSprites.sale_height), Color.White, 0f, Vector2.Zero, SizeSprites.sale_size, (Lemming[ActLEM].Right ? SpriteEffects.FlipHorizontally : SpriteEffects.None), Lem_depth + (ActLEM * 0.00001f));
-            }
-            if (Lemming[ActLEM].Digger)
-            {
-                framereal55 = (Lemming[ActLEM].Actualframe * SizeSprites.digger_with);
-                spriteBatch.Draw(MyGame.Instance.Sprites.Digger, new Vector2(Lemming[ActLEM].PosX - ScrollX + SizeSprites.digger_xpos, Lemming[ActLEM].PosY + 6 - ScrollY + SizeSprites.digger_ypos), new Rectangle(framereal55, 0, SizeSprites.digger_with, SizeSprites.digger_height), (Lemming[ActLEM].Onmouse ? Color.Red : Color.White), 0f, Vector2.Zero, SizeSprites.digger_size, SpriteEffects.None, Lem_depth + (ActLEM * 0.00001f));
-            }
-
-            if (Lemming[ActLEM].Climbing) // scale POSDraw x-5,y+6 at 1.2f x-8.y+3 at 1.35f  //puto33
-            {
-                framesale = (Lemming[ActLEM].Actualframe * SizeSprites.climber_with);
-                spriteBatch.Draw(MyGame.Instance.Sprites.Climber, new Vector2(Lemming[ActLEM].PosX - ScrollX + (Lemming[ActLEM].Right ? SizeSprites.climber_xpos : SizeSprites.climber_xposleft), Lemming[ActLEM].PosY + SizeSprites.climber_ypos - ScrollY), new Rectangle(framesale, 0, SizeSprites.climber_with, SizeSprites.climber_height), (Lemming[ActLEM].Onmouse ? Color.Red : Color.White), 0f, Vector2.Zero, SizeSprites.climber_size, (Lemming[ActLEM].Right ? SpriteEffects.FlipHorizontally : SpriteEffects.None), Lem_depth + (ActLEM * 0.00001f));
-            }
-        }
         if (Fade)
         {
             rest++;

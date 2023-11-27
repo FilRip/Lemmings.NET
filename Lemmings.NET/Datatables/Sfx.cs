@@ -1,6 +1,4 @@
-﻿using Lemmings.NET.Helpers;
-
-using Microsoft.Xna.Framework.Audio;
+﻿using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 
 namespace Lemmings.NET.Datatables;
