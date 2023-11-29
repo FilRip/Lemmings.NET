@@ -13,6 +13,8 @@ internal class Fonts
 
     internal void TextLem(string txt, Vector2 start, Color pinta, float size, float layer, SpriteBatch spriteBatch)
     {
+        if (txt == null)
+            return;
         for (int i = 0; i <= txt.Length - 1; i++)
         {
             int j = Convert.ToInt32(txt[i]);

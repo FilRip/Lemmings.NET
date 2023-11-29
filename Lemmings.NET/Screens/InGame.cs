@@ -89,7 +89,7 @@ internal class InGame
         }
     }
     internal Color[] Colorsobre33 { get; set; } = new Color[38 * 53];
-
+    internal OneLevel CurrentLevel { get; set; }
     private float Contadortime2;
     private double actWaves444, actWaves333, actWaves;
     private bool dibuja3, LevelEnded, ExitBad, ExitLevel;
@@ -147,6 +147,7 @@ internal class InGame
             MyGame.Instance.Music.WinMusic.Stop();
         if (MyGame.Instance.Music.MenuMusic.State == SoundState.Playing)
             MyGame.Instance.Music.MenuMusic.Stop();
+        CurrentLevel = MyGame.Instance.Levels.GetLevel(newLevel);
         Numlemnow = 0;
         frameDoor = 0;
         frameExit = 0;
@@ -154,8 +155,8 @@ internal class InGame
         Fade = true;
         doorOn = true;
         MillisecondsElapsed = 0;
-        puerta_ani = content.Load<Texture2D>("puerta" + string.Format("{0}", MyGame.Instance.Levels.AllLevel[MyGame.Instance.CurrentLevelNumber].TypeOfDoor)); // type of door puerta1-2-3-4 etc.
-        string xx455 = string.Format("{0}", MyGame.Instance.Levels.AllLevel[MyGame.Instance.CurrentLevelNumber].TypeOfExit);
+        puerta_ani = content.Load<Texture2D>("puerta" + string.Format("{0}", CurrentLevel.TypeOfDoor)); // type of door puerta1-2-3-4 etc.
+        string xx455 = string.Format("{0}", CurrentLevel.TypeOfExit);
         salida_ani1 = content.Load<Texture2D>("salida" + xx455);
         salida_ani1_1 = content.Load<Texture2D>("salida" + xx455 + "_1");
         MyGame.Instance.CurrentLevelNumber = newLevel;
@@ -188,34 +189,34 @@ internal class InGame
         ExitLevel = false;
         ExitBad = false;
 
-        Texture2D level = MyGame.Instance.Content.Load<Texture2D>(MyGame.Instance.Levels.AllLevel[MyGame.Instance.CurrentLevelNumber].NameLev);
+        Texture2D level = MyGame.Instance.Content.Load<Texture2D>(CurrentLevel.NameLev);
         Earth = new Texture2D(MyGame.Instance.GraphicsDevice, level.Width, level.Height);
         Color[] pixels = new Color[level.Width * level.Height];
         level.GetData(pixels);
         Earth.SetData(pixels);
         Earth.GetData(C25, 0, Earth.Height * Earth.Width); //better here than moverlemming() for performance see issues 
                                                            //see differences with old getdata, see size important (x * y)
-        door1X = MyGame.Instance.Levels.AllLevel[MyGame.Instance.CurrentLevelNumber].doorX;
-        door1Y = MyGame.Instance.Levels.AllLevel[MyGame.Instance.CurrentLevelNumber].doorY;
-        output1X = MyGame.Instance.Levels.AllLevel[MyGame.Instance.CurrentLevelNumber].exitX;
-        output1Y = MyGame.Instance.Levels.AllLevel[MyGame.Instance.CurrentLevelNumber].exitY;
+        door1X = CurrentLevel.DoorX;
+        door1Y = CurrentLevel.DoorY;
+        output1X = CurrentLevel.ExitX;
+        output1Y = CurrentLevel.ExitY;
         // this is the depth of the exit and doors animated sprites -- See level 58 the exit is behind the mountain (0.6f)
-        if (MyGame.Instance.Levels.AllLevel[MyGame.Instance.CurrentLevelNumber].DoorExitDepth != 0)
+        if (CurrentLevel.DoorExitDepth != 0)
         {
-            DoorExitDepth = MyGame.Instance.Levels.AllLevel[MyGame.Instance.CurrentLevelNumber].DoorExitDepth;
+            DoorExitDepth = CurrentLevel.DoorExitDepth;
         }
         else
         {
             DoorExitDepth = 0.403f;
         }
-        NbClimberRemaining = MyGame.Instance.Levels.AllLevel[MyGame.Instance.CurrentLevelNumber].numberClimbers;
-        NbFloaterRemaining = MyGame.Instance.Levels.AllLevel[MyGame.Instance.CurrentLevelNumber].numberUmbrellas;
-        NbExploderRemaining = MyGame.Instance.Levels.AllLevel[MyGame.Instance.CurrentLevelNumber].numberExploders;
-        NbBlockerRemaining = MyGame.Instance.Levels.AllLevel[MyGame.Instance.CurrentLevelNumber].numberBlockers;
-        NbBuilderRemaining = MyGame.Instance.Levels.AllLevel[MyGame.Instance.CurrentLevelNumber].numberBuilders;
-        NbBasherRemaining = MyGame.Instance.Levels.AllLevel[MyGame.Instance.CurrentLevelNumber].numberBashers;
-        NbMinerRemaining = MyGame.Instance.Levels.AllLevel[MyGame.Instance.CurrentLevelNumber].numberMiners;
-        NbDiggerRemaining = MyGame.Instance.Levels.AllLevel[MyGame.Instance.CurrentLevelNumber].numberDiggers;
+        NbClimberRemaining = CurrentLevel.NumberClimbers;
+        NbFloaterRemaining = CurrentLevel.NumberUmbrellas;
+        NbExploderRemaining = CurrentLevel.NumberExploders;
+        NbBlockerRemaining = CurrentLevel.NumberBlockers;
+        NbBuilderRemaining = CurrentLevel.NumberBuilders;
+        NbBasherRemaining = CurrentLevel.NumberBashers;
+        NbMinerRemaining = CurrentLevel.NumberMiners;
+        NbDiggerRemaining = CurrentLevel.NumberDiggers;
         if (NbClimberRemaining > 0)
         {
             _inGameMenu.CurrentSelectedSkill = ECurrentSkill.CLIMBER;
@@ -249,9 +250,9 @@ internal class InGame
             _inGameMenu.CurrentSelectedSkill = ECurrentSkill.DIGGER;
         }
         _inGameMenu.Init();
-        TotalNumLemmings = MyGame.Instance.Levels.AllLevel[MyGame.Instance.CurrentLevelNumber].TotalLemmings;
-        Lemsneeded = MyGame.Instance.Levels.AllLevel[MyGame.Instance.CurrentLevelNumber].NbLemmingsToSave;
-        ScrollX = MyGame.Instance.Levels.AllLevel[MyGame.Instance.CurrentLevelNumber].InitPosX;
+        TotalNumLemmings = CurrentLevel.TotalLemmings;
+        Lemsneeded = CurrentLevel.NbLemmingsToSave;
+        ScrollX = CurrentLevel.InitPosX;
         ScrollY = 0;
         AllLemmings = [];
         MyGame.Instance.Levels.VariablesTraps();
@@ -552,7 +553,7 @@ internal class InGame
         z3 %= 4; // mumero de frames del agua a ver 4 de 5 que tiene la ultima esta vacia nose porque
         if (Dibuja)
         {
-            int xx66 = MyGame.Instance.Props.GetExit(MyGame.Instance.Levels.AllLevel[MyGame.Instance.CurrentLevelNumber].TypeOfExit).NumFrame - 1;
+            int xx66 = MyGame.Instance.Props.GetExit(CurrentLevel.TypeOfExit).NumFrame - 1;
             frameExit++;
             if (frameExit > xx66)
             {
@@ -855,11 +856,11 @@ internal class InGame
             spriteBatch.Draw(MyGame.Instance.Gfx.Texture1pixel, new Rectangle(45, 32, 1005, 600), null, colorFill, 0f, Vector2.Zero, SpriteEffects.None, 0.001f);
             spriteBatch.Draw(MyGame.Instance.ScreenMainMenu.MainMenuGfx.mainMenuSign2, new Rectangle(-200, -120, 1500, 900), null,
                Color.White, 0f, Vector2.Zero, SpriteEffects.None, 0.00005f);
-            int percent = (100 * NumSaved) / MyGame.Instance.Levels.AllLevel[MyGame.Instance.ScreenMainMenu.MouseLevelChoose].TotalLemmings;
+            int percent = (100 * NumSaved) / CurrentLevel.TotalLemmings;
             MyGame.Instance.Fonts.TextLem("All lemmings accounted for:", new Vector2(150, 100), Color.Cyan, 1.5f, 0.0000000001f, spriteBatch);
             MyGame.Instance.Fonts.TextLem("You rescued " + string.Format("{0}", percent) + "%",
                  new Vector2(270, 160), Color.Violet, 1.5f, 0.0000000001f, spriteBatch);
-            percent = (100 * Lemsneeded) / MyGame.Instance.Levels.AllLevel[MyGame.Instance.ScreenMainMenu.MouseLevelChoose].TotalLemmings;
+            percent = (100 * Lemsneeded) / CurrentLevel.TotalLemmings;
             MyGame.Instance.Fonts.TextLem("You needed " + string.Format("{0}", percent) + "%",
                  new Vector2(300, 220), Color.DodgerBlue, 1.5f, 0.0000000001f, spriteBatch);
             MyGame.Instance.Fonts.TextLem("Press <ESC> or <Left Mouse Button>", new Vector2(70, 400), Color.LightCyan, 1.3f, 0.0000000001f, spriteBatch);
@@ -876,7 +877,7 @@ internal class InGame
             MyGame.Instance.Fonts.TextLem("Press <Enter> or <Right Mouse Button>", new Vector2(70, 520), Color.Yellow, 1.3f, 0.0000000001f, spriteBatch);
             MyGame.Instance.Fonts.TextLem("to Main Menu...", new Vector2(100, 560), Color.Yellow, 1.3f, 0.0000000001f, spriteBatch);
         }
-        OneEntry entry = MyGame.Instance.Props.GetEntry(MyGame.Instance.Levels.AllLevel[MyGame.Instance.CurrentLevelNumber].TypeOfDoor);
+        OneEntry entry = MyGame.Instance.Props.GetEntry(CurrentLevel.TypeOfDoor);
         int xx55 = entry.Width;
         int yy55 = entry.Height;
         framereal565 = (frameDoor * yy55);
@@ -966,7 +967,7 @@ internal class InGame
                     Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, DoorExitDepth);
             }
         }
-        OneExit exit = MyGame.Instance.Props.GetExit(MyGame.Instance.Levels.AllLevel[MyGame.Instance.CurrentLevelNumber].TypeOfExit);
+        OneExit exit = MyGame.Instance.Props.GetExit(CurrentLevel.TypeOfExit);
         int xx66 = exit.Width;
         int yy66 = exit.Height;
         int xx88 = exit.MoreX;
@@ -1396,7 +1397,7 @@ internal class InGame
         if (Draw2 && doorOn && Frame > 30)
         {
             TotalTime = 0;
-            int xx55 = MyGame.Instance.Props.GetEntry(MyGame.Instance.Levels.AllLevel[MyGame.Instance.CurrentLevelNumber].TypeOfDoor).NumFrame - 1;
+            int xx55 = MyGame.Instance.Props.GetEntry(CurrentLevel.TypeOfDoor).NumFrame - 1;
             frameDoor++;
             if (frameDoor == 1 && MyGame.Instance.Sfx.EntryLemmings.State == SoundState.Stopped && !doorWaveOn)
             {

@@ -66,8 +66,8 @@ internal class InGameMenu
 
     internal void Init()
     {
-        numerominfrecuencia = MyGame.Instance.Levels.AllLevel[MyGame.Instance.CurrentLevelNumber].MinFrequencyComming;
-        FrequencyNumber = MyGame.Instance.Levels.AllLevel[MyGame.Instance.CurrentLevelNumber].FrequencyComming;
+        numerominfrecuencia = _inGame.CurrentLevel.MinFrequencyComming;
+        FrequencyNumber = _inGame.CurrentLevel.FrequencyComming;
     }
 
     internal void Update()
@@ -522,7 +522,7 @@ internal class InGameMenu
         vectorFill.X = 890;
         vectorFill.Y = 518;
         MyGame.Instance.Fonts.TextLem("Time", vectorFill, Color.Yellow, 1f, 0.1f, spriteBatch);
-        _inGame.ZvTime = (MyGame.Instance.Levels.AllLevel[MyGame.Instance.CurrentLevelNumber].totalTime * 60) - (int)_inGame.TotalTime;
+        _inGame.ZvTime = (_inGame.CurrentLevel.TotalTime * 60) - (int)_inGame.TotalTime;
         if (_inGame.ZvTime < 0)
             _inGame.ZvTime = -1; //see that -1 is necesary for end by time -- it test (zvtime < 0)
         vectorFill.X = 982;

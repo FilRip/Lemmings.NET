@@ -1353,6 +1353,549 @@
 /processorParam:TextureFormat=Color
 /build:levels/fun/fun030.png
 
+#begin levels/level1.ini
+/copy:levels/level1.ini
+
+#begin levels/level10.ini
+/copy:levels/level10.ini
+
+#begin levels/level100.ini
+/copy:levels/level100.ini
+
+#begin levels/level101.ini
+/copy:levels/level101.ini
+
+#begin levels/level102.ini
+/copy:levels/level102.ini
+
+#begin levels/level103.ini
+/copy:levels/level103.ini
+
+#begin levels/level104.ini
+/copy:levels/level104.ini
+
+#begin levels/level105.ini
+/copy:levels/level105.ini
+
+#begin levels/level106.ini
+/copy:levels/level106.ini
+
+#begin levels/level107.ini
+/copy:levels/level107.ini
+
+#begin levels/level108.ini
+/copy:levels/level108.ini
+
+#begin levels/level109.ini
+/copy:levels/level109.ini
+
+#begin levels/level11.ini
+/copy:levels/level11.ini
+
+#begin levels/level110.ini
+/copy:levels/level110.ini
+
+#begin levels/level111.ini
+/copy:levels/level111.ini
+
+#begin levels/level112.ini
+/copy:levels/level112.ini
+
+#begin levels/level113.ini
+/copy:levels/level113.ini
+
+#begin levels/level114.ini
+/copy:levels/level114.ini
+
+#begin levels/level115.ini
+/copy:levels/level115.ini
+
+#begin levels/level116.ini
+/copy:levels/level116.ini
+
+#begin levels/level117.ini
+/copy:levels/level117.ini
+
+#begin levels/level118.ini
+/copy:levels/level118.ini
+
+#begin levels/level119.ini
+/copy:levels/level119.ini
+
+#begin levels/level12.ini
+/copy:levels/level12.ini
+
+#begin levels/level120.ini
+/copy:levels/level120.ini
+
+#begin levels/level121.ini
+/copy:levels/level121.ini
+
+#begin levels/level122.ini
+/copy:levels/level122.ini
+
+#begin levels/level123.ini
+/copy:levels/level123.ini
+
+#begin levels/level124.ini
+/copy:levels/level124.ini
+
+#begin levels/level125.ini
+/copy:levels/level125.ini
+
+#begin levels/level126.ini
+/copy:levels/level126.ini
+
+#begin levels/level127.ini
+/copy:levels/level127.ini
+
+#begin levels/level128.ini
+/copy:levels/level128.ini
+
+#begin levels/level129.ini
+/copy:levels/level129.ini
+
+#begin levels/level13.ini
+/copy:levels/level13.ini
+
+#begin levels/level130.ini
+/copy:levels/level130.ini
+
+#begin levels/level131.ini
+/copy:levels/level131.ini
+
+#begin levels/level132.ini
+/copy:levels/level132.ini
+
+#begin levels/level133.ini
+/copy:levels/level133.ini
+
+#begin levels/level134.ini
+/copy:levels/level134.ini
+
+#begin levels/level135.ini
+/copy:levels/level135.ini
+
+#begin levels/level136.ini
+/copy:levels/level136.ini
+
+#begin levels/level137.ini
+/copy:levels/level137.ini
+
+#begin levels/level138.ini
+/copy:levels/level138.ini
+
+#begin levels/level139.ini
+/copy:levels/level139.ini
+
+#begin levels/level14.ini
+/copy:levels/level14.ini
+
+#begin levels/level140.ini
+/copy:levels/level140.ini
+
+#begin levels/level141.ini
+/copy:levels/level141.ini
+
+#begin levels/level142.ini
+/copy:levels/level142.ini
+
+#begin levels/level143.ini
+/copy:levels/level143.ini
+
+#begin levels/level144.ini
+/copy:levels/level144.ini
+
+#begin levels/level145.ini
+/copy:levels/level145.ini
+
+#begin levels/level146.ini
+/copy:levels/level146.ini
+
+#begin levels/level147.ini
+/copy:levels/level147.ini
+
+#begin levels/level148.ini
+/copy:levels/level148.ini
+
+#begin levels/level149.ini
+/copy:levels/level149.ini
+
+#begin levels/level15.ini
+/copy:levels/level15.ini
+
+#begin levels/level150.ini
+/copy:levels/level150.ini
+
+#begin levels/level151.ini
+/copy:levels/level151.ini
+
+#begin levels/level152.ini
+/copy:levels/level152.ini
+
+#begin levels/level153.ini
+/copy:levels/level153.ini
+
+#begin levels/level154.ini
+/copy:levels/level154.ini
+
+#begin levels/level155.ini
+/copy:levels/level155.ini
+
+#begin levels/level156.ini
+/copy:levels/level156.ini
+
+#begin levels/level157.ini
+/copy:levels/level157.ini
+
+#begin levels/level158.ini
+/copy:levels/level158.ini
+
+#begin levels/level159.ini
+/copy:levels/level159.ini
+
+#begin levels/level16.ini
+/copy:levels/level16.ini
+
+#begin levels/level160.ini
+/copy:levels/level160.ini
+
+#begin levels/level161.ini
+/copy:levels/level161.ini
+
+#begin levels/level162.ini
+/copy:levels/level162.ini
+
+#begin levels/level163.ini
+/copy:levels/level163.ini
+
+#begin levels/level164.ini
+/copy:levels/level164.ini
+
+#begin levels/level165.ini
+/copy:levels/level165.ini
+
+#begin levels/level166.ini
+/copy:levels/level166.ini
+
+#begin levels/level167.ini
+/copy:levels/level167.ini
+
+#begin levels/level168.ini
+/copy:levels/level168.ini
+
+#begin levels/level169.ini
+/copy:levels/level169.ini
+
+#begin levels/level17.ini
+/copy:levels/level17.ini
+
+#begin levels/level170.ini
+/copy:levels/level170.ini
+
+#begin levels/level171.ini
+/copy:levels/level171.ini
+
+#begin levels/level172.ini
+/copy:levels/level172.ini
+
+#begin levels/level173.ini
+/copy:levels/level173.ini
+
+#begin levels/level174.ini
+/copy:levels/level174.ini
+
+#begin levels/level175.ini
+/copy:levels/level175.ini
+
+#begin levels/level176.ini
+/copy:levels/level176.ini
+
+#begin levels/level177.ini
+/copy:levels/level177.ini
+
+#begin levels/level178.ini
+/copy:levels/level178.ini
+
+#begin levels/level179.ini
+/copy:levels/level179.ini
+
+#begin levels/level18.ini
+/copy:levels/level18.ini
+
+#begin levels/level180.ini
+/copy:levels/level180.ini
+
+#begin levels/level181.ini
+/copy:levels/level181.ini
+
+#begin levels/level19.ini
+/copy:levels/level19.ini
+
+#begin levels/level2.ini
+/copy:levels/level2.ini
+
+#begin levels/level20.ini
+/copy:levels/level20.ini
+
+#begin levels/level21.ini
+/copy:levels/level21.ini
+
+#begin levels/level22.ini
+/copy:levels/level22.ini
+
+#begin levels/level23.ini
+/copy:levels/level23.ini
+
+#begin levels/level24.ini
+/copy:levels/level24.ini
+
+#begin levels/level25.ini
+/copy:levels/level25.ini
+
+#begin levels/level26.ini
+/copy:levels/level26.ini
+
+#begin levels/level27.ini
+/copy:levels/level27.ini
+
+#begin levels/level28.ini
+/copy:levels/level28.ini
+
+#begin levels/level29.ini
+/copy:levels/level29.ini
+
+#begin levels/level3.ini
+/copy:levels/level3.ini
+
+#begin levels/level30.ini
+/copy:levels/level30.ini
+
+#begin levels/level31.ini
+/copy:levels/level31.ini
+
+#begin levels/level32.ini
+/copy:levels/level32.ini
+
+#begin levels/level33.ini
+/copy:levels/level33.ini
+
+#begin levels/level34.ini
+/copy:levels/level34.ini
+
+#begin levels/level35.ini
+/copy:levels/level35.ini
+
+#begin levels/level36.ini
+/copy:levels/level36.ini
+
+#begin levels/level37.ini
+/copy:levels/level37.ini
+
+#begin levels/level38.ini
+/copy:levels/level38.ini
+
+#begin levels/level39.ini
+/copy:levels/level39.ini
+
+#begin levels/level4.ini
+/copy:levels/level4.ini
+
+#begin levels/level40.ini
+/copy:levels/level40.ini
+
+#begin levels/level41.ini
+/copy:levels/level41.ini
+
+#begin levels/level42.ini
+/copy:levels/level42.ini
+
+#begin levels/level43.ini
+/copy:levels/level43.ini
+
+#begin levels/level44.ini
+/copy:levels/level44.ini
+
+#begin levels/level45.ini
+/copy:levels/level45.ini
+
+#begin levels/level46.ini
+/copy:levels/level46.ini
+
+#begin levels/level47.ini
+/copy:levels/level47.ini
+
+#begin levels/level48.ini
+/copy:levels/level48.ini
+
+#begin levels/level49.ini
+/copy:levels/level49.ini
+
+#begin levels/level5.ini
+/copy:levels/level5.ini
+
+#begin levels/level50.ini
+/copy:levels/level50.ini
+
+#begin levels/level51.ini
+/copy:levels/level51.ini
+
+#begin levels/level52.ini
+/copy:levels/level52.ini
+
+#begin levels/level53.ini
+/copy:levels/level53.ini
+
+#begin levels/level54.ini
+/copy:levels/level54.ini
+
+#begin levels/level55.ini
+/copy:levels/level55.ini
+
+#begin levels/level56.ini
+/copy:levels/level56.ini
+
+#begin levels/level57.ini
+/copy:levels/level57.ini
+
+#begin levels/level58.ini
+/copy:levels/level58.ini
+
+#begin levels/level59.ini
+/copy:levels/level59.ini
+
+#begin levels/level6.ini
+/copy:levels/level6.ini
+
+#begin levels/level60.ini
+/copy:levels/level60.ini
+
+#begin levels/level61.ini
+/copy:levels/level61.ini
+
+#begin levels/level62.ini
+/copy:levels/level62.ini
+
+#begin levels/level63.ini
+/copy:levels/level63.ini
+
+#begin levels/level64.ini
+/copy:levels/level64.ini
+
+#begin levels/level65.ini
+/copy:levels/level65.ini
+
+#begin levels/level66.ini
+/copy:levels/level66.ini
+
+#begin levels/level67.ini
+/copy:levels/level67.ini
+
+#begin levels/level68.ini
+/copy:levels/level68.ini
+
+#begin levels/level69.ini
+/copy:levels/level69.ini
+
+#begin levels/level7.ini
+/copy:levels/level7.ini
+
+#begin levels/level70.ini
+/copy:levels/level70.ini
+
+#begin levels/level71.ini
+/copy:levels/level71.ini
+
+#begin levels/level72.ini
+/copy:levels/level72.ini
+
+#begin levels/level73.ini
+/copy:levels/level73.ini
+
+#begin levels/level74.ini
+/copy:levels/level74.ini
+
+#begin levels/level75.ini
+/copy:levels/level75.ini
+
+#begin levels/level76.ini
+/copy:levels/level76.ini
+
+#begin levels/level77.ini
+/copy:levels/level77.ini
+
+#begin levels/level78.ini
+/copy:levels/level78.ini
+
+#begin levels/level79.ini
+/copy:levels/level79.ini
+
+#begin levels/level8.ini
+/copy:levels/level8.ini
+
+#begin levels/level80.ini
+/copy:levels/level80.ini
+
+#begin levels/level81.ini
+/copy:levels/level81.ini
+
+#begin levels/level82.ini
+/copy:levels/level82.ini
+
+#begin levels/level83.ini
+/copy:levels/level83.ini
+
+#begin levels/level84.ini
+/copy:levels/level84.ini
+
+#begin levels/level85.ini
+/copy:levels/level85.ini
+
+#begin levels/level86.ini
+/copy:levels/level86.ini
+
+#begin levels/level87.ini
+/copy:levels/level87.ini
+
+#begin levels/level88.ini
+/copy:levels/level88.ini
+
+#begin levels/level89.ini
+/copy:levels/level89.ini
+
+#begin levels/level9.ini
+/copy:levels/level9.ini
+
+#begin levels/level90.ini
+/copy:levels/level90.ini
+
+#begin levels/level91.ini
+/copy:levels/level91.ini
+
+#begin levels/level92.ini
+/copy:levels/level92.ini
+
+#begin levels/level93.ini
+/copy:levels/level93.ini
+
+#begin levels/level94.ini
+/copy:levels/level94.ini
+
+#begin levels/level95.ini
+/copy:levels/level95.ini
+
+#begin levels/level96.ini
+/copy:levels/level96.ini
+
+#begin levels/level97.ini
+/copy:levels/level97.ini
+
+#begin levels/level98.ini
+/copy:levels/level98.ini
+
+#begin levels/level99.ini
+/copy:levels/level99.ini
+
 #begin levels/may/cao001.png
 /importer:TextureImporter
 /processor:TextureProcessor

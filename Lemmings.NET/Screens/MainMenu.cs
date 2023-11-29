@@ -17,7 +17,20 @@ internal class MainMenu
     private int loopcolor = 0, dibujaloop = 1;
     private readonly MainMenuGfx _mainMenuGfx;
     private float frameWater = 0;
-    public int MouseLevelChoose { get; set; }
+    private int _mouseLevelChoose;
+    private OneLevel _currentMouseLevel;
+    public int MouseLevelChoose
+    {
+        get { return _mouseLevelChoose; }
+        set
+        {
+            if (_mouseLevelChoose != value)
+            {
+                _mouseLevelChoose = value;
+                _currentMouseLevel = MyGame.Instance.Levels.GetLevel(value);
+            }
+        }
+    }
     private float peakheight = 25;
     private int framblink1 = 0, framblink2 = 0, framblink3 = 0, mmstartx, mmstarty, mmX;
     private bool Updown = true;
@@ -408,11 +421,11 @@ internal class MainMenu
             else if (levelACT > 156)
                 levelACT -= 156;
             MyGame.Instance.Fonts.TextLem("Level " + string.Format("{0}", levelACT), new Vector2(mmKX, mmKY), Color.Red, 1f, 0.1f, spriteBatch);
-            MyGame.Instance.Fonts.TextLem(MyGame.Instance.Levels.AllLevel[MouseLevelChoose].nameOfLevel, new Vector2(mmKX + 200, mmKY), Color.Red, 1f, 0.1f, spriteBatch);
-            MyGame.Instance.Fonts.TextLem("Number of Lemmings " + string.Format("{0}", MyGame.Instance.Levels.AllLevel[MouseLevelChoose].TotalLemmings), new Vector2(mmKX, mmKY + mmKplusY), Color.Blue, 1f, 0.1f, spriteBatch);
-            MyGame.Instance.Fonts.TextLem(string.Format("{0}", MyGame.Instance.Levels.AllLevel[MouseLevelChoose].NbLemmingsToSave) + " to be saved", new Vector2(mmKX, mmKY + mmKplusY * 2), Color.Green, 1f, 0.1f, spriteBatch);
-            MyGame.Instance.Fonts.TextLem("Release Rate " + string.Format("{0}", MyGame.Instance.Levels.AllLevel[MouseLevelChoose].MinFrequencyComming), new Vector2(mmKX, mmKY + mmKplusY * 3), Color.Yellow, 1f, 0.1f, spriteBatch);
-            MyGame.Instance.Fonts.TextLem("Time " + string.Format("{0}", MyGame.Instance.Levels.AllLevel[MouseLevelChoose].totalTime) + " Minutes", new Vector2(mmKX, mmKY + mmKplusY * 4), Color.Cyan, 1f, 0.1f, spriteBatch);
+            MyGame.Instance.Fonts.TextLem(_currentMouseLevel.NameOfLevel, new Vector2(mmKX + 200, mmKY), Color.Red, 1f, 0.1f, spriteBatch);
+            MyGame.Instance.Fonts.TextLem("Number of Lemmings " + string.Format("{0}", _currentMouseLevel.TotalLemmings), new Vector2(mmKX, mmKY + mmKplusY), Color.Blue, 1f, 0.1f, spriteBatch);
+            MyGame.Instance.Fonts.TextLem(string.Format("{0}", _currentMouseLevel.NbLemmingsToSave) + " to be saved", new Vector2(mmKX, mmKY + mmKplusY * 2), Color.Green, 1f, 0.1f, spriteBatch);
+            MyGame.Instance.Fonts.TextLem("Release Rate " + string.Format("{0}", _currentMouseLevel.MinFrequencyComming), new Vector2(mmKX, mmKY + mmKplusY * 3), Color.Yellow, 1f, 0.1f, spriteBatch);
+            MyGame.Instance.Fonts.TextLem("Time " + string.Format("{0}", _currentMouseLevel.TotalTime) + " Minutes", new Vector2(mmKX, mmKY + mmKplusY * 4), Color.Cyan, 1f, 0.1f, spriteBatch);
             if (_levelCategory == ELevelCategory.Fun)
             {
                 MyGame.Instance.Fonts.TextLem("Rating FUN", new Vector2(mmKX + 470, mmKY + mmKplusY * 4), Color.Magenta, 1f, 0.1f, spriteBatch);
@@ -440,14 +453,14 @@ internal class MainMenu
             int mmKindX = 960;
             int mmKindY = 580;
             int mmPlusy = 15;
-            MyGame.Instance.Fonts.TextLem("Climbers: " + string.Format("{0}", MyGame.Instance.Levels.AllLevel[MouseLevelChoose].numberClimbers), new Vector2(mmKindX, mmKindY), Color.Linen, 0.5f, 0.1f, spriteBatch);
-            MyGame.Instance.Fonts.TextLem("Floaters: " + string.Format("{0}", MyGame.Instance.Levels.AllLevel[MouseLevelChoose].numberUmbrellas), new Vector2(mmKindX, mmKindY + mmPlusy), Color.LimeGreen, 0.5f, 0.1f, spriteBatch);
-            MyGame.Instance.Fonts.TextLem(" Bombers: " + string.Format("{0}", MyGame.Instance.Levels.AllLevel[MouseLevelChoose].numberExploders), new Vector2(mmKindX, mmKindY + mmPlusy * 2), Color.SteelBlue, 0.5f, 0.1f, spriteBatch);
-            MyGame.Instance.Fonts.TextLem("Blockers: " + string.Format("{0}", MyGame.Instance.Levels.AllLevel[MouseLevelChoose].numberBlockers), new Vector2(mmKindX, mmKindY + mmPlusy * 3), Color.Red, 0.5f, 0.1f, spriteBatch);
-            MyGame.Instance.Fonts.TextLem("Builders: " + string.Format("{0}", MyGame.Instance.Levels.AllLevel[MouseLevelChoose].numberBuilders), new Vector2(mmKindX, mmKindY + mmPlusy * 4), Color.Orange, 0.5f, 0.1f, spriteBatch);
-            MyGame.Instance.Fonts.TextLem(" Bashers: " + string.Format("{0}", MyGame.Instance.Levels.AllLevel[MouseLevelChoose].numberBashers), new Vector2(mmKindX, mmKindY + mmPlusy * 5), Color.Violet, 0.5f, 0.1f, spriteBatch);
-            MyGame.Instance.Fonts.TextLem("  Miners: " + string.Format("{0}", MyGame.Instance.Levels.AllLevel[MouseLevelChoose].numberMiners), new Vector2(mmKindX, mmKindY + mmPlusy * 6), Color.Turquoise, 0.5f, 0.1f, spriteBatch);
-            MyGame.Instance.Fonts.TextLem(" Diggers: " + string.Format("{0}", MyGame.Instance.Levels.AllLevel[MouseLevelChoose].numberDiggers), new Vector2(mmKindX, mmKindY + mmPlusy * 7), Color.Tomato, 0.5f, 0.1f, spriteBatch);
+            MyGame.Instance.Fonts.TextLem("Climbers: " + string.Format("{0}", _currentMouseLevel.NumberClimbers), new Vector2(mmKindX, mmKindY), Color.Linen, 0.5f, 0.1f, spriteBatch);
+            MyGame.Instance.Fonts.TextLem("Floaters: " + string.Format("{0}", _currentMouseLevel.NumberUmbrellas), new Vector2(mmKindX, mmKindY + mmPlusy), Color.LimeGreen, 0.5f, 0.1f, spriteBatch);
+            MyGame.Instance.Fonts.TextLem(" Bombers: " + string.Format("{0}", _currentMouseLevel.NumberExploders), new Vector2(mmKindX, mmKindY + mmPlusy * 2), Color.SteelBlue, 0.5f, 0.1f, spriteBatch);
+            MyGame.Instance.Fonts.TextLem("Blockers: " + string.Format("{0}", _currentMouseLevel.NumberBlockers), new Vector2(mmKindX, mmKindY + mmPlusy * 3), Color.Red, 0.5f, 0.1f, spriteBatch);
+            MyGame.Instance.Fonts.TextLem("Builders: " + string.Format("{0}", _currentMouseLevel.NumberBuilders), new Vector2(mmKindX, mmKindY + mmPlusy * 4), Color.Orange, 0.5f, 0.1f, spriteBatch);
+            MyGame.Instance.Fonts.TextLem(" Bashers: " + string.Format("{0}", _currentMouseLevel.NumberBashers), new Vector2(mmKindX, mmKindY + mmPlusy * 5), Color.Violet, 0.5f, 0.1f, spriteBatch);
+            MyGame.Instance.Fonts.TextLem("  Miners: " + string.Format("{0}", _currentMouseLevel.NumberMiners), new Vector2(mmKindX, mmKindY + mmPlusy * 6), Color.Turquoise, 0.5f, 0.1f, spriteBatch);
+            MyGame.Instance.Fonts.TextLem(" Diggers: " + string.Format("{0}", _currentMouseLevel.NumberDiggers), new Vector2(mmKindX, mmKindY + mmPlusy * 7), Color.Tomato, 0.5f, 0.1f, spriteBatch);
         }
 
         spriteBatch.Draw(_mainMenuGfx.Colors88, new Vector2(560, 480), new Rectangle(0, 0, _mainMenuGfx.Colors88.Width, _mainMenuGfx.Colors88.Height), Color.White, 0f, Vector2.Zero, .8f,

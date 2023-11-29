@@ -223,11 +223,7 @@ public partial class MyGame : Game
             _vfx = new Vfx();
             _vfx.Load(Content);
         }
-        if (_levels == null)
-        {
-            _levels = new Levels();
-            _levels.VariablesLevels();
-        }
+        _levels ??= new Levels();
         if (_props == null)
         {
             _props = new Props();

@@ -79,7 +79,6 @@
     <Compile Include="Structures\Particles.cs" />
     <Compile Include="Structures\Varadds.cs" />
     <Compile Include="Structures\Vararrows.cs" />
-    <Compile Include="Structures\Varlev.cs" />
     <Compile Include="Structures\Varmoredoors.cs" />
     <Compile Include="Structures\Varmoreexits.cs" />
     <Compile Include="Structures\Varplat.cs" />
