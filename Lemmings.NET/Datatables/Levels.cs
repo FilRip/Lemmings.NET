@@ -103,7 +103,7 @@ internal class Levels
                     lvl.InitPosX = int.Parse(value);
                     break;
                 default:
-                    throw new Exception("Unknown property : " + name);
+                    throw new LemmingsNetGameException("Unknown property : " + name);
             }
         }
         return lvl;

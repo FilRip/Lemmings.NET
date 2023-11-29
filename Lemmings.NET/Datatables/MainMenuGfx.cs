@@ -1,4 +1,8 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.Collections.Generic;
+
+using Lemmings.NET.Constants;
+
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -12,6 +16,7 @@ internal class MainMenuGfx
     internal RenderTarget2D Colors88 { get; set; }
     internal RenderTarget2D Normals { get; set; }
     internal Texture2D mainMenuSign, mainMenuSign2, ranksign1, ranksign2, ranksign3, ranksign5, ranksign6, Mascaraexplosion;
+    internal Dictionary<ELevelCategory, Texture2D> MiniLevels { get; set; }
 
     public void Load(GraphicsDevice GraphicsDevice, ContentManager content)
     {
@@ -29,5 +34,13 @@ internal class MainMenuGfx
         ranksign5 = content.Load<Texture2D>("lem1/ranksign_05");
         ranksign6 = content.Load<Texture2D>("lem1/ranksign_06");
         Mascaraexplosion = content.Load<Texture2D>("mascara_explode");
+        MiniLevels = new Dictionary<ELevelCategory, Texture2D>()
+        {
+            { ELevelCategory.Fun, content.Load<Texture2D>("levels/mini_levels1") },
+            { ELevelCategory.Tricky, content.Load<Texture2D>("levels/mini_levels2") },
+            { ELevelCategory.Taxing, content.Load<Texture2D>("levels/mini_levels3") },
+            { ELevelCategory.Mayhem, content.Load<Texture2D>("levels/mini_levels4") },
+            { ELevelCategory.Bonus, content.Load<Texture2D>("levels/mini_levels5") },
+        };
     }
 }

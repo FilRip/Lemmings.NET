@@ -64,6 +64,7 @@
     <Compile Include="Datatables\Vfx.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Helpers\Extensions.cs" />
+    <Compile Include="Models\LemmingsNetGameException.cs" />
     <Compile Include="Models\OneEntry.cs" />
     <Compile Include="Models\OneExit.cs" />
     <Compile Include="Models\OneLevel.cs" />

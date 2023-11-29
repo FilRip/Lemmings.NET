@@ -320,10 +320,7 @@ public partial class MyGame : Game
         // right button does not save cos if is false always
 
         _debugOsd.Update(gameTime);
-        if (CurrentScreen == ECurrentScreen.MainMenu)
-        {
-            _screenMainMenu.Update();
-        }
+
         // particle test test test right button mouse
         if ((Input.PreviousMouseState.RightButton == ButtonState.Released && Input.CurrentMouseState.RightButton == ButtonState.Pressed) && !LevelEnded)
         {
@@ -337,7 +334,7 @@ public partial class MyGame : Game
                     rightparticle = false;
                 else
                     rightparticle = true;
-                ParticleTab = new Structs.Particles[GlobalConst.NumParticles];
+                ParticleTab = new Particles[GlobalConst.NumParticles];
                 for (int varParticle = 0; varParticle < GlobalConst.NumParticles; varParticle++)
                 {
                     vectorFill.X = GlobalConst.Rnd.Next(20, 1080);

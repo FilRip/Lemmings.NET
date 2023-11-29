@@ -19,6 +19,18 @@ internal class MainMenu
     private float frameWater = 0;
     private int _mouseLevelChoose;
     private OneLevel _currentMouseLevel;
+    private float peakheight = 25;
+    private int framblink1 = 0, framblink2 = 0, framblink3 = 0;
+    private readonly int mmstartx, mmstarty, mmX;
+    private bool Updown = true;
+    private int levelACT;
+    private bool blink1on = false, blink2on = false, blink3on = false;
+    private readonly Rectangle mm1, mm2, mm3, mm4, mm5, mm6;
+
+    internal MainMenuGfx MainMenuGfx
+    {
+        get { return _mainMenuGfx; }
+    }
     public int MouseLevelChoose
     {
         get { return _mouseLevelChoose; }
@@ -31,21 +43,20 @@ internal class MainMenu
             }
         }
     }
-    private float peakheight = 25;
-    private int framblink1 = 0, framblink2 = 0, framblink3 = 0, mmstartx, mmstarty, mmX;
-    private bool Updown = true;
-    private int levelACT;
-    private bool blink1on = false, blink2on = false, blink3on = false;
-
-    internal MainMenuGfx MainMenuGfx
-    {
-        get { return _mainMenuGfx; }
-    }
 
     internal MainMenu()
     {
         _mainMenuGfx = new MainMenuGfx();
         LoadGfx();
+        mmstartx = 5;
+        mmstarty = 80;
+        mmX = 135;
+        mm1 = new(mmstartx, mmstarty, _mainMenuGfx.mainMenuSign.Width, _mainMenuGfx.mainMenuSign.Height);
+        mm2 = new(mmstartx, mmstarty + 100, _mainMenuGfx.mainMenuSign.Width, _mainMenuGfx.mainMenuSign.Height);
+        mm3 = new(mmstartx, mmstarty + 200, _mainMenuGfx.mainMenuSign.Width, _mainMenuGfx.mainMenuSign.Height);
+        mm4 = new(mmstartx, mmstarty + 300, _mainMenuGfx.mainMenuSign.Width, _mainMenuGfx.mainMenuSign.Height);
+        mm5 = new(mmstartx, mmstarty + 400, _mainMenuGfx.mainMenuSign.Width, _mainMenuGfx.mainMenuSign.Height);
+        mm6 = new(mmstartx, mmstarty + 500, _mainMenuGfx.mainMenuSign.Width, _mainMenuGfx.mainMenuSign.Height);
     }
 
     internal void LoadGfx()
@@ -99,16 +110,7 @@ internal class MainMenu
         //normal target
         spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.AnisotropicWrap, null, null);
         graphics.Clear(Color.Black); //new Color(255, 0, 255, 255)
-        mmstartx = 5;
-        mmstarty = 80;
-        mmX = 135;
         Point x = new(Input.CurrentMouseState.Position.X, Input.CurrentMouseState.Position.Y);
-        Rectangle mm1 = new(mmstartx, mmstarty, _mainMenuGfx.mainMenuSign.Width, _mainMenuGfx.mainMenuSign.Height);
-        Rectangle mm2 = new(mmstartx, mmstarty + 100, _mainMenuGfx.mainMenuSign.Width, _mainMenuGfx.mainMenuSign.Height);
-        Rectangle mm3 = new(mmstartx, mmstarty + 200, _mainMenuGfx.mainMenuSign.Width, _mainMenuGfx.mainMenuSign.Height);
-        Rectangle mm4 = new(mmstartx, mmstarty + 300, _mainMenuGfx.mainMenuSign.Width, _mainMenuGfx.mainMenuSign.Height);
-        Rectangle mm5 = new(mmstartx, mmstarty + 400, _mainMenuGfx.mainMenuSign.Width, _mainMenuGfx.mainMenuSign.Height);
-        Rectangle mm6 = new(mmstartx, mmstarty + 500, _mainMenuGfx.mainMenuSign.Width, _mainMenuGfx.mainMenuSign.Height);
         ELevelCategory previousLevelCat = _levelCategory;
         if (mm1.Contains(x))
         {
@@ -279,7 +281,7 @@ internal class MainMenu
             spriteBatch.Draw(_mainMenuGfx.mainMenuSign, new Vector2(mmstartx, mmstarty + 500), new Color(80, 80, 80, 255));
             spriteBatch.Draw(_mainMenuGfx.ranksign6, new Vector2(mmstartx + 34, mmstarty + 525), new Color(80, 80, 80, 255));
         }
-        if ((int)_levelCategory <= (int)ELevelCategory.Mayhem && _levelCategory != ELevelCategory.None)
+        if ((int)_levelCategory <= (int)ELevelCategory.Bonus && _levelCategory != ELevelCategory.None)
         {
             colorFill.R = 0;  // black with transparency at 170
             colorFill.G = 0;
@@ -293,7 +295,7 @@ internal class MainMenu
             int mmy = 130;
             x = new Point(Input.CurrentMouseState.Position.X, Input.CurrentMouseState.Position.Y);
             MouseLevelChoose = 0;
-            for (int s = 1; s < 31; s++)
+            for (int s = 1; s < (_levelCategory == ELevelCategory.Bonus ? 37 : 31); s++)
             {
                 Rectangle mmlev = new(mmx, mmy, 130, 55);
                 if (mmlev.Contains(x))
@@ -316,47 +318,8 @@ internal class MainMenu
             }
             if (MyGame.Instance.ScreenInGame.MyTexture == null || MyGame.Instance.ScreenInGame.MyTexture.Name != "levels/mini_levels" + ((int)_levelCategory).ToString())
             {
-                Console.WriteLine("Load texture " + (GlobalConst.Rnd.Next(65535)).ToString());
-                MyGame.Instance.ScreenInGame.MyTexture = MyGame.Instance.Content.Load<Texture2D>("levels/mini_levels" + ((int)_levelCategory).ToString());
+                MyGame.Instance.ScreenInGame.MyTexture = _mainMenuGfx.MiniLevels[_levelCategory];
             }
-            spriteBatch.Draw(MyGame.Instance.ScreenInGame.MyTexture, new Vector2(mmX, 130), Color.White);
-        }
-        else if (_levelCategory == ELevelCategory.Bonus)
-        {
-            colorFill.R = 0;  // black with transparency at 170
-            colorFill.G = 0;
-            colorFill.B = 0;
-            colorFill.A = 170;
-            spriteBatch.Draw(MyGame.Instance.Gfx.Texture1pixel, new Rectangle(mmX - 10, 130, 955, 420), null, // 7 x 6 mini levels maps
-                colorFill, 0f, Vector2.Zero, SpriteEffects.None, 0.1f);
-            spriteBatch.Draw(_mainMenuGfx.mainMenuSign2, new Rectangle(-110, 15, 1429, 638), null, // 7 x 6 mini levels maps
-                Color.White, 0f, Vector2.Zero, SpriteEffects.None, 0.1f);
-            int mmx = mmX;
-            int mmy = 130;
-            x = new Point(Input.CurrentMouseState.Position.X, Input.CurrentMouseState.Position.Y);
-            MouseLevelChoose = 0;
-            for (int s = 1; s < 37; s++)
-            {
-                Rectangle mmlev = new(mmx, mmy, 130, 55);
-                if (mmlev.Contains(x))
-                {
-                    MouseLevelChoose = 120 + s;
-                    if (SaveGame.FinishedLevel[MouseLevelChoose])
-                        colorFill = Color.ForestGreen;
-                    else
-                        colorFill = Color.Red;
-                    spriteBatch.Draw(MyGame.Instance.Gfx.Texture1pixel, new Rectangle(mmx, mmy, 130, 55), null, // 7 x 6 mini levels maps
-                        colorFill, 0f, Vector2.Zero, SpriteEffects.None, 0.1f);
-                    break;
-                }
-                mmx += 135;
-                if (s % 7 == 0)
-                {
-                    mmx = mmX;
-                    mmy += 70;
-                }
-            }
-            MyGame.Instance.ScreenInGame.MyTexture = MyGame.Instance.Content.Load<Texture2D>("levels/mini_levels5");
             spriteBatch.Draw(MyGame.Instance.ScreenInGame.MyTexture, new Vector2(mmX, 130), Color.White);
         }
         else if (_levelCategory == ELevelCategory.User)
