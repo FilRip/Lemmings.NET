@@ -15,6 +15,8 @@ internal class Levels
     internal OneLevel GetLevel(int numLevel)
     {
         OneLevel lvl = new();
+        if (numLevel == 0)
+            return lvl;
         string[] levelContent;
         levelContent = File.ReadAllLines(Path.Combine(Environment.CurrentDirectory, MyGame.Instance.Content.RootDirectory, "levels", $"level{numLevel}.ini"));
         string name;
@@ -24,7 +26,7 @@ internal class Levels
         foreach (string line in levelContent)
         {
             splitter = line.Split('=');
-            name = splitter[0].Trim();
+            name = splitter[0].Trim().ToLower();
             value = splitter[1].Trim();
             switch (name)
             {
@@ -70,7 +72,7 @@ internal class Levels
                 case "nameoflevel":
                     lvl.NameOfLevel = value;
                     break;
-                case "NbLemmingsToSave":
+                case "nblemmingstosave":
                     lvl.NbLemmingsToSave = int.Parse(value);
                     break;
                 case "numberbashers":
@@ -85,7 +87,7 @@ internal class Levels
                 case "numberminers":
                     lvl.NumberMiners = int.Parse(value);
                     break;
-                case "NumberUmbrellas":
+                case "numberumbrellas":
                     lvl.NumberUmbrellas = int.Parse(value);
                     break;
                 case "totaltime":
@@ -97,6 +99,11 @@ internal class Levels
                 case "typeofexit":
                     lvl.TypeOfExit = int.Parse(value);
                     break;
+                case "initposx":
+                    lvl.InitPosX = int.Parse(value);
+                    break;
+                default:
+                    throw new Exception("Unknown property : " + name);
             }
         }
         return lvl;
