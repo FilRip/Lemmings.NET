@@ -24,7 +24,7 @@ internal class OneLemming
     {
         get { return !Right; }
     }
-    public int Pixelscaida { get; set; }
+    public int PixelsDrop { get; set; }
     public bool Walker { get; set; }
     public bool Blocker { get; set; }
     public bool Fall { get; set; }
@@ -435,7 +435,7 @@ internal class OneLemming
             }
             return;
         }
-        int arriba = 0;
+        int above = 0;
         int below = 0;
         int pixx = PosX + medx;
         for (int x55 = 0; x55 <= 8; x55++)
@@ -469,10 +469,10 @@ internal class OneLemming
             }
         }
         // very important to check digger and miner before change to falling
-        if (Pixelscaida > GlobalConst.useumbrella && !Falling && Umbrella
+        if (PixelsDrop > GlobalConst.useumbrella && !Falling && Umbrella
             && (!Digger && !Miner && !Builder) && Active)
         {
-            Pixelscaida = 11;
+            PixelsDrop = 11;
             Falling = true;
             Fall = false;
             Actualframe = 0;
@@ -482,7 +482,7 @@ internal class OneLemming
             && !Explode && Active)
         {
             Fall = true;
-            Pixelscaida = 0;
+            PixelsDrop = 0;
             Climbing = false;
             Walker = false;
             Actualframe = 0;
@@ -495,9 +495,9 @@ internal class OneLemming
         }
         if ((below == 0) && (Fall || Falling) && (!Digger && !Miner)) //OJO LOCO A VECES AL CAVAR Y SIGUE WALKER
         {
-            if (Pixelscaida <= GlobalConst.maxnumberfalling)
+            if (PixelsDrop <= GlobalConst.maxnumberfalling)
             {
-                Pixelscaida = 0;
+                PixelsDrop = 0;
                 Framescut = false;
                 Falling = false;
                 Walker = true;
@@ -523,7 +523,7 @@ internal class OneLemming
         }
         if ((below == 0) && Walker && (!Digger && !Miner))
         {
-            Pixelscaida = 0;
+            PixelsDrop = 0;
         }
         for (int x55 = 0; x55 <= 20; x55++)
         {
@@ -537,7 +537,7 @@ internal class OneLemming
             {
                 if (MyGame.Instance.ScreenInGame.C25[(pos_real * MyGame.Instance.ScreenInGame.Earth.Width) + pixx].R > 0 || MyGame.Instance.ScreenInGame.C25[(pos_real * MyGame.Instance.ScreenInGame.Earth.Width) + pixx].G > 0 || MyGame.Instance.ScreenInGame.C25[(pos_real * MyGame.Instance.ScreenInGame.Earth.Width) + pixx].B > 0)
                 {
-                    arriba++;
+                    above++;
                 }
                 else
                 {
@@ -549,7 +549,7 @@ internal class OneLemming
         {
             Blocker = false;
             Fall = true;
-            Pixelscaida = 0;
+            PixelsDrop = 0;
             Actualframe = 0;
             Numframes = SizeSprites.faller_frames;
             return;
@@ -1066,7 +1066,7 @@ internal class OneLemming
                 Actualframe = SizeSprites.builder_frames + 1;  // erase with // no compiling//  to see full frames
                 if (Right)
                 {
-                    if (arriba > 1)
+                    if (above > 1)
                     {
                         PosY += 6;
                         PosX -= 14;
@@ -1147,7 +1147,7 @@ internal class OneLemming
                 }
                 else
                 {
-                    if (arriba > 1)
+                    if (above > 1)
                     {
                         PosY += 6;
                         PosX += 15;
@@ -1158,7 +1158,6 @@ internal class OneLemming
                         Numstairs = 0;
                         Right = true;
                         return;
-
                     }
                     if (PosY < -24) //see ok was -24
                     {
@@ -1237,7 +1236,7 @@ internal class OneLemming
             {
                 Builder = false;
                 Bridge = true;
-                Pixelscaida = 0;
+                PixelsDrop = 0;
                 if (Right)
                 {
                     PosX -= 6;
@@ -1376,7 +1375,7 @@ internal class OneLemming
                 Digger = false;
                 Fall = true;
                 Walker = false;
-                Pixelscaida = 0;
+                PixelsDrop = 0;
                 Actualframe = 0;
                 Numframes = SizeSprites.faller_frames;
                 return; //break o continue DUNNO I DON'T KNOW WHICH IS BETTER
@@ -1390,7 +1389,7 @@ internal class OneLemming
                 Climbing = false;
                 Fall = true;
                 Walker = false;
-                Pixelscaida = 0;
+                PixelsDrop = 0;
                 Numframes = SizeSprites.faller_frames;
                 Actualframe = 0;
                 Builder = false;
@@ -1425,11 +1424,11 @@ internal class OneLemming
                     return;
                 }
             }
-            if (arriba > 0 && MyGame.Instance.ScreenInGame.Dibuja)
+            if (above > 0 && MyGame.Instance.ScreenInGame.Drawing)
             {
                 PosY--;
             }
-            if (arriba == 0)
+            if (above == 0)
             {
                 if (Right)
                 {
@@ -1451,24 +1450,24 @@ internal class OneLemming
             if (below < 3 && Right)
             {
                 PosX++;
-                if (arriba < 16)
+                if (above < 16)
                 {
-                    PosY -= arriba;
+                    PosY -= above;
                 }
             }  //// <6 o <8 falla cava
             if (below < 3 && Left)
             {
                 PosX--;
-                if (arriba < 16)
+                if (above < 16)
                 {
-                    PosY -= arriba;
+                    PosY -= above;
                 }
             }
-            if (arriba >= 16)
+            if (above >= 16)
             {
                 if (!Climber)
                 {
-                    if (Right && arriba >= 16)
+                    if (Right && above >= 16)
                     {
                         Right = false;
                         PosX -= 2;  // 1 o 2 LOOK
@@ -1484,7 +1483,7 @@ internal class OneLemming
                     Walker = false;
                     Climbing = true;
                     Numframes = SizeSprites.climber_frames;
-                    Pixelscaida = 0;
+                    PixelsDrop = 0;
                     Actualframe = 0;
                     return;
                 }
@@ -1623,17 +1622,17 @@ internal class OneLemming
             if (below >= 3)
             {
                 PosY += 3;
-                Pixelscaida += 3;
+                PixelsDrop += 3;
             }
             else
             {
                 PosY += below;
-                Pixelscaida += below;
+                PixelsDrop += below;
             } // fall 3 MAX---MAX 3 FALL PIXELS
         }
         else
         {
-            if (!Drown && MyGame.Instance.ScreenInGame.Dibuja)
+            if (!Drown && MyGame.Instance.ScreenInGame.Drawing)
             {
                 if (below >= 3)
                 {

@@ -59,7 +59,7 @@ internal class InGame
     internal Varsteel[] Steel { get; set; }
     internal Varmoredoors[] MoreDoors { get; set; }
     internal Varmoreexits[] Moreexits { get; set; }
-    internal bool Dibuja { get; set; } = true;
+    internal bool Drawing { get; set; } = true;
     internal bool Draw2 { get; set; } = true;
     internal double TotalTime { get; set; }
     internal int Frame { get; set; }
@@ -92,7 +92,7 @@ internal class InGame
     internal OneLevel CurrentLevel { get; set; }
     private float Contadortime2;
     private double actWaves444, actWaves333, actWaves;
-    private bool dibuja3, LevelEnded, ExitBad, ExitLevel;
+    private bool drawing3, LevelEnded, ExitBad, ExitLevel;
     private int cantidad22;
     private int rest = 0, Contador2, Contador = 1;
     private bool doorOn = true;
@@ -265,9 +265,9 @@ internal class InGame
         frameWaves++;
         Frame2++;
         Frame3++;
-        Dibuja = false;
+        Drawing = false;
         Draw2 = false;
-        dibuja3 = false;
+        drawing3 = false;
         Draw_walker = false;
         Draw_builder = false;
         if (walker_frame > SizeSprites.walker_framesecond)
@@ -283,7 +283,7 @@ internal class InGame
         if (Frame2 > Framesecond)
         {
             Frame2 = 0;
-            Dibuja = true;
+            Drawing = true;
             if (!GlobalConst.Paused)
                 Frame++;
         } //without this Frame affects door speed exit
@@ -295,7 +295,7 @@ internal class InGame
         if (frameWaves > Framesecond3)
         {
             frameWaves = 0;
-            dibuja3 = true;
+            drawing3 = true;
             actWaves++;
         } // change add of actwaves to see differences in speed  +=2,+=5
         // stop all things for exit prepare
@@ -472,7 +472,7 @@ internal class InGame
             }
             Adds[0].frame++;
         }
-        if (TrapsON && Dibuja && !GlobalConst.Paused)
+        if (TrapsON && Drawing && !GlobalConst.Paused)
         {
             for (int s = 0; s < NumTotTraps; s++)
             {
@@ -551,7 +551,7 @@ internal class InGame
         z2 = (int)Contadortime2 / 10;
         z3 = (int)Contadortime2 / 9;
         z3 %= 4; // mumero de frames del agua a ver 4 de 5 que tiene la ultima esta vacia nose porque
-        if (Dibuja)
+        if (Drawing)
         {
             int xx66 = MyGame.Instance.Props.GetExit(CurrentLevel.TypeOfExit).NumFrame - 1;
             frameExit++;
@@ -565,7 +565,7 @@ internal class InGame
         _inGameMenu.Update();
         MyTexture = MyGame.Instance.Content.Load<Texture2D>("luces/" + Contador);// okokokokokokokok
 
-        if (Dibuja && NumTotArrow > 0) // dibuja or dibuja2 test performance-- this is the worst part of the code NEED OPTIMIZATION
+        if (Drawing && NumTotArrow > 0) // dibuja or dibuja2 test performance-- this is the worst part of the code NEED OPTIMIZATION
         {
             for (int xz = 0; xz < NumTotArrow; xz++)
             {
@@ -1077,7 +1077,7 @@ internal class InGame
     internal void Update(GameTime gameTime)
     {
         MillisecondsElapsed += gameTime.ElapsedGameTime.Milliseconds;
-        if (Exploding && dibuja3 && !GlobalConst.Paused)  //logic explosions particles
+        if (Exploding && drawing3 && !GlobalConst.Paused)  //logic explosions particles
         {
             int _totalExploding = ActItem;
             for (int Qexplo = 0; Qexplo < ActItem; Qexplo++)
@@ -1150,28 +1150,28 @@ internal class InGame
         if (Input.PreviousKeyState.IsKeyDown(Keys.Left))
         {
             ScrollX -= 5;
-            if (Input.PreviousKeyState.IsKeyDown(Keys.LeftShift) || Input.PreviousKeyState.IsKeyDown(Keys.RightShift))
+            if (Input.ShiftPressed)
                 ScrollX -= 10;
             Scrolling();
         }
         else if (Input.PreviousKeyState.IsKeyDown(Keys.Right))
         {
             ScrollX += 5;
-            if (Input.PreviousKeyState.IsKeyDown(Keys.LeftShift) || Input.PreviousKeyState.IsKeyDown(Keys.RightShift))
+            if (Input.ShiftPressed)
                 ScrollX += 10;
             Scrolling();
         }
         else if (Input.PreviousKeyState.IsKeyDown(Keys.Up))
         {
             ScrollY -= 5;
-            if (Input.PreviousKeyState.IsKeyDown(Keys.LeftShift) || Input.PreviousKeyState.IsKeyDown(Keys.RightShift))
+            if (Input.ShiftPressed)
                 ScrollY -= 10;
             Scrolling();
         }
         else if (Input.PreviousKeyState.IsKeyDown(Keys.Down))
         {
             ScrollY += 5;
-            if (Input.PreviousKeyState.IsKeyDown(Keys.LeftShift) || Input.PreviousKeyState.IsKeyDown(Keys.RightShift))
+            if (Input.ShiftPressed)
                 ScrollY += 10;
             Scrolling();
         }
@@ -1414,7 +1414,7 @@ internal class InGame
         }
         bool pullLemmings = false;
         float delayPercent = 27 - _inGameMenu.FrequencyNumber * 0.26f; // see to fix speed of lemmings release on door only when change frecuency (not so good)
-        if (Dibuja && !doorOn)
+        if (Drawing && !doorOn)
         {
             exitFrame++;
             if (exitFrame >= (int)delayPercent)
@@ -1443,7 +1443,7 @@ internal class InGame
                 Right = true,
                 Fall = true,
                 Walker = false,
-                Pixelscaida = 0,
+                PixelsDrop = 0,
                 Actualframe = 0,
                 Onmouse = false,
                 Active = true,

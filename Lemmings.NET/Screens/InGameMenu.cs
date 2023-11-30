@@ -106,7 +106,7 @@ internal class InGameMenu
             framblink1 = 0;
             blink1on = true;
         }  // bbbbbbbbbbbbbbllllllllllllllblinking eyes menu 1-2-3
-        if (blink1on && _inGame.Dibuja)
+        if (blink1on && _inGame.Drawing)
         {
             framblink1++;
             if (framblink1 > 8)
@@ -120,7 +120,7 @@ internal class InGameMenu
             framblink2 = 0;
             blink2on = true;
         }
-        if (blink2on && _inGame.Dibuja)
+        if (blink2on && _inGame.Drawing)
         {
             framblink2++;
             if (framblink2 > 8)
@@ -134,7 +134,7 @@ internal class InGameMenu
             framblink3 = 0;
             blink3on = true;
         }
-        if (blink3on && _inGame.Dibuja)
+        if (blink3on && _inGame.Drawing)
         {
             framblink3++;
             if (framblink3 > 8)

@@ -5,19 +5,27 @@ namespace Lemmings.NET.Models;
 
 internal static class Input
 {
-    public static KeyboardState PreviousKeyState { get; set; }
-    public static KeyboardState CurrentKeyState { get; set; }
-    public static MouseState PreviousMouseState { get; set; }
-    public static MouseState CurrentMouseState { get; set; }
-    public static GameTime CurrentGameTime { get; set; }
+    internal static KeyboardState PreviousKeyState { get; set; }
+    internal static KeyboardState CurrentKeyState { get; set; }
+    internal static MouseState PreviousMouseState { get; set; }
+    internal static MouseState CurrentMouseState { get; set; }
+    internal static GameTime CurrentGameTime { get; set; }
 
-    public static void SetKeyboardState(KeyboardState newState)
+    internal static bool ShiftPressed
+    {
+        get
+        {
+            return (PreviousKeyState.IsKeyDown(Keys.LeftShift) || PreviousKeyState.IsKeyDown(Keys.RightShift));
+        }
+    }
+
+    internal static void SetKeyboardState(KeyboardState newState)
     {
         PreviousKeyState = CurrentKeyState;
         CurrentKeyState = newState;
     }
 
-    public static void SetMouseState(MouseState newState)
+    internal static void SetMouseState(MouseState newState)
     {
         PreviousMouseState = CurrentMouseState;
         CurrentMouseState = newState;

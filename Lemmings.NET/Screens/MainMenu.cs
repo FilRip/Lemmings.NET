@@ -445,12 +445,12 @@ internal class MainMenu
             MyGame.Instance.Exit();
         }
         MyGame.Instance.ScreenInGame.Frame2++;
-        MyGame.Instance.ScreenInGame.Dibuja = false;
+        MyGame.Instance.ScreenInGame.Drawing = false;
         if (MyGame.Instance.ScreenInGame.Frame2 > 6)
         {
             MyGame.Instance.ScreenInGame.Frame2 = 0;
             MyGame.Instance.ScreenInGame.Frame++;
-            MyGame.Instance.ScreenInGame.Dibuja = true;
+            MyGame.Instance.ScreenInGame.Drawing = true;
         }
         if (MyGame.Instance.ScreenInGame.R1 == 0)
         {
@@ -469,7 +469,7 @@ internal class MainMenu
             framblink1 = 0;
             blink1on = true;
         }  // bbbbbbbbbbbbbbllllllllllllllblinking eyes menu 1-2-3
-        if (blink1on && MyGame.Instance.ScreenInGame.Dibuja)
+        if (blink1on && MyGame.Instance.ScreenInGame.Drawing)
         {
             framblink1++;
             if (framblink1 > 8)
@@ -483,7 +483,7 @@ internal class MainMenu
             framblink2 = 0;
             blink2on = true;
         }
-        if (blink2on && MyGame.Instance.ScreenInGame.Dibuja)
+        if (blink2on && MyGame.Instance.ScreenInGame.Drawing)
         {
             framblink2++;
             if (framblink2 > 8)
@@ -497,7 +497,7 @@ internal class MainMenu
             framblink3 = 0;
             blink3on = true;
         }
-        if (blink3on && MyGame.Instance.ScreenInGame.Dibuja)
+        if (blink3on && MyGame.Instance.ScreenInGame.Drawing)
         {
             framblink3++;
             if (framblink3 > 8)
