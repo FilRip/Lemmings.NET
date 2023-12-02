@@ -18,7 +18,7 @@ internal class Sprites
     internal Texture2D EyeBlink3 { get; private set; }
     internal Texture2D Circulo_led { get; private set; }
     internal Texture2D Avanzar { get; private set; }
-    internal Texture2D Mas, Menos, Paraguas, Puente, Pausa, Pared, Pico, Bomba, Rompesuelo, Agua2, Nubes_2, Nubes;
+    internal Texture2D Mas, Menos, Paraguas, Puente, Pausa, Pared, Pico, Bomba, Rompesuelo, Water2, Nubes_2, Nubes;
     internal Texture2D Cuadrado_menu, Chink;
     internal Texture2D Lohno;
 
@@ -46,7 +46,7 @@ internal class Sprites
         Pausa = content.Load<Texture2D>("pausa");
         Bomba = content.Load<Texture2D>("bomba");
         Cuadrado_menu = content.Load<Texture2D>("border");
-        Agua2 = content.Load<Texture2D>("Animations/water2");
+        Water2 = content.Load<Texture2D>("Animations/water2");
         Nubes_2 = content.Load<Texture2D>("fondos/nubes2");
         Nubes = content.Load<Texture2D>("fondos/nubes");
         Chink = content.Load<Texture2D>("sprite/chink");

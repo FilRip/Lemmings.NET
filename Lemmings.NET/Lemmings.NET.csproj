@@ -70,6 +70,7 @@
     <Compile Include="Models\OneLevel.cs" />
     <Compile Include="Models\OneParticle.cs" />
     <Compile Include="Models\OneTrap.cs" />
+    <Compile Include="Models\OneTrapSprite.cs" />
     <Compile Include="MyGame.cs" />
     <Compile Include="Models\OneLemming.cs" />
     <Compile Include="Models\SaveGame.cs" />

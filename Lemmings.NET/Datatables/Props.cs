@@ -234,10 +234,17 @@ namespace Lemmings.NET.Datatables
             _listExits.Add(exit);
         }
 
+        private void LoadTraps()
+        {
+
+        }
+
         internal void Load()
         {
             LoadDoors();
             LoadExits();
+            LoadTraps();
+
         }
     }
 }

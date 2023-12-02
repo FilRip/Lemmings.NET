@@ -301,7 +301,7 @@ internal class MainMenu
                 if (mmlev.Contains(x))
                 {
                     MouseLevelChoose = s + (30 * (((int)_levelCategory) - 1));
-                    if (SaveGame.FinishedLevel[MouseLevelChoose])
+                    if (SaveGame.MySaveGameFile[MouseLevelChoose])
                         colorFill = Color.ForestGreen;
                     else
                         colorFill = Color.Red;
@@ -342,7 +342,7 @@ internal class MainMenu
                 if (mmlev.Contains(x))
                 {
                     MouseLevelChoose = 156 + s;
-                    if (SaveGame.FinishedLevel[MouseLevelChoose])
+                    if (SaveGame.MySaveGameFile[MouseLevelChoose])
                         colorFill = Color.ForestGreen;
                     else
                         colorFill = Color.Red;

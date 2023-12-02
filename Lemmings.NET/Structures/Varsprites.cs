@@ -5,10 +5,10 @@ namespace Lemmings.NET.Structs;
 
 internal struct Varsprites
 {
-    internal int axisX, axisY, actFrame, transparency, R, G, B, framesecond, frame, actVect;
-    internal Vector2 pos, dest, center;
-    internal float depth, rotation, scale, typescroll, speed;
-    internal bool minusScrollx, minus, calc;
-    internal Texture2D sprite;
-    internal Vector3[] path;
+    internal int AxisX, AxisY, ActFrame, Transparency, R, G, B, Framesecond, Frame, ActVect;
+    internal Vector2 Pos, Dest, Center;
+    internal float Depth, Rotation, Scale, Typescroll, Speed;
+    internal bool MinusScrollx, Minus, Calc;
+    internal Texture2D Sprite;
+    internal Vector3[] Path;
 }

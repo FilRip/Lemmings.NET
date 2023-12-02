@@ -308,82 +308,82 @@ internal class InGame
         {
             for (int ssi = 0; ssi < Sprite.Length; ssi++)
             {
-                Sprite[ssi].frame++;
-                if (Sprite[ssi].sprite.Name == "touch/fire_sprites_other" && Sprite[ssi].frame > Sprite[ssi].framesecond)
+                Sprite[ssi].Frame++;
+                if (Sprite[ssi].Sprite.Name == "touch/fire_sprites_other" && Sprite[ssi].Frame > Sprite[ssi].Framesecond)
                 {
-                    Sprite[ssi].frame = 0;
-                    if (Sprite[ssi].minus)
-                        Sprite[ssi].actFrame -= 2;
+                    Sprite[ssi].Frame = 0;
+                    if (Sprite[ssi].Minus)
+                        Sprite[ssi].ActFrame -= 2;
                     else
-                        Sprite[ssi].actFrame++; // 2 frames less to return to zero better effect i think
-                    if (Sprite[ssi].actFrame > 14 && !Sprite[ssi].minus)
+                        Sprite[ssi].ActFrame++; // 2 frames less to return to zero better effect i think
+                    if (Sprite[ssi].ActFrame > 14 && !Sprite[ssi].Minus)
                     {
-                        Sprite[ssi].actFrame = 15;
-                        Sprite[ssi].minus = true;
+                        Sprite[ssi].ActFrame = 15;
+                        Sprite[ssi].Minus = true;
                     }
-                    if (Sprite[ssi].actFrame < 0 && Sprite[ssi].minus)
+                    if (Sprite[ssi].ActFrame < 0 && Sprite[ssi].Minus)
                     {
-                        Sprite[ssi].minus = false;
-                        Sprite[ssi].actFrame = 1;
+                        Sprite[ssi].Minus = false;
+                        Sprite[ssi].ActFrame = 1;
                     }
                     continue;
                 }
-                if (Sprite[ssi].frame > Sprite[ssi].framesecond)
+                if (Sprite[ssi].Frame > Sprite[ssi].Framesecond)
                 {
-                    Sprite[ssi].frame = 0;
-                    Sprite[ssi].actFrame++;
-                    if (Sprite[ssi].actFrame > (Sprite[ssi].axisX * Sprite[ssi].axisY) - 1)
-                        Sprite[ssi].actFrame = 0;
+                    Sprite[ssi].Frame = 0;
+                    Sprite[ssi].ActFrame++;
+                    if (Sprite[ssi].ActFrame > (Sprite[ssi].AxisX * Sprite[ssi].AxisY) - 1)
+                        Sprite[ssi].ActFrame = 0;
                 }
-                if (Sprite[ssi].speed != 0)  // spider destination puto puto puto
+                if (Sprite[ssi].Speed != 0)  // spider destination puto puto puto
                 {
-                    if (Sprite[ssi].calc)
+                    if (Sprite[ssi].Calc)
                     {
-                        Sprite[ssi].calc = false;
-                        if (!Sprite[ssi].minus)
+                        Sprite[ssi].Calc = false;
+                        if (!Sprite[ssi].Minus)
                         {
-                            Sprite[ssi].pos.X = Sprite[ssi].path[Sprite[ssi].actVect].X;
-                            Sprite[ssi].pos.Y = Sprite[ssi].path[Sprite[ssi].actVect].Y;
-                            Sprite[ssi].speed = Sprite[ssi].path[Sprite[ssi].actVect].Z;
-                            Sprite[ssi].dest.X = Sprite[ssi].path[Sprite[ssi].actVect + 1].X;
-                            Sprite[ssi].dest.Y = Sprite[ssi].path[Sprite[ssi].actVect + 1].Y;
+                            Sprite[ssi].Pos.X = Sprite[ssi].Path[Sprite[ssi].ActVect].X;
+                            Sprite[ssi].Pos.Y = Sprite[ssi].Path[Sprite[ssi].ActVect].Y;
+                            Sprite[ssi].Speed = Sprite[ssi].Path[Sprite[ssi].ActVect].Z;
+                            Sprite[ssi].Dest.X = Sprite[ssi].Path[Sprite[ssi].ActVect + 1].X;
+                            Sprite[ssi].Dest.Y = Sprite[ssi].Path[Sprite[ssi].ActVect + 1].Y;
                         }
                         else
                         {
-                            Sprite[ssi].dest.X = Sprite[ssi].path[Sprite[ssi].actVect].X;
-                            Sprite[ssi].dest.Y = Sprite[ssi].path[Sprite[ssi].actVect].Y;
-                            Sprite[ssi].speed = Sprite[ssi].path[Sprite[ssi].actVect].Z;
-                            Sprite[ssi].pos.X = Sprite[ssi].path[Sprite[ssi].actVect + 1].X;
-                            Sprite[ssi].pos.Y = Sprite[ssi].path[Sprite[ssi].actVect + 1].Y;
+                            Sprite[ssi].Dest.X = Sprite[ssi].Path[Sprite[ssi].ActVect].X;
+                            Sprite[ssi].Dest.Y = Sprite[ssi].Path[Sprite[ssi].ActVect].Y;
+                            Sprite[ssi].Speed = Sprite[ssi].Path[Sprite[ssi].ActVect].Z;
+                            Sprite[ssi].Pos.X = Sprite[ssi].Path[Sprite[ssi].ActVect + 1].X;
+                            Sprite[ssi].Pos.Y = Sprite[ssi].Path[Sprite[ssi].ActVect + 1].Y;
                         }
-                        if (!Sprite[ssi].minus)
+                        if (!Sprite[ssi].Minus)
                         {
-                            Sprite[ssi].actVect++;
+                            Sprite[ssi].ActVect++;
                         }
                         else
                         {
-                            Sprite[ssi].actVect--;
+                            Sprite[ssi].ActVect--;
                         }
-                        if (Sprite[ssi].actVect > Sprite[ssi].path.Length - 2 && !Sprite[ssi].minus)
+                        if (Sprite[ssi].ActVect > Sprite[ssi].Path.Length - 2 && !Sprite[ssi].Minus)
                         {
-                            Sprite[ssi].actVect--; Sprite[ssi].minus = true;
+                            Sprite[ssi].ActVect--; Sprite[ssi].Minus = true;
                         }
-                        if (Sprite[ssi].actVect < 0 && Sprite[ssi].minus)
+                        if (Sprite[ssi].ActVect < 0 && Sprite[ssi].Minus)
                         {
-                            Sprite[ssi].actVect++; Sprite[ssi].minus = false;
+                            Sprite[ssi].ActVect++; Sprite[ssi].Minus = false;
                         }
 
                         continue; // control when arrive to LAST destination point actvect
                     }
-                    Vector2 direction_sprite = Vector2.Normalize(Sprite[ssi].dest - Sprite[ssi].pos);
-                    Sprite[ssi].pos = Sprite[ssi].pos + direction_sprite * Sprite[ssi].speed;
-                    float distance = Vector2.Distance(Sprite[ssi].pos, Sprite[ssi].dest);
+                    Vector2 direction_sprite = Vector2.Normalize(Sprite[ssi].Dest - Sprite[ssi].Pos);
+                    Sprite[ssi].Pos = Sprite[ssi].Pos + direction_sprite * Sprite[ssi].Speed;
+                    float distance = Vector2.Distance(Sprite[ssi].Pos, Sprite[ssi].Dest);
                     if (distance < 1)
                     {
-                        Sprite[ssi].calc = true;
+                        Sprite[ssi].Calc = true;
                         continue; // control when arrive to destination point
                     }
-                    Sprite[ssi].rotation = (float)Math.Atan2(direction_sprite.X, direction_sprite.Y) * -1;
+                    Sprite[ssi].Rotation = (float)Math.Atan2(direction_sprite.X, direction_sprite.Y) * -1;
                 }
             }
         }
@@ -788,23 +788,23 @@ internal class InGame
         switch (MyGame.Instance.CurrentLevelNumber)  // effect draws water cascade,stars,etc...
         {
             case 1:
-                spriteBatch.Draw(MyGame.Instance.Sprites.Agua2, new Rectangle(1560 - ScrollX, -80, 260, 750), new Rectangle(0 + z3 * 192, 0, 192, 192), new Color(230, 50, 255, 160), 0f,
+                spriteBatch.Draw(MyGame.Instance.Sprites.Water2, new Rectangle(1560 - ScrollX, -80, 260, 750), new Rectangle(0 + z3 * 192, 0, 192, 192), new Color(230, 50, 255, 160), 0f,
                     Vector2.Zero, SpriteEffects.None, 0.802f); //0.802f  
                 rayLigths = false;
                 break;
             case 4:
-                spriteBatch.Draw(MyGame.Instance.Sprites.Agua2, new Rectangle(1530 - ScrollX, -80, 260, 650), new Rectangle(0 + z3 * 192, 0, 192, 192), new Color(50, 255, 240, 100), 0f,
+                spriteBatch.Draw(MyGame.Instance.Sprites.Water2, new Rectangle(1530 - ScrollX, -80, 260, 650), new Rectangle(0 + z3 * 192, 0, 192, 192), new Color(50, 255, 240, 100), 0f,
                     Vector2.Zero, SpriteEffects.None, 0.802f); //0.802f
-                spriteBatch.Draw(MyGame.Instance.Sprites.Agua2, new Rectangle(1560 - ScrollX, -80, 260, 750), new Rectangle(0 + z3 * 192, 0, 192, 192), new Color(230, 50, 255, 160), 0f,
+                spriteBatch.Draw(MyGame.Instance.Sprites.Water2, new Rectangle(1560 - ScrollX, -80, 260, 750), new Rectangle(0 + z3 * 192, 0, 192, 192), new Color(230, 50, 255, 160), 0f,
                     Vector2.Zero, SpriteEffects.None, 0.803f); //0.802f  
                 rayLigths = false;
                 break;
             case 5:
-                spriteBatch.Draw(MyGame.Instance.Sprites.Agua2, new Rectangle(760 - ScrollX, -80, 260, 650), new Rectangle(0 + z3 * 192, 0, 192, 192), new Color(50, 255, 240, 100), 0f,
+                spriteBatch.Draw(MyGame.Instance.Sprites.Water2, new Rectangle(760 - ScrollX, -80, 260, 650), new Rectangle(0 + z3 * 192, 0, 192, 192), new Color(50, 255, 240, 100), 0f,
                     Vector2.Zero, SpriteEffects.None, 0.802f); //0.802f  
                 break;
             case 6:
-                spriteBatch.Draw(MyGame.Instance.Sprites.Agua2, new Rectangle(2000 - ScrollX, -80, 260, 680), new Rectangle(0 + z3 * 192, 0, 192, 192),
+                spriteBatch.Draw(MyGame.Instance.Sprites.Water2, new Rectangle(2000 - ScrollX, -80, 260, 680), new Rectangle(0 + z3 * 192, 0, 192, 192),
                     new Color(255, 50, 80, 170), 0f, Vector2.Zero, SpriteEffects.None, 0.802f); //0.802f                            
                 break;
             default:
@@ -885,57 +885,57 @@ internal class InGame
         {
             for (int ssi = 0; ssi < Sprite.Length; ssi++)
             {
-                int swidth = Sprite[ssi].sprite.Width / Sprite[ssi].axisX;
-                int sheight = Sprite[ssi].sprite.Height / Sprite[ssi].axisY;
+                int swidth = Sprite[ssi].Sprite.Width / Sprite[ssi].AxisX;
+                int sheight = Sprite[ssi].Sprite.Height / Sprite[ssi].AxisY;
                 int sx1 = 0;
                 int sy1 = 0;
-                if (Sprite[ssi].actFrame != 0)
+                if (Sprite[ssi].ActFrame != 0)
                 {
-                    sx1 = swidth * (Sprite[ssi].actFrame % Sprite[ssi].axisX);
-                    sy1 = sheight * (Sprite[ssi].actFrame / Sprite[ssi].axisX);
+                    sx1 = swidth * (Sprite[ssi].ActFrame % Sprite[ssi].AxisX);
+                    sy1 = sheight * (Sprite[ssi].ActFrame / Sprite[ssi].AxisX);
                 }
-                if (Sprite[ssi].typescroll > 0)
+                if (Sprite[ssi].Typescroll > 0)
                 {
-                    Sprite[ssi].pos.X -= Sprite[ssi].typescroll;
-                    if (Sprite[ssi].pos.X < 0 - (Sprite[ssi].sprite.Width * Sprite[ssi].scale))
-                        Sprite[ssi].pos.X = GlobalConst.GameResolution.X;
-                    if (Sprite[ssi].pos.X > GlobalConst.GameResolution.X)
-                        Sprite[ssi].pos.X = -100;
-                    spriteBatch.Draw(Sprite[ssi].sprite, new Vector2(Sprite[ssi].pos.X, Sprite[ssi].pos.Y - ScrollY),
-                        new Rectangle(sx1, sy1, swidth, sheight), new Color(Sprite[ssi].R, Sprite[ssi].G, Sprite[ssi].B, Sprite[ssi].transparency),
-                        Sprite[ssi].rotation, Vector2.Zero, Sprite[ssi].scale, SpriteEffects.None, Sprite[ssi].depth);
+                    Sprite[ssi].Pos.X -= Sprite[ssi].Typescroll;
+                    if (Sprite[ssi].Pos.X < 0 - (Sprite[ssi].Sprite.Width * Sprite[ssi].Scale))
+                        Sprite[ssi].Pos.X = GlobalConst.GameResolution.X;
+                    if (Sprite[ssi].Pos.X > GlobalConst.GameResolution.X)
+                        Sprite[ssi].Pos.X = -100;
+                    spriteBatch.Draw(Sprite[ssi].Sprite, new Vector2(Sprite[ssi].Pos.X, Sprite[ssi].Pos.Y - ScrollY),
+                        new Rectangle(sx1, sy1, swidth, sheight), new Color(Sprite[ssi].R, Sprite[ssi].G, Sprite[ssi].B, Sprite[ssi].Transparency),
+                        Sprite[ssi].Rotation, Vector2.Zero, Sprite[ssi].Scale, SpriteEffects.None, Sprite[ssi].Depth);
                 }
                 else
                 {
-                    if (Sprite[ssi].sprite.Name == "touch/arana") // 64x64 sprite frame size
+                    if (Sprite[ssi].Sprite.Name == "touch/arana") // 64x64 sprite frame size
                     {
                         int xxAnim;
-                        if (Sprite[ssi].minusScrollx)
+                        if (Sprite[ssi].MinusScrollx)
                         {
-                            xxAnim = (int)Sprite[ssi].pos.X - ScrollX + 32;
+                            xxAnim = (int)Sprite[ssi].Pos.X - ScrollX + 32;
                         }
                         else
                         {
-                            xxAnim = (int)Sprite[ssi].pos.X + 32;
+                            xxAnim = (int)Sprite[ssi].Pos.X + 32;
                         }
-                        spriteBatch.Draw(Sprite[ssi].sprite, new Vector2(xxAnim, Sprite[ssi].pos.Y - ScrollY - 32),
-                            new Rectangle(sx1, sy1, swidth, sheight), new Color(Sprite[ssi].R, Sprite[ssi].G, Sprite[ssi].B, Sprite[ssi].transparency),
-                            Sprite[ssi].rotation, Sprite[ssi].center, Sprite[ssi].scale, SpriteEffects.None, Sprite[ssi].depth);
+                        spriteBatch.Draw(Sprite[ssi].Sprite, new Vector2(xxAnim, Sprite[ssi].Pos.Y - ScrollY - 32),
+                            new Rectangle(sx1, sy1, swidth, sheight), new Color(Sprite[ssi].R, Sprite[ssi].G, Sprite[ssi].B, Sprite[ssi].Transparency),
+                            Sprite[ssi].Rotation, Sprite[ssi].Center, Sprite[ssi].Scale, SpriteEffects.None, Sprite[ssi].Depth);
                     }
                     else
                     {
                         int xxAnim;
-                        if (Sprite[ssi].minusScrollx)
+                        if (Sprite[ssi].MinusScrollx)
                         {
-                            xxAnim = (int)Sprite[ssi].pos.X - ScrollX;
+                            xxAnim = (int)Sprite[ssi].Pos.X - ScrollX;
                         }
                         else
                         {
-                            xxAnim = (int)Sprite[ssi].pos.X;
+                            xxAnim = (int)Sprite[ssi].Pos.X;
                         }
-                        spriteBatch.Draw(Sprite[ssi].sprite, new Vector2(xxAnim, Sprite[ssi].pos.Y - ScrollY),
-                            new Rectangle(sx1, sy1, swidth, sheight), new Color(Sprite[ssi].R, Sprite[ssi].G, Sprite[ssi].B, Sprite[ssi].transparency),
-                            Sprite[ssi].rotation, Vector2.Zero, Sprite[ssi].scale, SpriteEffects.None, Sprite[ssi].depth);
+                        spriteBatch.Draw(Sprite[ssi].Sprite, new Vector2(xxAnim, Sprite[ssi].Pos.Y - ScrollY),
+                            new Rectangle(sx1, sy1, swidth, sheight), new Color(Sprite[ssi].R, Sprite[ssi].G, Sprite[ssi].B, Sprite[ssi].Transparency),
+                            Sprite[ssi].Rotation, Vector2.Zero, Sprite[ssi].Scale, SpriteEffects.None, Sprite[ssi].Depth);
                     }
                 }
             }
@@ -1219,8 +1219,7 @@ internal class InGame
         {
             if (NumSaved >= Lemsneeded) //see here if level is finished or not
             {
-                SaveGame.FinishedLevel[MyGame.Instance.CurrentLevelNumber] = true;
-                SaveGame.SaveSavedGame();
+                SaveGame.AddFinishedGame(MyGame.Instance.CurrentLevelNumber, 0, AllLemmings.Count(l => l.Exit));
                 MyGame.Instance.CurrentLevelNumber++;
                 if (MyGame.Instance.CurrentLevelNumber >= GlobalConst.NumTotalLevels - 1)
                     MyGame.Instance.CurrentLevelNumber = GlobalConst.NumTotalLevels - 1;
