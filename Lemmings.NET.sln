@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.7.34221.43
+VisualStudioVersion = 17.8.34316.72
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lemmings.NET", "Lemmings.NET\Lemmings.NET.csproj", "{76B03CA2-1F16-490A-B05B-B3B37875954C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lemmings.NET", "LemRip\Lemmings.NET.csproj", "{4104FFDC-5CB0-497B-93FF-16C75CCF5DD0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,12 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{76B03CA2-1F16-490A-B05B-B3B37875954C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{76B03CA2-1F16-490A-B05B-B3B37875954C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{76B03CA2-1F16-490A-B05B-B3B37875954C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{76B03CA2-1F16-490A-B05B-B3B37875954C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4104FFDC-5CB0-497B-93FF-16C75CCF5DD0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4104FFDC-5CB0-497B-93FF-16C75CCF5DD0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4104FFDC-5CB0-497B-93FF-16C75CCF5DD0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4104FFDC-5CB0-497B-93FF-16C75CCF5DD0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {164BDB4B-CCF2-44DE-B748-A0296F49BF17}
 	EndGlobalSection
 EndGlobal
