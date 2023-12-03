@@ -38,7 +38,7 @@ public partial class MyGame : Game
     private InGame _screenInGame;
     private DebugOsd _debugOsd;
     private Vector2 vectorFill;
-    private Stopwatch _showVolume;
+    private readonly Stopwatch _showVolume;
     #endregion
 
     #region Properties
