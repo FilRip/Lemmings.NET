@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 using Lemmings.NET.Constants;
@@ -1476,7 +1477,10 @@ internal class InGame
             x.Y = lemming.PosY + 25;
             if (lemming.Exit && lemming.Actualframe == 13) // change frame of yipee sound, old frame was init or 0 now different for frames
             {
-                MyGame.Instance.Sfx.Yippe.Replay();
+                if (MyGame.Instance.Sfx.Yippe.State == SoundState.Playing && Draw2)
+                    MyGame.Instance.Sfx.Yippe.Stop();
+                if (MyGame.Instance.Sfx.Yippe.State == SoundState.Stopped)
+                    MyGame.Instance.Sfx.Yippe.Play();
             }
             if (Moreexits == null)
             {

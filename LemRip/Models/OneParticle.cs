@@ -4,7 +4,10 @@ namespace Lemmings.NET.Models;
 
 internal class OneParticle
 {
-    internal double x, y, dx, dy;
+    internal double X { get; set; }
+    internal double Y { get; set; }
+    internal double Dx { get; set; }
+    internal double Dy { get; set; }
     internal Color Color { get; set; }
     internal void SetColorA(byte a)
     {
