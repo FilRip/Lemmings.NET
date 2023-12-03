@@ -226,7 +226,6 @@ public partial class MyGame : Game
     }
 #pragma warning restore S125 // Sections of code should not be commented out
 
-    /// <param name="gameTime">Provides a snapshot of timing values.</param>
     protected override void Update(GameTime gameTime)
     {
         Input.SetKeyboardState(Keyboard.GetState());

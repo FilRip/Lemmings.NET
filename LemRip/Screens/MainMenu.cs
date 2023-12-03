@@ -82,10 +82,10 @@ internal class MainMenu
 
 #pragma warning disable S125 // Sections of code should not be commented out
         // rainbow over lemmings logo text into rendertarget
-        /*graphics.SetRenderTarget(_mainMenuGfx.Colors88);
+        graphics.SetRenderTarget(_mainMenuGfx.Colors88);
         graphics.Clear(ClearOptions.Target, Color.Transparent, 1.0f, 0);
         spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
-        if (dibujaloop % 5 == 0) //surge-rainbowpic is 45x75 px
+        /*if (dibujaloop % 5 == 0) //surge-rainbowpic is 45x75 px
         {
             loopcolor++;
             if (loopcolor > 44)
@@ -98,9 +98,9 @@ internal class MainMenu
             _mainMenuGfx.RainbowPic.SetData(0, new Rectangle(45 - loopcolor, 0, loopcolor, 75), _mainMenuGfx.Looplogo2, 0, loopcolor * 75);
         }
         MyGame.Instance.Vfx.Efecto.Parameters["rainbow"].SetValue(_mainMenuGfx.RainbowPic); //rainbowpic
-        MyGame.Instance.Vfx.Efecto.CurrentTechnique.Passes[0].Apply();
+        MyGame.Instance.Vfx.Efecto.CurrentTechnique.Passes[0].Apply();*/
         spriteBatch.Draw(MyGame.Instance.Gfx.Text, new Vector2(0, 0), Color.White);
-        spriteBatch.End();*/
+        spriteBatch.End();
 #pragma warning restore S125 // Sections of code should not be commented out
 
         // Draw all the normals, in the same place as the textures

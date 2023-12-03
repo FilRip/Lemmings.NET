@@ -49,7 +49,7 @@ internal class InGameMenu
     private readonly int posy = 572;
     private bool op1 = false, op2 = false, op13 = false;
     public int FrequencyNumber { get; set; } = 50;
-    private int numerominfrecuencia = 50, zv = 0;
+    private int zv = 0;
     private float mmscale2, mmscaley, mmscaley2, xscale, yscale, mmscale;
     private readonly int posymenu = 575;
     private double clickTimer1 = 0;
@@ -66,7 +66,6 @@ internal class InGameMenu
 
     internal void Init()
     {
-        numerominfrecuencia = _inGame.CurrentLevel.MinFrequencyComming;
         FrequencyNumber = _inGame.CurrentLevel.FrequencyComming;
     }
 
@@ -214,100 +213,82 @@ internal class InGameMenu
             cosa = 0;
         } // menu selection rotation speed
         // medium position for bucle medx medy
-        if ((rectop1.Contains(Input.CurrentMouseState.Position) && Input.CurrentMouseState.LeftButton == ButtonState.Pressed) || _decreaseOn)
+        if (((rectop1.Contains(Input.CurrentMouseState.Position) && Input.CurrentMouseState.LeftButton == ButtonState.Pressed) || _decreaseOn) && FrequencyNumber > _inGame.CurrentLevel.MinFrequencyComming)
         {
             MyGame.Instance.Sfx.ChangeOp.Pitch = -1f + FrequencyNumber * 0.02f;
             MyGame.Instance.Sfx.ChangeOp.Volume = 0.25f + FrequencyNumber * 0.005f;
             if (MyGame.Instance.Sfx.ChangeOp.State == SoundState.Stopped)
-                try
-                {
-                    MyGame.Instance.Sfx.ChangeOp.Play();
-                }
-                catch (InstancePlayLimitException) { /* Ignore errors */ }
-            if (FrequencyNumber == numerominfrecuencia)
-            {
-                MyGame.Instance.Sfx.ChangeOp.Stop();
-            }
-            op1 = true;
+                MyGame.Instance.Sfx.ChangeOp.Play();
             if (_inGame.Draw2)
-                FrequencyNumber -= 1; // on monogame 3.6 crash if frecuencia -1 only puto puto
-            if (FrequencyNumber < numerominfrecuencia)
-                FrequencyNumber = numerominfrecuencia;
+                FrequencyNumber -= 1;
+            op1 = true;
         }
         else
         {
             op1 = false;
         }
-        if ((rectop2.Contains(Input.CurrentMouseState.Position) && Input.CurrentMouseState.LeftButton == ButtonState.Pressed) || _increaseOn)
+
+        if (((rectop2.Contains(Input.CurrentMouseState.Position) && Input.CurrentMouseState.LeftButton == ButtonState.Pressed) || _increaseOn) && FrequencyNumber < 99)
         {
             MyGame.Instance.Sfx.ChangeOp.Pitch = -1f + FrequencyNumber * 0.02f;
             MyGame.Instance.Sfx.ChangeOp.Volume = 0.25f + FrequencyNumber * 0.005f;
             if (MyGame.Instance.Sfx.ChangeOp.State == SoundState.Stopped)
-                try
-                {
-                    MyGame.Instance.Sfx.ChangeOp.Play();
-                }
-                catch (InstancePlayLimitException) { /* Ignore errors */ }
-            if (FrequencyNumber == 99)
-            {
-                MyGame.Instance.Sfx.ChangeOp.Stop();
-            }
-            op2 = true;
+                MyGame.Instance.Sfx.ChangeOp.Play();
             if (_inGame.Draw2)
-                FrequencyNumber += 1; // on monogame 3.6 crash if frecuencia +1 only
-            if (FrequencyNumber > 99)
-                FrequencyNumber = 99;
+                FrequencyNumber += 1;
+            op2 = true;
         }
         else
         {
             op2 = false;
         }
+
         if (rectop3.Contains(Input.CurrentMouseState.Position) && _inGame.NbClimberRemaining > 0 && (Input.PreviousMouseState.LeftButton == ButtonState.Released && Input.CurrentMouseState.LeftButton == ButtonState.Pressed))
         {
             MyGame.Instance.Sfx.ChangeOp.Replay();
             CurrentSelectedSkill = ECurrentSkill.CLIMBER;
         }
-        if (rectop4.Contains(Input.CurrentMouseState.Position) && _inGame.NbFloaterRemaining > 0 && (Input.PreviousMouseState.LeftButton == ButtonState.Released && Input.CurrentMouseState.LeftButton == ButtonState.Pressed))
+        else if (rectop4.Contains(Input.CurrentMouseState.Position) && _inGame.NbFloaterRemaining > 0 && (Input.PreviousMouseState.LeftButton == ButtonState.Released && Input.CurrentMouseState.LeftButton == ButtonState.Pressed))
         {
             MyGame.Instance.Sfx.ChangeOp.Replay();
             CurrentSelectedSkill = ECurrentSkill.FLOATER;
         }
-        if (rectop5.Contains(Input.CurrentMouseState.Position) && _inGame.NbExploderRemaining > 0 && (Input.PreviousMouseState.LeftButton == ButtonState.Released && Input.CurrentMouseState.LeftButton == ButtonState.Pressed))
+        else if (rectop5.Contains(Input.CurrentMouseState.Position) && _inGame.NbExploderRemaining > 0 && (Input.PreviousMouseState.LeftButton == ButtonState.Released && Input.CurrentMouseState.LeftButton == ButtonState.Pressed))
         {
             MyGame.Instance.Sfx.ChangeOp.Replay();
             CurrentSelectedSkill = ECurrentSkill.EXPLODER;
         }
-        if (rectop6.Contains(Input.CurrentMouseState.Position) && _inGame.NbBlockerRemaining > 0 && (Input.PreviousMouseState.LeftButton == ButtonState.Released && Input.CurrentMouseState.LeftButton == ButtonState.Pressed))
+        else if (rectop6.Contains(Input.CurrentMouseState.Position) && _inGame.NbBlockerRemaining > 0 && (Input.PreviousMouseState.LeftButton == ButtonState.Released && Input.CurrentMouseState.LeftButton == ButtonState.Pressed))
         {
             MyGame.Instance.Sfx.ChangeOp.Replay();
             CurrentSelectedSkill = ECurrentSkill.BLOCKER;
         }
-        if (rectop7.Contains(Input.CurrentMouseState.Position) && _inGame.NbBuilderRemaining > 0 && (Input.PreviousMouseState.LeftButton == ButtonState.Released && Input.CurrentMouseState.LeftButton == ButtonState.Pressed))
+        else if (rectop7.Contains(Input.CurrentMouseState.Position) && _inGame.NbBuilderRemaining > 0 && (Input.PreviousMouseState.LeftButton == ButtonState.Released && Input.CurrentMouseState.LeftButton == ButtonState.Pressed))
         {
             MyGame.Instance.Sfx.ChangeOp.Replay();
             CurrentSelectedSkill = ECurrentSkill.BUILDER;
         }
-        if (rectop8.Contains(Input.CurrentMouseState.Position) && _inGame.NbBasherRemaining > 0 && (Input.PreviousMouseState.LeftButton == ButtonState.Released && Input.CurrentMouseState.LeftButton == ButtonState.Pressed))
+        else if (rectop8.Contains(Input.CurrentMouseState.Position) && _inGame.NbBasherRemaining > 0 && (Input.PreviousMouseState.LeftButton == ButtonState.Released && Input.CurrentMouseState.LeftButton == ButtonState.Pressed))
         {
             MyGame.Instance.Sfx.ChangeOp.Replay();
             CurrentSelectedSkill = ECurrentSkill.BASHER;
         }
-        if (rectop9.Contains(Input.CurrentMouseState.Position) && _inGame.NbMinerRemaining > 0 && (Input.PreviousMouseState.LeftButton == ButtonState.Released && Input.CurrentMouseState.LeftButton == ButtonState.Pressed))
+        else if (rectop9.Contains(Input.CurrentMouseState.Position) && _inGame.NbMinerRemaining > 0 && (Input.PreviousMouseState.LeftButton == ButtonState.Released && Input.CurrentMouseState.LeftButton == ButtonState.Pressed))
         {
             MyGame.Instance.Sfx.ChangeOp.Replay();
             CurrentSelectedSkill = ECurrentSkill.MINER;
         }
-        if (rectop10.Contains(Input.CurrentMouseState.Position) && _inGame.NbDiggerRemaining > 0 && (Input.PreviousMouseState.LeftButton == ButtonState.Released && Input.CurrentMouseState.LeftButton == ButtonState.Pressed))
+        else if (rectop10.Contains(Input.CurrentMouseState.Position) && _inGame.NbDiggerRemaining > 0 && (Input.PreviousMouseState.LeftButton == ButtonState.Released && Input.CurrentMouseState.LeftButton == ButtonState.Pressed))
         {
             MyGame.Instance.Sfx.ChangeOp.Replay();
             CurrentSelectedSkill = ECurrentSkill.DIGGER;
         }
-        if (rectop11.Contains(Input.CurrentMouseState.Position) && (Input.PreviousMouseState.LeftButton == ButtonState.Released && Input.CurrentMouseState.LeftButton == ButtonState.Pressed))
+        else if (rectop11.Contains(Input.CurrentMouseState.Position) && (Input.PreviousMouseState.LeftButton == ButtonState.Released && Input.CurrentMouseState.LeftButton == ButtonState.Pressed))
         {
             MyGame.Instance.Sfx.ChangeOp.Replay();
             GlobalConst.Paused = !GlobalConst.Paused;
         }
-        if (rectop12.Contains(Input.CurrentMouseState.Position) && (Input.PreviousMouseState.LeftButton == ButtonState.Released && Input.CurrentMouseState.LeftButton == ButtonState.Pressed) && !_inGame.AllBlow)
+        else if (rectop12.Contains(Input.CurrentMouseState.Position) && (Input.PreviousMouseState.LeftButton == ButtonState.Released && Input.CurrentMouseState.LeftButton == ButtonState.Pressed) && !_inGame.AllBlow)
         {
             if (clickTimer1 > 0 && _inGame.MillisecondsElapsed - clickTimer1 < 300)
             {
@@ -318,7 +299,7 @@ internal class InGameMenu
             else
                 clickTimer1 = _inGame.MillisecondsElapsed;
         } // BOMBERS ALL
-        if (Input.CurrentMouseState.LeftButton == ButtonState.Released)
+        else if (Input.CurrentMouseState.LeftButton == ButtonState.Released)
             _alreadyPlayed = false;
         if (rectop13.Contains(Input.CurrentMouseState.Position) && Input.CurrentMouseState.LeftButton == ButtonState.Pressed)  //FAST FORWARD
         {
@@ -500,7 +481,7 @@ internal class InGameMenu
         }
         vectorFill.X = 80 - 55;
         vectorFill.Y = 560;
-        MyGame.Instance.Fonts.TextLem(string.Format("{0,2:D2}", numerominfrecuencia), vectorFill, Color.LimeGreen, 0.5f, 0.1f, spriteBatch);
+        MyGame.Instance.Fonts.TextLem(string.Format("{0,2:D2}", _inGame.CurrentLevel.MinFrequencyComming), vectorFill, Color.LimeGreen, 0.5f, 0.1f, spriteBatch);
         vectorFill.X = 80;
         MyGame.Instance.Fonts.TextLem(string.Format("{0,2:D2}", FrequencyNumber), vectorFill, Color.LimeGreen, 0.5f, 0.1f, spriteBatch);
         vectorFill.X = 80 + 55;
