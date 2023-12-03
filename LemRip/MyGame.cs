@@ -396,6 +396,8 @@ public partial class MyGame : Game
 
         _spriteBatch.Begin();
         _debugOsd.Draw(_spriteBatch);
+        if (_showVolume.IsRunning && _showVolume.ElapsedMilliseconds <= 3000)
+            _fonts.TextLem($"Volume : {(SoundEffect.MasterVolume * 100):00}%", new Vector2(800, 660), Color.White, 1, 0.1f, _spriteBatch);
         _spriteBatch.End();
 
         GraphicsDevice.SetRenderTarget(null);
@@ -403,8 +405,6 @@ public partial class MyGame : Game
 
         _spriteBatch.Begin();
         _spriteBatch.Draw(MainRenderTarget, renderTargetDestination, Color.White);
-        if (_showVolume.IsRunning && _showVolume.ElapsedMilliseconds <= 3000)
-            _fonts.TextLem($"Volume : {(SoundEffect.MasterVolume * 100):00}%", new Vector2(800, 660), Color.White, 1, 0.1f, _spriteBatch);
         _spriteBatch.End();
 
         base.Draw(gameTime);
