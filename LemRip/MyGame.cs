@@ -127,7 +127,6 @@ public partial class MyGame : Game
         Window.Title = "Lemmings.NET";
         Window.AllowUserResizing = false;
         _showVolume = new Stopwatch();
-        _showVolume.Start();
     }
 
     protected override void Initialize()
@@ -404,7 +403,7 @@ public partial class MyGame : Game
 
         _spriteBatch.Begin();
         _spriteBatch.Draw(MainRenderTarget, renderTargetDestination, Color.White);
-        if (_showVolume?.ElapsedMilliseconds <= 3000)
+        if (_showVolume.IsRunning && _showVolume.ElapsedMilliseconds <= 3000)
             _fonts.TextLem($"Volume : {(SoundEffect.MasterVolume * 100):00}%", new Vector2(800, 660), Color.White, 1, 0.1f, _spriteBatch);
         _spriteBatch.End();
 
