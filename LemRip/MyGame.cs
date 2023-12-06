@@ -201,29 +201,17 @@ public partial class MyGame : Game
         MainRenderTarget = new RenderTarget2D(GraphicsDevice, GlobalConst.GameResolution.X, GlobalConst.GameResolution.Y);
         renderTargetDestination = Graphics.GetRenderTargetDestination(GlobalConst.GameResolution, _graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight);
 
-        //background_02  logo  llama  fondos/nubes  crateN
-        //Crate = Content.Load<Texture2D>("crate");
         _screenMainMenu.LoadGfx();
 
         if (CurrentScreen == ECurrentScreen.MainMenu)
         {
-            //mainMenuLogo = Content.Load<Texture2D>("lem1/logo_mainmenu");
-            _music.MenuMusic.Play();
             SaveGame.LoadSavedGame();
+            SoundEffect.MasterVolume = SaveGame.SoundVolume;
+            _music.MenuMusic.Play();
         }
         else if (CurrentScreen == ECurrentScreen.InGame) //when level starts all the vars and reset all
         {
             _screenInGame.LoadLevel(CurrentLevelNumber, Content);
-
-            //backmenu1 = Content.Load<Texture2D>("background_01");
-            //backmenu3 = Content.Load<Texture2D>("background_02");
-            //lucesfondo = Content.Load<Texture2D>("fondos/luces de fondo guays");
-            //explode = Content.Load<Texture2D>("explode");
-            //mascarapico = Content.Load<Texture2D>("mascara_pico");
-            //mascarapared_left = Content.Load<Texture2D>("mascara_pared_left");
-            //lsplat = Content.Load<Texture2D>("sprite/splat");
-            //lyipie = Content.Load<Texture2D>("sprite/yipie");
-            //lglup = Content.Load<Texture2D>("sprite/glub");
             _screenInGame.CurrentMusic = _music.GetMusic(CurrentLevelNumber % 19);
         }
     }
@@ -270,6 +258,7 @@ public partial class MyGame : Game
                 SoundEffect.MasterVolume = 0;
             }
             _showVolume.Restart();
+            SaveGame.SoundVolume = SoundEffect.MasterVolume;
         }
         else if (Input.PreviousKeyState.IsKeyDown(Keys.PageUp) && Input.CurrentKeyState.IsKeyUp(Keys.PageUp) && SoundEffect.MasterVolume < 1.0f)
         {

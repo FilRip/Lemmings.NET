@@ -12,6 +12,32 @@ internal static class SaveGame
 {
     private static LemmingsSaveGame MySaveGameFile { get; set; } = new LemmingsSaveGame() { FinishedLevels = [] };
 
+    internal static bool MuteMusic
+    {
+        get
+        {
+            return MySaveGameFile.MuteMusic;
+        }
+        set
+        {
+            MySaveGameFile.MuteMusic = value;
+            SaveSavedGame();
+        }
+    }
+
+    internal static float SoundVolume
+    {
+        get
+        {
+            return MySaveGameFile.Volume;
+        }
+        set
+        {
+            MySaveGameFile.Volume = value;
+            SaveSavedGame();
+        }
+    }
+
     internal static void LoadSavedGame()
     {
         if (File.Exists(GlobalConst.SaveGameFileName))

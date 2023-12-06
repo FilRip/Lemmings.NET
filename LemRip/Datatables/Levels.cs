@@ -2,6 +2,7 @@
 using System.IO;
 
 using Lemmings.NET.Constants;
+using Lemmings.NET.Exceptions;
 using Lemmings.NET.Models;
 using Lemmings.NET.Structs;
 
@@ -103,7 +104,7 @@ internal static class Levels
                     lvl.InitPosX = int.Parse(value);
                     break;
                 default:
-                    throw new LemmingsNetGameException("Unknown property : " + name);
+                    throw new LemmingsNetException("Unknown property : " + name);
             }
         }
         return lvl;
