@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 
 using Lemmings.NET.Constants;
 using Lemmings.NET.Helpers;
@@ -15,15 +16,14 @@ internal class InGameMenu
 {
     private readonly InGame _inGame;
 
-    private int framecae = 0; // 0--3
-    private int framecava = 0; //0--15
-    private int frameescala = 0; //0--7
-    private int frameparaguas = 0; //0--9
-    private int frameexplota = 0; //0--15
+    private int framedigger = 0; //0--15
+    private int frameeclimber = 0; //0--7
+    private int framefloater = 0; //0--9
+    private int frameexploser = 0; //0--15
     private int frameblocker = 0; //0--15
-    private int framepuente = 0; //0--15
-    private int framepared = 0; //0--31
-    private int framepico = 0; //0--23
+    private int framebuild = 0; //0--15
+    private int framebasher = 0; //0--31
+    private int frameminer = 0; //0--23
     private int framblink1 = 0, framblink2 = 0, framblink3 = 0;
     private const int rry = 581;
     private const int rrx = 20;
@@ -56,7 +56,7 @@ internal class InGameMenu
     private Color backmenu = Color.MediumSlateBlue;
     private Color sombramenu = Color.SlateGray;
     private bool _alreadyPlayed;
-    private float cosa = 0f;
+    private float rotation = 0f;
     public bool _decreaseOn, _increaseOn;
 
     internal InGameMenu(InGame inGame)
@@ -146,81 +146,74 @@ internal class InGameMenu
         if (_inGame.Fade)
         {
             zv = 0;
-            _inGame.Contadortime = 0;
+            _inGame.Countertime = 0;
         }
         if (_inGame.Draw2)
         {
-            framecae++;
-            if (framecae > 3)
+            framedigger++;
+            if (framedigger > 28)
             {
-                framecae = 0;
+                framedigger = 0;
             }
-            framecava++;
-            if (framecava > 28)
+            frameeclimber++;
+            if (frameeclimber > SizeSprites.climber_frames - 1)
             {
-                framecava = 0;
+                frameeclimber = 0;
             }
-            frameescala++;
-            if (frameescala > SizeSprites.climber_frames - 1)
+            framefloater++;
+            if (framefloater > SizeSprites.floater_frames - 1)
             {
-                frameescala = 0;
+                framefloater = 0;
             }
-            frameparaguas++;
-            if (frameparaguas > SizeSprites.floater_frames - 1)
+            frameexploser++;
+            if (frameexploser > SizeSprites.bomber_frames - 1)
             {
-                frameparaguas = 0;
-            }
-            frameexplota++;
-            if (frameexplota > SizeSprites.bomber_frames - 1)
-            {
-                frameexplota = 0;
+                frameexploser = 0;
             }
             frameblocker++;
             if (frameblocker > SizeSprites.blocker_frames - 1)
             {
                 frameblocker = 0;
             }
-            framepuente++;
-            if (framepuente > SizeSprites.builder_frames - 1)
+            framebuild++;
+            if (framebuild > SizeSprites.builder_frames - 1)
             {
-                framepuente = 0;
+                framebuild = 0;
             }
-            framepared++;
-            if (framepared > SizeSprites.basher_frames - 1)
+            framebasher++;
+            if (framebasher > SizeSprites.basher_frames - 1)
             {
-                framepared = 0;
+                framebasher = 0;
             }
-            framepico++;
-            if (framepico > SizeSprites.pico_frames - 1)
+            frameminer++;
+            if (frameminer > SizeSprites.miner_frames - 1)
             {
-                framepico = 0;
+                frameminer = 0;
             }
         }
-        if (MyGame.Instance.Sfx.ChangeOp.State == SoundState.Playing && (op1 || op2))
+        rotation += 0.05f;
+        if (rotation > 12.5)
         {
-            MyGame.Instance.Sfx.ChangeOp.Stop();
+            rotation = 0;
+        }
+
+        void ReplayFrequency()
+        {
             MyGame.Instance.Sfx.ChangeOp.Pitch = -1f + FrequencyNumber * 0.02f;
             MyGame.Instance.Sfx.ChangeOp.Volume = 0.25f + FrequencyNumber * 0.005f;
+            if (MyGame.Instance.Sfx.ChangeOp.State == SoundState.Playing)
+                MyGame.Instance.Sfx.ChangeOp.Stop();
+            MyGame.Instance.Sfx.ChangeOp.Play();
         }
-        else
-        {
-            MyGame.Instance.Sfx.ChangeOp.Pitch = 0;
-            MyGame.Instance.Sfx.ChangeOp.Volume = 1f;
-        }
-        cosa += 0.05f;
-        if (cosa > 12.5)
-        {
-            cosa = 0;
-        } // menu selection rotation speed
-        // medium position for bucle medx medy
+
         if (((rectop1.Contains(Input.CurrentMouseState.Position) && Input.CurrentMouseState.LeftButton == ButtonState.Pressed) || _decreaseOn) && FrequencyNumber > _inGame.CurrentLevel.MinFrequencyComming)
         {
-            MyGame.Instance.Sfx.ChangeOp.Pitch = -1f + FrequencyNumber * 0.02f;
-            MyGame.Instance.Sfx.ChangeOp.Volume = 0.25f + FrequencyNumber * 0.005f;
-            if (MyGame.Instance.Sfx.ChangeOp.State == SoundState.Stopped)
-                MyGame.Instance.Sfx.ChangeOp.Play();
             if (_inGame.Draw2)
-                FrequencyNumber -= 1;
+            {
+                FrequencyNumber--;
+                ReplayFrequency();
+            }
+
             op1 = true;
         }
         else
@@ -230,12 +223,11 @@ internal class InGameMenu
 
         if (((rectop2.Contains(Input.CurrentMouseState.Position) && Input.CurrentMouseState.LeftButton == ButtonState.Pressed) || _increaseOn) && FrequencyNumber < 99)
         {
-            MyGame.Instance.Sfx.ChangeOp.Pitch = -1f + FrequencyNumber * 0.02f;
-            MyGame.Instance.Sfx.ChangeOp.Volume = 0.25f + FrequencyNumber * 0.005f;
-            if (MyGame.Instance.Sfx.ChangeOp.State == SoundState.Stopped)
-                MyGame.Instance.Sfx.ChangeOp.Play();
             if (_inGame.Draw2)
-                FrequencyNumber += 1;
+            {
+                FrequencyNumber++;
+                ReplayFrequency();
+            }
             op2 = true;
         }
         else
@@ -303,19 +295,11 @@ internal class InGameMenu
             _alreadyPlayed = false;
         if (rectop13.Contains(Input.CurrentMouseState.Position) && Input.CurrentMouseState.LeftButton == ButtonState.Pressed)  //FAST FORWARD
         {
-            if (MyGame.Instance.Sfx.ChangeOp.State == SoundState.Playing)
+            if (!_alreadyPlayed)
             {
-                MyGame.Instance.Sfx.ChangeOp.Resume();
+                MyGame.Instance.Sfx.ChangeOp.Replay();
+                _alreadyPlayed = true;
             }
-            try
-            {
-                if (!_alreadyPlayed)
-                {
-                    MyGame.Instance.Sfx.ChangeOp.Play();
-                    _alreadyPlayed = true;
-                }
-            }
-            catch (InstancePlayLimitException) { /* Ignore errors */ }
             op13 = true;
             MyGame.Instance.TargetElapsedTime = TimeSpan.FromSeconds(1.0f / 180.0f);
         } // 120--240 van ok mas no lo se depende creo
@@ -535,7 +519,7 @@ internal class InGameMenu
 
         vectorFill.X = 45;
         vectorFill.Y = posymenu + 31;
-        spriteBatch.Draw(MyGame.Instance.Sprites.Circulo_led, vectorFill, rectangleFill, (op1 ? Color.White : sombramenu), (op1 ? cosa : 0), vectorFill2, 1f, SpriteEffects.None, 0.1f);
+        spriteBatch.Draw(MyGame.Instance.Sprites.Circulo_led, vectorFill, rectangleFill, (op1 ? Color.White : sombramenu), (op1 ? rotation : 0), vectorFill2, 1f, SpriteEffects.None, 0.1f);
         vectorFill.X = 24;
         vectorFill.Y = posymenu + 6;
         rectangleFill2.X = 0;
@@ -546,7 +530,7 @@ internal class InGameMenu
 
         vectorFill.X = 45 + 55;
         vectorFill.Y = posymenu + 31;
-        spriteBatch.Draw(MyGame.Instance.Sprites.Circulo_led, vectorFill, rectangleFill, (op2 ? Color.White : sombramenu), (op2 ? cosa : 0), vectorFill2, 1f, SpriteEffects.None, 0.1f);
+        spriteBatch.Draw(MyGame.Instance.Sprites.Circulo_led, vectorFill, rectangleFill, (op2 ? Color.White : sombramenu), (op2 ? rotation : 0), vectorFill2, 1f, SpriteEffects.None, 0.1f);
         vectorFill.X = 24 + 55;
         vectorFill.Y = posymenu + 6;
         rectangleFill2.X = 0;
@@ -557,95 +541,95 @@ internal class InGameMenu
 
         vectorFill.X = 45 + 2 * 55;
         vectorFill.Y = posymenu + 31;
-        spriteBatch.Draw(MyGame.Instance.Sprites.Circulo_led, vectorFill, rectangleFill, (CurrentSelectedSkill == ECurrentSkill.CLIMBER ? Color.White : sombramenu), (CurrentSelectedSkill == ECurrentSkill.CLIMBER ? cosa : 0), vectorFill2, 1f, SpriteEffects.None, 0.11f);
+        spriteBatch.Draw(MyGame.Instance.Sprites.Circulo_led, vectorFill, rectangleFill, (CurrentSelectedSkill == ECurrentSkill.CLIMBER ? Color.White : sombramenu), (CurrentSelectedSkill == ECurrentSkill.CLIMBER ? rotation : 0), vectorFill2, 1f, SpriteEffects.None, 0.11f);
         vectorFill.X = 10 + 2 * 55;
         vectorFill.Y = posymenu;
-        rectangleFill2.X = frameescala * (CurrentSelectedSkill == ECurrentSkill.CLIMBER ? SizeSprites.climber_with : 0);
+        rectangleFill2.X = frameeclimber * (CurrentSelectedSkill == ECurrentSkill.CLIMBER ? SizeSprites.climber_width : 0);
         rectangleFill2.Y = 0;
-        rectangleFill2.Width = SizeSprites.climber_with;
+        rectangleFill2.Width = SizeSprites.climber_width;
         rectangleFill2.Height = SizeSprites.climber_height;
         spriteBatch.Draw(MyGame.Instance.Sprites.Climber, vectorFill, rectangleFill2, (CurrentSelectedSkill == ECurrentSkill.CLIMBER ? Color.White : sombramenu), 0, Vector2.Zero, SizeSprites.climber_size, SpriteEffects.None, 0.1f);
 
         vectorFill.X = 45 + 3 * 55;
         vectorFill.Y = posymenu + 31;
-        spriteBatch.Draw(MyGame.Instance.Sprites.Circulo_led, vectorFill, rectangleFill, (CurrentSelectedSkill == ECurrentSkill.FLOATER ? Color.White : sombramenu), (CurrentSelectedSkill == ECurrentSkill.FLOATER ? cosa : 0), vectorFill2, 1f, SpriteEffects.None, 0.11f);
+        spriteBatch.Draw(MyGame.Instance.Sprites.Circulo_led, vectorFill, rectangleFill, (CurrentSelectedSkill == ECurrentSkill.FLOATER ? Color.White : sombramenu), (CurrentSelectedSkill == ECurrentSkill.FLOATER ? rotation : 0), vectorFill2, 1f, SpriteEffects.None, 0.11f);
         vectorFill.X = 5 + 3 * 55;
         vectorFill.Y = posymenu;
-        rectangleFill2.X = SizeSprites.floater_with * (CurrentSelectedSkill == ECurrentSkill.FLOATER ? frameparaguas : 4);
+        rectangleFill2.X = SizeSprites.floater_width * (CurrentSelectedSkill == ECurrentSkill.FLOATER ? framefloater : 4);
         rectangleFill2.Y = 0;
-        rectangleFill2.Width = SizeSprites.floater_with;
+        rectangleFill2.Width = SizeSprites.floater_width;
         rectangleFill2.Height = SizeSprites.floater_height;
         spriteBatch.Draw(MyGame.Instance.Sprites.Paraguas, vectorFill, rectangleFill2, (CurrentSelectedSkill == ECurrentSkill.FLOATER ? Color.White : sombramenu), 0f, Vector2.Zero, 0.55f, SpriteEffects.None, 0.1f);
 
         vectorFill.X = 45 + 4 * 55;
         vectorFill.Y = posymenu + 31;
-        spriteBatch.Draw(MyGame.Instance.Sprites.Circulo_led, vectorFill, rectangleFill, (CurrentSelectedSkill == ECurrentSkill.EXPLODER ? Color.White : sombramenu), (CurrentSelectedSkill == ECurrentSkill.EXPLODER ? cosa : 0), vectorFill2, 1f, SpriteEffects.None, 0.11f);
+        spriteBatch.Draw(MyGame.Instance.Sprites.Circulo_led, vectorFill, rectangleFill, (CurrentSelectedSkill == ECurrentSkill.EXPLODER ? Color.White : sombramenu), (CurrentSelectedSkill == ECurrentSkill.EXPLODER ? rotation : 0), vectorFill2, 1f, SpriteEffects.None, 0.11f);
         vectorFill.X = -5 + 4 * 55;
         vectorFill.Y = posymenu - 20;
-        rectangleFill2.X = SizeSprites.bomber_with * (CurrentSelectedSkill == ECurrentSkill.EXPLODER ? frameexplota : 7);
+        rectangleFill2.X = SizeSprites.bomber_width * (CurrentSelectedSkill == ECurrentSkill.EXPLODER ? frameexploser : 7);
         rectangleFill2.Y = 0;
-        rectangleFill2.Width = SizeSprites.bomber_with;
+        rectangleFill2.Width = SizeSprites.bomber_width;
         rectangleFill2.Height = SizeSprites.bomber_height;
         spriteBatch.Draw(MyGame.Instance.Sprites.Exploder, vectorFill, rectangleFill2, (CurrentSelectedSkill == ECurrentSkill.EXPLODER ? Color.White : sombramenu), 0f, Vector2.Zero, SizeSprites.bomber_size, SpriteEffects.None, 0.1f);
 
         vectorFill.X = 45 + 5 * 55;
         vectorFill.Y = posymenu + 31;
-        spriteBatch.Draw(MyGame.Instance.Sprites.Circulo_led, vectorFill, rectangleFill, (CurrentSelectedSkill == ECurrentSkill.BLOCKER ? Color.White : sombramenu), (CurrentSelectedSkill == ECurrentSkill.BLOCKER ? cosa : 0), vectorFill2, 1f, SpriteEffects.None, 0.11f);
+        spriteBatch.Draw(MyGame.Instance.Sprites.Circulo_led, vectorFill, rectangleFill, (CurrentSelectedSkill == ECurrentSkill.BLOCKER ? Color.White : sombramenu), (CurrentSelectedSkill == ECurrentSkill.BLOCKER ? rotation : 0), vectorFill2, 1f, SpriteEffects.None, 0.11f);
         vectorFill.X = 10 + 5 * 55;
         vectorFill.Y = posymenu;
-        rectangleFill2.X = SizeSprites.blocker_with * (CurrentSelectedSkill == ECurrentSkill.BLOCKER ? frameblocker : 0);
+        rectangleFill2.X = SizeSprites.blocker_width * (CurrentSelectedSkill == ECurrentSkill.BLOCKER ? frameblocker : 0);
         rectangleFill2.Y = 0;
-        rectangleFill2.Width = SizeSprites.blocker_with;
+        rectangleFill2.Width = SizeSprites.blocker_width;
         rectangleFill2.Height = SizeSprites.blocker_height;
         spriteBatch.Draw(MyGame.Instance.Sprites.Blocker, vectorFill, rectangleFill2, (CurrentSelectedSkill == ECurrentSkill.BLOCKER ? Color.White : sombramenu), 0f, Vector2.Zero, SizeSprites.blocker_size, SpriteEffects.None, 0.1f);
 
         vectorFill.X = 45 + 6 * 55;
         vectorFill.Y = posymenu + 31;
-        spriteBatch.Draw(MyGame.Instance.Sprites.Circulo_led, vectorFill, rectangleFill, (CurrentSelectedSkill == ECurrentSkill.BUILDER ? Color.White : sombramenu), (CurrentSelectedSkill == ECurrentSkill.BUILDER ? cosa : 0), vectorFill2, 1f, SpriteEffects.None, 0.11f);
+        spriteBatch.Draw(MyGame.Instance.Sprites.Circulo_led, vectorFill, rectangleFill, (CurrentSelectedSkill == ECurrentSkill.BUILDER ? Color.White : sombramenu), (CurrentSelectedSkill == ECurrentSkill.BUILDER ? rotation : 0), vectorFill2, 1f, SpriteEffects.None, 0.11f);
         vectorFill.X = 6 + 6 * 55;
         vectorFill.Y = posymenu;
-        rectangleFill2.X = SizeSprites.builder_with * (CurrentSelectedSkill == ECurrentSkill.BUILDER ? framepuente : 12);
+        rectangleFill2.X = SizeSprites.builder_width * (CurrentSelectedSkill == ECurrentSkill.BUILDER ? framebuild : 12);
         rectangleFill2.Y = 0;
-        rectangleFill2.Width = SizeSprites.builder_with;
+        rectangleFill2.Width = SizeSprites.builder_width;
         rectangleFill2.Height = SizeSprites.builder_height;
         spriteBatch.Draw(MyGame.Instance.Sprites.Puente, vectorFill, rectangleFill2, (CurrentSelectedSkill == ECurrentSkill.BUILDER ? Color.White : sombramenu), 0f, Vector2.Zero, SizeSprites.builder_size, SpriteEffects.None, 0.1f);
 
         vectorFill.X = 45 + 7 * 55;
         vectorFill.Y = posymenu + 31;
-        spriteBatch.Draw(MyGame.Instance.Sprites.Circulo_led, vectorFill, rectangleFill, (CurrentSelectedSkill == ECurrentSkill.BASHER ? Color.White : sombramenu), (CurrentSelectedSkill == ECurrentSkill.BASHER ? cosa : 0), vectorFill2, 1f, SpriteEffects.None, 0.11f);
+        spriteBatch.Draw(MyGame.Instance.Sprites.Circulo_led, vectorFill, rectangleFill, (CurrentSelectedSkill == ECurrentSkill.BASHER ? Color.White : sombramenu), (CurrentSelectedSkill == ECurrentSkill.BASHER ? rotation : 0), vectorFill2, 1f, SpriteEffects.None, 0.11f);
         vectorFill.X = 10 + 7 * 55;
         vectorFill.Y = posymenu;
-        rectangleFill2.X = SizeSprites.basher_with * (CurrentSelectedSkill == ECurrentSkill.BASHER ? framepared : 0);
+        rectangleFill2.X = SizeSprites.basher_width * (CurrentSelectedSkill == ECurrentSkill.BASHER ? framebasher : 0);
         rectangleFill2.Y = 0;
-        rectangleFill2.Width = SizeSprites.basher_with;
+        rectangleFill2.Width = SizeSprites.basher_width;
         rectangleFill2.Height = SizeSprites.basher_height;
         spriteBatch.Draw(MyGame.Instance.Sprites.Pared, vectorFill, rectangleFill2, (CurrentSelectedSkill == ECurrentSkill.BASHER ? Color.White : sombramenu), 0f, Vector2.Zero, SizeSprites.basher_size, SpriteEffects.FlipHorizontally, 0.1f);
 
         vectorFill.X = 45 + 8 * 55;
         vectorFill.Y = posymenu + 31;
-        spriteBatch.Draw(MyGame.Instance.Sprites.Circulo_led, vectorFill, rectangleFill, (CurrentSelectedSkill == ECurrentSkill.MINER ? Color.White : sombramenu), (CurrentSelectedSkill == ECurrentSkill.MINER ? cosa : 0), vectorFill2, 1f, SpriteEffects.None, 0.11f);
+        spriteBatch.Draw(MyGame.Instance.Sprites.Circulo_led, vectorFill, rectangleFill, (CurrentSelectedSkill == ECurrentSkill.MINER ? Color.White : sombramenu), (CurrentSelectedSkill == ECurrentSkill.MINER ? rotation : 0), vectorFill2, 1f, SpriteEffects.None, 0.11f);
         vectorFill.X = 10 + 8 * 55;
         vectorFill.Y = posymenu + 7;
-        rectangleFill2.X = SizeSprites.pico_with * (CurrentSelectedSkill == ECurrentSkill.MINER ? framepico : 30);
+        rectangleFill2.X = SizeSprites.miner_width * (CurrentSelectedSkill == ECurrentSkill.MINER ? frameminer : 30);
         rectangleFill2.Y = 0;
-        rectangleFill2.Width = SizeSprites.pico_with;
-        rectangleFill2.Height = SizeSprites.pico_height;
-        spriteBatch.Draw(MyGame.Instance.Sprites.Pico, vectorFill, rectangleFill2, (CurrentSelectedSkill == ECurrentSkill.MINER ? Color.White : sombramenu), 0f, Vector2.Zero, SizeSprites.pico_size, SpriteEffects.None, 0.1f);
+        rectangleFill2.Width = SizeSprites.miner_width;
+        rectangleFill2.Height = SizeSprites.miner_height;
+        spriteBatch.Draw(MyGame.Instance.Sprites.Pico, vectorFill, rectangleFill2, (CurrentSelectedSkill == ECurrentSkill.MINER ? Color.White : sombramenu), 0f, Vector2.Zero, SizeSprites.miner_size, SpriteEffects.None, 0.1f);
 
         vectorFill.X = 45 + 9 * 55;
         vectorFill.Y = posymenu + 31;
-        spriteBatch.Draw(MyGame.Instance.Sprites.Circulo_led, vectorFill, rectangleFill, (CurrentSelectedSkill == ECurrentSkill.DIGGER ? Color.White : sombramenu), (CurrentSelectedSkill == ECurrentSkill.DIGGER ? cosa : 0), vectorFill2, 1f, SpriteEffects.None, 0.11f);
+        spriteBatch.Draw(MyGame.Instance.Sprites.Circulo_led, vectorFill, rectangleFill, (CurrentSelectedSkill == ECurrentSkill.DIGGER ? Color.White : sombramenu), (CurrentSelectedSkill == ECurrentSkill.DIGGER ? rotation : 0), vectorFill2, 1f, SpriteEffects.None, 0.11f);
         vectorFill.X = 505;
         vectorFill.Y = posymenu;
-        rectangleFill2.X = framecava * (CurrentSelectedSkill == ECurrentSkill.DIGGER ? SizeSprites.digger_with : 0);
+        rectangleFill2.X = framedigger * (CurrentSelectedSkill == ECurrentSkill.DIGGER ? SizeSprites.digger_width : 0);
         rectangleFill2.Y = 0;
-        rectangleFill2.Width = SizeSprites.digger_with;
+        rectangleFill2.Width = SizeSprites.digger_width;
         rectangleFill2.Height = SizeSprites.digger_height;
         spriteBatch.Draw(MyGame.Instance.Sprites.Digger, vectorFill, rectangleFill2, (CurrentSelectedSkill == ECurrentSkill.DIGGER ? Color.White : sombramenu), 0f, Vector2.Zero, SizeSprites.digger_size, SpriteEffects.None, 0.1f);
 
         vectorFill.X = 45 + 10 * 55;
         vectorFill.Y = posymenu + 31;
-        spriteBatch.Draw(MyGame.Instance.Sprites.Circulo_led, vectorFill, rectangleFill, (GlobalConst.Paused ? Color.White : sombramenu), (GlobalConst.Paused ? cosa : 0), vectorFill2, 1f, SpriteEffects.None, 0.1f);
+        spriteBatch.Draw(MyGame.Instance.Sprites.Circulo_led, vectorFill, rectangleFill, (GlobalConst.Paused ? Color.White : sombramenu), (GlobalConst.Paused ? rotation : 0), vectorFill2, 1f, SpriteEffects.None, 0.1f);
         vectorFill.X = 24 + 10 * 55;
         vectorFill.Y = posymenu + 6;
         rectangleFill2.X = 0;
@@ -656,7 +640,7 @@ internal class InGameMenu
 
         vectorFill.X = 45 + 11 * 55;
         vectorFill.Y = posymenu + 31;
-        spriteBatch.Draw(MyGame.Instance.Sprites.Circulo_led, vectorFill, rectangleFill, (_inGame.AllBlow ? Color.White : sombramenu), (_inGame.AllBlow ? cosa : 0), vectorFill2, 1f, SpriteEffects.None, 0.1f);
+        spriteBatch.Draw(MyGame.Instance.Sprites.Circulo_led, vectorFill, rectangleFill, (_inGame.AllBlow ? Color.White : sombramenu), (_inGame.AllBlow ? rotation : 0), vectorFill2, 1f, SpriteEffects.None, 0.1f);
         vectorFill.X = 24 + 11 * 55;
         vectorFill.Y = posymenu + 6;
         rectangleFill2.X = 0;
@@ -667,7 +651,7 @@ internal class InGameMenu
 
         vectorFill.X = 45 + 12 * 55;
         vectorFill.Y = posymenu + 31;
-        spriteBatch.Draw(MyGame.Instance.Sprites.Circulo_led, vectorFill, rectangleFill, (op13 ? Color.White : sombramenu), (op13 ? cosa : 0), vectorFill2, 1f, SpriteEffects.None, 0.1f);
+        spriteBatch.Draw(MyGame.Instance.Sprites.Circulo_led, vectorFill, rectangleFill, (op13 ? Color.White : sombramenu), (op13 ? rotation : 0), vectorFill2, 1f, SpriteEffects.None, 0.1f);
         vectorFill.X = 24 + 12 * 55;
         vectorFill.Y = posymenu + 6;
         rectangleFill2.X = 0;

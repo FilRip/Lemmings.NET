@@ -26,7 +26,7 @@ internal class InGame
     internal int NumTOTplats { get; set; }
     internal int ScrollY { get; set; }
     internal int NumTOTexits { get; set; } = 1;
-    internal float Contadortime { get; set; }
+    internal float Countertime { get; set; }
     internal List<OneLemming> AllLemmings { get; set; }
     internal int Frame2 { get; set; }
     internal Varsprites[] Sprite { get; set; }
@@ -92,11 +92,11 @@ internal class InGame
     }
     internal Color[] Colorsobre33 { get; set; } = new Color[38 * 53];
     internal OneLevel CurrentLevel { get; set; }
-    private float Contadortime2;
+    private float Countertime2;
     private double actWaves444, actWaves333, actWaves;
     private bool drawing3, LevelEnded, ExitBad, ExitLevel;
-    private int cantidad22;
-    private int rest = 0, Contador2, Contador = 1;
+    private int amount22;
+    private int rest = 0, Contador2, Counter = 1;
     private bool doorOn = true;
     private double frameWaves;
     private int walker_frame;
@@ -499,13 +499,13 @@ internal class InGame
         }
         if (!GlobalConst.Paused)
         {
-            Contadortime++;
+            Countertime++;
         }
-        Contadortime2++;
-        TotalTime = Contadortime / 60; //real time of the level see to stop when finish or zvtime<0
+        Countertime2++;
+        TotalTime = Countertime / 60; //real time of the level see to stop when finish or zvtime<0
         if (doorOn)
         {
-            Contadortime = 0;
+            Countertime = 0;
             TotalTime = 0;
         }
         int maxluz = 14; // numero de ciclos de variar el rectangle del EFECTO DE LUCES 50 normalmente
@@ -528,30 +528,30 @@ internal class InGame
                 luzmas2 = true;
             }
         }
-        if ((Contadortime2 / 4) % 2 == 0) //velocidad del refresco efecto de luces
+        if ((Countertime2 / 4) % 2 == 0) //velocidad del refresco efecto de luces
         {
             if (luzmas)
             {
-                Contador++;
-                if (Contador >= maxluz)
+                Counter++;
+                if (Counter >= maxluz)
                 {
-                    Contador = maxluz - 2;
+                    Counter = maxluz - 2;
                     luzmas = false;
                 }
             }
             else
             {
-                Contador--;
-                if (Contador <= 0)
+                Counter--;
+                if (Counter <= 0)
                 {
-                    Contador = 2;
+                    Counter = 2;
                     luzmas = true;
                 }
             }
         }// abajo calculos nubes nubes2 y waterfall
-        z1 = (int)Contadortime2 / 3;
-        z2 = (int)Contadortime2 / 10;
-        z3 = (int)Contadortime2 / 9;
+        z1 = (int)Countertime2 / 3;
+        z2 = (int)Countertime2 / 10;
+        z3 = (int)Countertime2 / 9;
         z3 %= 4; // mumero de frames del agua a ver 4 de 5 que tiene la ultima esta vacia nose porque
         if (Drawing)
         {
@@ -565,27 +565,27 @@ internal class InGame
         if (!GlobalConst.Paused)
             Door();
         _inGameMenu.Update();
-        MyTexture = MyGame.Instance.Content.Load<Texture2D>("luces/" + Contador);// okokokokokokokok
+        MyTexture = MyGame.Instance.Content.Load<Texture2D>("luces/" + Counter);// okokokokokokokok
 
         if (Drawing && NumTotArrow > 0) // dibuja or dibuja2 test performance-- this is the worst part of the code NEED OPTIMIZATION
         {
             for (int xz = 0; xz < NumTotArrow; xz++)
             {
-                cantidad22 = Arrow[xz].area.Width * Arrow[xz].area.Height;
+                amount22 = Arrow[xz].area.Width * Arrow[xz].area.Height;
                 Arrow[xz].flechas.GetData(Colormask22, 0, Arrow[xz].flechas.Height * Arrow[xz].flechas.Width);
                 //////// optimized for hd3000 laptop ARROWS OPTIMIZED
                 int py = Arrow[xz].area.Y;
                 int px = Arrow[xz].area.X;
                 int alto66 = Arrow[xz].area.Height;
                 int ancho66 = Arrow[xz].area.Width;
-                cantidad22 = 0;
+                amount22 = 0;
                 for (int yy88 = 0; yy88 < alto66; yy88++)
                 {
                     int yypos888 = (yy88 + py) * Earth.Width;
                     for (int xx88 = 0; xx88 < ancho66; xx88++)
                     {
-                        Colorsobre22[cantidad22].PackedValue = C25[yypos888 + px + xx88].PackedValue;
-                        cantidad22++;
+                        Colorsobre22[amount22].PackedValue = C25[yypos888 + px + xx88].PackedValue;
+                        amount22++;
                     }
                 }
                 if (!Arrow[xz].right) //left arrows
@@ -605,7 +605,7 @@ internal class InGame
                             Colormasktotal[(y4 * Arrow[xz].area.Width) + x4].PackedValue = Colormask22[(posy456 * Arrow[xz].flechas.Width) + posx456].PackedValue;
                         }
                     }
-                    for (int r = 0; r < cantidad22; r++)
+                    for (int r = 0; r < amount22; r++)
                     {
                         if (Colorsobre22[r].R > 0 || Colorsobre22[r].G > 0 || Colorsobre22[r].B > 0)
                         {
@@ -631,7 +631,7 @@ internal class InGame
                             Colormasktotal[(y4 * Arrow[xz].area.Width) + x4].PackedValue = Colormask22[(posy456 * Arrow[xz].flechas.Width) + posx456].PackedValue;
                         }
                     }
-                    for (int r = 0; r < cantidad22; r++)
+                    for (int r = 0; r < amount22; r++)
                     {
                         if (Colorsobre22[r].R > 0 || Colorsobre22[r].G > 0 || Colorsobre22[r].B > 0)
                         {
@@ -817,7 +817,7 @@ internal class InGame
         {
             if (rayLigths)
             {
-                spriteBatch.Draw(MyTexture, new Vector2(GlobalConst.GameResolution.X / 2, (GlobalConst.GameResolution.Y - 188) / 2), new Rectangle(0, 0, MyTexture.Width, MyTexture.Height), new Color(255, 255, 255, 10 + Contador * 2),
+                spriteBatch.Draw(MyTexture, new Vector2(GlobalConst.GameResolution.X / 2, (GlobalConst.GameResolution.Y - 188) / 2), new Rectangle(0, 0, MyTexture.Width, MyTexture.Height), new Color(255, 255, 255, 10 + Counter * 2),
                     0.4f + Contador2 * 0.001f, new Vector2(MyTexture.Width / 2, MyTexture.Height / 2), 3f, SpriteEffects.FlipHorizontally, 0.805f); // okokok
             }
             // rayligts effect

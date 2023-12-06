@@ -10,6 +10,8 @@ internal static class Extensions
             return;
         try
         {
+            MyGame.Instance.Sfx.ChangeOp.Pitch = 0;
+            MyGame.Instance.Sfx.ChangeOp.Volume = 1f;
             if (sound.State == SoundState.Playing)
                 sound.Stop();
             sound.Play();
