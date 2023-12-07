@@ -127,12 +127,17 @@ public partial class MyGame : Game
         Window.Title = "Lemmings.NET";
         Window.AllowUserResizing = false;
         _showVolume = new Stopwatch();
+        SaveGame.LoadSavedGame();
     }
 
     protected override void Initialize()
     {
         _screenInGame = new InGame();
         SoundEffect.MasterVolume = 1.0f;
+        if (SaveGame.FullScreen)
+            ToggleFullScreen();
+        else if (SaveGame.Scale)
+            ToggleScale();
         _screenMainMenu = new MainMenu();
         base.Initialize();
     }
@@ -344,7 +349,7 @@ public partial class MyGame : Game
     private void ToggleScale()
     {
         Scaled = !Scaled;
-
+        SaveGame.Scale = Scaled;
         _graphics.PreferredBackBufferWidth = GlobalConst.GameResolution.X * (Scaled ? 2 : 1);
         _graphics.PreferredBackBufferHeight = GlobalConst.GameResolution.Y * (Scaled ? 2 : 1);
 
@@ -365,6 +370,7 @@ public partial class MyGame : Game
             _graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
             _graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
         }
+        SaveGame.FullScreen = _graphics.IsFullScreen;
         renderTargetDestination = Graphics.GetRenderTargetDestination(GlobalConst.GameResolution, _graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight);
         _graphics.ToggleFullScreen();
     }

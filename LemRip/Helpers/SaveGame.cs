@@ -14,10 +14,7 @@ internal static class SaveGame
 
     internal static bool MuteMusic
     {
-        get
-        {
-            return MySaveGameFile.MuteMusic;
-        }
+        get { return MySaveGameFile.MuteMusic; }
         set
         {
             MySaveGameFile.MuteMusic = value;
@@ -27,13 +24,30 @@ internal static class SaveGame
 
     internal static float SoundVolume
     {
-        get
-        {
-            return MySaveGameFile.Volume;
-        }
+        get { return MySaveGameFile.Volume; }
         set
         {
             MySaveGameFile.Volume = value;
+            SaveSavedGame();
+        }
+    }
+
+    internal static bool Scale
+    {
+        get { return MySaveGameFile.Scale; }
+        set
+        {
+            MySaveGameFile.Scale = value;
+            SaveSavedGame();
+        }
+    }
+
+    internal static bool FullScreen
+    {
+        get { return MySaveGameFile.FullScreen; }
+        set
+        {
+            MySaveGameFile.FullScreen = value;
             SaveSavedGame();
         }
     }
