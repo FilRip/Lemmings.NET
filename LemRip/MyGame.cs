@@ -19,10 +19,7 @@ public partial class MyGame : Game
 {
     #region Fields
     private Color letterboxingColor = new(0, 0, 0);
-    public RenderTarget2D MainRenderTarget { get; private set; }
     private Rectangle renderTargetDestination;
-    public bool Scaled { get; set; }
-    public static MyGame Instance { get; private set; }
     // Datatables
     private Sprites _sprites;
     private Music _music;
@@ -39,9 +36,13 @@ public partial class MyGame : Game
     private DebugOsd _debugOsd;
     private Vector2 vectorFill;
     private readonly Stopwatch _showVolume;
+    private readonly Stopwatch _showMusic;
     #endregion
 
     #region Properties
+    public RenderTarget2D MainRenderTarget { get; private set; }
+    public bool Scaled { get; set; }
+    public static MyGame Instance { get; private set; }
     internal Sfx Sfx
     {
         get { return _sfx; }
@@ -96,7 +97,7 @@ public partial class MyGame : Game
 
     internal void BackToMenu()
     {
-        if (_music.MenuMusic.State == SoundState.Stopped)
+        if (_music.MenuMusic.State == SoundState.Stopped && !SaveGame.MuteMusic)
             _music.MenuMusic.Play();
         _screenMainMenu.BackToMenu();
         CurrentScreen = ECurrentScreen.MainMenu;
@@ -110,7 +111,6 @@ public partial class MyGame : Game
     private bool rightparticle;
     private readonly GraphicsDeviceManager _graphics;
     SpriteBatch _spriteBatch;
-    //vita touch textures
 
     public MyGame()
     {
@@ -122,11 +122,11 @@ public partial class MyGame : Game
             PreferredBackBufferHeight = GlobalConst.GameResolution.Y,
             GraphicsProfile = GraphicsProfile.HiDef,
         };
-        //// this.IsMouseVisible = true;  //WINDOWS MOUSE VISIBLE OR NOT
         Content.RootDirectory = "Content";
         Window.Title = "Lemmings.NET";
         Window.AllowUserResizing = false;
         _showVolume = new Stopwatch();
+        _showMusic = new Stopwatch();
         SaveGame.LoadSavedGame();
     }
 
@@ -147,8 +147,6 @@ public partial class MyGame : Game
         LoadContent();
     }
 
-#pragma warning disable S125 // Sections of code should not be commented out
-    //private Texture2D mascarapico, lyipie, lglup, lsplat, walker, mainMenuLogo, lucesfondo, backmenu3, explode, backmenu1, numfont, Crate;
     protected override void LoadContent()
     {
         _spriteBatch = new SpriteBatch(GraphicsDevice);
@@ -212,7 +210,8 @@ public partial class MyGame : Game
         {
             SaveGame.LoadSavedGame();
             SoundEffect.MasterVolume = SaveGame.SoundVolume;
-            _music.MenuMusic.Play();
+            if (!SaveGame.MuteMusic)
+                _music.MenuMusic.Play();
         }
         else if (CurrentScreen == ECurrentScreen.InGame) //when level starts all the vars and reset all
         {
@@ -220,7 +219,6 @@ public partial class MyGame : Game
             _screenInGame.CurrentMusic = _music.GetMusic(CurrentLevelNumber % 19);
         }
     }
-#pragma warning restore S125 // Sections of code should not be commented out
 
     protected override void Update(GameTime gameTime)
     {
@@ -237,6 +235,7 @@ public partial class MyGame : Game
         }
         else if (Input.PreviousKeyState.IsKeyDown(Keys.M) && Input.CurrentKeyState.IsKeyUp(Keys.M))
         {
+            SaveGame.MuteMusic = !SaveGame.MuteMusic;
             if (CurrentScreen == ECurrentScreen.InGame)
             {
                 if (_screenInGame.CurrentMusic.State == SoundState.Playing)
@@ -251,6 +250,7 @@ public partial class MyGame : Game
                 else
                     _music.MenuMusic.Play();
             }
+            _showMusic.Restart();
         }
         else if (Input.PreviousKeyState.IsKeyDown(Keys.PageDown) && Input.CurrentKeyState.IsKeyUp(Keys.PageDown) && SoundEffect.MasterVolume > 0.0f)
         {
@@ -391,8 +391,20 @@ public partial class MyGame : Game
 
         _spriteBatch.Begin();
         _debugOsd.Draw(_spriteBatch);
-        if (_showVolume.IsRunning && _showVolume.ElapsedMilliseconds <= 3000)
-            _fonts.TextLem($"Volume : {(SoundEffect.MasterVolume * 100):00}%", new Vector2(800, 660), Color.White, 1, 0.1f, _spriteBatch);
+        if (_showVolume.IsRunning)
+        {
+            if (_showVolume.ElapsedMilliseconds <= 3000)
+                _fonts.TextLem($"Volume : {(SoundEffect.MasterVolume * 100):00}%", new Vector2(800, 660), Color.White, 1, 0.1f, _spriteBatch);
+            else
+                _showVolume.Stop();
+        }
+        else if (_showMusic.IsRunning)
+        {
+            if (_showMusic.ElapsedMilliseconds <= 3000)
+                _fonts.TextLem($"Music : {(SaveGame.MuteMusic ? "Off" : "On")}", new Vector2(800, 660), Color.White, 1, 0.1f, _spriteBatch);
+            else
+                _showMusic.Stop();
+        }
         _spriteBatch.End();
 
         GraphicsDevice.SetRenderTarget(null);

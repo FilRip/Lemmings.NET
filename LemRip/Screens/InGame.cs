@@ -846,7 +846,7 @@ internal class InGame
                     CurrentMusic.Stop();
                 if (ExitBad && MyGame.Instance.Sfx.OhNo.State != SoundState.Playing)
                     MyGame.Instance.Sfx.OhNo.Play();
-                else if (!ExitBad && MyGame.Instance.Music.WinMusic.State != SoundState.Playing)
+                else if (!ExitBad && !SaveGame.MuteMusic && MyGame.Instance.Music.WinMusic.State != SoundState.Playing)
                     MyGame.Instance.Music.WinMusic.Play();
             }
             _endSongPlayed = true;
