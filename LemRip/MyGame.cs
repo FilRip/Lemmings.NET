@@ -33,7 +33,7 @@ public partial class MyGame : Game
     private MainMenu _screenMainMenu;
     private InGame _screenInGame;
     private DebugOsd _debugOsd;
-    private Vector2 vectorFill;
+    private SnowOverlay _snowOverlay;
     private readonly Stopwatch _showVolume;
     private readonly Stopwatch _showMusic;
     // Graphics
@@ -93,7 +93,6 @@ public partial class MyGame : Game
     internal ECurrentScreen CurrentScreen { get; set; }
     public bool LevelEnded { get; set; } = false;
     internal Particle[,] Explosion { get; set; } = new Particle[GlobalConst.totalExplosions, 24];
-    public Particles[] ParticleTab { get; set; }
     #endregion
 
     internal void BackToMenu()
@@ -187,6 +186,11 @@ public partial class MyGame : Game
             _props = new Props();
             _props.Load();
         }
+        if (_snowOverlay == null)
+        {
+            _snowOverlay = new SnowOverlay();
+            _snowOverlay.Load(Content);
+        }
         Mouse.SetPosition(GlobalConst.GameResolution.X / 2, GlobalConst.GameResolution.Y / 2);
         MainRenderTarget = new RenderTarget2D(GraphicsDevice, GlobalConst.GameResolution.X, GlobalConst.GameResolution.Y);
         renderTargetDestination = Graphics.GetRenderTargetDestination(GlobalConst.GameResolution, _graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight);
@@ -276,50 +280,9 @@ public partial class MyGame : Game
 
         _debugOsd.Update(gameTime);
 
-        UpdateSnow(gameTime);
+        _snowOverlay.UpdateSnow(gameTime);
 
         base.Update(gameTime);
-    }
-
-    private void UpdateSnow(GameTime gameTime)
-    {
-        if ((Input.PreviousMouseState.RightButton == ButtonState.Released && Input.CurrentMouseState.RightButton == ButtonState.Pressed) && !LevelEnded)
-        {
-            if (ParticleTab != null)
-                ParticleTab = null;
-            else
-            {
-                ParticleTab = new Particles[GlobalConst.NumParticles];
-                for (int varParticle = 0; varParticle < GlobalConst.NumParticles; varParticle++)
-                {
-                    vectorFill.X = GlobalConst.Rnd.Next(20, 1080);
-                    vectorFill.Y = GlobalConst.Rnd.Next(5, 650) - 660;
-                    ParticleTab[varParticle].Pos = vectorFill;
-                    vectorFill.X = 1;
-                    vectorFill.Y = 2;
-                    ParticleTab[varParticle].Direction = vectorFill;
-                    ParticleTab[varParticle].Sprite = Content.Load<Texture2D>("sprite/particle");
-                    ParticleTab[varParticle].DirectionTime = (float)GlobalConst.Rnd.NextDouble() * 3;
-                }
-            }
-        }
-        if (ParticleTab != null)
-        {
-            for (int varParticle = 0; varParticle < GlobalConst.NumParticles; varParticle++)
-            {
-                ParticleTab[varParticle].DirectionTime -= (float)gameTime.ElapsedGameTime.TotalSeconds;
-                ParticleTab[varParticle].Lifetime += (float)gameTime.ElapsedGameTime.TotalSeconds;
-                ParticleTab[varParticle].Pos += ParticleTab[0].Direction;
-                ParticleTab[varParticle].SetPosX(ParticleTab[varParticle].Pos.X - ParticleTab[varParticle].DirectionTime);
-                ParticleTab[varParticle].SetPosY(ParticleTab[varParticle].Pos.Y - (float)GlobalConst.Rnd.NextDouble());
-                if (ParticleTab[varParticle].DirectionTime < 0)
-                {
-                    ParticleTab[varParticle].DirectionTime = (float)GlobalConst.Rnd.NextDouble() * 3;
-                }
-                if (ParticleTab[varParticle].Pos.Y > GlobalConst.GameResolution.Y)
-                    ParticleTab[varParticle].SetPosY(0);
-            }
-        }
     }
 
     private void ToggleScale()
@@ -381,7 +344,7 @@ public partial class MyGame : Game
             else
                 _showMusic.Stop();
         }
-        DrawSnow(_spriteBatch);
+        _snowOverlay.DrawSnow(_spriteBatch);
         _spriteBatch.End();
 
         GraphicsDevice.SetRenderTarget(null);
@@ -393,16 +356,4 @@ public partial class MyGame : Game
 
         base.Draw(gameTime);
     }
-
-    private void DrawSnow(SpriteBatch spriteBatch)
-    {
-        if (MyGame.Instance.ParticleTab != null)
-        {
-            foreach (Particles particle in MyGame.Instance.ParticleTab)
-            {
-                spriteBatch.Draw(particle.Sprite, particle.Pos, new Rectangle(0, 0, 10, 10), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0.50001f);
-            }
-        }
-    }
 }
-

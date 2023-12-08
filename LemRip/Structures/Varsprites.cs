@@ -11,4 +11,12 @@ internal struct Varsprites
     internal bool MinusScrollx, Minus, Calc;
     internal Texture2D Sprite;
     internal Vector3[] Path;
+    internal void SetPosX(float x)
+    {
+        Pos.X = x;
+    }
+    internal void SetPosY(float y)
+    {
+        Pos.Y = y;
+    }
 }

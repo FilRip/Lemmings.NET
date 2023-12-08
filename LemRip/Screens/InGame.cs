@@ -18,6 +18,8 @@ namespace Lemmings.NET.Screens;
 
 internal class InGame
 {
+    #region Properties
+
     internal int NumTOTsteel { get; set; }
     internal int ScrollX { get; set; }
     internal int NumACTdoor { get; set; }
@@ -91,9 +93,17 @@ internal class InGame
     }
     internal Color[] Colorsobre33 { get; set; } = new Color[38 * 53];
     internal OneLevel CurrentLevel { get; set; }
+    internal bool ExitBad { get; set; }
+    internal int Numlemnow { get; set; }
+    internal int Lemsneeded { get; set; } = 1;
+    internal EndLevel EndLevelScreen { get; set; }
+    #endregion
+
+    #region Fields
+
     private float Countertime2;
     private double actWaves444, actWaves333, actWaves;
-    private bool drawing3, LevelEnded, ExitBad, ExitLevel, BackToMainMenu;
+    private bool drawing3, LevelEnded, ExitLevel, BackToMainMenu;
     private int amount22;
     private int rest = 0, Contador2, Counter = 1;
     private bool doorOn = true;
@@ -117,10 +127,7 @@ internal class InGame
     private Vector2 vectorFill;
     private Rectangle rectangleFill, rectangleFill2;
     private Color colorFill;
-    private bool _endSongPlayed;
     private readonly double GRAVITY = 0.1; //0.1
-    private int Lemsneeded = 1;
-    internal int Numlemnow { get; set; }
     private int z1;
     private int z2;
     private int z3;
@@ -136,9 +143,12 @@ internal class InGame
     private Texture2D puerta_ani;
     private readonly InGameMenu _inGameMenu;
 
+    #endregion
+
     internal InGame()
     {
         _inGameMenu = new InGameMenu(this);
+        EndLevelScreen = new EndLevel();
         LockMouse = false;
     }
 
@@ -186,7 +196,7 @@ internal class InGame
         SteelON = false;
         NumTOTsteel = 0;
         LevelEnded = false;
-        _endSongPlayed = false;
+        EndLevelScreen.EndSongPlayed = false;
         ExitLevel = false;
         BackToMainMenu = false;
         ExitBad = false;
@@ -703,15 +713,15 @@ internal class InGame
             colorFill.A = 120;
             spriteBatch.Draw(logo555, rectangleFill, rectangleFill2, colorFill, 0f, Vector2.Zero, SpriteEffects.None, 0.806f);
         }
-        if (TrapsON) //draw traps
+        if (TrapsON && Trap != null) //draw traps
         {
-            for (int r = 0; r < NumTotTraps; r++)
+            foreach (Vartraps trap in Trap)
             {
-                int tYheight = Trap[r].sprite.Height / Trap[r].numFrames;
-                if (Trap[r].type != 555 && Trap[r].type != 666)
+                int tYheight = trap.sprite.Height / trap.numFrames;
+                if (trap.type != 555 && trap.type != 666)
                 {
                     int vv444 = 0;
-                    switch (Trap[r].vvscroll)
+                    switch (trap.vvscroll)
                     {
                         case 1:
                             vv444 = z1;
@@ -725,49 +735,49 @@ internal class InGame
                     colorFill.R = 255;
                     colorFill.G = 255;
                     colorFill.B = 255;
-                    colorFill.A = Trap[r].transparency;
-                    if (Trap[r].R != 255 && Trap[r].R > 0)
-                        colorFill.R = Trap[r].R;
-                    if (Trap[r].G != 255 && Trap[r].G > 0)
-                        colorFill.G = Trap[r].G;
-                    if (Trap[r].B != 255 && Trap[r].B > 0)
-                        colorFill.B = Trap[r].B;
-                    rectangleFill.X = Trap[r].areaDraw.X - ScrollX;
-                    rectangleFill.Y = Trap[r].areaDraw.Y - ScrollY;
-                    rectangleFill.Width = Trap[r].areaDraw.Width;
+                    colorFill.A = trap.transparency;
+                    if (trap.R != 255 && trap.R > 0)
+                        colorFill.R = trap.R;
+                    if (trap.G != 255 && trap.G > 0)
+                        colorFill.G = trap.G;
+                    if (trap.B != 255 && trap.B > 0)
+                        colorFill.B = trap.B;
+                    rectangleFill.X = trap.areaDraw.X - ScrollX;
+                    rectangleFill.Y = trap.areaDraw.Y - ScrollY;
+                    rectangleFill.Width = trap.areaDraw.Width;
                     rectangleFill.Height = tYheight;
                     rectangleFill2.X = 0 + vv444;
-                    rectangleFill2.Y = tYheight * Trap[r].actFrame;
-                    rectangleFill2.Width = Trap[r].areaDraw.Width;
+                    rectangleFill2.Y = tYheight * trap.actFrame;
+                    rectangleFill2.Width = trap.areaDraw.Width;
                     rectangleFill2.Height = tYheight;
-                    spriteBatch.Draw(Trap[r].sprite, rectangleFill, rectangleFill2, colorFill, 0f, Vector2.Zero, SpriteEffects.None, Trap[r].depth);
+                    spriteBatch.Draw(trap.sprite, rectangleFill, rectangleFill2, colorFill, 0f, Vector2.Zero, SpriteEffects.None, trap.depth);
                 }
                 else
                 {
                     colorFill.R = 255;
                     colorFill.G = 255;
                     colorFill.B = 255;
-                    colorFill.A = Trap[r].transparency;
-                    if (Trap[r].R != 255 && Trap[r].R > 0)
-                        colorFill.R = Trap[r].R;
-                    if (Trap[r].G != 255 && Trap[r].G > 0)
-                        colorFill.G = Trap[r].G;
-                    if (Trap[r].B != 255 && Trap[r].B > 0)
-                        colorFill.B = Trap[r].B;
-                    int spY = Trap[r].sprite.Height / Trap[r].numFrames;
-                    rectangleFill.X = (int)Trap[r].pos.X - ScrollX - Trap[r].vvX;
-                    rectangleFill.Y = (int)Trap[r].pos.Y - Trap[r].vvY - ScrollY;
-                    rectangleFill.Width = Trap[r].sprite.Width;
+                    colorFill.A = trap.transparency;
+                    if (trap.R != 255 && trap.R > 0)
+                        colorFill.R = trap.R;
+                    if (trap.G != 255 && trap.G > 0)
+                        colorFill.G = trap.G;
+                    if (trap.B != 255 && trap.B > 0)
+                        colorFill.B = trap.B;
+                    int spY = trap.sprite.Height / trap.numFrames;
+                    rectangleFill.X = (int)trap.pos.X - ScrollX - trap.vvX;
+                    rectangleFill.Y = (int)trap.pos.Y - trap.vvY - ScrollY;
+                    rectangleFill.Width = trap.sprite.Width;
                     rectangleFill.Height = spY;
                     rectangleFill2.X = 0;
-                    rectangleFill2.Y = spY * Trap[r].actFrame;
-                    rectangleFill2.Width = Trap[r].sprite.Width;
+                    rectangleFill2.Y = spY * trap.actFrame;
+                    rectangleFill2.Width = trap.sprite.Width;
                     rectangleFill2.Height = spY;
-                    spriteBatch.Draw(Trap[r].sprite, rectangleFill, rectangleFill2, colorFill, 0f, Vector2.Zero, SpriteEffects.None, Trap[r].depth);
+                    spriteBatch.Draw(trap.sprite, rectangleFill, rectangleFill2, colorFill, 0f, Vector2.Zero, SpriteEffects.None, trap.depth);
                 }
                 if (MyGame.Instance.DebugOsd.Debug)
                 {
-                    spriteBatch.Draw(MyGame.Instance.Gfx.Texture1pixel, new Rectangle(Trap[r].areaTrap.Left - ScrollX, Trap[r].areaTrap.Top - ScrollY, Trap[r].areaTrap.Width, Trap[r].areaTrap.Height),
+                    spriteBatch.Draw(MyGame.Instance.Gfx.Texture1pixel, new Rectangle(trap.areaTrap.Left - ScrollX, trap.areaTrap.Top - ScrollY, trap.areaTrap.Width, trap.areaTrap.Height),
                         null, new Color(255, 255, 255, 140), 0f, Vector2.Zero, SpriteEffects.None, 0.1f);
                 }
             }
@@ -826,43 +836,7 @@ internal class InGame
         //menu for ending level or not
         if (LevelEnded)
         {
-            if (!_endSongPlayed)
-            {
-                if (CurrentMusic.State == SoundState.Playing)
-                    CurrentMusic.Stop();
-                if (ExitBad && MyGame.Instance.Sfx.OhNo.State != SoundState.Playing)
-                    MyGame.Instance.Sfx.OhNo.Play();
-                else if (!ExitBad && !SaveGame.MuteMusic && MyGame.Instance.Music.WinMusic.State != SoundState.Playing)
-                    MyGame.Instance.Music.WinMusic.Play();
-            }
-            _endSongPlayed = true;
-            colorFill.R = 0; //color.black for this change to see differents options
-            colorFill.G = 0;
-            colorFill.B = 0;
-            colorFill.A = 150;
-            spriteBatch.Draw(MyGame.Instance.Gfx.Texture1pixel, new Rectangle(45, 32, 1005, 600), null, colorFill, 0f, Vector2.Zero, SpriteEffects.None, 0.001f);
-            spriteBatch.Draw(MyGame.Instance.ScreenMainMenu.MainMenuGfx.mainMenuSign2, new Rectangle(-200, -120, 1500, 900), null,
-               Color.White, 0f, Vector2.Zero, SpriteEffects.None, 0.00005f);
-            int percent = (100 * NumSaved) / CurrentLevel.TotalLemmings;
-            MyGame.Instance.Fonts.TextLem("All lemmings accounted for:", new Vector2(150, 100), Color.Cyan, 1.5f, 0.0000000001f, spriteBatch);
-            MyGame.Instance.Fonts.TextLem("You rescued " + string.Format("{0}", percent) + "%",
-                 new Vector2(270, 160), Color.Violet, 1.5f, 0.0000000001f, spriteBatch);
-            percent = (100 * Lemsneeded) / CurrentLevel.TotalLemmings;
-            MyGame.Instance.Fonts.TextLem("You needed " + string.Format("{0}", percent) + "%",
-                 new Vector2(300, 220), Color.DodgerBlue, 1.5f, 0.0000000001f, spriteBatch);
-            MyGame.Instance.Fonts.TextLem("Press <ESC> or <Left Mouse Button>", new Vector2(70, 400), Color.LightCyan, 1.3f, 0.0000000001f, spriteBatch);
-            if (ExitBad)
-                MyGame.Instance.Fonts.TextLem("to retry level...", new Vector2(100, 440), Color.LightCyan, 1.3f, 0.0000000001f, spriteBatch);
-            else if (NumSaved >= Lemsneeded)
-            {
-                MyGame.Instance.Fonts.TextLem("to next level...", new Vector2(100, 440), Color.LightCyan, 1.3f, 0.0000000001f, spriteBatch);
-            }
-            else
-            {
-                MyGame.Instance.Fonts.TextLem("to continue...", new Vector2(100, 440), Color.LightCyan, 1.3f, 0.0000000001f, spriteBatch);
-            }
-            MyGame.Instance.Fonts.TextLem("Press <Enter> or <Right Mouse Button>", new Vector2(70, 520), Color.Yellow, 1.3f, 0.0000000001f, spriteBatch);
-            MyGame.Instance.Fonts.TextLem("to Main Menu...", new Vector2(100, 560), Color.Yellow, 1.3f, 0.0000000001f, spriteBatch);
+            EndLevelScreen.Draw(spriteBatch);
         }
         OneEntry entry = MyGame.Instance.Props.GetEntry(CurrentLevel.TypeOfDoor);
         int xx55 = entry.Width;
@@ -870,72 +844,67 @@ internal class InGame
         framereal565 = (frameDoor * yy55);
         if (Sprite != null) //draw sprites
         {
-            for (int ssi = 0; ssi < Sprite.Length; ssi++)
+            foreach (Varsprites sprite in Sprite)
             {
-                int swidth = Sprite[ssi].Sprite.Width / Sprite[ssi].AxisX;
-                int sheight = Sprite[ssi].Sprite.Height / Sprite[ssi].AxisY;
+                int swidth = sprite.Sprite.Width / sprite.AxisX;
+                int sheight = sprite.Sprite.Height / sprite.AxisY;
                 int sx1 = 0;
                 int sy1 = 0;
-                if (Sprite[ssi].ActFrame != 0)
+                if (sprite.ActFrame != 0)
                 {
-                    sx1 = swidth * (Sprite[ssi].ActFrame % Sprite[ssi].AxisX);
-                    sy1 = sheight * (Sprite[ssi].ActFrame / Sprite[ssi].AxisX);
+                    sx1 = swidth * (sprite.ActFrame % sprite.AxisX);
+                    sy1 = sheight * (sprite.ActFrame / sprite.AxisX);
                 }
-                if (Sprite[ssi].Typescroll > 0)
+                if (sprite.Typescroll > 0)
                 {
-                    Sprite[ssi].Pos.X -= Sprite[ssi].Typescroll;
-                    if (Sprite[ssi].Pos.X < 0 - (Sprite[ssi].Sprite.Width * Sprite[ssi].Scale))
-                        Sprite[ssi].Pos.X = GlobalConst.GameResolution.X;
-                    if (Sprite[ssi].Pos.X > GlobalConst.GameResolution.X)
-                        Sprite[ssi].Pos.X = -100;
-                    spriteBatch.Draw(Sprite[ssi].Sprite, new Vector2(Sprite[ssi].Pos.X, Sprite[ssi].Pos.Y - ScrollY),
-                        new Rectangle(sx1, sy1, swidth, sheight), new Color(Sprite[ssi].R, Sprite[ssi].G, Sprite[ssi].B, Sprite[ssi].Transparency),
-                        Sprite[ssi].Rotation, Vector2.Zero, Sprite[ssi].Scale, SpriteEffects.None, Sprite[ssi].Depth);
+                    sprite.SetPosX(sprite.Pos.X - sprite.Typescroll);
+                    if (sprite.Pos.X < 0 - (sprite.Sprite.Width * sprite.Scale))
+                        sprite.SetPosX(GlobalConst.GameResolution.X);
+                    if (sprite.Pos.X > GlobalConst.GameResolution.X)
+                        sprite.SetPosX(-100);
+
+                    spriteBatch.Draw(sprite.Sprite, new Vector2(sprite.Pos.X, sprite.Pos.Y - ScrollY),
+                        new Rectangle(sx1, sy1, swidth, sheight), new Color(sprite.R, sprite.G, sprite.B, sprite.Transparency),
+                        sprite.Rotation, Vector2.Zero, sprite.Scale, SpriteEffects.None, sprite.Depth);
                 }
                 else
                 {
-                    if (Sprite[ssi].Sprite.Name == "touch/arana") // 64x64 sprite frame size
+                    if (sprite.Sprite.Name == "touch/arana") // 64x64 sprite frame size
                     {
                         int xxAnim;
-                        if (Sprite[ssi].MinusScrollx)
-                        {
-                            xxAnim = (int)Sprite[ssi].Pos.X - ScrollX + 32;
-                        }
+                        if (sprite.MinusScrollx)
+                            xxAnim = (int)sprite.Pos.X - ScrollX + 32;
                         else
-                        {
-                            xxAnim = (int)Sprite[ssi].Pos.X + 32;
-                        }
-                        spriteBatch.Draw(Sprite[ssi].Sprite, new Vector2(xxAnim, Sprite[ssi].Pos.Y - ScrollY - 32),
-                            new Rectangle(sx1, sy1, swidth, sheight), new Color(Sprite[ssi].R, Sprite[ssi].G, Sprite[ssi].B, Sprite[ssi].Transparency),
-                            Sprite[ssi].Rotation, Sprite[ssi].Center, Sprite[ssi].Scale, SpriteEffects.None, Sprite[ssi].Depth);
+                            xxAnim = (int)sprite.Pos.X + 32;
+
+                        spriteBatch.Draw(sprite.Sprite, new Vector2(xxAnim, sprite.Pos.Y - ScrollY - 32),
+                            new Rectangle(sx1, sy1, swidth, sheight), new Color(sprite.R, sprite.G, sprite.B, sprite.Transparency),
+                            sprite.Rotation, sprite.Center, sprite.Scale, SpriteEffects.None, sprite.Depth);
                     }
                     else
                     {
                         int xxAnim;
-                        if (Sprite[ssi].MinusScrollx)
-                        {
-                            xxAnim = (int)Sprite[ssi].Pos.X - ScrollX;
-                        }
+                        if (sprite.MinusScrollx)
+                            xxAnim = (int)sprite.Pos.X - ScrollX;
                         else
-                        {
-                            xxAnim = (int)Sprite[ssi].Pos.X;
-                        }
-                        spriteBatch.Draw(Sprite[ssi].Sprite, new Vector2(xxAnim, Sprite[ssi].Pos.Y - ScrollY),
-                            new Rectangle(sx1, sy1, swidth, sheight), new Color(Sprite[ssi].R, Sprite[ssi].G, Sprite[ssi].B, Sprite[ssi].Transparency),
-                            Sprite[ssi].Rotation, Vector2.Zero, Sprite[ssi].Scale, SpriteEffects.None, Sprite[ssi].Depth);
+                            xxAnim = (int)sprite.Pos.X;
+
+                        spriteBatch.Draw(sprite.Sprite, new Vector2(xxAnim, sprite.Pos.Y - ScrollY),
+                            new Rectangle(sx1, sy1, swidth, sheight), new Color(sprite.R, sprite.G, sprite.B, sprite.Transparency),
+                            sprite.Rotation, Vector2.Zero, sprite.Scale, SpriteEffects.None, sprite.Depth);
                     }
                 }
             }
         }
         if (PlatsON)
         {
-            for (int i = 0; i < NumTOTplats; i++)
+            foreach (Varplat plat in Plats)
             {
-                int x2 = Plats[i].areaDraw.X - Plats[i].areaDraw.Width / 2;
-                int y = Plats[i].areaDraw.Y;
-                int w = Plats[i].sprite.Width;
-                int h = Plats[i].sprite.Height;
-                spriteBatch.Draw(Plats[i].sprite, new Rectangle(x2 - ScrollX, y - ScrollY - 5, Plats[i].areaDraw.Width, Plats[i].areaDraw.Height),
+                int x2 = plat.areaDraw.X - plat.areaDraw.Width / 2;
+                int y = plat.areaDraw.Y;
+                int w = plat.sprite.Width;
+                int h = plat.sprite.Height;
+                spriteBatch.Draw(plat.sprite, new Rectangle(x2 - ScrollX, y - ScrollY - 5, plat.areaDraw.Width, plat.areaDraw.Height),
                     new Rectangle(0, 0, w, h), Color.White, 0f, Vector2.Zero, SpriteEffects.None, 0.56f);
             }
         }
@@ -946,10 +915,10 @@ internal class InGame
         }
         else
         {
-            for (int i = 0; i < NumTOTdoors; i++)
+            foreach (Vector2 moreDoor in MoreDoors.Select(m => m.doorMoreXY))
             {
-                door1X = (int)MoreDoors[i].doorMoreXY.X;
-                door1Y = (int)MoreDoors[i].doorMoreXY.Y;
+                door1X = (int)moreDoor.X;
+                door1Y = (int)moreDoor.Y;
                 spriteBatch.Draw(puerta_ani, new Vector2(door1X - ScrollX, door1Y - ScrollY), new Rectangle(0, framereal565, xx55, yy55),
                     Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, DoorExitDepth);
             }
@@ -977,19 +946,22 @@ internal class InGame
         }
         else
         {
-            for (int ex22 = 0; ex22 < NumTOTexits; ex22++)
+            if (Moreexits != null)
             {
-                output1X = (int)Moreexits[ex22].exitMoreXY.X;
-                output1Y = (int)Moreexits[ex22].exitMoreXY.Y;
-                spriteBatch.Draw(salida_ani1_1, new Vector2(output1X - ScrollX - xx88, output1Y - yy88 - ScrollY), new Rectangle(0, frameact, xx66, yy66), Color.White,
-                    0f, Vector2.Zero, 1f, SpriteEffects.None, DoorExitDepth);
-                spriteBatch.Draw(salida_ani1, new Vector2(output1X - ScrollX - xx99, output1Y - yy99 - ScrollY), new Rectangle(0, 0, salida_ani1.Width, salida_ani1.Height),
-                    Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, DoorExitDepth);
-                if (MyGame.Instance.DebugOsd.Debug) //exits debug
+                foreach (Vector2 moreExits in Moreexits.Select(m => m.exitMoreXY))
                 {
-                    exit_rect = new Rectangle(output1X - 5, output1Y - 5, 10, 10);
-                    spriteBatch.Draw(MyGame.Instance.Gfx.Texture1pixel, new Rectangle(exit_rect.Left - ScrollX, exit_rect.Top - ScrollY, exit_rect.Width, exit_rect.Height), null,
-                        Color.White, 0f, Vector2.Zero, SpriteEffects.None, 0.1f);
+                    output1X = (int)moreExits.X;
+                    output1Y = (int)moreExits.Y;
+                    spriteBatch.Draw(salida_ani1_1, new Vector2(output1X - ScrollX - xx88, output1Y - yy88 - ScrollY), new Rectangle(0, frameact, xx66, yy66), Color.White,
+                        0f, Vector2.Zero, 1f, SpriteEffects.None, DoorExitDepth);
+                    spriteBatch.Draw(salida_ani1, new Vector2(output1X - ScrollX - xx99, output1Y - yy99 - ScrollY), new Rectangle(0, 0, salida_ani1.Width, salida_ani1.Height),
+                        Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, DoorExitDepth);
+                    if (MyGame.Instance.DebugOsd.Debug) //exits debug
+                    {
+                        exit_rect = new Rectangle(output1X - 5, output1Y - 5, 10, 10);
+                        spriteBatch.Draw(MyGame.Instance.Gfx.Texture1pixel, new Rectangle(exit_rect.Left - ScrollX, exit_rect.Top - ScrollY, exit_rect.Width, exit_rect.Height), null,
+                            Color.White, 0f, Vector2.Zero, SpriteEffects.None, 0.1f);
+                    }
                 }
             }
         }
@@ -997,9 +969,7 @@ internal class InGame
 
         if (!doorOn)
             foreach (OneLemming lemming in AllLemmings) //si lo hace de 100 a cero dibujara los primeros encima y mejorara el aspecto
-            {
                 lemming.Draw(spriteBatch);
-            }
 
         if (Fade)
         {
