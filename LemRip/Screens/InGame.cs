@@ -1407,7 +1407,8 @@ internal class InGame
             if (frameDoor > xx55)
             {
                 CurrentMusic.IsLooped = true;
-                CurrentMusic.Play();
+                if (!SaveGame.MuteMusic)
+                    CurrentMusic.Play();
                 doorOn = false;
                 frameDoor = xx55;
             }

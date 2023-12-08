@@ -27,7 +27,6 @@ public partial class MyGame : Game
     private Fonts _fonts;
     private MouseManager _mouse;
     private Gfx _gfx;
-    private Vfx _vfx;
     private InGameMenuGfx _inGameMenuGfx;
     private Props _props;
     // Screens
@@ -37,6 +36,10 @@ public partial class MyGame : Game
     private Vector2 vectorFill;
     private readonly Stopwatch _showVolume;
     private readonly Stopwatch _showMusic;
+    private float rparticle1;
+    private bool rightparticle;
+    private readonly GraphicsDeviceManager _graphics;
+    private SpriteBatch _spriteBatch;
     #endregion
 
     #region Properties
@@ -79,10 +82,6 @@ public partial class MyGame : Game
     {
         get { return _debugOsd; }
     }
-    internal Vfx Vfx
-    {
-        get { return _vfx; }
-    }
     internal InGameMenuGfx InGameMenuGfx
     {
         get { return _inGameMenuGfx; }
@@ -93,6 +92,9 @@ public partial class MyGame : Game
     }
     internal int CurrentLevelNumber { get; set; }
     internal ECurrentScreen CurrentScreen { get; set; }
+    public bool LevelEnded { get; set; } = false;
+    internal Particle[,] Explosion { get; set; } = new Particle[GlobalConst.totalExplosions, 24];
+    public Particles[] ParticleTab { get; set; }
     #endregion
 
     internal void BackToMenu()
@@ -102,15 +104,6 @@ public partial class MyGame : Game
         _screenMainMenu.BackToMenu();
         CurrentScreen = ECurrentScreen.MainMenu;
     }
-
-    public bool LevelEnded { get; set; } = false;
-
-    internal Particle[,] Explosion { get; set; } = new Particle[GlobalConst.totalExplosions, 24];
-    public Particles[] ParticleTab { get; set; }
-    private float rparticle1;
-    private bool rightparticle;
-    private readonly GraphicsDeviceManager _graphics;
-    SpriteBatch _spriteBatch;
 
     public MyGame()
     {
@@ -190,11 +183,6 @@ public partial class MyGame : Game
             _inGameMenuGfx = new InGameMenuGfx();
             _inGameMenuGfx.Load(Content);
         }
-        if (_vfx == null)
-        {
-            _vfx = new Vfx();
-            _vfx.Load(Content);
-        }
         if (_props == null)
         {
             _props = new Props();
@@ -242,6 +230,8 @@ public partial class MyGame : Game
                     _screenInGame.CurrentMusic.Pause();
                 else if (_screenInGame.CurrentMusic.State == SoundState.Paused)
                     _screenInGame.CurrentMusic.Resume();
+                else if (_screenInGame.CurrentMusic.State == SoundState.Stopped)
+                    _screenInGame.CurrentMusic.Play();
             }
             else
             {
@@ -394,14 +384,14 @@ public partial class MyGame : Game
         if (_showVolume.IsRunning)
         {
             if (_showVolume.ElapsedMilliseconds <= 3000)
-                _fonts.TextLem($"Volume : {(SoundEffect.MasterVolume * 100):00}%", new Vector2(800, 660), Color.White, 1, 0.1f, _spriteBatch);
+                _fonts.TextLem($"Volume : {(SoundEffect.MasterVolume * 100):00}%", new Vector2(800, 665), Color.White, 1, 0.1f, _spriteBatch);
             else
                 _showVolume.Stop();
         }
         else if (_showMusic.IsRunning)
         {
             if (_showMusic.ElapsedMilliseconds <= 3000)
-                _fonts.TextLem($"Music : {(SaveGame.MuteMusic ? "Off" : "On")}", new Vector2(800, 660), Color.White, 1, 0.1f, _spriteBatch);
+                _fonts.TextLem($"Music : {(SaveGame.MuteMusic ? "Off" : "On")}", new Vector2(800, 665), Color.White, 1, 0.1f, _spriteBatch);
             else
                 _showMusic.Stop();
         }

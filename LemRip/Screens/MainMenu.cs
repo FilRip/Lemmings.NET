@@ -16,11 +16,6 @@ internal class MainMenu
 {
     private ELevelCategory _levelCategory;
 
-#pragma warning disable S125 // Sections of code should not be commented out
-    // For rainbow effect
-    //private int loopcolor = 0, dibujaloop = 1;
-#pragma warning restore S125 // Sections of code should not be commented out
-
     private readonly MainMenuGfx _mainMenuGfx;
     private float frameWater = 0;
     private int _mouseLevelChoose;
@@ -79,29 +74,6 @@ internal class MainMenu
     {
         if (MyGame.Instance.Music.WinMusic.State == SoundState.Playing)
             MyGame.Instance.Music.WinMusic.Stop();
-
-#pragma warning disable S125 // Sections of code should not be commented out
-        // rainbow over lemmings logo text into rendertarget
-        graphics.SetRenderTarget(_mainMenuGfx.Colors88);
-        graphics.Clear(ClearOptions.Target, Color.Transparent, 1.0f, 0);
-        spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
-        /*if (dibujaloop % 5 == 0) //surge-rainbowpic is 45x75 px
-        {
-            loopcolor++;
-            if (loopcolor > 44)
-                loopcolor = 1;
-            _mainMenuGfx.RainbowPic.SetData(_mainMenuGfx.Looplogo, 0, 45 * 75); // init full logo to apply second mask
-            _mainMenuGfx.RainbowPic.GetData(0, new Rectangle(loopcolor, 0, 45 - loopcolor, 75), _mainMenuGfx.Looplogo2, 0, (45 - loopcolor) * 75);
-            _mainMenuGfx.RainbowPic.SetData(0, new Rectangle(0, 0, 45 - loopcolor, 75), _mainMenuGfx.Looplogo2, 0, (45 - loopcolor) * 75);
-
-            _mainMenuGfx.RainbowPic.GetData(0, new Rectangle(0, 0, loopcolor, 75), _mainMenuGfx.Looplogo2, 0, loopcolor * 75);
-            _mainMenuGfx.RainbowPic.SetData(0, new Rectangle(45 - loopcolor, 0, loopcolor, 75), _mainMenuGfx.Looplogo2, 0, loopcolor * 75);
-        }
-        MyGame.Instance.Vfx.Efecto.Parameters["rainbow"].SetValue(_mainMenuGfx.RainbowPic); //rainbowpic
-        MyGame.Instance.Vfx.Efecto.CurrentTechnique.Passes[0].Apply();*/
-        spriteBatch.Draw(MyGame.Instance.Gfx.Text, new Vector2(0, 0), Color.White);
-        spriteBatch.End();
-#pragma warning restore S125 // Sections of code should not be commented out
 
         // Draw all the normals, in the same place as the textures
         graphics.SetRenderTarget(_mainMenuGfx.Normals);
@@ -447,11 +419,6 @@ internal class MainMenu
 
     internal void Update()
     {
-#pragma warning disable S125 // Sections of code should not be commented out
-        // For rainbow effect
-        //dibujaloop++;
-#pragma warning restore S125 // Sections of code should not be commented out
-
         if (Input.PreviousKeyState.IsKeyDown(Keys.Escape) && Input.CurrentKeyState.IsKeyUp(Keys.Escape))
         {
             MyGame.Instance.Exit();

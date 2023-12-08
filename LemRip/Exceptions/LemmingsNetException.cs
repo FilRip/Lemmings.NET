@@ -1,9 +1,9 @@
-﻿using System;
+﻿#pragma warning disable S3925, S125 // "ISerializable" should be implemented correctly
+using System;
 //using System.Runtime.Serialization;
 
 namespace Lemmings.NET.Exceptions;
 
-#pragma warning disable S3925, S125 // "ISerializable" should be implemented correctly
 [Serializable()]
 public class LemmingsNetException : Exception
 {
