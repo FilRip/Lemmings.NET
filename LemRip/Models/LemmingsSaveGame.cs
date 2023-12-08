@@ -16,7 +16,7 @@ public class LemmingsSaveGame
     public bool MuteMusic { get; set; }
 
     [XmlElement()]
-    public bool Scale {  get; set; }
+    public bool Scale { get; set; }
 
     [XmlElement()]
     public bool FullScreen { get; set; }

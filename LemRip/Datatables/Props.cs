@@ -238,6 +238,13 @@ internal class Props
     private void LoadTraps()
     {
         _listTrap = [];
+        OneTrap trap;
+
+        trap = new()
+        {
+
+        };
+        _listTrap.Add(trap);
     }
 
     internal void Load()

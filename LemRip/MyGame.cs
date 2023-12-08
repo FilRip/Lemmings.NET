@@ -36,6 +36,7 @@ public partial class MyGame : Game
     private Vector2 vectorFill;
     private readonly Stopwatch _showVolume;
     private readonly Stopwatch _showMusic;
+    // Graphics
     private float rparticle1;
     private bool rightparticle;
     private readonly GraphicsDeviceManager _graphics;
@@ -188,7 +189,7 @@ public partial class MyGame : Game
             _props = new Props();
             _props.Load();
         }
-        Mouse.SetPosition(0, 0);
+        Mouse.SetPosition(GlobalConst.GameResolution.X / 2, GlobalConst.GameResolution.Y / 2);
         MainRenderTarget = new RenderTarget2D(GraphicsDevice, GlobalConst.GameResolution.X, GlobalConst.GameResolution.Y);
         renderTargetDestination = Graphics.GetRenderTargetDestination(GlobalConst.GameResolution, _graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight);
 
