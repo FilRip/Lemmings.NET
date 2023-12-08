@@ -412,7 +412,7 @@ internal class MainMenu
 
         spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
 
-        MyGame.Instance.MouseManager.Draw(spriteBatch, withOffset: true);
+        MyGame.Instance.MouseManager.Draw(spriteBatch);
 
         spriteBatch.End();
     }

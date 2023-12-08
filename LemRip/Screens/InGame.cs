@@ -93,7 +93,7 @@ internal class InGame
     internal OneLevel CurrentLevel { get; set; }
     private float Countertime2;
     private double actWaves444, actWaves333, actWaves;
-    private bool drawing3, LevelEnded, ExitBad, ExitLevel;
+    private bool drawing3, LevelEnded, ExitBad, ExitLevel, BackToMainMenu;
     private int amount22;
     private int rest = 0, Contador2, Counter = 1;
     private bool doorOn = true;
@@ -188,6 +188,7 @@ internal class InGame
         LevelEnded = false;
         _endSongPlayed = false;
         ExitLevel = false;
+        BackToMainMenu = false;
         ExitBad = false;
 
         Texture2D level = MyGame.Instance.Content.Load<Texture2D>(CurrentLevel.NameLev);
@@ -1203,6 +1204,7 @@ internal class InGame
         {
             ExitLevel = true;
             ExitBad = false;
+            BackToMainMenu = true;
         }
         if ((Input.PreviousMouseState.LeftButton == ButtonState.Released && Input.CurrentMouseState.LeftButton == ButtonState.Pressed) && LevelEnded)
         {
@@ -1218,33 +1220,6 @@ internal class InGame
         }
         if (ExitLevel)
         {
-            if (NumSaved >= Lemsneeded) //see here if level is finished or not
-            {
-                SaveGame.AddFinishedGame(MyGame.Instance.CurrentLevelNumber, 0, AllLemmings.Count(l => l.Exit));
-                MyGame.Instance.CurrentLevelNumber++;
-                if (MyGame.Instance.CurrentLevelNumber >= GlobalConst.NumTotalLevels - 1)
-                    MyGame.Instance.CurrentLevelNumber = GlobalConst.NumTotalLevels - 1;
-                MyGame.Instance.ScreenMainMenu.MouseLevelChoose = MyGame.Instance.CurrentLevelNumber;
-                MyGame.Instance.CurrentScreen = ECurrentScreen.InGame;
-                Numlemnow = 0;
-                Fade = true;
-                MillisecondsElapsed = 0;
-                doorOn = true;
-                Frame = 0;
-                Frame2 = 0;
-                Frame3 = 0;
-                frameDoor = 0;
-                frameExit = 0;
-                rest = 0;
-                LevelEnded = false;
-                ExitLevel = false;
-                AllBlow = false;
-                ZvTime = 0;
-                ExitBad = false;
-                MyGame.Instance.ReloadContent();
-                return; //next level
-            }
-
             if (ExitBad) //repeat level
             {
                 MyGame.Instance.CurrentScreen = ECurrentScreen.InGame;
@@ -1266,6 +1241,37 @@ internal class InGame
                 MyGame.Instance.ReloadContent();
                 return;
             }
+
+            if (NumSaved >= Lemsneeded) //see here if level is finished or not
+            {
+                SaveGame.AddFinishedGame(MyGame.Instance.CurrentLevelNumber, 0, AllLemmings.Count(l => l.Exit));
+                if (!BackToMainMenu)
+                {
+                    MyGame.Instance.CurrentLevelNumber++;
+                    if (MyGame.Instance.CurrentLevelNumber >= GlobalConst.NumTotalLevels - 1)
+                        MyGame.Instance.CurrentLevelNumber = GlobalConst.NumTotalLevels - 1;
+                    MyGame.Instance.ScreenMainMenu.MouseLevelChoose = MyGame.Instance.CurrentLevelNumber;
+                    MyGame.Instance.CurrentScreen = ECurrentScreen.InGame;
+                    Numlemnow = 0;
+                    Fade = true;
+                    MillisecondsElapsed = 0;
+                    doorOn = true;
+                    Frame = 0;
+                    Frame2 = 0;
+                    Frame3 = 0;
+                    frameDoor = 0;
+                    frameExit = 0;
+                    rest = 0;
+                    LevelEnded = false;
+                    ExitLevel = false;
+                    AllBlow = false;
+                    ZvTime = 0;
+                    ExitBad = false;
+                    MyGame.Instance.ReloadContent();
+                    return; //next level
+                }
+            }
+
             CurrentMusic.Stop();
             MyGame.Instance.ScreenMainMenu.MouseLevelChoose = 0;
             LevelEnded = false;
@@ -1273,6 +1279,7 @@ internal class InGame
             AllBlow = false;
             ZvTime = 0;
             ExitBad = false;
+            BackToMainMenu = false;
             MyGame.Instance.ReloadContent();
             MyGame.Instance.BackToMenu();
             return;

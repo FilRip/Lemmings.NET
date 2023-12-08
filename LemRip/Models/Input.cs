@@ -11,6 +11,14 @@ internal static class Input
     internal static MouseState CurrentMouseState { get; set; }
     internal static GameTime CurrentGameTime { get; set; }
 
+    internal static Vector2 CurrentMousePosition
+    {
+        get
+        {
+            return new Vector2(CurrentMouseState.Position.X - 17, CurrentMouseState.Position.Y - 17);
+        }
+    }
+
     internal static bool ShiftPressed
     {
         get

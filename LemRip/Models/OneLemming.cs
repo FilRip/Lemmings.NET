@@ -96,8 +96,8 @@ internal class OneLemming
             }
         }
         Onmouse = false; //LEMMING SKILL STRING MOUSE ON
-        if ((Input.CurrentMouseState.X + 16 >= PosX - MyGame.Instance.ScreenInGame.ScrollX && Input.CurrentMouseState.X + 16 <= PosX - MyGame.Instance.ScreenInGame.ScrollX + 28
-            && Input.CurrentMouseState.Y + 16 >= PosY - MyGame.Instance.ScreenInGame.ScrollY && Input.CurrentMouseState.Y + 16 <= PosY + 28 - MyGame.Instance.ScreenInGame.ScrollY) && !MyGame.Instance.ScreenInGame.MouseOnLem)
+        if ((Input.CurrentMouseState.X >= PosX - MyGame.Instance.ScreenInGame.ScrollX && Input.CurrentMouseState.X <= PosX - MyGame.Instance.ScreenInGame.ScrollX + 28
+            && Input.CurrentMouseState.Y >= PosY - MyGame.Instance.ScreenInGame.ScrollY && Input.CurrentMouseState.Y <= PosY + 28 - MyGame.Instance.ScreenInGame.ScrollY) && !MyGame.Instance.ScreenInGame.MouseOnLem)
         {
             if (Walker)
                 MyGame.Instance.ScreenInGame.LemSkill = "Walker";
