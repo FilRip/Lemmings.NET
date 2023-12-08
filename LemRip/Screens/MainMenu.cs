@@ -4,6 +4,7 @@ using Lemmings.NET.Constants;
 using Lemmings.NET.Datatables;
 using Lemmings.NET.Helpers;
 using Lemmings.NET.Models;
+using Lemmings.NET.Structs;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
@@ -192,17 +193,7 @@ internal class MainMenu
         rectangleFill2.Height = GlobalConst.GameResolution.Y;
         colorFill.A = 80;
         spriteBatch.Draw(foregroundTexture, rectangleFill, rectangleFill2, colorFill); // second wave position depth by order of draw
-        if (MyGame.Instance.ParticleTab != null)
-        {
-            rectangleFill.X = 0;
-            rectangleFill.Y = 0;
-            rectangleFill.Width = 10;
-            rectangleFill.Height = 10;
-            for (int varParticle = 0; varParticle < GlobalConst.NumParticles; varParticle++)
-            {
-                spriteBatch.Draw(MyGame.Instance.ParticleTab[varParticle].Sprite, MyGame.Instance.ParticleTab[varParticle].Pos, rectangleFill, Color.Magenta, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0.90001f);
-            }
-        }
+
         if (_levelCategory == ELevelCategory.Fun)
         {
             spriteBatch.Draw(_mainMenuGfx.mainMenuSign, new Vector2(mmstartx, mmstarty), new Color(255, 255, 255, 255));

@@ -37,8 +37,6 @@ public partial class MyGame : Game
     private readonly Stopwatch _showVolume;
     private readonly Stopwatch _showMusic;
     // Graphics
-    private float rparticle1;
-    private bool rightparticle;
     private readonly GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
     #endregion
@@ -278,19 +276,19 @@ public partial class MyGame : Game
 
         _debugOsd.Update(gameTime);
 
-        // particle test test test right button mouse
+        UpdateSnow(gameTime);
+
+        base.Update(gameTime);
+    }
+
+    private void UpdateSnow(GameTime gameTime)
+    {
         if ((Input.PreviousMouseState.RightButton == ButtonState.Released && Input.CurrentMouseState.RightButton == ButtonState.Pressed) && !LevelEnded)
         {
             if (ParticleTab != null)
                 ParticleTab = null;
             else
             {
-                rightparticle = false;
-                rparticle1 = GlobalConst.Rnd.Next(0, 1);
-                if (rparticle1 == 0)
-                    rightparticle = false;
-                else
-                    rightparticle = true;
                 ParticleTab = new Particles[GlobalConst.NumParticles];
                 for (int varParticle = 0; varParticle < GlobalConst.NumParticles; varParticle++)
                 {
@@ -301,8 +299,7 @@ public partial class MyGame : Game
                     vectorFill.Y = 2;
                     ParticleTab[varParticle].Direction = vectorFill;
                     ParticleTab[varParticle].Sprite = Content.Load<Texture2D>("sprite/particle");
-                    rparticle1 = (float)GlobalConst.Rnd.NextDouble() * 3;
-                    ParticleTab[varParticle].DirectionTime = rparticle1;
+                    ParticleTab[varParticle].DirectionTime = (float)GlobalConst.Rnd.NextDouble() * 3;
                 }
             }
         }
@@ -313,28 +310,16 @@ public partial class MyGame : Game
                 ParticleTab[varParticle].DirectionTime -= (float)gameTime.ElapsedGameTime.TotalSeconds;
                 ParticleTab[varParticle].Lifetime += (float)gameTime.ElapsedGameTime.TotalSeconds;
                 ParticleTab[varParticle].Pos += ParticleTab[0].Direction;
-                if (rightparticle)
-                    ParticleTab[varParticle].SetPosX(ParticleTab[varParticle].DirectionTime);
-                else
-                    ParticleTab[varParticle].SetPosX(ParticleTab[varParticle].Pos.X - ParticleTab[varParticle].DirectionTime);
+                ParticleTab[varParticle].SetPosX(ParticleTab[varParticle].Pos.X - ParticleTab[varParticle].DirectionTime);
                 ParticleTab[varParticle].SetPosY(ParticleTab[varParticle].Pos.Y - (float)GlobalConst.Rnd.NextDouble());
                 if (ParticleTab[varParticle].DirectionTime < 0)
                 {
-                    rightparticle = false;
-                    rparticle1 = GlobalConst.Rnd.Next(0, 1);
-                    if (rparticle1 == 0)
-                        rightparticle = false;
-                    else
-                        rightparticle = true;
-                    rparticle1 = (float)GlobalConst.Rnd.NextDouble() * 3;
-                    ParticleTab[varParticle].DirectionTime = rparticle1;
+                    ParticleTab[varParticle].DirectionTime = (float)GlobalConst.Rnd.NextDouble() * 3;
                 }
                 if (ParticleTab[varParticle].Pos.Y > GlobalConst.GameResolution.Y)
                     ParticleTab[varParticle].SetPosY(0);
             }
-
         }
-        base.Update(gameTime);
     }
 
     private void ToggleScale()
@@ -396,6 +381,7 @@ public partial class MyGame : Game
             else
                 _showMusic.Stop();
         }
+        DrawSnow(_spriteBatch);
         _spriteBatch.End();
 
         GraphicsDevice.SetRenderTarget(null);
@@ -406,6 +392,17 @@ public partial class MyGame : Game
         _spriteBatch.End();
 
         base.Draw(gameTime);
+    }
+
+    private void DrawSnow(SpriteBatch spriteBatch)
+    {
+        if (MyGame.Instance.ParticleTab != null)
+        {
+            foreach (Particles particle in MyGame.Instance.ParticleTab)
+            {
+                spriteBatch.Draw(particle.Sprite, particle.Pos, new Rectangle(0, 0, 10, 10), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0.50001f);
+            }
+        }
     }
 }
 

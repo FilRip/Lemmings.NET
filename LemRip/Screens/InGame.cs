@@ -660,22 +660,7 @@ internal class InGame
     {
         spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.NonPremultiplied, SamplerState.AnisotropicWrap, null, null, null);
         graphics.Clear(Color.Black);  //BACKGROUND COLOR darkslategray,cornblue,dimgray,black,gray,lighslategray
-                                      //draws back image for all the level
-        if (MyGame.Instance.ParticleTab != null)
-        {
-            rectangleFill.X = 0;
-            rectangleFill.Y = 0;
-            rectangleFill.Width = 10;
-            rectangleFill.Height = 10;
-            colorFill.R = 255;
-            colorFill.G = 255;
-            colorFill.B = 255;
-            colorFill.A = 150;
-            for (int varParticle = 0; varParticle < GlobalConst.NumParticles; varParticle++)
-            {
-                spriteBatch.Draw(MyGame.Instance.ParticleTab[varParticle].Sprite, MyGame.Instance.ParticleTab[varParticle].Pos, rectangleFill, colorFill, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0.50001f);
-            }
-        }
+
         bool rayLigths = true;
         // logic of background stars moving from -50 to 50
         actWaves333 = 50 * Math.Sin(actWaves / 60);  // 50 height of the wave  // 60 length of it
