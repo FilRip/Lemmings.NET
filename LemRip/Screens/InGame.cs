@@ -318,86 +318,85 @@ internal class InGame
         MoverLemming();
         if (Sprite != null) //sprites logic if necessary puto77
         {
-            foreach (Varsprites sprite in Sprite)
+            Varsprites sprite;
+            for (int ssi = 0; ssi < Sprite.Length; ssi++)
             {
-                sprite.SetFrame(sprite.Frame + 1);
+                sprite = Sprite[ssi];
+                Sprite[ssi].Frame++;
                 if (sprite.Sprite.Name == "touch/fire_sprites_other" && sprite.Frame > sprite.Framesecond)
                 {
-                    sprite.SetFrame(0);
+                    sprite.Frame = 0;
                     if (sprite.Minus)
-                        sprite.SetActFrame(sprite.ActFrame - 2);
+                        Sprite[ssi].ActFrame -= 2;
                     else
-                        sprite.SetActFrame(sprite.ActFrame + 1);
+                        Sprite[ssi].ActFrame++; // 2 frames less to return to zero better effect i think
+
                     if (sprite.ActFrame > 14 && !sprite.Minus)
                     {
-                        sprite.SetActFrame(15);
-                        sprite.SetMinus(true);
+                        Sprite[ssi].ActFrame = 15;
+                        Sprite[ssi].Minus = true;
                     }
                     if (sprite.ActFrame < 0 && sprite.Minus)
                     {
-                        sprite.SetMinus(false);
-                        sprite.SetActFrame(1);
+                        Sprite[ssi].Minus = false;
+                        Sprite[ssi].ActFrame = 1;
                     }
                     continue;
                 }
-                if (sprite.Frame > sprite.Framesecond)
+                if (Sprite[ssi].Frame > sprite.Framesecond)
                 {
-                    sprite.SetFrame(0);
-                    sprite.SetActFrame(sprite.ActFrame + 1);
+                    Sprite[ssi].Frame = 0;
+                    Sprite[ssi].ActFrame++;
                     if (sprite.ActFrame > (sprite.AxisX * sprite.AxisY) - 1)
-                        sprite.SetActFrame(0);
+                        Sprite[ssi].ActFrame = 0;
                 }
                 if (sprite.Speed != 0)  // spider destination puto puto puto
                 {
                     if (sprite.Calc)
                     {
-                        sprite.SetCalc(false);
+                        sprite.Calc = false;
                         if (!sprite.Minus)
                         {
-                            sprite.SetPosX(sprite.Path[sprite.ActVect].X);
-                            sprite.SetPosY(sprite.Path[sprite.ActVect].Y);
-                            sprite.SetSpeed(sprite.Path[sprite.ActVect].Z);
-                            sprite.SetDestX(sprite.Path[sprite.ActVect + 1].X);
-                            sprite.SetDestY(sprite.Path[sprite.ActVect + 1].Y);
+                            Sprite[ssi].Pos.X = Sprite[ssi].Path[Sprite[ssi].ActVect].X;
+                            Sprite[ssi].Pos.Y = Sprite[ssi].Path[Sprite[ssi].ActVect].Y;
+                            Sprite[ssi].Speed = Sprite[ssi].Path[Sprite[ssi].ActVect].Z;
+                            Sprite[ssi].Dest.X = Sprite[ssi].Path[Sprite[ssi].ActVect + 1].X;
+                            Sprite[ssi].Dest.Y = Sprite[ssi].Path[Sprite[ssi].ActVect + 1].Y;
                         }
                         else
                         {
-                            sprite.SetDestX(sprite.Path[sprite.ActVect].X);
-                            sprite.SetDestY(sprite.Path[sprite.ActVect].Y);
-                            sprite.SetSpeed(sprite.Path[sprite.ActVect].Z);
-                            sprite.SetPosX(sprite.Path[sprite.ActVect + 1].X);
-                            sprite.SetPosY(sprite.Path[sprite.ActVect + 1].Y);
+                            Sprite[ssi].Dest.X = Sprite[ssi].Path[Sprite[ssi].ActVect].X;
+                            Sprite[ssi].Dest.Y = Sprite[ssi].Path[Sprite[ssi].ActVect].Y;
+                            Sprite[ssi].Speed = Sprite[ssi].Path[Sprite[ssi].ActVect].Z;
+                            Sprite[ssi].Pos.X = Sprite[ssi].Path[Sprite[ssi].ActVect + 1].X;
+                            Sprite[ssi].Pos.Y = Sprite[ssi].Path[Sprite[ssi].ActVect + 1].Y;
                         }
                         if (!sprite.Minus)
-                        {
-                            sprite.SetActVect(sprite.ActVect + 1);
-                        }
+                            Sprite[ssi].ActVect++;
                         else
+                            Sprite[ssi].ActVect--;
+                        if (Sprite[ssi].ActVect > sprite.Path.Length - 2 && !sprite.Minus)
                         {
-                            sprite.SetActVect(sprite.ActVect - 1);
+                            Sprite[ssi].ActVect--;
+                            Sprite[ssi].Minus = true;
                         }
-                        if (sprite.ActVect > sprite.Path.Length - 2 && !sprite.Minus)
+                        if (Sprite[ssi].ActVect < 0 && sprite.Minus)
                         {
-                            sprite.SetActVect(sprite.ActVect - 1);
-                            sprite.SetMinus(true);
-                        }
-                        if (sprite.ActVect < 0 && sprite.Minus)
-                        {
-                            sprite.SetActVect(sprite.ActVect + 1);
-                            sprite.SetMinus(false);
+                            Sprite[ssi].ActVect++;
+                            Sprite[ssi].Minus = false;
                         }
 
                         continue; // control when arrive to LAST destination point actvect
                     }
                     Vector2 direction_sprite = Vector2.Normalize(sprite.Dest - sprite.Pos);
-                    sprite.SetPos(sprite.Pos + direction_sprite * sprite.Speed);
+                    sprite.Pos += direction_sprite * sprite.Speed;
                     float distance = Vector2.Distance(sprite.Pos, sprite.Dest);
                     if (distance < 1)
                     {
-                        sprite.SetCalc(true);
+                        sprite.Calc = true;
                         continue; // control when arrive to destination point
                     }
-                    sprite.SetRotation((float)Math.Atan2(direction_sprite.X, direction_sprite.Y) * -1);
+                    sprite.Rotation = (float)Math.Atan2(direction_sprite.X, direction_sprite.Y) * -1;
                 }
             }
         }
