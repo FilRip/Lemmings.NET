@@ -15,17 +15,19 @@ internal class Fonts
     {
         if (txt == null)
             return;
-        for (int i = 0; i <= txt.Length - 1; i++)
+        foreach (char c in txt)
         {
-            int j = Convert.ToInt32(txt[i]);
+            int j = Convert.ToInt32(c);
             start.X += 19 * size;  // ancho de lemfont (18X26) 18+1 para dejar espacio entre chars
             if (j == 32)
                 continue;
-            Rectangle rectangleFill;
-            rectangleFill.X = 0;
-            rectangleFill.Y = 26 * (j - 33);
-            rectangleFill.Width = 18;
-            rectangleFill.Height = 26;
+            Rectangle rectangleFill = new()
+            {
+                X = 0,
+                Y = 26 * (j - 33),
+                Width = 18,
+                Height = 26,
+            };
             spriteBatch.Draw(Lemmings, start, rectangleFill, pinta, 0f, Vector2.Zero, size, SpriteEffects.None, layer);
         }
     }

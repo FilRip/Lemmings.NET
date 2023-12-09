@@ -1,4 +1,7 @@
-﻿using Lemmings.NET.Models;
+﻿using System.Linq;
+
+using Lemmings.NET.Models;
+using Lemmings.NET.Structs;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -48,16 +51,16 @@ internal class DebugOsd
             spriteBatch.DrawString(MyGame.Instance.Fonts.Standard, string.Format("FPS={0}", _fps), new Vector2(960, 50), Color.White, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0.1f);
             spriteBatch.DrawString(MyGame.Instance.Fonts.Standard, strPositionMouse, new Vector2(960, 10), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0.1f);
 
-            if (MyGame.Instance.ScreenInGame.SteelON)
+            if (MyGame.Instance.ScreenInGame.SteelON && MyGame.Instance.ScreenInGame.Steel != null)
             {
-                for (int xz = 0; xz < MyGame.Instance.ScreenInGame.NumTOTsteel; xz++)
+                foreach (Rectangle steelintArea in MyGame.Instance.ScreenInGame.Steel.Select(s => s.area))
                 {
                     Rectangle rectangleFill = new()
                     {
-                        X = MyGame.Instance.ScreenInGame.Steel[xz].area.Left - MyGame.Instance.ScreenInGame.ScrollX,
-                        Y = MyGame.Instance.ScreenInGame.Steel[xz].area.Top - MyGame.Instance.ScreenInGame.ScrollY,
-                        Width = MyGame.Instance.ScreenInGame.Steel[xz].area.Width,
-                        Height = MyGame.Instance.ScreenInGame.Steel[xz].area.Height,
+                        X = steelintArea.Left - MyGame.Instance.ScreenInGame.ScrollX,
+                        Y = steelintArea.Top - MyGame.Instance.ScreenInGame.ScrollY,
+                        Width = steelintArea.Width,
+                        Height = steelintArea.Height,
                     };
                     // magenta r:255,g:0,b:255
                     Color colorFill = new()

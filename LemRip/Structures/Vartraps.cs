@@ -12,4 +12,8 @@ internal struct Vartraps
     internal float depth;
     internal bool isOn;
     internal Texture2D sprite;
+    internal void SetIsOn(bool value)
+    {
+        isOn = value;
+    }
 }

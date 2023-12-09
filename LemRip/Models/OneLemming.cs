@@ -3,6 +3,7 @@ using System.Linq;
 
 using Lemmings.NET.Constants;
 using Lemmings.NET.Helpers;
+using Lemmings.NET.Structs;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -126,22 +127,24 @@ internal class OneLemming
             MyGame.Instance.ScreenInGame.MouseOnLem = true;
             Onmouse = true;
         } //  inside the mouse rectangle lemming ON
-        if (MyGame.Instance.ScreenInGame.TrapsON && !GlobalConst.Paused) //Traps logic and sounds
+        if (MyGame.Instance.ScreenInGame.TrapsON &&
+            !GlobalConst.Paused &&
+            MyGame.Instance.ScreenInGame.Trap != null) //Traps logic and sounds
         {
-            for (int ti = 0; ti < MyGame.Instance.ScreenInGame.NumTotTraps; ti++)
+            foreach (Vartraps trap in MyGame.Instance.ScreenInGame.Trap)
             {
                 x.X = PosX + 14;
                 x.Y = PosY + 25;
-                if (MyGame.Instance.ScreenInGame.Trap[ti].areaTrap.Contains(x) && !MyGame.Instance.ScreenInGame.Trap[ti].isOn && MyGame.Instance.ScreenInGame.Trap[ti].type == 666)
+                if (trap.areaTrap.Contains(x) && !trap.isOn && trap.type == 666)
                 {
-                    MyGame.Instance.ScreenInGame.Trap[ti].isOn = true;
+                    trap.SetIsOn(true);
                     Active = false;
                     Walker = false;
                     Dead = true;
                     MyGame.Instance.ScreenInGame.Numlemnow--;
                     Explode = false;
                     Exploser = false;
-                    switch (MyGame.Instance.ScreenInGame.Trap[ti].sprite.Name)
+                    switch (trap.sprite.Name)
                     {
                         case "traps/dead_marble":
                         case "traps/dead_marble2_fix":
@@ -169,9 +172,9 @@ internal class OneLemming
                 rectangleFill.Y = PosY;
                 rectangleFill.Width = 1;
                 rectangleFill.Height = 28;
-                if (MyGame.Instance.ScreenInGame.Trap[ti].areaTrap.Intersects(rectangleFill) && !Burned && !Drown && MyGame.Instance.ScreenInGame.Trap[ti].type != 666)
+                if (trap.areaTrap.Intersects(rectangleFill) && !Burned && !Drown && trap.type != 666)
                 {
-                    switch (MyGame.Instance.ScreenInGame.Trap[ti].sprite.Name)
+                    switch (trap.sprite.Name)
                     {
                         case "traps/dead_spin":
                         case "traps/fuego1":
@@ -564,16 +567,19 @@ internal class OneLemming
                 arrowLem.Y = PosY;
                 arrowLem.Width = 28;
                 arrowLem.Height = 28;
-                for (int wer3 = 0; wer3 < MyGame.Instance.ScreenInGame.NumTotArrow; wer3++)
+                if (MyGame.Instance.ScreenInGame.Arrow != null)
                 {
-                    if (MyGame.Instance.ScreenInGame.Arrow[wer3].area.Intersects(arrowLem) && Right && !MyGame.Instance.ScreenInGame.Arrow[wer3].right)
+                    foreach (Vararrows arrow in MyGame.Instance.ScreenInGame.Arrow)
                     {
-                        nominer = true;
-                        continue;
-                    }
-                    if (MyGame.Instance.ScreenInGame.Arrow[wer3].area.Intersects(arrowLem) && Left && MyGame.Instance.ScreenInGame.Arrow[wer3].right)
-                    {
-                        nominer = true;
+                        if (arrow.area.Intersects(arrowLem) && Right && !arrow.right)
+                        {
+                            nominer = true;
+                            continue;
+                        }
+                        if (arrow.area.Intersects(arrowLem) && Left && arrow.right)
+                        {
+                            nominer = true;
+                        }
                     }
                 }
                 if (nominer)
@@ -628,13 +634,10 @@ internal class OneLemming
                         int sy = r / width2;
                         x.X = px + sx;
                         x.Y = py + sy;
-                        for (int xz = 0; xz < MyGame.Instance.ScreenInGame.NumTOTsteel; xz++)
+                        if (MyGame.Instance.ScreenInGame.Steel != null &&
+                            Array.Exists(MyGame.Instance.ScreenInGame.Steel, s => s.area.Contains(x)))
                         {
-                            if (MyGame.Instance.ScreenInGame.Steel[xz].area.Contains(x))
-                            {
-                                sx = -777;
-                                break;
-                            }
+                            sx = -777;
                         }
                         if (sx == -777)
                         {
@@ -729,14 +732,8 @@ internal class OneLemming
                         int sy = r / width2;
                         x.X = px + sx;
                         x.Y = py + sy;
-                        for (int xz = 0; xz < MyGame.Instance.ScreenInGame.NumTOTsteel; xz++)
-                        {
-                            if (MyGame.Instance.ScreenInGame.Steel[xz].area.Contains(x))
-                            {
-                                sx = -777;
-                                break;
-                            }
-                        }
+                        if (Array.Exists(MyGame.Instance.ScreenInGame.Steel, s => s.area.Contains(x)))
+                            sx = -777;
                         if (sx == -777)
                         {
                             Walker = true;
@@ -797,16 +794,19 @@ internal class OneLemming
                 arrowLem.Y = PosY;
                 arrowLem.Width = 28;
                 arrowLem.Height = 28;
-                for (int wer3 = 0; wer3 < MyGame.Instance.ScreenInGame.NumTotArrow; wer3++)
+                if (MyGame.Instance.ScreenInGame.Arrow != null)
                 {
-                    if (MyGame.Instance.ScreenInGame.Arrow[wer3].area.Intersects(arrowLem) && Right && !MyGame.Instance.ScreenInGame.Arrow[wer3].right)
+                    foreach (Vararrows arrow in MyGame.Instance.ScreenInGame.Arrow)
                     {
-                        nobasher = true;
-                        continue;
-                    }
-                    if (MyGame.Instance.ScreenInGame.Arrow[wer3].area.Intersects(arrowLem) && Left && MyGame.Instance.ScreenInGame.Arrow[wer3].right)
-                    {
-                        nobasher = true;
+                        if (arrow.area.Intersects(arrowLem) && Right && !arrow.right)
+                        {
+                            nobasher = true;
+                            continue;
+                        }
+                        if (arrow.area.Intersects(arrowLem) && Left && arrow.right)
+                        {
+                            nobasher = true;
+                        }
                     }
                 }
                 if (nobasher)
@@ -866,14 +866,8 @@ internal class OneLemming
                         {
                             x.X = px + valX;
                             x.Y = py + valY;
-                            for (int xz = 0; xz < MyGame.Instance.ScreenInGame.NumTOTsteel; xz++)
-                            {
-                                if (MyGame.Instance.ScreenInGame.Steel[xz].area.Contains(x))
-                                {
-                                    sx = -777;
-                                    break;
-                                }
-                            }
+                            if (Array.Exists(MyGame.Instance.ScreenInGame.Steel, s => s.area.Contains(x)))
+                                sx = -777;
                             if (sx == -777)
                             {
                                 Walker = true;
@@ -981,14 +975,8 @@ internal class OneLemming
                         {
                             x.X = px + valX;
                             x.Y = py + valY;
-                            for (int xz = 0; xz < MyGame.Instance.ScreenInGame.NumTOTsteel; xz++)
-                            {
-                                if (MyGame.Instance.ScreenInGame.Steel[xz].area.Contains(x))
-                                {
-                                    sx = -777;
-                                    break;
-                                }
-                            }
+                            if (Array.Exists(MyGame.Instance.ScreenInGame.Steel, s => s.area.Contains(x)))
+                                sx = -777;
                             if (sx == -777)
                             {
                                 Walker = true;
@@ -1303,14 +1291,8 @@ internal class OneLemming
                             {
                                 x.X = PosX + xx88;
                                 x.Y = PosY + 14 + y;
-                                for (int xz = 0; xz < MyGame.Instance.ScreenInGame.NumTOTsteel; xz++)
-                                {
-                                    if (MyGame.Instance.ScreenInGame.Steel[xz].area.Contains(x))
-                                    {
-                                        sx = -777;
-                                        break;
-                                    }
-                                }
+                                if (Array.Exists(MyGame.Instance.ScreenInGame.Steel, s => s.area.Contains(x)))
+                                    sx = -777;
                                 if (sx == -777)
                                 {
                                     Walker = true;
@@ -1543,14 +1525,8 @@ internal class OneLemming
                     int sy = r / ancho66;
                     x.X = px + sx;
                     x.Y = py + sy;
-                    for (int xz = 0; xz < MyGame.Instance.ScreenInGame.NumTOTsteel; xz++)
-                    {
-                        if (MyGame.Instance.ScreenInGame.Steel[xz].area.Contains(x))
-                        {
-                            sx = -777;
-                            break;
-                        }
-                    }
+                    if (Array.Exists(MyGame.Instance.ScreenInGame.Steel, s => s.area.Contains(x)))
+                        sx = -777;
                     if (sx == -777)
                         continue;
                 }

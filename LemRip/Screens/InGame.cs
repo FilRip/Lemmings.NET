@@ -116,7 +116,7 @@ internal class InGame
     private readonly int Framesecond2 = 2;
     private readonly int Framesecond3 = 1;  // frame speed less all go crazy 6->ok framesecond=6 default framesecond2=3 default
     private int door1X, door1Y;
-    private int output1X, output1Y, ex11;
+    private int output1X, output1Y;
     private int frameDoor, frameExit; // 0--10   0--6
     private int exitFrame = 999, actualBlow; // frecuency lemmings go in
     private Rectangle exit_rect; // rectangle exit
@@ -318,116 +318,120 @@ internal class InGame
         MoverLemming();
         if (Sprite != null) //sprites logic if necessary puto77
         {
-            for (int ssi = 0; ssi < Sprite.Length; ssi++)
+            foreach (Varsprites sprite in Sprite)
             {
-                Sprite[ssi].Frame++;
-                if (Sprite[ssi].Sprite.Name == "touch/fire_sprites_other" && Sprite[ssi].Frame > Sprite[ssi].Framesecond)
+                sprite.SetFrame(sprite.Frame + 1);
+                if (sprite.Sprite.Name == "touch/fire_sprites_other" && sprite.Frame > sprite.Framesecond)
                 {
-                    Sprite[ssi].Frame = 0;
-                    if (Sprite[ssi].Minus)
-                        Sprite[ssi].ActFrame -= 2;
+                    sprite.SetFrame(0);
+                    if (sprite.Minus)
+                        sprite.SetActFrame(sprite.ActFrame - 2);
                     else
-                        Sprite[ssi].ActFrame++; // 2 frames less to return to zero better effect i think
-                    if (Sprite[ssi].ActFrame > 14 && !Sprite[ssi].Minus)
+                        sprite.SetActFrame(sprite.ActFrame + 1);
+                    if (sprite.ActFrame > 14 && !sprite.Minus)
                     {
-                        Sprite[ssi].ActFrame = 15;
-                        Sprite[ssi].Minus = true;
+                        sprite.SetActFrame(15);
+                        sprite.SetMinus(true);
                     }
-                    if (Sprite[ssi].ActFrame < 0 && Sprite[ssi].Minus)
+                    if (sprite.ActFrame < 0 && sprite.Minus)
                     {
-                        Sprite[ssi].Minus = false;
-                        Sprite[ssi].ActFrame = 1;
+                        sprite.SetMinus(false);
+                        sprite.SetActFrame(1);
                     }
                     continue;
                 }
-                if (Sprite[ssi].Frame > Sprite[ssi].Framesecond)
+                if (sprite.Frame > sprite.Framesecond)
                 {
-                    Sprite[ssi].Frame = 0;
-                    Sprite[ssi].ActFrame++;
-                    if (Sprite[ssi].ActFrame > (Sprite[ssi].AxisX * Sprite[ssi].AxisY) - 1)
-                        Sprite[ssi].ActFrame = 0;
+                    sprite.SetFrame(0);
+                    sprite.SetActFrame(sprite.ActFrame + 1);
+                    if (sprite.ActFrame > (sprite.AxisX * sprite.AxisY) - 1)
+                        sprite.SetActFrame(0);
                 }
-                if (Sprite[ssi].Speed != 0)  // spider destination puto puto puto
+                if (sprite.Speed != 0)  // spider destination puto puto puto
                 {
-                    if (Sprite[ssi].Calc)
+                    if (sprite.Calc)
                     {
-                        Sprite[ssi].Calc = false;
-                        if (!Sprite[ssi].Minus)
+                        sprite.SetCalc(false);
+                        if (!sprite.Minus)
                         {
-                            Sprite[ssi].Pos.X = Sprite[ssi].Path[Sprite[ssi].ActVect].X;
-                            Sprite[ssi].Pos.Y = Sprite[ssi].Path[Sprite[ssi].ActVect].Y;
-                            Sprite[ssi].Speed = Sprite[ssi].Path[Sprite[ssi].ActVect].Z;
-                            Sprite[ssi].Dest.X = Sprite[ssi].Path[Sprite[ssi].ActVect + 1].X;
-                            Sprite[ssi].Dest.Y = Sprite[ssi].Path[Sprite[ssi].ActVect + 1].Y;
+                            sprite.SetPosX(sprite.Path[sprite.ActVect].X);
+                            sprite.SetPosY(sprite.Path[sprite.ActVect].Y);
+                            sprite.SetSpeed(sprite.Path[sprite.ActVect].Z);
+                            sprite.SetDestX(sprite.Path[sprite.ActVect + 1].X);
+                            sprite.SetDestY(sprite.Path[sprite.ActVect + 1].Y);
                         }
                         else
                         {
-                            Sprite[ssi].Dest.X = Sprite[ssi].Path[Sprite[ssi].ActVect].X;
-                            Sprite[ssi].Dest.Y = Sprite[ssi].Path[Sprite[ssi].ActVect].Y;
-                            Sprite[ssi].Speed = Sprite[ssi].Path[Sprite[ssi].ActVect].Z;
-                            Sprite[ssi].Pos.X = Sprite[ssi].Path[Sprite[ssi].ActVect + 1].X;
-                            Sprite[ssi].Pos.Y = Sprite[ssi].Path[Sprite[ssi].ActVect + 1].Y;
+                            sprite.SetDestX(sprite.Path[sprite.ActVect].X);
+                            sprite.SetDestY(sprite.Path[sprite.ActVect].Y);
+                            sprite.SetSpeed(sprite.Path[sprite.ActVect].Z);
+                            sprite.SetPosX(sprite.Path[sprite.ActVect + 1].X);
+                            sprite.SetPosY(sprite.Path[sprite.ActVect + 1].Y);
                         }
-                        if (!Sprite[ssi].Minus)
+                        if (!sprite.Minus)
                         {
-                            Sprite[ssi].ActVect++;
+                            sprite.SetActVect(sprite.ActVect + 1);
                         }
                         else
                         {
-                            Sprite[ssi].ActVect--;
+                            sprite.SetActVect(sprite.ActVect - 1);
                         }
-                        if (Sprite[ssi].ActVect > Sprite[ssi].Path.Length - 2 && !Sprite[ssi].Minus)
+                        if (sprite.ActVect > sprite.Path.Length - 2 && !sprite.Minus)
                         {
-                            Sprite[ssi].ActVect--; Sprite[ssi].Minus = true;
+                            sprite.SetActVect(sprite.ActVect - 1);
+                            sprite.SetMinus(true);
                         }
-                        if (Sprite[ssi].ActVect < 0 && Sprite[ssi].Minus)
+                        if (sprite.ActVect < 0 && sprite.Minus)
                         {
-                            Sprite[ssi].ActVect++; Sprite[ssi].Minus = false;
+                            sprite.SetActVect(sprite.ActVect + 1);
+                            sprite.SetMinus(false);
                         }
 
                         continue; // control when arrive to LAST destination point actvect
                     }
-                    Vector2 direction_sprite = Vector2.Normalize(Sprite[ssi].Dest - Sprite[ssi].Pos);
-                    Sprite[ssi].Pos = Sprite[ssi].Pos + direction_sprite * Sprite[ssi].Speed;
-                    float distance = Vector2.Distance(Sprite[ssi].Pos, Sprite[ssi].Dest);
+                    Vector2 direction_sprite = Vector2.Normalize(sprite.Dest - sprite.Pos);
+                    sprite.SetPos(sprite.Pos + direction_sprite * sprite.Speed);
+                    float distance = Vector2.Distance(sprite.Pos, sprite.Dest);
                     if (distance < 1)
                     {
-                        Sprite[ssi].Calc = true;
+                        sprite.SetCalc(true);
                         continue; // control when arrive to destination point
                     }
-                    Sprite[ssi].Rotation = (float)Math.Atan2(direction_sprite.X, direction_sprite.Y) * -1;
+                    sprite.SetRotation((float)Math.Atan2(direction_sprite.X, direction_sprite.Y) * -1);
                 }
             }
         }
-        if (PlatsON && !GlobalConst.Paused)
+        if (PlatsON &&
+            !GlobalConst.Paused &&
+            Plats != null)
         {
-            for (int i = 0; i < NumTOTplats; i++)
+            foreach (Varplat plat in Plats)
             {
-                if (Plats[i].frame > Plats[i].framesecond)
+                if (plat.frame > plat.framesecond)
                 {
-                    bool goUP = Plats[i].up;
-                    Plats[i].frame = 0;
+                    bool goUP = plat.up;
+                    plat.SetFrame(0);
                     if (goUP)
-                        Plats[i].actStep++;
+                        plat.SetActStep(plat.actStep + 1);
                     else
-                        Plats[i].actStep--;
+                        plat.SetActStep(plat.actStep - 1);
                     if (goUP)
-                        Plats[i].areaDraw.Y -= Plats[i].step;
+                        plat.SetAreaDrawX(plat.areaDraw.Y - plat.step);
                     else
-                        Plats[i].areaDraw.Y += Plats[i].step;
-                    if (Plats[i].actStep >= Plats[i].numSteps - 1)
-                        Plats[i].up = false;
-                    if (Plats[i].actStep < 1)
-                        Plats[i].up = true;
-                    int px = Plats[i].areaDraw.X - (Plats[i].areaDraw.Width / 2);
-                    alto = Plats[i].step * Plats[i].numSteps;
-                    int positioYOrig = Plats[i].areaDraw.Y + (Plats[i].actStep * Plats[i].step);
+                        plat.SetAreaDrawY(plat.areaDraw.Y + plat.step);
+                    if (plat.actStep >= plat.numSteps - 1)
+                        plat.SetUp(false);
+                    if (plat.actStep < 1)
+                        plat.SetUp(true);
+                    int px = plat.areaDraw.X - (plat.areaDraw.Width / 2);
+                    alto = plat.step * plat.numSteps;
+                    int positioYOrig = plat.areaDraw.Y + (plat.actStep * plat.step);
                     bool realLine = false;
                     for (int y55 = 0; y55 < alto; y55++)
                     {
-                        for (int x55 = 0; x55 < Plats[i].areaDraw.Width; x55++)
+                        for (int x55 = 0; x55 < plat.areaDraw.Width; x55++)
                         {
-                            if (y55 == (alto - 1) - Plats[i].actStep * Plats[i].step)
+                            if (y55 == (alto - 1) - plat.actStep * plat.step)
                                 realLine = true;
                             if (realLine)
                             {
@@ -443,7 +447,7 @@ internal class InGame
                     if (MyGame.Instance.DebugOsd.Debug)
                         Earth.SetData(C25, 0, Earth.Width * Earth.Height); //set this only for debugger and see the real c25 redraw
                 }
-                Plats[i].frame++;
+                plat.SetFrame(plat.frame + 1);
             }
         }
 
@@ -1461,25 +1465,28 @@ internal class InGame
             }
             else
             {
-                for (ex11 = 0; ex11 < NumTOTexits; ex11++) // more than one EXIT place
+                if (Moreexits != null)
                 {
-                    output1X = (int)Moreexits[ex11].exitMoreXY.X;
-                    output1Y = (int)Moreexits[ex11].exitMoreXY.Y;
-                    exit_rect.X = output1X - 5;
-                    exit_rect.Y = output1Y - 5;
-                    exit_rect.Width = 10;
-                    exit_rect.Height = 10;
-                    if (exit_rect.Contains(x) && !lemming.Exit && !lemming.Explode)
+                    foreach (Vector2 moreExitPos in Moreexits.Select(me => me.exitMoreXY)) // more than one EXIT place
                     {
-                        lemming.PosX = output1X - 19; //14+5 middle of the exit rect
-                        lemming.PosY = output1Y - 30; //25+5
-                        lemming.Active = false;
-                        lemming.Walker = false;
-                        lemming.Fall = false;
-                        lemming.Falling = false;
-                        lemming.Exit = true;
-                        lemming.Numframes = SizeSprites.sale_frames;
-                        lemming.Actualframe = 0; // break; //i'm not sure if it's necessary this break
+                        output1X = (int)moreExitPos.X;
+                        output1Y = (int)moreExitPos.Y;
+                        exit_rect.X = output1X - 5;
+                        exit_rect.Y = output1Y - 5;
+                        exit_rect.Width = 10;
+                        exit_rect.Height = 10;
+                        if (exit_rect.Contains(x) && !lemming.Exit && !lemming.Explode)
+                        {
+                            lemming.PosX = output1X - 19; //14+5 middle of the exit rect
+                            lemming.PosY = output1Y - 30; //25+5
+                            lemming.Active = false;
+                            lemming.Walker = false;
+                            lemming.Fall = false;
+                            lemming.Falling = false;
+                            lemming.Exit = true;
+                            lemming.Numframes = SizeSprites.sale_frames;
+                            lemming.Actualframe = 0; // break; //i'm not sure if it's necessary this break
+                        }
                     }
                 }
             }
