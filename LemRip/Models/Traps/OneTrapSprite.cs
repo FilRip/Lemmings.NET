@@ -1,4 +1,5 @@
-﻿using Lemmings.NET.Interfaces;
+﻿using Lemmings.NET.Constants;
+using Lemmings.NET.Interfaces;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -13,13 +14,7 @@ internal class OneTrapSprite : ITrap
 
     internal int ActFrame { get; set; }
 
-    internal int Transparency { get; set; }
-
-    internal int R { get; set; }
-
-    internal int G { get; set; }
-
-    internal int B { get; set; }
+    internal Color Color { get; set; }
 
     internal int Framesecond { get; set; }
 
@@ -41,7 +36,7 @@ internal class OneTrapSprite : ITrap
 
     internal float Speed { get; set; }
 
-    internal bool MinusScrollx { get; set; }
+    internal bool MinusScrollX { get; set; }
 
     internal bool Minus { get; set; }
 
@@ -51,8 +46,13 @@ internal class OneTrapSprite : ITrap
 
     internal Vector3[] Path { get; set; }
 
+    public ETypeTrap TypeTrap
+    {
+        get { return ETypeTrap.Sprite; }
+    }
+
     public void Draw(SpriteBatch spriteBatch)
     {
-        throw new System.NotImplementedException();
+        // TODO : Draw trap
     }
 }

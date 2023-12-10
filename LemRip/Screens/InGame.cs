@@ -875,7 +875,7 @@ internal class InGame
                     if (sprite.Sprite.Name == "touch/arana") // 64x64 sprite frame size
                     {
                         int xxAnim;
-                        if (sprite.MinusScrollx)
+                        if (sprite.MinusScrollX)
                             xxAnim = (int)sprite.Pos.X - ScrollX + 32;
                         else
                             xxAnim = (int)sprite.Pos.X + 32;
@@ -887,7 +887,7 @@ internal class InGame
                     else
                     {
                         int xxAnim;
-                        if (sprite.MinusScrollx)
+                        if (sprite.MinusScrollX)
                             xxAnim = (int)sprite.Pos.X - ScrollX;
                         else
                             xxAnim = (int)sprite.Pos.X;

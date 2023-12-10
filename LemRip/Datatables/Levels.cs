@@ -116,6 +116,7 @@ internal static class Levels
         {
             case 1:
                 MyGame.Instance.ScreenInGame.Sprite = new Varsprites[6];
+
                 MyGame.Instance.ScreenInGame.Sprite[0].ActFrame = 0;
                 MyGame.Instance.ScreenInGame.Sprite[0].AxisX = 4;
                 MyGame.Instance.ScreenInGame.Sprite[0].AxisY = 4;
@@ -129,8 +130,9 @@ internal static class Levels
                 MyGame.Instance.ScreenInGame.Sprite[0].Rotation = 0f;
                 MyGame.Instance.ScreenInGame.Sprite[0].Framesecond = 4;
                 MyGame.Instance.ScreenInGame.Sprite[0].Frame = 0;
-                MyGame.Instance.ScreenInGame.Sprite[0].Sprite = MyGame.Instance.Content.Load<Texture2D>("sprite/magma_mask");
-                MyGame.Instance.ScreenInGame.Sprite[0].MinusScrollx = false;
+                MyGame.Instance.ScreenInGame.Sprite[0].Sprite = MyGame.Instance.Gfx.MagmaMask;
+                MyGame.Instance.ScreenInGame.Sprite[0].MinusScrollX = false;
+
                 MyGame.Instance.ScreenInGame.Sprite[1].ActFrame = 0;
                 MyGame.Instance.ScreenInGame.Sprite[1].AxisX = 8;
                 MyGame.Instance.ScreenInGame.Sprite[1].AxisY = 8;
@@ -145,7 +147,8 @@ internal static class Levels
                 MyGame.Instance.ScreenInGame.Sprite[1].Framesecond = 0;
                 MyGame.Instance.ScreenInGame.Sprite[1].Frame = 0;
                 MyGame.Instance.ScreenInGame.Sprite[1].Sprite = MyGame.Instance.Content.Load<Texture2D>("sprite/flame");
-                MyGame.Instance.ScreenInGame.Sprite[1].MinusScrollx = true;
+                MyGame.Instance.ScreenInGame.Sprite[1].MinusScrollX = true;
+
                 MyGame.Instance.ScreenInGame.Sprite[2].ActFrame = 0;
                 MyGame.Instance.ScreenInGame.Sprite[2].AxisX = 8;
                 MyGame.Instance.ScreenInGame.Sprite[2].AxisY = 8;
@@ -160,7 +163,7 @@ internal static class Levels
                 MyGame.Instance.ScreenInGame.Sprite[2].Framesecond = 0;
                 MyGame.Instance.ScreenInGame.Sprite[2].Frame = 0;
                 MyGame.Instance.ScreenInGame.Sprite[2].Sprite = MyGame.Instance.Content.Load<Texture2D>("sprite/flame");
-                MyGame.Instance.ScreenInGame.Sprite[2].MinusScrollx = true;
+                MyGame.Instance.ScreenInGame.Sprite[2].MinusScrollX = true;
                 MyGame.Instance.ScreenInGame.Sprite[3].ActFrame = 0;
                 MyGame.Instance.ScreenInGame.Sprite[3].AxisX = 6;
                 MyGame.Instance.ScreenInGame.Sprite[3].AxisY = 1;
@@ -176,7 +179,7 @@ internal static class Levels
                 MyGame.Instance.ScreenInGame.Sprite[3].Frame = 0;
                 MyGame.Instance.ScreenInGame.Sprite[3].Sprite = MyGame.Instance.Content.Load<Texture2D>("touch/arana");
                 MyGame.Instance.ScreenInGame.Sprite[3].Calc = true;
-                MyGame.Instance.ScreenInGame.Sprite[3].MinusScrollx = true;
+                MyGame.Instance.ScreenInGame.Sprite[3].MinusScrollX = true;
                 MyGame.Instance.ScreenInGame.Sprite[3].Dest = new Vector2(0, 0);
                 MyGame.Instance.ScreenInGame.Sprite[3].Speed = 0.578f;  // this field is important for move logic of sprites != 0
                 MyGame.Instance.ScreenInGame.Sprite[3].ActVect = 0;
@@ -204,7 +207,7 @@ internal static class Levels
                 MyGame.Instance.ScreenInGame.Sprite[4].Framesecond = 2;
                 MyGame.Instance.ScreenInGame.Sprite[4].Frame = 0;
                 MyGame.Instance.ScreenInGame.Sprite[4].Sprite = MyGame.Instance.Content.Load<Texture2D>("touch/fire_sprites_other");
-                MyGame.Instance.ScreenInGame.Sprite[4].MinusScrollx = false;
+                MyGame.Instance.ScreenInGame.Sprite[4].MinusScrollX = false;
                 MyGame.Instance.ScreenInGame.Sprite[4].Minus = false;
                 MyGame.Instance.ScreenInGame.Sprite[5].Calc = true;
                 MyGame.Instance.ScreenInGame.Sprite[5].ActFrame = 0;
@@ -221,7 +224,7 @@ internal static class Levels
                 MyGame.Instance.ScreenInGame.Sprite[5].Framesecond = 2;
                 MyGame.Instance.ScreenInGame.Sprite[5].Frame = 0;
                 MyGame.Instance.ScreenInGame.Sprite[5].Sprite = MyGame.Instance.Content.Load<Texture2D>("touch/arana");
-                MyGame.Instance.ScreenInGame.Sprite[5].MinusScrollx = true;
+                MyGame.Instance.ScreenInGame.Sprite[5].MinusScrollX = true;
                 MyGame.Instance.ScreenInGame.Sprite[5].Dest = new Vector2(0, 0);
                 MyGame.Instance.ScreenInGame.Sprite[5].Speed = 0.578f;  // this field is important for move logic of sprites != 0
                 MyGame.Instance.ScreenInGame.Sprite[5].ActVect = 0;
@@ -251,8 +254,8 @@ internal static class Levels
                 MyGame.Instance.ScreenInGame.Sprite[0].Rotation = 0f;
                 MyGame.Instance.ScreenInGame.Sprite[0].Framesecond = 4;
                 MyGame.Instance.ScreenInGame.Sprite[0].Frame = 0;
-                MyGame.Instance.ScreenInGame.Sprite[0].Sprite = MyGame.Instance.Content.Load<Texture2D>("sprite/magma_mask");
-                MyGame.Instance.ScreenInGame.Sprite[0].MinusScrollx = false;
+                MyGame.Instance.ScreenInGame.Sprite[0].Sprite = MyGame.Instance.Gfx.MagmaMask;
+                MyGame.Instance.ScreenInGame.Sprite[0].MinusScrollX = false;
                 MyGame.Instance.ScreenInGame.NumTotTraps = 1;
                 MyGame.Instance.ScreenInGame.TrapsON = true;
                 MyGame.Instance.ScreenInGame.Trap = new Vartraps[MyGame.Instance.ScreenInGame.NumTotTraps];
@@ -268,7 +271,7 @@ internal static class Levels
                 MyGame.Instance.ScreenInGame.Trap[0].vvY = 0;
                 MyGame.Instance.ScreenInGame.Trap[0].depth = 0.600000009f;
                 MyGame.Instance.ScreenInGame.Trap[0].transparency = 170;
-                MyGame.Instance.ScreenInGame.Trap[0].sprite = MyGame.Instance.Content.Load<Texture2D>("traps/acid");
+                MyGame.Instance.ScreenInGame.Trap[0].sprite = MyGame.Instance.Gfx.Acid;
                 break;
             case 5:
                 MyGame.Instance.ScreenInGame.NumTotTraps = 2;
@@ -286,7 +289,7 @@ internal static class Levels
                 MyGame.Instance.ScreenInGame.Trap[0].vvY = 0;
                 MyGame.Instance.ScreenInGame.Trap[0].depth = 0.600000009f;
                 MyGame.Instance.ScreenInGame.Trap[0].transparency = 255;
-                MyGame.Instance.ScreenInGame.Trap[0].sprite = MyGame.Instance.Content.Load<Texture2D>("traps/ice_water");
+                MyGame.Instance.ScreenInGame.Trap[0].sprite = MyGame.Instance.Gfx.Ice;
                 MyGame.Instance.ScreenInGame.Trap[1].vvscroll = 2; // kind of variable scroll the trap 1=z1 -- 2=-z1 --
                 MyGame.Instance.ScreenInGame.Trap[1].areaDraw = new Rectangle(518, 460, 280, 32);
                 MyGame.Instance.ScreenInGame.Trap[1].areaTrap = new Rectangle(518, 465, 280, 10);
@@ -299,7 +302,7 @@ internal static class Levels
                 MyGame.Instance.ScreenInGame.Trap[1].vvY = 0;
                 MyGame.Instance.ScreenInGame.Trap[1].depth = 0.600000009f;
                 MyGame.Instance.ScreenInGame.Trap[1].transparency = 130;
-                MyGame.Instance.ScreenInGame.Trap[1].sprite = MyGame.Instance.Content.Load<Texture2D>("traps/ice_water");
+                MyGame.Instance.ScreenInGame.Trap[1].sprite = MyGame.Instance.Gfx.Ice;
                 break;
             case 6:
             case 47:
@@ -347,7 +350,7 @@ internal static class Levels
                 MyGame.Instance.ScreenInGame.Trap[0].vvY = 0;
                 MyGame.Instance.ScreenInGame.Trap[0].depth = 0.600000009f;
                 MyGame.Instance.ScreenInGame.Trap[0].transparency = 170;
-                MyGame.Instance.ScreenInGame.Trap[0].sprite = MyGame.Instance.Content.Load<Texture2D>("traps/acid");
+                MyGame.Instance.ScreenInGame.Trap[0].sprite = MyGame.Instance.Gfx.Acid;
                 break;
             case 8:
                 MyGame.Instance.ScreenInGame.NumTotTraps = 1;
@@ -383,7 +386,7 @@ internal static class Levels
                 MyGame.Instance.ScreenInGame.Trap[0].vvY = 0;
                 MyGame.Instance.ScreenInGame.Trap[0].depth = 0.400000009f;
                 MyGame.Instance.ScreenInGame.Trap[0].transparency = 170;
-                MyGame.Instance.ScreenInGame.Trap[0].sprite = MyGame.Instance.Content.Load<Texture2D>("traps/acid");
+                MyGame.Instance.ScreenInGame.Trap[0].sprite = MyGame.Instance.Gfx.Acid;
                 MyGame.Instance.ScreenInGame.Trap[1].areaDraw = new Rectangle(0, 0, 0, 0);
                 MyGame.Instance.ScreenInGame.Trap[1].areaTrap = new Rectangle(507 - 23, 202 - 38 / 2, 23 * 2, 10); //se .pos minis vvY/2 -vvx long vvx*2
                 MyGame.Instance.ScreenInGame.Trap[1].numFrames = 16;
@@ -725,7 +728,7 @@ internal static class Levels
                 MyGame.Instance.ScreenInGame.Trap[0].vvY = 0;
                 MyGame.Instance.ScreenInGame.Trap[0].depth = 0.600000009f;
                 MyGame.Instance.ScreenInGame.Trap[0].transparency = 170;
-                MyGame.Instance.ScreenInGame.Trap[0].sprite = MyGame.Instance.Content.Load<Texture2D>("traps/acid");
+                MyGame.Instance.ScreenInGame.Trap[0].sprite = MyGame.Instance.Gfx.Acid;
                 MyGame.Instance.ScreenInGame.Trap[1].areaDraw = new Rectangle(0, 0, 0, 0);
                 MyGame.Instance.ScreenInGame.Trap[1].areaTrap = new Rectangle(1121 - 23, 376 - 38 / 2, 23 * 2, 10); //se .pos minis vvY/2 -vvx long vvx*2
                 MyGame.Instance.ScreenInGame.Trap[1].numFrames = 16;
@@ -866,7 +869,7 @@ internal static class Levels
                 MyGame.Instance.ScreenInGame.Trap[1].vvY = 0;
                 MyGame.Instance.ScreenInGame.Trap[1].depth = 0.600000009f;
                 MyGame.Instance.ScreenInGame.Trap[1].transparency = 255;
-                MyGame.Instance.ScreenInGame.Trap[1].sprite = MyGame.Instance.Content.Load<Texture2D>("traps/acid");
+                MyGame.Instance.ScreenInGame.Trap[1].sprite = MyGame.Instance.Gfx.Acid;
                 break;
             case 26:
             case 103:
@@ -913,7 +916,7 @@ internal static class Levels
                 MyGame.Instance.ScreenInGame.Trap[0].vvY = 0;
                 MyGame.Instance.ScreenInGame.Trap[0].depth = 0.400000009f;
                 MyGame.Instance.ScreenInGame.Trap[0].transparency = 170;
-                MyGame.Instance.ScreenInGame.Trap[0].sprite = MyGame.Instance.Content.Load<Texture2D>("traps/acid");
+                MyGame.Instance.ScreenInGame.Trap[0].sprite = MyGame.Instance.Gfx.Acid;
                 break;
             case 28:
             case 95:
@@ -2209,7 +2212,7 @@ internal static class Levels
                 MyGame.Instance.ScreenInGame.Trap[0].vvY = 0;
                 MyGame.Instance.ScreenInGame.Trap[0].depth = 0.300000009f;
                 MyGame.Instance.ScreenInGame.Trap[0].transparency = 230;
-                MyGame.Instance.ScreenInGame.Trap[0].sprite = MyGame.Instance.Content.Load<Texture2D>("traps/ice_water");
+                MyGame.Instance.ScreenInGame.Trap[0].sprite = MyGame.Instance.Gfx.Ice;
                 MyGame.Instance.ScreenInGame.Trap[1].vvscroll = 2;
                 MyGame.Instance.ScreenInGame.Trap[1].areaDraw = new Rectangle(102, 126 - 32, 426 - 102, 32);
                 MyGame.Instance.ScreenInGame.Trap[1].areaTrap = new Rectangle(0, 0, 0, 0);// not necessary
@@ -2451,7 +2454,7 @@ internal static class Levels
                 MyGame.Instance.ScreenInGame.Trap[0].vvY = 0;
                 MyGame.Instance.ScreenInGame.Trap[0].depth = 0.600000009f;
                 MyGame.Instance.ScreenInGame.Trap[0].transparency = 170;
-                MyGame.Instance.ScreenInGame.Trap[0].sprite = MyGame.Instance.Content.Load<Texture2D>("traps/acid");
+                MyGame.Instance.ScreenInGame.Trap[0].sprite = MyGame.Instance.Gfx.Acid;
                 MyGame.Instance.ScreenInGame.Trap[1].vvscroll = 2;
                 MyGame.Instance.ScreenInGame.Trap[1].areaDraw = new Rectangle(661, 350, 1576 - 661, 40);
                 MyGame.Instance.ScreenInGame.Trap[1].areaTrap = new Rectangle(661, 355, 1576 - 661, 10);
@@ -2464,7 +2467,7 @@ internal static class Levels
                 MyGame.Instance.ScreenInGame.Trap[1].vvY = 0;
                 MyGame.Instance.ScreenInGame.Trap[1].depth = 0.600000009f;
                 MyGame.Instance.ScreenInGame.Trap[1].transparency = 255;
-                MyGame.Instance.ScreenInGame.Trap[1].sprite = MyGame.Instance.Content.Load<Texture2D>("traps/acid");
+                MyGame.Instance.ScreenInGame.Trap[1].sprite = MyGame.Instance.Gfx.Acid;
                 break;
             case 106:
             case 117:
@@ -2679,7 +2682,7 @@ internal static class Levels
                 MyGame.Instance.ScreenInGame.Trap[0].vvY = 0;
                 MyGame.Instance.ScreenInGame.Trap[0].depth = 0.300000009f;
                 MyGame.Instance.ScreenInGame.Trap[0].transparency = 170;
-                MyGame.Instance.ScreenInGame.Trap[0].sprite = MyGame.Instance.Content.Load<Texture2D>("traps/ice_water");
+                MyGame.Instance.ScreenInGame.Trap[0].sprite = MyGame.Instance.Gfx.Ice;
                 break;
             case 130:
                 MyGame.Instance.ScreenInGame.NumTotTraps = 1;
@@ -2714,7 +2717,7 @@ internal static class Levels
                 MyGame.Instance.ScreenInGame.Trap[0].vvY = 0;
                 MyGame.Instance.ScreenInGame.Trap[0].depth = 0.300000009f;
                 MyGame.Instance.ScreenInGame.Trap[0].transparency = 170;
-                MyGame.Instance.ScreenInGame.Trap[0].sprite = MyGame.Instance.Content.Load<Texture2D>("traps/ice_water");
+                MyGame.Instance.ScreenInGame.Trap[0].sprite = MyGame.Instance.Gfx.Ice;
                 MyGame.Instance.ScreenInGame.Trap[1].vvscroll = 1; // kind of variable scroll the trap 1=z1--
                 MyGame.Instance.ScreenInGame.Trap[1].areaDraw = new Rectangle(0, 485, 3909, 32); //512-32=480 bottom of the screen
                 MyGame.Instance.ScreenInGame.Trap[1].areaTrap = new Rectangle(0, 490, 3909, 10);
@@ -2727,7 +2730,7 @@ internal static class Levels
                 MyGame.Instance.ScreenInGame.Trap[1].vvY = 0;
                 MyGame.Instance.ScreenInGame.Trap[1].depth = 0.600000009f;
                 MyGame.Instance.ScreenInGame.Trap[1].transparency = 255;
-                MyGame.Instance.ScreenInGame.Trap[1].sprite = MyGame.Instance.Content.Load<Texture2D>("traps/ice_water");
+                MyGame.Instance.ScreenInGame.Trap[1].sprite = MyGame.Instance.Gfx.Ice;
                 break;
             case 133:
                 MyGame.Instance.ScreenInGame.NumTotTraps = 1;
@@ -3365,7 +3368,7 @@ internal static class Levels
                 MyGame.Instance.ScreenInGame.Sprite[0].Framesecond = 0;
                 MyGame.Instance.ScreenInGame.Sprite[0].Frame = 0;
                 MyGame.Instance.ScreenInGame.Sprite[0].Sprite = MyGame.Instance.Content.Load<Texture2D>("sprite/nube1");
-                MyGame.Instance.ScreenInGame.Sprite[0].MinusScrollx = true;
+                MyGame.Instance.ScreenInGame.Sprite[0].MinusScrollX = true;
                 MyGame.Instance.ScreenInGame.Sprite[0].Typescroll = 3f;
                 MyGame.Instance.ScreenInGame.Sprite[1].ActFrame = 0;
                 MyGame.Instance.ScreenInGame.Sprite[1].AxisX = 1;
@@ -3381,7 +3384,7 @@ internal static class Levels
                 MyGame.Instance.ScreenInGame.Sprite[1].Framesecond = 0;
                 MyGame.Instance.ScreenInGame.Sprite[1].Frame = 0;
                 MyGame.Instance.ScreenInGame.Sprite[1].Sprite = MyGame.Instance.Content.Load<Texture2D>("sprite/nube2");
-                MyGame.Instance.ScreenInGame.Sprite[1].MinusScrollx = true;
+                MyGame.Instance.ScreenInGame.Sprite[1].MinusScrollX = true;
                 MyGame.Instance.ScreenInGame.Sprite[1].Typescroll = 2;
                 break;
             case 160:
@@ -3511,7 +3514,7 @@ internal static class Levels
                 MyGame.Instance.ScreenInGame.Sprite[0].Framesecond = 4;
                 MyGame.Instance.ScreenInGame.Sprite[0].Frame = 0;
                 MyGame.Instance.ScreenInGame.Sprite[0].Sprite = MyGame.Instance.Content.Load<Texture2D>("antorcha_l2");
-                MyGame.Instance.ScreenInGame.Sprite[0].MinusScrollx = true;
+                MyGame.Instance.ScreenInGame.Sprite[0].MinusScrollX = true;
                 MyGame.Instance.ScreenInGame.Sprite[1].ActFrame = 0;
                 MyGame.Instance.ScreenInGame.Sprite[1].AxisX = 1;
                 MyGame.Instance.ScreenInGame.Sprite[1].AxisY = 7;
@@ -3526,7 +3529,7 @@ internal static class Levels
                 MyGame.Instance.ScreenInGame.Sprite[1].Framesecond = 2;
                 MyGame.Instance.ScreenInGame.Sprite[1].Frame = 0;
                 MyGame.Instance.ScreenInGame.Sprite[1].Sprite = MyGame.Instance.Content.Load<Texture2D>("antorcha_l2");
-                MyGame.Instance.ScreenInGame.Sprite[1].MinusScrollx = true;
+                MyGame.Instance.ScreenInGame.Sprite[1].MinusScrollX = true;
                 MyGame.Instance.ScreenInGame.Sprite[2].ActFrame = 0;
                 MyGame.Instance.ScreenInGame.Sprite[2].AxisX = 1;
                 MyGame.Instance.ScreenInGame.Sprite[2].AxisY = 7;
@@ -3541,7 +3544,7 @@ internal static class Levels
                 MyGame.Instance.ScreenInGame.Sprite[2].Framesecond = 6;
                 MyGame.Instance.ScreenInGame.Sprite[2].Frame = 0;
                 MyGame.Instance.ScreenInGame.Sprite[2].Sprite = MyGame.Instance.Content.Load<Texture2D>("antorcha_l2");
-                MyGame.Instance.ScreenInGame.Sprite[2].MinusScrollx = true;
+                MyGame.Instance.ScreenInGame.Sprite[2].MinusScrollX = true;
                 MyGame.Instance.ScreenInGame.SteelON = true;
                 MyGame.Instance.ScreenInGame.NumTOTsteel = 1;
                 MyGame.Instance.ScreenInGame.Steel = new Varsteel[MyGame.Instance.ScreenInGame.NumTOTsteel];
@@ -3825,7 +3828,7 @@ internal static class Levels
                 MyGame.Instance.ScreenInGame.Sprite[0].Framesecond = 2;
                 MyGame.Instance.ScreenInGame.Sprite[0].Frame = 0;
                 MyGame.Instance.ScreenInGame.Sprite[0].Sprite = MyGame.Instance.Content.Load<Texture2D>("touch/arana");
-                MyGame.Instance.ScreenInGame.Sprite[0].MinusScrollx = true;
+                MyGame.Instance.ScreenInGame.Sprite[0].MinusScrollX = true;
                 MyGame.Instance.ScreenInGame.Sprite[0].Dest = new Vector2(0, 0);
                 MyGame.Instance.ScreenInGame.Sprite[0].Speed = 0.578f;  // this field is important for move logic of sprites != 0
                 MyGame.Instance.ScreenInGame.Sprite[0].ActVect = 0;
