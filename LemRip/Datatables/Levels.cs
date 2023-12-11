@@ -15,7 +15,7 @@ internal static class Levels
 {
     internal static OneLevel GetLevel(int numLevel)
     {
-        OneLevel lvl = new();
+        OneLevel lvl = new(numLevel);
         if (numLevel == 0)
             return lvl;
         string[] levelContent;

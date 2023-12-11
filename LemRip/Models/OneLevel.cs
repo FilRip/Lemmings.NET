@@ -2,6 +2,13 @@
 
 internal class OneLevel
 {
+    internal OneLevel() : base() { }
+
+    internal OneLevel(int numLevel) : this()
+    {
+        NumLevel = numLevel;
+    }
+
     internal int TotalLemmings { get; set; }
     internal int InitPosX { get; set; }
     internal int NumberClimbers { get; set; }
@@ -16,6 +23,7 @@ internal class OneLevel
     internal int FrequencyComming { get; set; }
     internal int NbLemmingsToSave { get; set; }
     internal int TotalTime { get; set; }
+    internal int NumLevel { get; set; }
 
     internal string NameLev { get; set; }
     internal string NameOfLevel { get; set; }

@@ -920,7 +920,7 @@ internal class InGame
         {
             foreach (ITrap trap in _listTraps)
             {
-                //trap.Draw(spriteBatch);
+                trap.Draw(spriteBatch);
             }
         }
 
