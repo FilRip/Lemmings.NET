@@ -146,7 +146,7 @@ internal static class Levels
                 MyGame.Instance.ScreenInGame.Sprite[1].Rotation = 0.1f;
                 MyGame.Instance.ScreenInGame.Sprite[1].Framesecond = 0;
                 MyGame.Instance.ScreenInGame.Sprite[1].Frame = 0;
-                MyGame.Instance.ScreenInGame.Sprite[1].Sprite = MyGame.Instance.Content.Load<Texture2D>("sprite/flame");
+                MyGame.Instance.ScreenInGame.Sprite[1].Sprite = MyGame.Instance.Gfx.Flame;
                 MyGame.Instance.ScreenInGame.Sprite[1].MinusScrollX = true;
 
                 MyGame.Instance.ScreenInGame.Sprite[2].ActFrame = 0;
@@ -162,7 +162,7 @@ internal static class Levels
                 MyGame.Instance.ScreenInGame.Sprite[2].Rotation = 0.05f;
                 MyGame.Instance.ScreenInGame.Sprite[2].Framesecond = 0;
                 MyGame.Instance.ScreenInGame.Sprite[2].Frame = 0;
-                MyGame.Instance.ScreenInGame.Sprite[2].Sprite = MyGame.Instance.Content.Load<Texture2D>("sprite/flame");
+                MyGame.Instance.ScreenInGame.Sprite[2].Sprite = MyGame.Instance.Gfx.Flame;
                 MyGame.Instance.ScreenInGame.Sprite[2].MinusScrollX = true;
                 MyGame.Instance.ScreenInGame.Sprite[3].ActFrame = 0;
                 MyGame.Instance.ScreenInGame.Sprite[3].AxisX = 6;
@@ -177,7 +177,7 @@ internal static class Levels
                 MyGame.Instance.ScreenInGame.Sprite[3].Rotation = 0f;
                 MyGame.Instance.ScreenInGame.Sprite[3].Framesecond = 1;
                 MyGame.Instance.ScreenInGame.Sprite[3].Frame = 0;
-                MyGame.Instance.ScreenInGame.Sprite[3].Sprite = MyGame.Instance.Content.Load<Texture2D>("touch/arana");
+                MyGame.Instance.ScreenInGame.Sprite[3].Sprite = MyGame.Instance.Gfx.Spider;
                 MyGame.Instance.ScreenInGame.Sprite[3].Calc = true;
                 MyGame.Instance.ScreenInGame.Sprite[3].MinusScrollX = true;
                 MyGame.Instance.ScreenInGame.Sprite[3].Dest = new Vector2(0, 0);
@@ -223,7 +223,7 @@ internal static class Levels
                 MyGame.Instance.ScreenInGame.Sprite[5].Rotation = 0f;
                 MyGame.Instance.ScreenInGame.Sprite[5].Framesecond = 2;
                 MyGame.Instance.ScreenInGame.Sprite[5].Frame = 0;
-                MyGame.Instance.ScreenInGame.Sprite[5].Sprite = MyGame.Instance.Content.Load<Texture2D>("touch/arana");
+                MyGame.Instance.ScreenInGame.Sprite[5].Sprite = MyGame.Instance.Gfx.Spider;
                 MyGame.Instance.ScreenInGame.Sprite[5].MinusScrollX = true;
                 MyGame.Instance.ScreenInGame.Sprite[5].Dest = new Vector2(0, 0);
                 MyGame.Instance.ScreenInGame.Sprite[5].Speed = 0.578f;  // this field is important for move logic of sprites != 0
@@ -3827,7 +3827,7 @@ internal static class Levels
                 MyGame.Instance.ScreenInGame.Sprite[0].Rotation = 0f;
                 MyGame.Instance.ScreenInGame.Sprite[0].Framesecond = 2;
                 MyGame.Instance.ScreenInGame.Sprite[0].Frame = 0;
-                MyGame.Instance.ScreenInGame.Sprite[0].Sprite = MyGame.Instance.Content.Load<Texture2D>("touch/arana");
+                MyGame.Instance.ScreenInGame.Sprite[0].Sprite = MyGame.Instance.Gfx.Spider;
                 MyGame.Instance.ScreenInGame.Sprite[0].MinusScrollX = true;
                 MyGame.Instance.ScreenInGame.Sprite[0].Dest = new Vector2(0, 0);
                 MyGame.Instance.ScreenInGame.Sprite[0].Speed = 0.578f;  // this field is important for move logic of sprites != 0

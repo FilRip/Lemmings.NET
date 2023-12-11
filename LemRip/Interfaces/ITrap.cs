@@ -9,4 +9,6 @@ internal interface ITrap
     ETypeTrap TypeTrap { get; }
 
     void Draw(SpriteBatch spriteBatch);
+
+    void Update();
 }

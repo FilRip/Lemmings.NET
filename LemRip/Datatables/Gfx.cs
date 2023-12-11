@@ -25,6 +25,8 @@ internal class Gfx
     internal Texture2D MagmaMask { get; private set; }
     internal Texture2D Acid { get; private set; }
     internal Texture2D Ice { get; private set; }
+    internal Texture2D Flame { get; private set; }
+    internal Texture2D Spider { get; private set; }
 
     internal void Load(GraphicsDevice GraphicsDevice, ContentManager content)
     {
@@ -46,6 +48,8 @@ internal class Gfx
         MagmaMask = content.Load<Texture2D>("sprite/magma_mask");
         Acid = content.Load<Texture2D>("traps/acid");
         Ice = content.Load<Texture2D>("traps/ice_water");
+        Flame = content.Load<Texture2D>("sprite/flame");
+        Spider = content.Load<Texture2D>("touch/arana");
     }
 
     internal void DrawLine(SpriteBatch sb, Vector2 start, Vector2 end, Color pintado, Int32 grosor, float layer)

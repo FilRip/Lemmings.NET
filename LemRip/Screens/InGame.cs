@@ -5,6 +5,7 @@ using System.Linq;
 using Lemmings.NET.Constants;
 using Lemmings.NET.Datatables;
 using Lemmings.NET.Helpers;
+using Lemmings.NET.Interfaces;
 using Lemmings.NET.Models;
 using Lemmings.NET.Structs;
 
@@ -142,6 +143,7 @@ internal class InGame
     private Texture2D salida_ani1, salida_ani1_1;
     private Texture2D puerta_ani;
     private readonly InGameMenu _inGameMenu;
+    private List<ITrap> _listTraps;
 
     #endregion
 
@@ -267,7 +269,10 @@ internal class InGame
         ScrollX = CurrentLevel.InitPosX;
         ScrollY = 0;
         AllLemmings = [];
-        Levels.VariablesTraps();
+        if (newLevel == 1)
+            _listTraps = MyGame.Instance.Props.GetTraps(newLevel);
+        else
+            Levels.VariablesTraps();
     }
 
     private void Update_level()
@@ -310,12 +315,15 @@ internal class InGame
             drawing3 = true;
             actWaves++;
         } // change add of actwaves to see differences in speed  +=2,+=5
+
         // stop all things for exit prepare
         if (LevelEnded)
         {
             GlobalConst.Paused = true;
         }
+
         MoverLemming();
+
         if (Sprite != null) //sprites logic if necessary puto77
         {
             for (int ssi = 0; ssi < Sprite.Length; ssi++)
@@ -398,6 +406,14 @@ internal class InGame
                 }
             }
         }
+        else if (_listTraps != null)
+        {
+            foreach (ITrap trap in _listTraps)
+            {
+                trap.Update();
+            }
+        }
+
         if (PlatsON &&
             !GlobalConst.Paused &&
             Plats != null)
@@ -834,15 +850,18 @@ internal class InGame
                     new Color(255, 255, 255, Arrow[xz].transparency), 0f, Vector2.Zero, 1f, SpriteEffects.None, 0.499f);
             }
         }
+
         //menu for ending level or not
         if (LevelEnded)
         {
             EndLevelScreen.Draw(spriteBatch);
         }
+
         OneEntry entry = MyGame.Instance.Props.GetEntry(CurrentLevel.TypeOfDoor);
         int xx55 = entry.Width;
         int yy55 = entry.Height;
         framereal565 = (frameDoor * yy55);
+
         if (Sprite != null) //draw sprites
         {
             foreach (Varsprites sprite in Sprite)
@@ -897,6 +916,14 @@ internal class InGame
                 }
             }
         }
+        else if (_listTraps != null)
+        {
+            foreach (ITrap trap in _listTraps)
+            {
+                //trap.Draw(spriteBatch);
+            }
+        }
+
         if (PlatsON)
         {
             foreach (Varplat plat in Plats)

@@ -26,6 +26,11 @@ internal class Props
         return _listExits.Single(e => e.Id == id);
     }
 
+    internal List<ITrap> GetTraps(int numLevel)
+    {
+        return _listTrap;
+    }
+
     private void LoadDoors()
     {
         _listDoors = [];
