@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-using Lemmings.NET.Interfaces;
 using Lemmings.NET.Models;
 using Lemmings.NET.Models.Traps;
 
@@ -14,7 +13,7 @@ internal class Props
 {
     private List<OneEntry> _listDoors;
     private List<OneExit> _listExits;
-    private List<ITrap> _listTrap;
+    private List<OneTrap> _listTrap;
 
     internal OneEntry GetEntry(int id)
     {
@@ -26,7 +25,7 @@ internal class Props
         return _listExits.Single(e => e.Id == id);
     }
 
-    internal List<ITrap> GetTraps(int numLevel)
+    internal List<OneTrap> GetTraps(int numLevel)
     {
         return _listTrap;
     }

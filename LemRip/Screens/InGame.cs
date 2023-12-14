@@ -5,7 +5,6 @@ using System.Linq;
 using Lemmings.NET.Constants;
 using Lemmings.NET.Datatables;
 using Lemmings.NET.Helpers;
-using Lemmings.NET.Interfaces;
 using Lemmings.NET.Models;
 using Lemmings.NET.Structs;
 
@@ -143,7 +142,7 @@ internal class InGame
     private Texture2D salida_ani1, salida_ani1_1;
     private Texture2D puerta_ani;
     private readonly InGameMenu _inGameMenu;
-    private List<ITrap> _listTraps;
+    private List<OneTrap> _listTraps;
 
     #endregion
 
@@ -329,7 +328,7 @@ internal class InGame
             for (int ssi = 0; ssi < Sprite.Length; ssi++)
             {
                 Sprite[ssi].Frame++;
-                if (Sprite[ssi].Sprite.Name == "touch/fire_sprites_other" && Sprite[ssi].Frame > Sprite[ssi].Framesecond)
+                if (Sprite[ssi].Sprite.Name == MyGame.Instance.Gfx.Fire.Name && Sprite[ssi].Frame > Sprite[ssi].Framesecond)
                 {
                     Sprite[ssi].Frame = 0;
                     if (Sprite[ssi].Minus)
@@ -408,7 +407,7 @@ internal class InGame
         }
         else if (_listTraps != null)
         {
-            foreach (ITrap trap in _listTraps)
+            foreach (OneTrap trap in _listTraps)
             {
                 trap.Update();
             }
@@ -918,7 +917,7 @@ internal class InGame
         }
         else if (_listTraps != null)
         {
-            foreach (ITrap trap in _listTraps)
+            foreach (OneTrap trap in _listTraps)
             {
                 trap.Draw(spriteBatch);
             }

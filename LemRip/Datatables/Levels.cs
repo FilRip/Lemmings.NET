@@ -164,6 +164,7 @@ internal static class Levels
                 MyGame.Instance.ScreenInGame.Sprite[2].Frame = 0;
                 MyGame.Instance.ScreenInGame.Sprite[2].Sprite = MyGame.Instance.Gfx.Flame;
                 MyGame.Instance.ScreenInGame.Sprite[2].MinusScrollX = true;
+
                 MyGame.Instance.ScreenInGame.Sprite[3].ActFrame = 0;
                 MyGame.Instance.ScreenInGame.Sprite[3].AxisX = 6;
                 MyGame.Instance.ScreenInGame.Sprite[3].AxisY = 1;
@@ -193,6 +194,7 @@ internal static class Levels
                 MyGame.Instance.ScreenInGame.Sprite[3].Path[4] = new Vector3(326, 475, 2f);
                 MyGame.Instance.ScreenInGame.Sprite[3].Path[5] = new Vector3(405, 322, 1.2f);
                 MyGame.Instance.ScreenInGame.Sprite[3].Path[6] = new Vector3(470, 211, 1.5f);
+
                 MyGame.Instance.ScreenInGame.Sprite[4].ActFrame = 0;
                 MyGame.Instance.ScreenInGame.Sprite[4].AxisX = 2;
                 MyGame.Instance.ScreenInGame.Sprite[4].AxisY = 10;
@@ -206,9 +208,10 @@ internal static class Levels
                 MyGame.Instance.ScreenInGame.Sprite[4].Rotation = 1.57f;
                 MyGame.Instance.ScreenInGame.Sprite[4].Framesecond = 2;
                 MyGame.Instance.ScreenInGame.Sprite[4].Frame = 0;
-                MyGame.Instance.ScreenInGame.Sprite[4].Sprite = MyGame.Instance.Content.Load<Texture2D>("touch/fire_sprites_other");
+                MyGame.Instance.ScreenInGame.Sprite[4].Sprite = MyGame.Instance.Gfx.Fire;
                 MyGame.Instance.ScreenInGame.Sprite[4].MinusScrollX = false;
                 MyGame.Instance.ScreenInGame.Sprite[4].Minus = false;
+
                 MyGame.Instance.ScreenInGame.Sprite[5].Calc = true;
                 MyGame.Instance.ScreenInGame.Sprite[5].ActFrame = 0;
                 MyGame.Instance.ScreenInGame.Sprite[5].AxisX = 6;

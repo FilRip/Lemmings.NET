@@ -1,14 +1,13 @@
 ﻿using System;
 
 using Lemmings.NET.Constants;
-using Lemmings.NET.Interfaces;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace Lemmings.NET.Models.Traps;
 
-internal class OneTrapSprite : ITrap
+internal class OneTrapSprite : OneTrap
 {
     internal int AxisX { get; set; }
 
@@ -23,8 +22,6 @@ internal class OneTrapSprite : ITrap
     internal int Frame { get; set; }
 
     internal int ActVect { get; set; }
-
-    internal Vector2 Pos { get; set; }
 
     internal Vector2 Dest { get; set; }
 
@@ -50,12 +47,12 @@ internal class OneTrapSprite : ITrap
 
     internal Vector3[] Path { get; set; }
 
-    public ETypeTrap TypeTrap
+    internal override ETypeTrap TypeTrap
     {
         get { return ETypeTrap.Sprite; }
     }
 
-    public void Draw(SpriteBatch spriteBatch)
+    internal override void Draw(SpriteBatch spriteBatch)
     {
         int swidth = Sprite.Width / AxisX;
         int sheight = Sprite.Height / AxisY;
@@ -105,10 +102,10 @@ internal class OneTrapSprite : ITrap
         }
     }
 
-    public void Update()
+    internal override void Update()
     {
         Frame++;
-        if (Sprite.Name == "touch/fire_sprites_other" && Frame > Framesecond)
+        if (Sprite.Name == MyGame.Instance.Gfx.Fire.Name && Frame > Framesecond)
         {
             Frame = 0;
             if (Minus)

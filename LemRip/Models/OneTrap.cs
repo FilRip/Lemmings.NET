@@ -1,15 +1,17 @@
 ﻿using Lemmings.NET.Constants;
-using Lemmings.NET.Interfaces;
 
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Lemmings.NET.Models;
 
-internal class OneTrap
+internal abstract class OneTrap
 {
-    internal ETypeTrap TypeTrap { get; set; }
+    internal abstract ETypeTrap TypeTrap { get; }
 
     internal Vector2 Pos { get; set; }
 
-    internal ITrap Trap { get; set; }
+    internal abstract void Draw(SpriteBatch spriteBatch);
+
+    internal abstract void Update();
 }
