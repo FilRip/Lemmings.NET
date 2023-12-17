@@ -1,24 +1,22 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
-namespace ComputeLemmingsLevel
+namespace ComputeLemmingsLevel;
+
+internal static class Program
 {
-    internal class Program
+    internal const string repLevels = @"c:\tmp\levels\";
+
+    internal static void Main(string[] args)
     {
-        static void Main(string[] args)
+        foreach (string file in Directory.GetFiles(repLevels, "*.ini"))
         {
-            string[] listeLignes;
-            string[] splitter;
-            string valeur;
-            string numLevel;
-            listeLignes = File.ReadAllLines(@"c:\tmp\levels.txt");
-            foreach (string ligne in listeLignes)
-            {
-                splitter = ligne.Split('.');
-                numLevel = splitter[0].Replace("AllLevel[", "").Replace("]", "").Trim();
-                valeur = splitter[1].Split(';')[0].Trim().Replace("\"", "").Replace(" = ", "=").TrimStart().TrimEnd();
-                File.AppendAllText(@"c:\tmp\levels\level" + numLevel + ".ini", valeur + Environment.NewLine);
-            }
+            string[] lignes = File.ReadAllLines(file);
+            List<string> listLignes = lignes.ToList();
+            listLignes.Insert(0, "[Level]");
+            File.Delete(file);
+            File.WriteAllLines(file, listLignes);
         }
     }
 }
