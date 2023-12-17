@@ -5,7 +5,6 @@ using Lemmings.NET.Models;
 using Lemmings.NET.Models.Traps;
 
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace Lemmings.NET.Datatables;
 
@@ -27,7 +26,9 @@ internal class Props
 
     internal List<OneTrap> GetTraps(int numLevel)
     {
-        return _listTrap;
+        if (numLevel == 1)
+            return _listTrap;
+        return [];
     }
 
     private void LoadDoors()

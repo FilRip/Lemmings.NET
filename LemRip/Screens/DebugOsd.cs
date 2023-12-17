@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 
 using Lemmings.NET.Models;
-using Lemmings.NET.Structs;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -53,7 +52,7 @@ internal class DebugOsd
 
             if (MyGame.Instance.ScreenInGame.SteelON && MyGame.Instance.ScreenInGame.Steel != null)
             {
-                foreach (Rectangle steelintArea in MyGame.Instance.ScreenInGame.Steel.Select(s => s.area))
+                foreach (Rectangle steelintArea in MyGame.Instance.ScreenInGame.Steel.Select(s => s.Area))
                 {
                     Rectangle rectangleFill = new()
                     {

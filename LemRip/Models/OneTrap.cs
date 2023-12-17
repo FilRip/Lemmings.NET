@@ -11,6 +11,10 @@ internal abstract class OneTrap
 
     internal Vector2 Pos { get; set; }
 
+    internal int ActFrame { get; set; }
+
+    internal int Frame { get; set; }
+
     internal abstract void Draw(SpriteBatch spriteBatch);
 
     internal abstract void Update();

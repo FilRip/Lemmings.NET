@@ -602,7 +602,7 @@ internal class InGameMenu
         rectangleFill2.Y = 0;
         rectangleFill2.Width = SizeSprites.basher_width;
         rectangleFill2.Height = SizeSprites.basher_height;
-        spriteBatch.Draw(MyGame.Instance.Sprites.Pared, vectorFill, rectangleFill2, (CurrentSelectedSkill == ECurrentSkill.BASHER ? Color.White : sombramenu), 0f, Vector2.Zero, SizeSprites.basher_size, SpriteEffects.FlipHorizontally, 0.1f);
+        spriteBatch.Draw(MyGame.Instance.Sprites.HorizontalDigger, vectorFill, rectangleFill2, (CurrentSelectedSkill == ECurrentSkill.BASHER ? Color.White : sombramenu), 0f, Vector2.Zero, SizeSprites.basher_size, SpriteEffects.FlipHorizontally, 0.1f);
 
         vectorFill.X = 45 + 8 * 55;
         vectorFill.Y = posymenu + 31;
@@ -613,7 +613,7 @@ internal class InGameMenu
         rectangleFill2.Y = 0;
         rectangleFill2.Width = SizeSprites.miner_width;
         rectangleFill2.Height = SizeSprites.miner_height;
-        spriteBatch.Draw(MyGame.Instance.Sprites.Pico, vectorFill, rectangleFill2, (CurrentSelectedSkill == ECurrentSkill.MINER ? Color.White : sombramenu), 0f, Vector2.Zero, SizeSprites.miner_size, SpriteEffects.None, 0.1f);
+        spriteBatch.Draw(MyGame.Instance.Sprites.Miner, vectorFill, rectangleFill2, (CurrentSelectedSkill == ECurrentSkill.MINER ? Color.White : sombramenu), 0f, Vector2.Zero, SizeSprites.miner_size, SpriteEffects.None, 0.1f);
 
         vectorFill.X = 45 + 9 * 55;
         vectorFill.Y = posymenu + 31;

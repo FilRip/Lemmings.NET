@@ -4,5 +4,5 @@ namespace Lemmings.NET.Structs;
 
 internal struct Varsteel
 {
-    internal Rectangle area;
+    internal Rectangle Area;
 }

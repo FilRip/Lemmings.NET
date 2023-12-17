@@ -135,7 +135,7 @@ internal class OneLemming
             {
                 x.X = PosX + 14;
                 x.Y = PosY + 25;
-                if (trap.areaTrap.Contains(x) && !trap.isOn && trap.type == 666)
+                if (trap.AreaTrap.Contains(x) && !trap.IsOn && trap.Type == 666)
                 {
                     trap.SetIsOn(true);
                     Active = false;
@@ -144,7 +144,7 @@ internal class OneLemming
                     MyGame.Instance.ScreenInGame.Numlemnow--;
                     Explode = false;
                     Exploser = false;
-                    switch (trap.sprite.Name)
+                    switch (trap.Sprite.Name)
                     {
                         case "traps/dead_marble":
                         case "traps/dead_marble2_fix":
@@ -172,9 +172,9 @@ internal class OneLemming
                 rectangleFill.Y = PosY;
                 rectangleFill.Width = 1;
                 rectangleFill.Height = 28;
-                if (trap.areaTrap.Intersects(rectangleFill) && !Burned && !Drown && trap.type != 666)
+                if (trap.AreaTrap.Intersects(rectangleFill) && !Burned && !Drown && trap.Type != 666)
                 {
-                    switch (trap.sprite.Name)
+                    switch (trap.Sprite.Name)
                     {
                         case "traps/dead_spin":
                         case "traps/fuego1":
@@ -571,12 +571,12 @@ internal class OneLemming
                 {
                     foreach (Vararrows arrow in MyGame.Instance.ScreenInGame.Arrow)
                     {
-                        if (arrow.area.Intersects(arrowLem) && Right && !arrow.right)
+                        if (arrow.Area.Intersects(arrowLem) && Right && !arrow.Right)
                         {
                             nominer = true;
                             continue;
                         }
-                        if (arrow.area.Intersects(arrowLem) && Left && arrow.right)
+                        if (arrow.Area.Intersects(arrowLem) && Left && arrow.Right)
                         {
                             nominer = true;
                         }
@@ -635,7 +635,7 @@ internal class OneLemming
                         x.X = px + sx;
                         x.Y = py + sy;
                         if (MyGame.Instance.ScreenInGame.Steel != null &&
-                            Array.Exists(MyGame.Instance.ScreenInGame.Steel, s => s.area.Contains(x)))
+                            Array.Exists(MyGame.Instance.ScreenInGame.Steel, s => s.Area.Contains(x)))
                         {
                             sx = -777;
                         }
@@ -732,7 +732,7 @@ internal class OneLemming
                         int sy = r / width2;
                         x.X = px + sx;
                         x.Y = py + sy;
-                        if (Array.Exists(MyGame.Instance.ScreenInGame.Steel, s => s.area.Contains(x)))
+                        if (Array.Exists(MyGame.Instance.ScreenInGame.Steel, s => s.Area.Contains(x)))
                             sx = -777;
                         if (sx == -777)
                         {
@@ -798,12 +798,12 @@ internal class OneLemming
                 {
                     foreach (Vararrows arrow in MyGame.Instance.ScreenInGame.Arrow)
                     {
-                        if (arrow.area.Intersects(arrowLem) && Right && !arrow.right)
+                        if (arrow.Area.Intersects(arrowLem) && Right && !arrow.Right)
                         {
                             nobasher = true;
                             continue;
                         }
-                        if (arrow.area.Intersects(arrowLem) && Left && arrow.right)
+                        if (arrow.Area.Intersects(arrowLem) && Left && arrow.Right)
                         {
                             nobasher = true;
                         }
@@ -866,7 +866,7 @@ internal class OneLemming
                         {
                             x.X = px + valX;
                             x.Y = py + valY;
-                            if (Array.Exists(MyGame.Instance.ScreenInGame.Steel, s => s.area.Contains(x)))
+                            if (Array.Exists(MyGame.Instance.ScreenInGame.Steel, s => s.Area.Contains(x)))
                                 sx = -777;
                             if (sx == -777)
                             {
@@ -975,7 +975,7 @@ internal class OneLemming
                         {
                             x.X = px + valX;
                             x.Y = py + valY;
-                            if (Array.Exists(MyGame.Instance.ScreenInGame.Steel, s => s.area.Contains(x)))
+                            if (Array.Exists(MyGame.Instance.ScreenInGame.Steel, s => s.Area.Contains(x)))
                                 sx = -777;
                             if (sx == -777)
                             {
@@ -1291,7 +1291,7 @@ internal class OneLemming
                             {
                                 x.X = PosX + xx88;
                                 x.Y = PosY + 14 + y;
-                                if (Array.Exists(MyGame.Instance.ScreenInGame.Steel, s => s.area.Contains(x)))
+                                if (Array.Exists(MyGame.Instance.ScreenInGame.Steel, s => s.Area.Contains(x)))
                                     sx = -777;
                                 if (sx == -777)
                                 {
@@ -1525,7 +1525,7 @@ internal class OneLemming
                     int sy = r / ancho66;
                     x.X = px + sx;
                     x.Y = py + sy;
-                    if (Array.Exists(MyGame.Instance.ScreenInGame.Steel, s => s.area.Contains(x)))
+                    if (Array.Exists(MyGame.Instance.ScreenInGame.Steel, s => s.Area.Contains(x)))
                         sx = -777;
                     if (sx == -777)
                         continue;
@@ -1729,12 +1729,12 @@ internal class OneLemming
         if (Miner)  //scale POSDraw x-5,y-2 at 1.2f x-9,y-7 at 1.35f pico pico miner miner
         {
             framesale = (Actualframe * SizeSprites.miner_width);
-            spriteBatch.Draw(MyGame.Instance.Sprites.Pico, new Vector2(PosX - MyGame.Instance.ScreenInGame.ScrollX + SizeSprites.miner_xpos + (Right ? 0 : 10), PosY + SizeSprites.miner_ypos - MyGame.Instance.ScreenInGame.ScrollY), new Rectangle(framesale, 0, SizeSprites.miner_width, SizeSprites.miner_height), (Onmouse ? Color.Red : Color.White), 0f, Vector2.Zero, SizeSprites.miner_size, (Right ? SpriteEffects.FlipHorizontally : SpriteEffects.None), GlobalConst.Lem_depth + (NumLemming * 0.00001f));
+            spriteBatch.Draw(MyGame.Instance.Sprites.Miner, new Vector2(PosX - MyGame.Instance.ScreenInGame.ScrollX + SizeSprites.miner_xpos + (Right ? 0 : 10), PosY + SizeSprites.miner_ypos - MyGame.Instance.ScreenInGame.ScrollY), new Rectangle(framesale, 0, SizeSprites.miner_width, SizeSprites.miner_height), (Onmouse ? Color.Red : Color.White), 0f, Vector2.Zero, SizeSprites.miner_size, (Right ? SpriteEffects.FlipHorizontally : SpriteEffects.None), GlobalConst.Lem_depth + (NumLemming * 0.00001f));
         }
         if (Basher) //puto
         {           // scale basher RIGHT POSDRAW x-10,y+4 at 1.2f x-15,y+1 at 1.35f
             framesale = (Actualframe * SizeSprites.basher_width);
-            spriteBatch.Draw(MyGame.Instance.Sprites.Pared, new Vector2(PosX - MyGame.Instance.ScreenInGame.ScrollX + (Right ? SizeSprites.basher_xpos : SizeSprites.basher_xposleft), PosY + SizeSprites.basher_ypos - MyGame.Instance.ScreenInGame.ScrollY), new Rectangle(framesale, 0, SizeSprites.basher_width, SizeSprites.basher_height), (Onmouse ? Color.Red : Color.White), 0f, Vector2.Zero, SizeSprites.basher_size, (Right ? SpriteEffects.FlipHorizontally : SpriteEffects.None), GlobalConst.Lem_depth + (NumLemming * 0.00001f));
+            spriteBatch.Draw(MyGame.Instance.Sprites.HorizontalDigger, new Vector2(PosX - MyGame.Instance.ScreenInGame.ScrollX + (Right ? SizeSprites.basher_xpos : SizeSprites.basher_xposleft), PosY + SizeSprites.basher_ypos - MyGame.Instance.ScreenInGame.ScrollY), new Rectangle(framesale, 0, SizeSprites.basher_width, SizeSprites.basher_height), (Onmouse ? Color.Red : Color.White), 0f, Vector2.Zero, SizeSprites.basher_size, (Right ? SpriteEffects.FlipHorizontally : SpriteEffects.None), GlobalConst.Lem_depth + (NumLemming * 0.00001f));
         }
         if (Explode) // explotando explotando bomber bomber
         {
@@ -1747,7 +1747,7 @@ internal class OneLemming
         if (Breakfloor) // scale POSDraw x-5,y+4 at 1.2f  x-9,y+2 at 1.35f breakfloor breakfloor
         {
             framesale = (Actualframe * SizeSprites.floor_width);
-            spriteBatch.Draw(MyGame.Instance.Sprites.Rompesuelo, new Vector2(PosX - MyGame.Instance.ScreenInGame.ScrollX + SizeSprites.floor_xpos, PosY + SizeSprites.floor_ypos - MyGame.Instance.ScreenInGame.ScrollY), new Rectangle(framesale, 0, SizeSprites.floor_width, SizeSprites.floor_height), (Onmouse ? Color.Red : Color.White), 0f, Vector2.Zero, SizeSprites.floor_size, SpriteEffects.None, GlobalConst.Lem_depth + (NumLemming * 0.00001f));
+            spriteBatch.Draw(MyGame.Instance.Sprites.Flattened, new Vector2(PosX - MyGame.Instance.ScreenInGame.ScrollX + SizeSprites.floor_xpos, PosY + SizeSprites.floor_ypos - MyGame.Instance.ScreenInGame.ScrollY), new Rectangle(framesale, 0, SizeSprites.floor_width, SizeSprites.floor_height), (Onmouse ? Color.Red : Color.White), 0f, Vector2.Zero, SizeSprites.floor_size, SpriteEffects.None, GlobalConst.Lem_depth + (NumLemming * 0.00001f));
             if (Actualframe == SizeSprites.floor_frames - 1)
             {
                 Dead = true;

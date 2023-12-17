@@ -28,6 +28,26 @@ internal class Gfx
     internal Texture2D Flame { get; private set; }
     internal Texture2D Spider { get; private set; }
     internal Texture2D Fire { get; private set; }
+    internal Texture2D Lava { get; private set; }
+    internal Texture2D FireJet { get; private set; }
+    internal Texture2D DeadSpin { get; private set; }
+    internal Texture2D Arrow { get; private set; }
+    internal Texture2D Fire2 { get; private set; }
+    internal Texture2D DeadPiston { get; private set; }
+    internal Texture2D WolfTrap { get; private set; }
+    internal Texture2D DeadPiston2 { get; private set; }
+    internal Texture2D DeadHanged { get; private set; }
+    internal Texture2D FireJet2 { get; private set; }
+    internal Texture2D DeadAnvil { get; private set; }
+    internal Texture2D DeadSpadeLeft { get; private set; }
+    internal Texture2D DeadSpadeRight { get; private set; }
+    internal Texture2D Arrow2 { get; private set; }
+    internal Texture2D DeadLaser { get; private set; }
+    internal Texture2D DeadClam { get; private set; }
+    internal Texture2D DeadBell { get; private set; }
+    internal Texture2D Cloud1 { get; private set; }
+    internal Texture2D Cloud2 { get; private set; }
+    internal Texture2D Torch { get; private set; }
 
     internal void Load(GraphicsDevice GraphicsDevice, ContentManager content)
     {
@@ -52,6 +72,26 @@ internal class Gfx
         Flame = content.Load<Texture2D>("sprite/flame");
         Spider = content.Load<Texture2D>("touch/arana");
         Fire = content.Load<Texture2D>("touch/fire_sprites_other");
+        Lava = content.Load<Texture2D>("traps/fuego1");
+        FireJet = content.Load<Texture2D>("traps/fuego4");
+        DeadSpin = content.Load<Texture2D>("traps/dead_spin");
+        Arrow = content.Load<Texture2D>("fondos/arrow1");
+        Fire2 = content.Load<Texture2D>("traps/fuego2");
+        DeadPiston = content.Load<Texture2D>("traps/dead_marble");
+        WolfTrap = content.Load<Texture2D>("traps/dead_trampa");
+        DeadPiston2 = content.Load<Texture2D>("traps/dead_marble2_fix");
+        DeadHanged = content.Load<Texture2D>("traps/dead_soga");
+        FireJet2 = content.Load<Texture2D>("traps/fuego3");
+        DeadAnvil = content.Load<Texture2D>("traps/dead_10");
+        DeadSpadeLeft = content.Load<Texture2D>("traps/dead_arrow_left");
+        DeadSpadeRight = content.Load<Texture2D>("traps/dead_arrow_right");
+        Arrow2 = content.Load<Texture2D>("fondos/arrow2");
+        DeadLaser = content.Load<Texture2D>("traps/dead_laser");
+        DeadClam = content.Load<Texture2D>("traps/dead_almeja");
+        DeadBell = content.Load<Texture2D>("traps/dead_bombona");
+        Cloud1 = content.Load<Texture2D>("sprite/nube1");
+        Cloud2 = content.Load<Texture2D>("sprite/nube2");
+        Torch = content.Load<Texture2D>("antorcha_l2");
     }
 
     internal void DrawLine(SpriteBatch sb, Vector2 start, Vector2 end, Color pintado, Int32 grosor, float layer)

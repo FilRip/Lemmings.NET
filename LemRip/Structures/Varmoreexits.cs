@@ -4,5 +4,5 @@ namespace Lemmings.NET.Structs;
 
 internal struct Varmoreexits
 {
-    public Vector2 exitMoreXY;
+    public Vector2 ExitMoreXY;
 }

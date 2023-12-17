@@ -419,31 +419,31 @@ internal class InGame
         {
             foreach (Varplat plat in Plats)
             {
-                if (plat.frame > plat.framesecond)
+                if (plat.Frame > plat.Framesecond)
                 {
-                    bool goUP = plat.up;
+                    bool goUP = plat.Up;
                     plat.SetFrame(0);
                     if (goUP)
-                        plat.SetActStep(plat.actStep + 1);
+                        plat.SetActStep(plat.ActStep + 1);
                     else
-                        plat.SetActStep(plat.actStep - 1);
+                        plat.SetActStep(plat.ActStep - 1);
                     if (goUP)
-                        plat.SetAreaDrawX(plat.areaDraw.Y - plat.step);
+                        plat.SetAreaDrawX(plat.AreaDraw.Y - plat.Step);
                     else
-                        plat.SetAreaDrawY(plat.areaDraw.Y + plat.step);
-                    if (plat.actStep >= plat.numSteps - 1)
+                        plat.SetAreaDrawY(plat.AreaDraw.Y + plat.Step);
+                    if (plat.ActStep >= plat.NumSteps - 1)
                         plat.SetUp(false);
-                    if (plat.actStep < 1)
+                    if (plat.ActStep < 1)
                         plat.SetUp(true);
-                    int px = plat.areaDraw.X - (plat.areaDraw.Width / 2);
-                    alto = plat.step * plat.numSteps;
-                    int positioYOrig = plat.areaDraw.Y + (plat.actStep * plat.step);
+                    int px = plat.AreaDraw.X - (plat.AreaDraw.Width / 2);
+                    alto = plat.Step * plat.NumSteps;
+                    int positioYOrig = plat.AreaDraw.Y + (plat.ActStep * plat.Step);
                     bool realLine = false;
                     for (int y55 = 0; y55 < alto; y55++)
                     {
-                        for (int x55 = 0; x55 < plat.areaDraw.Width; x55++)
+                        for (int x55 = 0; x55 < plat.AreaDraw.Width; x55++)
                         {
-                            if (y55 == (alto - 1) - plat.actStep * plat.step)
+                            if (y55 == (alto - 1) - plat.ActStep * plat.Step)
                                 realLine = true;
                             if (realLine)
                             {
@@ -459,28 +459,28 @@ internal class InGame
                     if (MyGame.Instance.DebugOsd.Debug)
                         Earth.SetData(C25, 0, Earth.Width * Earth.Height); //set this only for debugger and see the real c25 redraw
                 }
-                plat.SetFrame(plat.frame + 1);
+                plat.SetFrame(plat.Frame + 1);
             }
         }
 
         if (AddsON && !GlobalConst.Paused)
         {
-            int startposy = Adds[0].sprite.Height / Adds[0].numFrames; // height of each frame inside the whole sprite
-            int framepos = startposy * Adds[0].actFrame; // actual y position of the frame
-            int ancho = Adds[0].sprite.Width;
+            int startposy = Adds[0].Sprite.Height / Adds[0].NumFrames; // height of each frame inside the whole sprite
+            int framepos = startposy * Adds[0].ActFrame; // actual y position of the frame
+            int ancho = Adds[0].Sprite.Width;
             int amount = ancho * startposy; // height frame
             rectangleFill.X = 0;
             rectangleFill.Y = framepos;
             rectangleFill.Width = ancho;
             rectangleFill.Height = startposy;
-            Adds[0].sprite.GetData(0, rectangleFill, Colormask22, 0, amount);
-            rectangleFill.X = Adds[0].areaDraw.X;
-            rectangleFill.Y = Adds[0].areaDraw.Y;
+            Adds[0].Sprite.GetData(0, rectangleFill, Colormask22, 0, amount);
+            rectangleFill.X = Adds[0].AreaDraw.X;
+            rectangleFill.Y = Adds[0].AreaDraw.Y;
             rectangleFill.Width = ancho;
             rectangleFill.Height = startposy;
             Earth.SetData(0, rectangleFill, Colormask22, 0, amount);
-            int py = Adds[0].areaDraw.Y;
-            int px = Adds[0].areaDraw.X;
+            int py = Adds[0].AreaDraw.Y;
+            int px = Adds[0].AreaDraw.X;
             int cantidad99 = 0;
             for (int yy99 = 0; yy99 < startposy; yy99++)
             {
@@ -491,34 +491,34 @@ internal class InGame
                     cantidad99++;
                 }
             }
-            if (Adds[0].frame > Adds[0].framesecond)
+            if (Adds[0].Frame > Adds[0].Framesecond)
             {
-                Adds[0].frame = 0;
-                Adds[0].actFrame++;
-                if (Adds[0].actFrame >= Adds[0].numFrames)
-                    Adds[0].actFrame = 0;
+                Adds[0].Frame = 0;
+                Adds[0].ActFrame++;
+                if (Adds[0].ActFrame >= Adds[0].NumFrames)
+                    Adds[0].ActFrame = 0;
             }
-            Adds[0].frame++;
+            Adds[0].Frame++;
         }
         if (TrapsON && Drawing && !GlobalConst.Paused)
         {
             for (int s = 0; s < NumTotTraps; s++)
             {
-                if (!Trap[s].isOn)
+                if (!Trap[s].IsOn)
                 {
-                    Trap[s].actFrame++;
-                    if (Trap[s].actFrame > Trap[s].numFrames - 1)
-                        Trap[s].actFrame = 0;
-                    if (Trap[s].type == 666)
-                        Trap[s].actFrame = 0;
+                    Trap[s].ActFrame++;
+                    if (Trap[s].ActFrame > Trap[s].NumFrames - 1)
+                        Trap[s].ActFrame = 0;
+                    if (Trap[s].Type == 666)
+                        Trap[s].ActFrame = 0;
                 }
                 else
                 {
-                    Trap[s].actFrame++;
-                    if (Trap[s].actFrame > Trap[s].numFrames - 1)
+                    Trap[s].ActFrame++;
+                    if (Trap[s].ActFrame > Trap[s].NumFrames - 1)
                     {
-                        Trap[s].isOn = false;
-                        Trap[s].actFrame = 0;
+                        Trap[s].IsOn = false;
+                        Trap[s].ActFrame = 0;
                     }
                 }
             }
@@ -597,13 +597,13 @@ internal class InGame
         {
             for (int xz = 0; xz < NumTotArrow; xz++)
             {
-                amount22 = Arrow[xz].area.Width * Arrow[xz].area.Height;
-                Arrow[xz].flechas.GetData(Colormask22, 0, Arrow[xz].flechas.Height * Arrow[xz].flechas.Width);
+                amount22 = Arrow[xz].Area.Width * Arrow[xz].Area.Height;
+                Arrow[xz].Arrow.GetData(Colormask22, 0, Arrow[xz].Arrow.Height * Arrow[xz].Arrow.Width);
                 //////// optimized for hd3000 laptop ARROWS OPTIMIZED
-                int py = Arrow[xz].area.Y;
-                int px = Arrow[xz].area.X;
-                int alto66 = Arrow[xz].area.Height;
-                int ancho66 = Arrow[xz].area.Width;
+                int py = Arrow[xz].Area.Y;
+                int px = Arrow[xz].Area.X;
+                int alto66 = Arrow[xz].Area.Height;
+                int ancho66 = Arrow[xz].Area.Width;
                 amount22 = 0;
                 for (int yy88 = 0; yy88 < alto66; yy88++)
                 {
@@ -614,21 +614,21 @@ internal class InGame
                         amount22++;
                     }
                 }
-                if (!Arrow[xz].right) //left arrows
+                if (!Arrow[xz].Right) //left arrows
                 {
-                    Arrow[xz].desplaza++;
-                    if (Arrow[xz].desplaza < 0)
+                    Arrow[xz].Moving++;
+                    if (Arrow[xz].Moving < 0)
                     {
-                        Arrow[xz].desplaza = Arrow[xz].flechas.Width - 1;
+                        Arrow[xz].Moving = Arrow[xz].Arrow.Width - 1;
                     }
-                    for (int y4 = 0; y4 < Arrow[xz].area.Height; y4++)
+                    for (int y4 = 0; y4 < Arrow[xz].Area.Height; y4++)
                     {
-                        for (int x4 = 0; x4 < Arrow[xz].area.Width; x4++)
+                        for (int x4 = 0; x4 < Arrow[xz].Area.Width; x4++)
                         {
-                            int posy456 = y4 % Arrow[xz].flechas.Height;
-                            int posx456 = x4 % Arrow[xz].flechas.Width;
-                            posx456 = (Arrow[xz].flechas.Width - 1) - ((posx456 + Arrow[xz].desplaza) % Arrow[xz].flechas.Width); // left perfecto
-                            Colormasktotal[(y4 * Arrow[xz].area.Width) + x4].PackedValue = Colormask22[(posy456 * Arrow[xz].flechas.Width) + posx456].PackedValue;
+                            int posy456 = y4 % Arrow[xz].Arrow.Height;
+                            int posx456 = x4 % Arrow[xz].Arrow.Width;
+                            posx456 = (Arrow[xz].Arrow.Width - 1) - ((posx456 + Arrow[xz].Moving) % Arrow[xz].Arrow.Width); // left perfecto
+                            Colormasktotal[(y4 * Arrow[xz].Area.Width) + x4].PackedValue = Colormask22[(posy456 * Arrow[xz].Arrow.Width) + posx456].PackedValue;
                         }
                     }
                     for (int r = 0; r < amount22; r++)
@@ -638,23 +638,23 @@ internal class InGame
                             Colorsobre22[r].PackedValue = Colormasktotal[r].PackedValue;
                         }
                     }
-                    Arrow[xz].flechassobre.SetData(Colorsobre22, 0, Arrow[xz].flechassobre.Height * Arrow[xz].flechassobre.Width);
+                    Arrow[xz].EnvelopArrow.SetData(Colorsobre22, 0, Arrow[xz].EnvelopArrow.Height * Arrow[xz].EnvelopArrow.Width);
                 }
                 else //right arrows
                 {
-                    Arrow[xz].desplaza--;
-                    if (Arrow[xz].desplaza < 0)
+                    Arrow[xz].Moving--;
+                    if (Arrow[xz].Moving < 0)
                     {
-                        Arrow[xz].desplaza = Arrow[xz].flechas.Width - 1;
+                        Arrow[xz].Moving = Arrow[xz].Arrow.Width - 1;
                     }
-                    for (int y4 = 0; y4 < Arrow[xz].area.Height; y4++)
+                    for (int y4 = 0; y4 < Arrow[xz].Area.Height; y4++)
                     {
-                        for (int x4 = 0; x4 < Arrow[xz].area.Width; x4++)
+                        for (int x4 = 0; x4 < Arrow[xz].Area.Width; x4++)
                         {
-                            int posy456 = y4 % Arrow[xz].flechas.Height;
-                            int posx456 = x4 % Arrow[xz].flechas.Width;
-                            posx456 = ((posx456 + Arrow[xz].desplaza) % Arrow[xz].flechas.Width);  //Left okok
-                            Colormasktotal[(y4 * Arrow[xz].area.Width) + x4].PackedValue = Colormask22[(posy456 * Arrow[xz].flechas.Width) + posx456].PackedValue;
+                            int posy456 = y4 % Arrow[xz].Arrow.Height;
+                            int posx456 = x4 % Arrow[xz].Arrow.Width;
+                            posx456 = ((posx456 + Arrow[xz].Moving) % Arrow[xz].Arrow.Width);  //Left okok
+                            Colormasktotal[(y4 * Arrow[xz].Area.Width) + x4].PackedValue = Colormask22[(posy456 * Arrow[xz].Arrow.Width) + posx456].PackedValue;
                         }
                     }
                     for (int r = 0; r < amount22; r++)
@@ -664,7 +664,7 @@ internal class InGame
                             Colorsobre22[r].PackedValue = Colormasktotal[r].PackedValue;
                         }
                     }
-                    Arrow[xz].flechassobre.SetData(Colorsobre22, 0, Arrow[xz].flechassobre.Height * Arrow[xz].flechassobre.Width);
+                    Arrow[xz].EnvelopArrow.SetData(Colorsobre22, 0, Arrow[xz].EnvelopArrow.Height * Arrow[xz].EnvelopArrow.Width);
                 }
             }
         }
@@ -733,11 +733,11 @@ internal class InGame
         {
             foreach (Vartraps trap in Trap)
             {
-                int tYheight = trap.sprite.Height / trap.numFrames;
-                if (trap.type != 555 && trap.type != 666)
+                int tYheight = trap.Sprite.Height / trap.NumFrames;
+                if (trap.Type != 555 && trap.Type != 666)
                 {
                     int vv444 = 0;
-                    switch (trap.vvscroll)
+                    switch (trap.Vvscroll)
                     {
                         case 1:
                             vv444 = z1;
@@ -751,49 +751,49 @@ internal class InGame
                     colorFill.R = 255;
                     colorFill.G = 255;
                     colorFill.B = 255;
-                    colorFill.A = trap.transparency;
+                    colorFill.A = trap.Transparency;
                     if (trap.R != 255 && trap.R > 0)
                         colorFill.R = trap.R;
                     if (trap.G != 255 && trap.G > 0)
                         colorFill.G = trap.G;
                     if (trap.B != 255 && trap.B > 0)
                         colorFill.B = trap.B;
-                    rectangleFill.X = trap.areaDraw.X - ScrollX;
-                    rectangleFill.Y = trap.areaDraw.Y - ScrollY;
-                    rectangleFill.Width = trap.areaDraw.Width;
+                    rectangleFill.X = trap.AreaDraw.X - ScrollX;
+                    rectangleFill.Y = trap.AreaDraw.Y - ScrollY;
+                    rectangleFill.Width = trap.AreaDraw.Width;
                     rectangleFill.Height = tYheight;
                     rectangleFill2.X = 0 + vv444;
-                    rectangleFill2.Y = tYheight * trap.actFrame;
-                    rectangleFill2.Width = trap.areaDraw.Width;
+                    rectangleFill2.Y = tYheight * trap.ActFrame;
+                    rectangleFill2.Width = trap.AreaDraw.Width;
                     rectangleFill2.Height = tYheight;
-                    spriteBatch.Draw(trap.sprite, rectangleFill, rectangleFill2, colorFill, 0f, Vector2.Zero, SpriteEffects.None, trap.depth);
+                    spriteBatch.Draw(trap.Sprite, rectangleFill, rectangleFill2, colorFill, 0f, Vector2.Zero, SpriteEffects.None, trap.Depth);
                 }
                 else
                 {
                     colorFill.R = 255;
                     colorFill.G = 255;
                     colorFill.B = 255;
-                    colorFill.A = trap.transparency;
+                    colorFill.A = trap.Transparency;
                     if (trap.R != 255 && trap.R > 0)
                         colorFill.R = trap.R;
                     if (trap.G != 255 && trap.G > 0)
                         colorFill.G = trap.G;
                     if (trap.B != 255 && trap.B > 0)
                         colorFill.B = trap.B;
-                    int spY = trap.sprite.Height / trap.numFrames;
-                    rectangleFill.X = (int)trap.pos.X - ScrollX - trap.vvX;
-                    rectangleFill.Y = (int)trap.pos.Y - trap.vvY - ScrollY;
-                    rectangleFill.Width = trap.sprite.Width;
+                    int spY = trap.Sprite.Height / trap.NumFrames;
+                    rectangleFill.X = (int)trap.Pos.X - ScrollX - trap.VvX;
+                    rectangleFill.Y = (int)trap.Pos.Y - trap.VvY - ScrollY;
+                    rectangleFill.Width = trap.Sprite.Width;
                     rectangleFill.Height = spY;
                     rectangleFill2.X = 0;
-                    rectangleFill2.Y = spY * trap.actFrame;
-                    rectangleFill2.Width = trap.sprite.Width;
+                    rectangleFill2.Y = spY * trap.ActFrame;
+                    rectangleFill2.Width = trap.Sprite.Width;
                     rectangleFill2.Height = spY;
-                    spriteBatch.Draw(trap.sprite, rectangleFill, rectangleFill2, colorFill, 0f, Vector2.Zero, SpriteEffects.None, trap.depth);
+                    spriteBatch.Draw(trap.Sprite, rectangleFill, rectangleFill2, colorFill, 0f, Vector2.Zero, SpriteEffects.None, trap.Depth);
                 }
                 if (MyGame.Instance.DebugOsd.Debug)
                 {
-                    spriteBatch.Draw(MyGame.Instance.Gfx.Texture1pixel, new Rectangle(trap.areaTrap.Left - ScrollX, trap.areaTrap.Top - ScrollY, trap.areaTrap.Width, trap.areaTrap.Height),
+                    spriteBatch.Draw(MyGame.Instance.Gfx.Texture1pixel, new Rectangle(trap.AreaTrap.Left - ScrollX, trap.AreaTrap.Top - ScrollY, trap.AreaTrap.Width, trap.AreaTrap.Height),
                         null, new Color(255, 255, 255, 140), 0f, Vector2.Zero, SpriteEffects.None, 0.1f);
                 }
             }
@@ -844,9 +844,9 @@ internal class InGame
         {
             for (int xz = 0; xz < NumTotArrow; xz++)
             {
-                spriteBatch.Draw(Arrow[xz].flechassobre, new Vector2(Arrow[xz].area.X - ScrollX, Arrow[xz].area.Y - ScrollY),
-                    new Rectangle(0, 0, Arrow[xz].flechassobre.Width, Arrow[xz].flechassobre.Height),
-                    new Color(255, 255, 255, Arrow[xz].transparency), 0f, Vector2.Zero, 1f, SpriteEffects.None, 0.499f);
+                spriteBatch.Draw(Arrow[xz].EnvelopArrow, new Vector2(Arrow[xz].Area.X - ScrollX, Arrow[xz].Area.Y - ScrollY),
+                    new Rectangle(0, 0, Arrow[xz].EnvelopArrow.Width, Arrow[xz].EnvelopArrow.Height),
+                    new Color(255, 255, 255, Arrow[xz].Transparency), 0f, Vector2.Zero, 1f, SpriteEffects.None, 0.499f);
             }
         }
 
@@ -927,11 +927,11 @@ internal class InGame
         {
             foreach (Varplat plat in Plats)
             {
-                int x2 = plat.areaDraw.X - plat.areaDraw.Width / 2;
-                int y = plat.areaDraw.Y;
-                int w = plat.sprite.Width;
-                int h = plat.sprite.Height;
-                spriteBatch.Draw(plat.sprite, new Rectangle(x2 - ScrollX, y - ScrollY - 5, plat.areaDraw.Width, plat.areaDraw.Height),
+                int x2 = plat.AreaDraw.X - plat.AreaDraw.Width / 2;
+                int y = plat.AreaDraw.Y;
+                int w = plat.Sprite.Width;
+                int h = plat.Sprite.Height;
+                spriteBatch.Draw(plat.Sprite, new Rectangle(x2 - ScrollX, y - ScrollY - 5, plat.AreaDraw.Width, plat.AreaDraw.Height),
                     new Rectangle(0, 0, w, h), Color.White, 0f, Vector2.Zero, SpriteEffects.None, 0.56f);
             }
         }
@@ -942,7 +942,7 @@ internal class InGame
         }
         else
         {
-            foreach (Vector2 moreDoor in MoreDoors.Select(m => m.doorMoreXY))
+            foreach (Vector2 moreDoor in MoreDoors.Select(m => m.DoorMoreXY))
             {
                 door1X = (int)moreDoor.X;
                 door1Y = (int)moreDoor.Y;
@@ -975,7 +975,7 @@ internal class InGame
         {
             if (Moreexits != null)
             {
-                foreach (Vector2 moreExits in Moreexits.Select(m => m.exitMoreXY))
+                foreach (Vector2 moreExits in Moreexits.Select(m => m.ExitMoreXY))
                 {
                     output1X = (int)moreExits.X;
                     output1Y = (int)moreExits.Y;
@@ -1418,8 +1418,8 @@ internal class InGame
         {
             if (NumTOTdoors > 1 && MoreDoors != null) // more than 1 door is different calculation
             {
-                door1Y = (int)MoreDoors[NumACTdoor].doorMoreXY.Y;
-                door1X = (int)MoreDoors[NumACTdoor].doorMoreXY.X;
+                door1Y = (int)MoreDoors[NumACTdoor].DoorMoreXY.Y;
+                door1X = (int)MoreDoors[NumACTdoor].DoorMoreXY.X;
                 NumACTdoor++;
                 if (NumACTdoor >= NumTOTdoors)
                     NumACTdoor = 0;
@@ -1490,7 +1490,7 @@ internal class InGame
             {
                 if (Moreexits != null)
                 {
-                    foreach (Vector2 moreExitPos in Moreexits.Select(me => me.exitMoreXY)) // more than one EXIT place
+                    foreach (Vector2 moreExitPos in Moreexits.Select(me => me.ExitMoreXY)) // more than one EXIT place
                     {
                         output1X = (int)moreExitPos.X;
                         output1Y = (int)moreExitPos.Y;

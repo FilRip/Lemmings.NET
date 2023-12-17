@@ -5,15 +5,16 @@ namespace Lemmings.NET.Structs;
 
 internal struct Vartraps
 {
-    internal int type, vvX, vvY, numFrames, actFrame, vvscroll;
-    internal byte R, G, B, transparency;
-    internal Rectangle areaDraw, areaTrap;
-    internal Vector2 pos;
-    internal float depth;
-    internal bool isOn;
-    internal Texture2D sprite;
+    internal int Type, VvX, VvY, NumFrames, ActFrame, Vvscroll;
+    internal byte R, G, B, Transparency;
+    internal Rectangle AreaDraw, AreaTrap;
+    internal Vector2 Pos;
+    internal float Depth;
+    internal bool IsOn;
+    internal Texture2D Sprite;
+
     internal void SetIsOn(bool value)
     {
-        isOn = value;
+        IsOn = value;
     }
 }

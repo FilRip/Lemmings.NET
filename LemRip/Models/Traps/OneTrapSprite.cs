@@ -13,13 +13,9 @@ internal class OneTrapSprite : OneTrap
 
     internal int AxisY { get; set; }
 
-    internal int ActFrame { get; set; }
-
     internal Color Color { get; set; }
 
     internal int Framesecond { get; set; }
-
-    internal int Frame { get; set; }
 
     internal int ActVect { get; set; }
 

@@ -5,28 +5,29 @@ namespace Lemmings.NET.Structs;
 
 internal struct Varplat
 {
-    public int frame, framesecond, numSteps, actStep, step;
-    public bool up;
-    public Rectangle areaDraw;
-    public Texture2D sprite;
+    public int Frame, Framesecond, NumSteps, ActStep, Step;
+    public bool Up;
+    public Rectangle AreaDraw;
+    public Texture2D Sprite;
+
     internal void SetFrame(int newFrame)
     {
-        frame = newFrame;
+        Frame = newFrame;
     }
     internal void SetUp(bool newUp)
     {
-        up = newUp;
+        Up = newUp;
     }
     internal void SetActStep(int newActStep)
     {
-        actStep = newActStep;
+        ActStep = newActStep;
     }
     internal void SetAreaDrawX(int x)
     {
-        areaDraw.X = x;
+        AreaDraw.X = x;
     }
     internal void SetAreaDrawY(int y)
     {
-        areaDraw.Y = y;
+        AreaDraw.Y = y;
     }
 }

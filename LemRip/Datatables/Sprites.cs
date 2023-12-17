@@ -23,10 +23,10 @@ internal class Sprites
     internal Texture2D Paraguas { get; private set; }
     internal Texture2D Puente { get; private set; }
     internal Texture2D Pausa { get; private set; }
-    internal Texture2D Pared { get; private set; }
-    internal Texture2D Pico { get; private set; }
+    internal Texture2D HorizontalDigger { get; private set; }
+    internal Texture2D Miner { get; private set; }
     internal Texture2D Bomba { get; private set; }
-    internal Texture2D Rompesuelo { get; private set; }
+    internal Texture2D Flattened { get; private set; }
     internal Texture2D Water2 { get; private set; }
     internal Texture2D Nubes_2 { get; private set; }
     internal Texture2D Nubes { get; private set; }
@@ -52,9 +52,9 @@ internal class Sprites
         Menos = content.Load<Texture2D>("menos");
         Paraguas = content.Load<Texture2D>("paraguas");
         Puente = content.Load<Texture2D>("puente");
-        Pared = content.Load<Texture2D>("pared");
-        Rompesuelo = content.Load<Texture2D>("rompesuelo");
-        Pico = content.Load<Texture2D>("pico");
+        HorizontalDigger = content.Load<Texture2D>("pared");
+        Flattened = content.Load<Texture2D>("rompesuelo");
+        Miner = content.Load<Texture2D>("pico");
         Pausa = content.Load<Texture2D>("pausa");
         Bomba = content.Load<Texture2D>("bomba");
         Cuadrado_menu = content.Load<Texture2D>("border");

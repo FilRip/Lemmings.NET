@@ -5,8 +5,8 @@ namespace Lemmings.NET.Structs;
 
 internal struct Vararrows
 {
-    internal Rectangle area;
-    internal bool right;
-    internal Texture2D flechas, flechassobre;
-    internal int desplaza, transparency;
+    internal Rectangle Area;
+    internal bool Right;
+    internal Texture2D Arrow, EnvelopArrow;
+    internal int Moving, Transparency;
 }
