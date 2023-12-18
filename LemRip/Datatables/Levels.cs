@@ -80,8 +80,9 @@ internal static class Levels
                     j++;
                     if (string.IsNullOrWhiteSpace(iniFile.ReadString(section, $"Path{j}")))
                         break;
-                    spr.Path.Add(iniFile.ReadVector3(section, $"Path{j}"));
+                    spr.Path = spr.Path.Add(iniFile.ReadVector3(section, $"Path{j}"));
                 }
+                lvl.ListTraps.Add(spr);
             }
         }
 
@@ -106,6 +107,22 @@ internal static class Levels
                     VvX = iniFile.ReadInteger(section, "vvx"),
                     VvY = iniFile.ReadInteger(section, "vvy"),
                 };
+                lvl.ListTraps.Add(trap);
+            }
+        }
+
+        int nbSteel = iniFile.NumberOfSection("steel");
+        if (nbSteel > 0)
+        {
+            OneSteel steel;
+            for (int i = 1; i < nbSteel; i++)
+            {
+                section = $"steel{i}";
+                steel = new OneSteel()
+                {
+                    Area = iniFile.ReadRectangle(section, "area"),
+                };
+                lvl.ListTraps.Add(steel);
             }
         }
 

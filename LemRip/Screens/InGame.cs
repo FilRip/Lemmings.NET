@@ -269,7 +269,7 @@ internal class InGame
         ScrollY = 0;
         AllLemmings = [];
         if (newLevel == 1)
-            _listTraps = MyGame.Instance.Props.GetTraps(newLevel);
+            _listTraps = CurrentLevel.ListTraps.Where(t => t.TypeTrap == ETypeTrap.Sprite).ToList();
         else
             Levels.VariablesTraps();
     }

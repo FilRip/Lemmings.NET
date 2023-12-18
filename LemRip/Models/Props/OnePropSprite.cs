@@ -62,18 +62,18 @@ internal class OnePropSprite : OneProp
         }
         if (Typescroll > 0)
         {
-            Pos = new(Pos.X - Typescroll, Pos.Y);
+            Pos.X -= Typescroll;
             if (Pos.X < 0 - (Sprite.Width * Scale))
-                Pos = new(GlobalConst.GameResolution.X, Pos.Y);
+                Pos.X = GlobalConst.GameResolution.X;
             if (Pos.X > GlobalConst.GameResolution.X)
-                Pos = new(-100, Pos.Y);
+                Pos.X = -100;
             spriteBatch.Draw(Sprite, new Vector2(Pos.X, Pos.Y - MyGame.Instance.ScreenInGame.ScrollY),
-            new Rectangle(sx1, sy1, swidth, sheight), Color,
+                new Rectangle(sx1, sy1, swidth, sheight), Color,
                 Rotation, Vector2.Zero, Scale, SpriteEffects.None, Depth);
         }
         else
         {
-            if (Sprite.Name == "touch/arana") // 64x64 sprite frame size
+            if (Sprite.Name == MyGame.Instance.Gfx.Spider.Name) // 64x64 sprite frame size
             {
                 int xxAnim;
                 if (MinusScrollX)
@@ -81,8 +81,8 @@ internal class OnePropSprite : OneProp
                 else
                     xxAnim = (int)Pos.X + 32;
                 spriteBatch.Draw(Sprite, new Vector2(xxAnim, Pos.Y - MyGame.Instance.ScreenInGame.ScrollY - 32),
-                new Rectangle(sx1, sy1, swidth, sheight), Color,
-                Rotation, Center, Scale, SpriteEffects.None, Depth);
+                    new Rectangle(sx1, sy1, swidth, sheight), Color,
+                    Rotation, Center, Scale, SpriteEffects.None, Depth);
             }
             else
             {
@@ -92,7 +92,7 @@ internal class OnePropSprite : OneProp
                 else
                     xxAnim = (int)Pos.X;
                 spriteBatch.Draw(Sprite, new Vector2(xxAnim, Pos.Y - MyGame.Instance.ScreenInGame.ScrollY),
-                new Rectangle(sx1, sy1, swidth, sheight), Color,
+                    new Rectangle(sx1, sy1, swidth, sheight), Color,
                     Rotation, Vector2.Zero, Scale, SpriteEffects.None, Depth);
             }
         }

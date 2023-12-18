@@ -5,18 +5,13 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Lemmings.NET.Models.Props
 {
-    internal class OneTrap : OneProp
+    internal class OneSteel : OneProp
     {
-        internal int Type, VvX, VvY, NumFrames, Vvscroll;
-        internal Color Color;
-        internal Rectangle AreaDraw, AreaTrap;
-        internal float Depth;
-        internal bool IsOn;
-        internal Texture2D Sprite;
+        internal Rectangle Area;
 
         internal override ETypeTrap TypeTrap
         {
-            get { return ETypeTrap.Trap; }
+            get { return ETypeTrap.Steel; }
         }
 
         internal override void Draw(SpriteBatch spriteBatch)

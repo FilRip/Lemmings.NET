@@ -9,7 +9,7 @@ internal abstract class OneProp
 {
     internal abstract ETypeTrap TypeTrap { get; }
 
-    internal Vector2 Pos { get; set; }
+    protected Vector2 Pos;
 
     internal int ActFrame { get; set; }
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 
 using Lemmings.NET.Constants;
 using Lemmings.NET.Datatables;
@@ -32,6 +33,7 @@ internal class MainMenu
     {
         get { return _mainMenuGfx; }
     }
+
     public int MouseLevelChoose
     {
         get { return _mouseLevelChoose; }
@@ -40,6 +42,10 @@ internal class MainMenu
             if (_mouseLevelChoose != value)
             {
                 _mouseLevelChoose = value;
+                if (value == 0)
+                {
+                    Debug.WriteLine($"Loading level {value} by {new StackTrace(true).GetFrame(1)}");
+                }
                 _currentMouseLevel = Levels.GetLevel(value);
             }
         }
@@ -264,7 +270,7 @@ internal class MainMenu
             int mmx = mmX;
             int mmy = 130;
             x = new Point(Input.CurrentMouseState.Position.X, Input.CurrentMouseState.Position.Y);
-            MouseLevelChoose = 0;
+            //MouseLevelChoose = 0;
             for (int s = 1; s < (_levelCategory == ELevelCategory.Bonus ? 37 : 31); s++)
             {
                 Rectangle mmlev = new(mmx, mmy, 130, 55);

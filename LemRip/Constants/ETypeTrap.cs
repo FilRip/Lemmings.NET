@@ -7,4 +7,5 @@ internal enum ETypeTrap
     Plat = 2,
     Add = 3,
     Arrow = 4,
+    Trap = 5,
 }

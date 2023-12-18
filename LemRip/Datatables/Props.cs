@@ -2,9 +2,6 @@
 using System.Linq;
 
 using Lemmings.NET.Models;
-using Lemmings.NET.Models.Props;
-
-using Microsoft.Xna.Framework;
 
 namespace Lemmings.NET.Datatables;
 
@@ -12,7 +9,6 @@ internal class Props
 {
     private List<OneEntry> _listDoors;
     private List<OneExit> _listExits;
-    private List<OneProp> _listTrap;
 
     internal OneEntry GetEntry(int id)
     {
@@ -22,13 +18,6 @@ internal class Props
     internal OneExit GetExit(int id)
     {
         return _listExits.Single(e => e.Id == id);
-    }
-
-    internal List<OneProp> GetTraps(int numLevel)
-    {
-        if (numLevel == 1)
-            return _listTrap;
-        return [];
     }
 
     private void LoadDoors()
@@ -245,32 +234,9 @@ internal class Props
         _listExits.Add(exit);
     }
 
-    private void LoadTraps()
-    {
-        _listTrap = [];
-        OnePropSprite trap;
-
-        trap = new()
-        {
-            ActFrame = 0,
-            AxisX = 4,
-            AxisY = 4,
-            Depth = 0.806f,
-            Color = new Color(255, 255, 255, 200),
-            Scale = 9f,
-            Rotation = 0f,
-            Framesecond = 4,
-            Frame = 0,
-            Sprite = MyGame.Instance.Gfx.MagmaMask,
-            MinusScrollX = false,
-        };
-        _listTrap.Add(trap);
-    }
-
     internal void Load()
     {
         LoadDoors();
         LoadExits();
-        LoadTraps();
     }
 }
