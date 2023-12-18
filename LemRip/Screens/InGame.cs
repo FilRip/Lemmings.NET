@@ -142,7 +142,7 @@ internal class InGame
     private Texture2D salida_ani1, salida_ani1_1;
     private Texture2D puerta_ani;
     private readonly InGameMenu _inGameMenu;
-    private List<OneTrap> _listTraps;
+    private List<OneProp> _listTraps;
 
     #endregion
 
@@ -407,7 +407,7 @@ internal class InGame
         }
         else if (_listTraps != null)
         {
-            foreach (OneTrap trap in _listTraps)
+            foreach (OneProp trap in _listTraps)
             {
                 trap.Update();
             }
@@ -917,7 +917,7 @@ internal class InGame
         }
         else if (_listTraps != null)
         {
-            foreach (OneTrap trap in _listTraps)
+            foreach (OneProp trap in _listTraps)
             {
                 trap.Draw(spriteBatch);
             }

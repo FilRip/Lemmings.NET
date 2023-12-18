@@ -30,6 +30,9 @@
     <None Remove="Content\obj\**" />
   </ItemGroup>
   <ItemGroup>
+    <None Remove="Models\Props\OneTrap.cs~RFfb8b43.TMP" />
+  </ItemGroup>
+  <ItemGroup>
     <PackageReference Include="MonoGame.Framework.WindowsDX" Version="3.8.1.303" />
     <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.1.303" />
   </ItemGroup>

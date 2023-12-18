@@ -2,7 +2,7 @@
 using System.Linq;
 
 using Lemmings.NET.Models;
-using Lemmings.NET.Models.Traps;
+using Lemmings.NET.Models.Props;
 
 using Microsoft.Xna.Framework;
 
@@ -12,7 +12,7 @@ internal class Props
 {
     private List<OneEntry> _listDoors;
     private List<OneExit> _listExits;
-    private List<OneTrap> _listTrap;
+    private List<OneProp> _listTrap;
 
     internal OneEntry GetEntry(int id)
     {
@@ -24,7 +24,7 @@ internal class Props
         return _listExits.Single(e => e.Id == id);
     }
 
-    internal List<OneTrap> GetTraps(int numLevel)
+    internal List<OneProp> GetTraps(int numLevel)
     {
         if (numLevel == 1)
             return _listTrap;
@@ -248,7 +248,7 @@ internal class Props
     private void LoadTraps()
     {
         _listTrap = [];
-        OneTrapSprite trap;
+        OnePropSprite trap;
 
         trap = new()
         {

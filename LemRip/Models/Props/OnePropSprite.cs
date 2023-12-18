@@ -5,9 +5,9 @@ using Lemmings.NET.Constants;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Lemmings.NET.Models.Traps;
+namespace Lemmings.NET.Models.Props;
 
-internal class OneTrapSprite : OneTrap
+internal class OnePropSprite : OneProp
 {
     internal int AxisX { get; set; }
 

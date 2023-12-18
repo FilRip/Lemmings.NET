@@ -1,4 +1,6 @@
-﻿namespace Lemmings.NET.Models;
+﻿using System.Collections.Generic;
+
+namespace Lemmings.NET.Models;
 
 internal class OneLevel
 {
@@ -35,4 +37,5 @@ internal class OneLevel
     internal int ExitY { get; set; }
     internal int TypeOfExit { get; set; }
     internal float DoorExitDepth { get; set; }
+    internal List<OneProp> ListTraps { get; set; } = [];
 }

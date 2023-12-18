@@ -1,8 +1,10 @@
 ﻿using System;
 using System.IO;
 
+using Lemmings.NET.Constants;
 using Lemmings.NET.Helpers;
 using Lemmings.NET.Models;
+using Lemmings.NET.Models.Props;
 using Lemmings.NET.Structs;
 
 using Microsoft.Xna.Framework;
@@ -18,32 +20,96 @@ internal static class Levels
         if (numLevel == 0)
             return lvl;
 
+		string section = "level";
         ManageIniFile iniFile = ManageIniFile.OpenIniFile(Path.Combine(Environment.CurrentDirectory, MyGame.Instance.Content.RootDirectory, "levels", $"level{numLevel}.ini"));
-        lvl.TotalLemmings = iniFile.ReadInteger("level", "totallemmings");
-        lvl.NameLev = iniFile.ReadString("level", "namelev");
-        lvl.NumberExploders = iniFile.ReadInteger("level", "numberexploders");
-        lvl.NumberBlockers = iniFile.ReadInteger("level", "numberblockers");
-        lvl.NumberBuilders = iniFile.ReadInteger("level", "numberbuilders");
-        lvl.DoorExitDepth = iniFile.ReadFloat("level", "doorexitdepth");
-        lvl.DoorX = iniFile.ReadInteger("level", "doorx");
-        lvl.DoorY = iniFile.ReadInteger("level", "doory");
-        lvl.ExitX = iniFile.ReadInteger("level", "exitx");
-        lvl.ExitY = iniFile.ReadInteger("level", "exity");
-        lvl.FrequencyComming = iniFile.ReadInteger("level", "frequencycomming");
-        lvl.InitPosX = iniFile.ReadInteger("level", "initposx");
-        lvl.MinFrequencyComming = iniFile.ReadInteger("level", "minfrequencycomming");
-        lvl.NameOfLevel = iniFile.ReadString("level", "nameoflevel");
-        lvl.NbLemmingsToSave = iniFile.ReadInteger("level", "nblemmingstosave");
-        lvl.NumberBashers = iniFile.ReadInteger("level", "numberbashers");
-        lvl.NumberClimbers = iniFile.ReadInteger("level", "numberclimbers");
-        lvl.NumberDiggers = iniFile.ReadInteger("level", "numberdiggers");
-        lvl.NumberMiners = iniFile.ReadInteger("level", "numberminers");
-        lvl.NumberUmbrellas = iniFile.ReadInteger("level", "numberumbrellas");
-        lvl.TotalTime = iniFile.ReadInteger("level", "totaltime");
-        lvl.TypeOfDoor = iniFile.ReadInteger("level", "typeofdoor");
-        lvl.TypeOfExit = iniFile.ReadInteger("level", "typeofexit");
-        iniFile.Dispose();
+        lvl.TotalLemmings = iniFile.ReadInteger(section, "totallemmings");
+        lvl.NameLev = iniFile.ReadString(section, "namelev");
+        lvl.NumberExploders = iniFile.ReadInteger(section, "numberexploders");
+        lvl.NumberBlockers = iniFile.ReadInteger(section, "numberblockers");
+        lvl.NumberBuilders = iniFile.ReadInteger(section, "numberbuilders");
+        lvl.DoorExitDepth = iniFile.ReadFloat(section, "doorexitdepth");
+        lvl.DoorX = iniFile.ReadInteger(section, "doorx");
+        lvl.DoorY = iniFile.ReadInteger(section, "doory");
+        lvl.ExitX = iniFile.ReadInteger(section, "exitx");
+        lvl.ExitY = iniFile.ReadInteger(section, "exity");
+        lvl.FrequencyComming = iniFile.ReadInteger(section, "frequencycomming");
+        lvl.InitPosX = iniFile.ReadInteger(section, "initposx");
+        lvl.MinFrequencyComming = iniFile.ReadInteger(section, "minfrequencycomming");
+        lvl.NameOfLevel = iniFile.ReadString(section, "nameoflevel");
+        lvl.NbLemmingsToSave = iniFile.ReadInteger(section, "nblemmingstosave");
+        lvl.NumberBashers = iniFile.ReadInteger(section, "numberbashers");
+        lvl.NumberClimbers = iniFile.ReadInteger(section, "numberclimbers");
+        lvl.NumberDiggers = iniFile.ReadInteger(section, "numberdiggers");
+        lvl.NumberMiners = iniFile.ReadInteger(section, "numberminers");
+        lvl.NumberUmbrellas = iniFile.ReadInteger(section, "numberumbrellas");
+        lvl.TotalTime = iniFile.ReadInteger(section, "totaltime");
+        lvl.TypeOfDoor = iniFile.ReadInteger(section, "typeofdoor");
+        lvl.TypeOfExit = iniFile.ReadInteger(section, "typeofexit");
+		
+		int nbSprite = iniFile.NumberOfSection("sprite");
+        if (nbSprite > 0)
+        {
+            OnePropSprite spr;
+            for (int i = 1; i <= nbSprite; i++)
+            {
+                section = $"sprite{i}";
+                spr = new OnePropSprite()
+                {
+                    ActFrame = iniFile.ReadInteger(section, "actframe"),
+                    AxisX = iniFile.ReadInteger(section, "axisx"),
+                    AxisY = iniFile.ReadInteger(section, "axisy"),
+                    Color = iniFile.ReadColor(section, "color"),
+                    Framesecond = iniFile.ReadInteger(section, "framesecond"),
+                    ActVect = iniFile.ReadInteger(section, "actvect"),
+                    Dest = iniFile.ReadVector2(section, "dest"),
+                    Center = iniFile.ReadVector2(section, "center"),
+                    Depth = iniFile.ReadFloat(section, "depth"),
+                    Rotation = iniFile.ReadFloat(section, "rotation"),
+                    Scale = iniFile.ReadFloat(section, "scale"),
+                    Typescroll = iniFile.ReadFloat(section, "typescroll"),
+                    Speed = iniFile.ReadFloat(section, "speed"),
+                    MinusScrollX = iniFile.ReadBoolean(section, "minusscrollx"),
+                    Minus = iniFile.ReadBoolean(section, "minus"),
+                    Calc = iniFile.ReadBoolean(section, "calc"),
+                    Sprite = iniFile.ReadEnum<EGfxTrap>(section, "sprite").GetTexture(),
+                    Path = [],
+                };
+                int j = 0;
+                while (true)
+                {
+                    j++;
+                    if (string.IsNullOrWhiteSpace(iniFile.ReadString(section, $"Path{j}")))
+                        break;
+                    spr.Path.Add(iniFile.ReadVector3(section, $"Path{j}"));
+                }
+            }
+        }
 
+        int nbTrap = iniFile.NumberOfSection("trap");
+        if (nbTrap > 0)
+        {
+            OneTrap trap;
+            for (int i = 1; i <=nbTrap; i++)
+            {
+                section = $"Trap{i}";
+                trap = new OneTrap()
+                {
+                    ActFrame = iniFile.ReadInteger(section, "actframe"),
+                    AreaDraw = iniFile.ReadRectangle(section, "areadraw"),
+                    AreaTrap = iniFile.ReadRectangle(section, "areatrap"),
+                    Color = iniFile.ReadColor(section, "coloe"),
+                    Depth = iniFile.ReadFloat(section, "depth"),
+                    NumFrames = iniFile.ReadInteger(section, "numframes"),
+                    Sprite = iniFile.ReadEnum<EGfxTrap>(section, "sprite").GetTexture(),
+                    Type = iniFile.ReadInteger(section, "type"),
+                    Vvscroll = iniFile.ReadInteger(section, "vvscroll"),
+                    VvX = iniFile.ReadInteger(section, "vvx"),
+                    VvY = iniFile.ReadInteger(section, "vvy"),
+                };
+            }
+        }
+
+        iniFile.Dispose();
         return lvl;
     }
 

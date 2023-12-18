@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.IO;
 using System.Text;
@@ -218,7 +219,7 @@ public class ManageIniFile : IDisposable
         if (!string.IsNullOrWhiteSpace(_currentFileName))
         {
             string result = ReadString(sectionName, paramName);
-            if (double.TryParse(result.Replace(',', '.'), out double convert))
+            if (double.TryParse(result, CultureInfo.InvariantCulture, out double convert))
                 return convert;
         }
         return 0d;
@@ -229,7 +230,7 @@ public class ManageIniFile : IDisposable
         if (!string.IsNullOrWhiteSpace(_currentFileName))
         {
             string result = ReadString(sectionName, paramName);
-            if (float.TryParse(result.Replace(',', '.'), out float convert))
+            if (float.TryParse(result, CultureInfo.InvariantCulture, out float convert))
                 return convert;
         }
         return 0f;
@@ -240,7 +241,7 @@ public class ManageIniFile : IDisposable
         if (!string.IsNullOrWhiteSpace(_currentFileName))
         {
             string result = ReadString(nomSection, nomParam);
-            if (DateTime.TryParse(result.Replace(',', '.'), CultureInfo.InvariantCulture, DateTimeStyles.AssumeLocal, out DateTime convert))
+            if (DateTime.TryParse(result, CultureInfo.InvariantCulture, DateTimeStyles.AssumeLocal, out DateTime convert))
                 return convert;
         }
         return null;
@@ -270,7 +271,7 @@ public class ManageIniFile : IDisposable
             {
                 string result = ReadString(sectionName, paramName).Replace("(", "").Replace(")", "");
                 string[] splitter = result.Split(",");
-                return new Vector2(float.Parse(splitter[0]), float.Parse(splitter[1]));
+                return new Vector2(float.Parse(splitter[0], CultureInfo.InvariantCulture), float.Parse(splitter[1], CultureInfo.InvariantCulture));
             }
             catch (Exception) { /* Ignore errors */ }
         }
@@ -285,11 +286,47 @@ public class ManageIniFile : IDisposable
             {
                 string result = ReadString(sectionName, paramName).Replace("(", "").Replace(")", "");
                 string[] splitter = result.Split(",");
-                return new Vector3(float.Parse(splitter[0]), float.Parse(splitter[1]), float.Parse(splitter[2]));
+                return new Vector3(float.Parse(splitter[0], CultureInfo.InvariantCulture), float.Parse(splitter[1], CultureInfo.InvariantCulture), float.Parse(splitter[2], CultureInfo.InvariantCulture));
             }
             catch (Exception) { /* Ignore errors */ }
         }
         return Vector3.Zero;
+    }
+
+    public T ReadEnum<T>(string sectionName, string paramName) where T : struct
+    {
+        if (!string.IsNullOrWhiteSpace(_currentFileName))
+        {
+            try
+            {
+                string result = ReadString(sectionName, paramName);
+				if (!string.IsNullOrWhiteSpace(result) &&
+                    Enum.TryParse(result, out T cast))
+				{
+					return cast;
+				}
+            }
+            catch (Exception) { /* Ignore errors */ }
+        }
+        return default;
+    }
+
+    public Rectangle ReadRectangle(string sectionName, string paramName)
+    {
+        if (!string.IsNullOrWhiteSpace(_currentFileName))
+        {
+            try
+            {
+                string result = ReadString(sectionName, paramName);
+                if (!string.IsNullOrWhiteSpace(result))
+                {
+                    string[] splitter = result.Split(',');
+                    return new Rectangle(int.Parse(splitter[0]), int.Parse(splitter[1]), int.Parse(splitter[2]), int.Parse(splitter[3]));
+                }
+            }
+            catch (Exception) { /* Ignore errors */ }
+        }
+        return default;
     }
 
     public string CurrentFileName
