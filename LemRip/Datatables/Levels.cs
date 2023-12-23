@@ -16,7 +16,7 @@ internal static class Levels
         if (numLevel == 0)
             return lvl;
 
-		string section = "level";
+        string section = "level";
         ManageIniFile iniFile = ManageIniFile.OpenIniFile(Path.Combine(Environment.CurrentDirectory, MyGame.Instance.Content.RootDirectory, "levels", $"level{numLevel}.ini"));
         lvl.TotalLemmings = iniFile.ReadInteger(section, "totallemmings");
         lvl.NameLev = iniFile.ReadString(section, "namelev");
@@ -41,8 +41,8 @@ internal static class Levels
         lvl.TotalTime = iniFile.ReadInteger(section, "totaltime");
         lvl.TypeOfDoor = iniFile.ReadInteger(section, "typeofdoor");
         lvl.TypeOfExit = iniFile.ReadInteger(section, "typeofexit");
-		
-		int nbSprite = iniFile.NumberOfSection("sprite");
+
+        int nbSprite = iniFile.NumberOfSection("sprite");
         if (nbSprite > 0)
         {
             OnePropSprite spr;
@@ -67,7 +67,7 @@ internal static class Levels
                     MinusScrollX = iniFile.ReadBoolean(section, "minusscrollx"),
                     Minus = iniFile.ReadBoolean(section, "minus"),
                     Calc = iniFile.ReadBoolean(section, "calc"),
-                    Sprite = iniFile.ReadEnum<EGfxTrap>(section, "sprite").GetTexture(),
+                    Sprite = iniFile.ReadEnum<EGfxProp>(section, "sprite").GetTexture(),
                     Path = [],
                 };
                 int j = 0;
@@ -78,7 +78,7 @@ internal static class Levels
                         break;
                     spr.Path = spr.Path.Add(iniFile.ReadVector3(section, $"Path{j}"));
                 }
-                lvl.ListTraps.Add(spr);
+                lvl.ListProps.Add(spr);
             }
         }
 
@@ -86,7 +86,7 @@ internal static class Levels
         if (nbTrap > 0)
         {
             OneTrap trap;
-            for (int i = 1; i <=nbTrap; i++)
+            for (int i = 1; i <= nbTrap; i++)
             {
                 section = $"Trap{i}";
                 trap = new OneTrap()
@@ -97,13 +97,13 @@ internal static class Levels
                     Color = iniFile.ReadColor(section, "color"),
                     Depth = iniFile.ReadFloat(section, "depth"),
                     NumFrames = iniFile.ReadInteger(section, "numframes"),
-                    Sprite = iniFile.ReadEnum<EGfxTrap>(section, "sprite").GetTexture(),
+                    Sprite = iniFile.ReadEnum<EGfxProp>(section, "sprite").GetTexture(),
                     Type = iniFile.ReadInteger(section, "type"),
                     Vvscroll = iniFile.ReadInteger(section, "vvscroll"),
                     VvX = iniFile.ReadInteger(section, "vvx"),
                     VvY = iniFile.ReadInteger(section, "vvy"),
                 };
-                lvl.ListTraps.Add(trap);
+                lvl.ListProps.Add(trap);
             }
         }
 
@@ -118,7 +118,106 @@ internal static class Levels
                 {
                     Area = iniFile.ReadRectangle(section, "area"),
                 };
-                lvl.ListTraps.Add(steel);
+                lvl.ListProps.Add(steel);
+            }
+        }
+
+        int nbPlat = iniFile.NumberOfSection("plat");
+        if (nbPlat > 0)
+        {
+            OnePlat plat;
+            for (int i = 1; i < nbPlat; i++)
+            {
+                section = $"plat{i}";
+                plat = new OnePlat()
+                {
+                    ActFrame = iniFile.ReadInteger(section, "actframe"),
+                    ActStep = iniFile.ReadInteger(section, "actstep"),
+                    AreaDraw = iniFile.ReadRectangle(section, "areadraw"),
+                    Frame = iniFile.ReadInteger(section, "frame"),
+                    Framesecond = iniFile.ReadInteger(section, "framesecond"),
+                    NumSteps = iniFile.ReadInteger(section, "numsteps"),
+                    Sprite = iniFile.ReadEnum<EGfxProp>(section, "sprite").GetTexture(),
+                    Step = iniFile.ReadInteger(section, "step"),
+                    Up = iniFile.ReadBoolean(section, "up"),
+                };
+                lvl.ListProps.Add(plat);
+            }
+        }
+
+        int nbAdd = iniFile.NumberOfSection("add");
+        if (nbAdd > 0)
+        {
+            OneAdd add;
+            for (int i = 1; i < nbAdd; i++)
+            {
+                section = $"add{i}";
+                add = new OneAdd()
+                {
+                    ActFrame = iniFile.ReadInteger(section, "actframe"),
+                    AreaDraw = iniFile.ReadRectangle(section, "areadraw"),
+                    Frame = iniFile.ReadInteger(section, "frame"),
+                    Framesecond = iniFile.ReadInteger(section, "framesecond"),
+                    NumFrames = iniFile.ReadInteger(section, "numframes"),
+                    Sprite = iniFile.ReadEnum<EGfxProp>(section, "sprite").GetTexture(),
+                };
+                lvl.ListProps.Add(add);
+            }
+        }
+
+        int nbArrow = iniFile.NumberOfSection("arrow");
+        if (nbArrow > 0)
+        {
+            OneArrow arrow;
+            for (int i = 1; i < nbArrow; i++)
+            {
+                section = $"arrow{i}";
+                arrow = new OneArrow()
+                {
+                    ActFrame = iniFile.ReadInteger(section, "actframe"),
+                    Area = iniFile.ReadRectangle(section, "area"),
+                    Arrow = iniFile.ReadEnum<EGfxProp>(section, "arrow").GetTexture(),
+                    EnvelopArrow = iniFile.ReadEnum<EGfxProp>(section, "enveloparrow").GetTexture(),
+                    Frame = iniFile.ReadInteger(section, "frame"),
+                    Moving = iniFile.ReadInteger(section, "moving"),
+                    Right = iniFile.ReadBoolean(section, "right"),
+                    Transparency = iniFile.ReadInteger(section, "transparency"),
+                };
+                lvl.ListProps.Add(arrow);
+            }
+        }
+
+        int nbMoreDoor = iniFile.NumberOfSection("moredoors");
+        if (nbMoreDoor > 0)
+        {
+            OneMoreDoor door;
+            for (int i = 1; i < nbMoreDoor; i++)
+            {
+                section = $"moredoors{i}";
+                door = new OneMoreDoor()
+                {
+                    ActFrame = iniFile.ReadInteger(section, "actframe"),
+                    Frame = iniFile.ReadInteger(section, "frame"),
+                    DoorMoreXY = iniFile.ReadVector2(section, "doormorexy"),
+                };
+                lvl.ListProps.Add(door);
+            }
+        }
+
+        int nbMoreExit = iniFile.NumberOfSection("moreexits");
+        if (nbMoreExit > 0)
+        {
+            OneMoreExit exit;
+            for (int i = 1; i < nbMoreExit; i++)
+            {
+                section = $"moreexits{i}";
+                exit = new OneMoreExit()
+                {
+                    ActFrame = iniFile.ReadInteger(section, "actframe"),
+                    Frame = iniFile.ReadInteger(section, "frame"),
+                    ExitMoreXY = iniFile.ReadVector2(section, "exitmorexy"),
+                };
+                lvl.ListProps.Add(exit);
             }
         }
 

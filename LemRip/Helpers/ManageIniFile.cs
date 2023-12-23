@@ -286,11 +286,11 @@ public class ManageIniFile : IDisposable
         if (!string.IsNullOrWhiteSpace(_currentFileName))
         {
             string result = ReadString(sectionName, paramName);
-			if (!string.IsNullOrWhiteSpace(result) &&
+            if (!string.IsNullOrWhiteSpace(result) &&
                 Enum.TryParse(result, out T cast))
-			{
-				return cast;
-			}
+            {
+                return cast;
+            }
         }
         return default;
     }

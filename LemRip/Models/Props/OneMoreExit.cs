@@ -5,13 +5,13 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Lemmings.NET.Models.Props;
 
-internal class OneSteel : OneProp
+internal class OneMoreExit : OneProp
 {
-    internal Rectangle Area;
+    internal Vector2 ExitMoreXY;
 
     internal override ETypeProp TypeTrap
     {
-        get { return ETypeProp.Steel; }
+        get { return ETypeProp.MoreExit; }
     }
 
     internal override void Draw(SpriteBatch spriteBatch)

@@ -43,9 +43,9 @@ internal class OnePropSprite : OneProp
 
     internal Vector3[] Path { get; set; }
 
-    internal override ETypeTrap TypeTrap
+    internal override ETypeProp TypeTrap
     {
-        get { return ETypeTrap.Sprite; }
+        get { return ETypeProp.Sprite; }
     }
 
     internal override void Draw(SpriteBatch spriteBatch)

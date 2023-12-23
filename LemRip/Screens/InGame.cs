@@ -266,8 +266,8 @@ internal class InGame
         ScrollX = CurrentLevel.InitPosX;
         ScrollY = 0;
         AllLemmings = [];
-        _listSprites = CurrentLevel.ListTraps.OfType<OnePropSprite>().ToList();
-        _listTraps = CurrentLevel.ListTraps.OfType<OneTrap>().ToList();
+        _listSprites = CurrentLevel.ListProps.OfType<OnePropSprite>().ToList();
+        _listTraps = CurrentLevel.ListProps.OfType<OneTrap>().ToList();
     }
 
     private void Update_level()

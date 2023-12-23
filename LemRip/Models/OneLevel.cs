@@ -37,5 +37,5 @@ internal class OneLevel
     internal int ExitY { get; set; }
     internal int TypeOfExit { get; set; }
     internal float DoorExitDepth { get; set; }
-    internal List<OneProp> ListTraps { get; set; } = [];
+    internal List<OneProp> ListProps { get; set; } = [];
 }

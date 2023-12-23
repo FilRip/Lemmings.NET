@@ -129,9 +129,9 @@ internal class OneLemming
             Onmouse = true;
         } //  inside the mouse rectangle lemming ON
         if (!GlobalConst.Paused &&
-            MyGame.Instance.ScreenInGame.CurrentLevel.ListTraps.OfType<OneTrap>() != null) //Traps logic and sounds
+            MyGame.Instance.ScreenInGame.CurrentLevel.ListProps.OfType<OneTrap>() != null) //Traps logic and sounds
         {
-            foreach (OneTrap trap in MyGame.Instance.ScreenInGame.CurrentLevel.ListTraps.OfType<OneTrap>())
+            foreach (OneTrap trap in MyGame.Instance.ScreenInGame.CurrentLevel.ListProps.OfType<OneTrap>())
             {
                 x.X = PosX + 14;
                 x.Y = PosY + 25;

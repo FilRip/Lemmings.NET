@@ -3,119 +3,104 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Lemmings.NET.Models.Props
+namespace Lemmings.NET.Models.Props;
+
+internal class OneTrap : OneProp
 {
-    internal class OneTrap : OneProp
+    internal int Type, VvX, VvY, NumFrames, Vvscroll;
+    internal Color Color;
+    internal Rectangle AreaDraw, AreaTrap;
+    internal float Depth;
+    internal bool IsOn;
+    internal Texture2D Sprite;
+
+    internal OneTrap()
     {
-        internal int Type, VvX, VvY, NumFrames, Vvscroll;
-        internal Color Color;
-        internal Rectangle AreaDraw, AreaTrap;
-        internal float Depth;
-        internal bool IsOn;
-        internal Texture2D Sprite;
+        Color = new Color(255, 255, 255, 255);
+    }
 
-        internal OneTrap()
+    internal override ETypeProp TypeTrap
+    {
+        get { return ETypeProp.Trap; }
+    }
+
+    internal override void Draw(SpriteBatch spriteBatch)
+    {
+        int tYheight = Sprite.Height / NumFrames;
+        if (Type != 555 && Type != 666)
         {
-            Color = new Color(255, 255, 255, 255);
+            int vv444 = 0;
+            switch (Vvscroll)
+            {
+                case 1:
+                    vv444 = MyGame.Instance.ScreenInGame.Z1;
+                    break;
+                case 2:
+                    vv444 = -MyGame.Instance.ScreenInGame.Z1;
+                    break;
+                default:
+                    break;
+            }
+            Rectangle rectangleFill = new()
+            {
+                X = AreaDraw.X - MyGame.Instance.ScreenInGame.ScrollX,
+                Y = AreaDraw.Y - MyGame.Instance.ScreenInGame.ScrollY,
+                Width = AreaDraw.Width,
+                Height = tYheight,
+            };
+            Rectangle rectangleFill2 = new()
+            {
+                X = 0 + vv444,
+                Y = tYheight * ActFrame,
+                Width = AreaDraw.Width,
+                Height = tYheight,
+            };
+            spriteBatch.Draw(Sprite, rectangleFill, rectangleFill2, Color, 0f, Vector2.Zero, SpriteEffects.None, Depth);
         }
-
-        internal override ETypeTrap TypeTrap
+        else
         {
-            get { return ETypeTrap.Trap; }
+            int spY = Sprite.Height / NumFrames;
+            Rectangle rectangleFill = new()
+            {
+                X = (int)Pos.X - MyGame.Instance.ScreenInGame.ScrollX - VvX,
+                Y = (int)Pos.Y - VvY - MyGame.Instance.ScreenInGame.ScrollY,
+                Width = Sprite.Width,
+                Height = spY,
+            };
+            Rectangle rectangleFill2 = new()
+            {
+                X = 0,
+                Y = spY * ActFrame,
+                Width = Sprite.Width,
+                Height = spY,
+            };
+            spriteBatch.Draw(Sprite, rectangleFill, rectangleFill2, Color, 0f, Vector2.Zero, SpriteEffects.None, Depth);
         }
-
-        internal override void Draw(SpriteBatch spriteBatch)
+        if (MyGame.Instance.DebugOsd.Debug)
         {
-            int tYheight = Sprite.Height / NumFrames;
-            if (Type != 555 && Type != 666)
-            {
-                int vv444 = 0;
-                switch (Vvscroll)
-                {
-                    case 1:
-                        vv444 = MyGame.Instance.ScreenInGame.Z1;
-                        break;
-                    case 2:
-                        vv444 = -MyGame.Instance.ScreenInGame.Z1;
-                        break;
-                    default:
-                        break;
-                }
-                /*Color.A = Transparency;
-                if (Color.R != 255 && Color.R > 0)
-                    Color.R = Color.R;
-                if (Color.G != 255 && Color.G > 0)
-                    Color.G = Color.G;
-                if (Color.B != 255 && Color.B > 0)
-                    Color.B = Color.B;*/
-                Rectangle rectangleFill = new()
-                {
-                    X = AreaDraw.X - MyGame.Instance.ScreenInGame.ScrollX,
-                    Y = AreaDraw.Y - MyGame.Instance.ScreenInGame.ScrollY,
-                    Width = AreaDraw.Width,
-                    Height = tYheight,
-                };
-                Rectangle rectangleFill2 = new()
-                {
-                    X = 0 + vv444,
-                    Y = tYheight * ActFrame,
-                    Width = AreaDraw.Width,
-                    Height = tYheight,
-                };
-                spriteBatch.Draw(Sprite, rectangleFill, rectangleFill2, Color, 0f, Vector2.Zero, SpriteEffects.None, Depth);
-            }
-            else
-            {
-                /*Color.A = Transparency;
-                if (Color.R != 255 && Color.R > 0)
-                    Color.R = Color.R;
-                if (Color.G != 255 && Color.G > 0)
-                    Color.G = Color.G;
-                if (Color.B != 255 && Color.B > 0)
-                    Color.B = Color.B;*/
-                int spY = Sprite.Height / NumFrames;
-                Rectangle rectangleFill = new()
-                {
-                    X = (int)Pos.X - MyGame.Instance.ScreenInGame.ScrollX - VvX,
-                    Y = (int)Pos.Y - VvY - MyGame.Instance.ScreenInGame.ScrollY,
-                    Width = Sprite.Width,
-                    Height = spY,
-                };
-                Rectangle rectangleFill2 = new()
-                {
-                    X = 0,
-                    Y = spY * ActFrame,
-                    Width = Sprite.Width,
-                    Height = spY,
-                };
-                spriteBatch.Draw(Sprite, rectangleFill, rectangleFill2, Color, 0f, Vector2.Zero, SpriteEffects.None, Depth);
-            }
-            if (MyGame.Instance.DebugOsd.Debug)
-            {
-                spriteBatch.Draw(MyGame.Instance.Gfx.Texture1pixel, new Rectangle(AreaTrap.Left - MyGame.Instance.ScreenInGame.ScrollX,
-                    AreaTrap.Top - MyGame.Instance.ScreenInGame.ScrollY, AreaTrap.Width, AreaTrap.Height), null, new Color(255, 255, 255, 140),
-                    0f, Vector2.Zero, SpriteEffects.None, 0.1f);
-            }
+            spriteBatch.Draw(MyGame.Instance.Gfx.Texture1pixel, new Rectangle(AreaTrap.Left - MyGame.Instance.ScreenInGame.ScrollX,
+                AreaTrap.Top - MyGame.Instance.ScreenInGame.ScrollY, AreaTrap.Width, AreaTrap.Height), null, new Color(255, 255, 255, 140),
+                0f, Vector2.Zero, SpriteEffects.None, 0.1f);
         }
+    }
 
-        internal override void Update()
+    internal override void Update()
+    {
+        if (!IsOn)
         {
-            if (!IsOn)
+            ActFrame++;
+            if (ActFrame > NumFrames - 1)
+                ActFrame = 0;
+            if (Type == 666)
+                ActFrame = 0;
+        }
+        else
+        {
+            ActFrame++;
+            if (ActFrame > NumFrames - 1)
             {
-                ActFrame++;
-                if (ActFrame > NumFrames - 1)
-                    ActFrame = 0;
-                if (Type == 666)
-                    ActFrame = 0;
-            }
-            else
-            {
-                ActFrame++;
-                if (ActFrame > NumFrames - 1)
-                {
-                    IsOn = false;
-                    ActFrame = 0;
-                }
+                IsOn = false;
+                ActFrame = 0;
             }
         }
     }

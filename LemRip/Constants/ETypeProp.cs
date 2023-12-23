@@ -1,6 +1,6 @@
 ﻿namespace Lemmings.NET.Constants;
 
-internal enum ETypeTrap
+internal enum ETypeProp
 {
     Sprite = 0,
     Steel = 1,
@@ -8,4 +8,6 @@ internal enum ETypeTrap
     Add = 3,
     Arrow = 4,
     Trap = 5,
+    MoreDoor = 6,
+    MoreExit = 7,
 }

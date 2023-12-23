@@ -7,7 +7,7 @@ namespace Lemmings.NET.Models;
 
 internal abstract class OneProp
 {
-    internal abstract ETypeTrap TypeTrap { get; }
+    internal abstract ETypeProp TypeTrap { get; }
 
     protected Vector2 Pos;
 
