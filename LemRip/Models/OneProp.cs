@@ -11,9 +11,9 @@ internal abstract class OneProp
 
     protected Vector2 Pos;
 
-    internal int ActFrame { get; set; }
+    internal int ActFrame;
 
-    internal int Frame { get; set; }
+    internal int Frame;
 
     internal abstract void Draw(SpriteBatch spriteBatch);
 

@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.IO;
 using System.Text;
@@ -13,7 +12,6 @@ public class ManageIniFile : IDisposable
 {
     private List<string> _commentary = [";", "#", "//"];
 
-    private FileStream _fileStream;
     private StreamReader _configFile;
     private string _currentFileName = "";
     private string[] _section;
@@ -58,8 +56,7 @@ public class ManageIniFile : IDisposable
                 return false;
             if (size > 0)
             {
-                _fileStream = new FileStream(filename, FileMode.Open);
-                _configFile = new StreamReader(_fileStream, encoding, false, (int)size);
+                _configFile = new StreamReader(filename, encoding, false, (int)size);
                 _currentFileName = filename;
                 _currentEncoding = encoding;
                 return true;
@@ -94,17 +91,11 @@ public class ManageIniFile : IDisposable
 
     public void Close()
     {
-        try
-        {
-            _configFile.Close();
-            _fileStream.Close();
-            _configFile = null;
-            _fileStream = null;
-            _currentFileName = "";
-            _section = null;
-            _currentSectionName = "";
-        }
-        catch { /* Ignore errors */ }
+        _configFile?.Close();
+        _configFile = null;
+        _currentFileName = "";
+        _section = null;
+        _currentSectionName = "";
     }
 
     public bool WriteString(string sectionName, string paramName, string value)
@@ -182,7 +173,7 @@ public class ManageIniFile : IDisposable
         if (!string.IsNullOrWhiteSpace(_currentFileName))
         {
             string result = ReadString(sectionName, paramName);
-            if (result != null &&
+            if (!string.IsNullOrWhiteSpace(result) &&
                 ((result.Trim().Equals("true", StringComparison.OrdinalIgnoreCase)) ||
                 (result.Trim().Equals("yes", StringComparison.OrdinalIgnoreCase)) ||
                 (result == "1")))
@@ -197,7 +188,7 @@ public class ManageIniFile : IDisposable
         if (!string.IsNullOrWhiteSpace(_currentFileName))
         {
             string result = ReadString(sectionName, paramName);
-            if (int.TryParse(result, out int convert))
+            if (!string.IsNullOrWhiteSpace(result) && int.TryParse(result, out int convert))
                 return convert;
         }
         return 0;
@@ -208,7 +199,7 @@ public class ManageIniFile : IDisposable
         if (!string.IsNullOrWhiteSpace(_currentFileName))
         {
             string result = ReadString(sectionName, paramName);
-            if (long.TryParse(result, out long convert))
+            if (!string.IsNullOrWhiteSpace(result) && long.TryParse(result, out long convert))
                 return convert;
         }
         return 0;
@@ -219,7 +210,7 @@ public class ManageIniFile : IDisposable
         if (!string.IsNullOrWhiteSpace(_currentFileName))
         {
             string result = ReadString(sectionName, paramName);
-            if (double.TryParse(result, CultureInfo.InvariantCulture, out double convert))
+            if (!string.IsNullOrWhiteSpace(result) && double.TryParse(result, CultureInfo.InvariantCulture, out double convert))
                 return convert;
         }
         return 0d;
@@ -230,7 +221,7 @@ public class ManageIniFile : IDisposable
         if (!string.IsNullOrWhiteSpace(_currentFileName))
         {
             string result = ReadString(sectionName, paramName);
-            if (float.TryParse(result, CultureInfo.InvariantCulture, out float convert))
+            if (!string.IsNullOrWhiteSpace(result) && float.TryParse(result, CultureInfo.InvariantCulture, out float convert))
                 return convert;
         }
         return 0f;
@@ -241,7 +232,7 @@ public class ManageIniFile : IDisposable
         if (!string.IsNullOrWhiteSpace(_currentFileName))
         {
             string result = ReadString(nomSection, nomParam);
-            if (DateTime.TryParse(result, CultureInfo.InvariantCulture, DateTimeStyles.AssumeLocal, out DateTime convert))
+            if (!string.IsNullOrWhiteSpace(result) && DateTime.TryParse(result, CultureInfo.InvariantCulture, DateTimeStyles.AssumeLocal, out DateTime convert))
                 return convert;
         }
         return null;
@@ -251,29 +242,27 @@ public class ManageIniFile : IDisposable
     {
         if (!string.IsNullOrWhiteSpace(_currentFileName))
         {
-            try
+            string result = ReadString(sectionName, paramName);
+            if (!string.IsNullOrWhiteSpace(result))
             {
-                string result = ReadString(sectionName, paramName).Replace("(", "").Replace(")", "");
-                string[] splitter = result.Split(',');
+                string[] splitter = result.Replace("(", "").Replace(")", "").Split(',');
                 return new Color(byte.Parse(splitter[0]), byte.Parse(splitter[1]), byte.Parse(splitter[2]), byte.Parse(splitter[3]));
             }
-            catch (Exception) { /* Ignore errors */ }
         }
 
-        return Color.Black;
+        return Color.White;
     }
 
     public Vector2 ReadVector2(string sectionName, string paramName)
     {
         if (!string.IsNullOrWhiteSpace(_currentFileName))
         {
-            try
+            string result = ReadString(sectionName, paramName);
+            if (!string.IsNullOrWhiteSpace(result))
             {
-                string result = ReadString(sectionName, paramName).Replace("(", "").Replace(")", "");
-                string[] splitter = result.Split(",");
+                string[] splitter = result.Replace("(", "").Replace(")", "").Split(",");
                 return new Vector2(float.Parse(splitter[0], CultureInfo.InvariantCulture), float.Parse(splitter[1], CultureInfo.InvariantCulture));
             }
-            catch (Exception) { /* Ignore errors */ }
         }
         return Vector2.Zero;
     }
@@ -282,13 +271,12 @@ public class ManageIniFile : IDisposable
     {
         if (!string.IsNullOrWhiteSpace(_currentFileName))
         {
-            try
+            string result = ReadString(sectionName, paramName);
+            if (!string.IsNullOrWhiteSpace(result))
             {
-                string result = ReadString(sectionName, paramName).Replace("(", "").Replace(")", "");
-                string[] splitter = result.Split(",");
+                string[] splitter = result.Replace("(", "").Replace(")", "").Split(",");
                 return new Vector3(float.Parse(splitter[0], CultureInfo.InvariantCulture), float.Parse(splitter[1], CultureInfo.InvariantCulture), float.Parse(splitter[2], CultureInfo.InvariantCulture));
             }
-            catch (Exception) { /* Ignore errors */ }
         }
         return Vector3.Zero;
     }
@@ -297,16 +285,12 @@ public class ManageIniFile : IDisposable
     {
         if (!string.IsNullOrWhiteSpace(_currentFileName))
         {
-            try
-            {
-                string result = ReadString(sectionName, paramName);
-				if (!string.IsNullOrWhiteSpace(result) &&
-                    Enum.TryParse(result, out T cast))
-				{
-					return cast;
-				}
-            }
-            catch (Exception) { /* Ignore errors */ }
+            string result = ReadString(sectionName, paramName);
+			if (!string.IsNullOrWhiteSpace(result) &&
+                Enum.TryParse(result, out T cast))
+			{
+				return cast;
+			}
         }
         return default;
     }
@@ -315,16 +299,12 @@ public class ManageIniFile : IDisposable
     {
         if (!string.IsNullOrWhiteSpace(_currentFileName))
         {
-            try
+            string result = ReadString(sectionName, paramName);
+            if (!string.IsNullOrWhiteSpace(result))
             {
-                string result = ReadString(sectionName, paramName);
-                if (!string.IsNullOrWhiteSpace(result))
-                {
-                    string[] splitter = result.Split(',');
-                    return new Rectangle(int.Parse(splitter[0]), int.Parse(splitter[1]), int.Parse(splitter[2]), int.Parse(splitter[3]));
-                }
+                string[] splitter = result.Replace("(", "").Replace(")", "").Split(',');
+                return new Rectangle(int.Parse(splitter[0]), int.Parse(splitter[1]), int.Parse(splitter[2]), int.Parse(splitter[3]));
             }
-            catch (Exception) { /* Ignore errors */ }
         }
         return default;
     }
@@ -338,6 +318,7 @@ public class ManageIniFile : IDisposable
     {
         if (!string.IsNullOrWhiteSpace(_currentFileName))
         {
+            _configFile.DiscardBufferedData();
             _configFile.BaseStream.Seek(0, SeekOrigin.Begin);
             string line;
             while (true)
@@ -436,8 +417,9 @@ public class ManageIniFile : IDisposable
     public int NumberOfSection(string sectionName)
     {
         int nbSections = 0;
-        if (!string.IsNullOrWhiteSpace(_currentSectionName))
+        if (!string.IsNullOrWhiteSpace(_currentFileName))
         {
+            _configFile.DiscardBufferedData();
             _configFile.BaseStream.Seek(0, SeekOrigin.Begin);
             string line;
             while (true)
@@ -467,7 +449,6 @@ public class ManageIniFile : IDisposable
         {
             if (disposing)
             {
-                _fileStream?.Dispose();
                 _configFile?.Dispose();
                 if ((_section != null) && (_section.Length > 0))
                 {

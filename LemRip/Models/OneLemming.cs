@@ -3,6 +3,7 @@ using System.Linq;
 
 using Lemmings.NET.Constants;
 using Lemmings.NET.Helpers;
+using Lemmings.NET.Models.Props;
 using Lemmings.NET.Structs;
 
 using Microsoft.Xna.Framework;
@@ -127,17 +128,16 @@ internal class OneLemming
             MyGame.Instance.ScreenInGame.MouseOnLem = true;
             Onmouse = true;
         } //  inside the mouse rectangle lemming ON
-        if (MyGame.Instance.ScreenInGame.TrapsON &&
-            !GlobalConst.Paused &&
-            MyGame.Instance.ScreenInGame.Trap != null) //Traps logic and sounds
+        if (!GlobalConst.Paused &&
+            MyGame.Instance.ScreenInGame.CurrentLevel.ListTraps.OfType<OneTrap>() != null) //Traps logic and sounds
         {
-            foreach (Vartraps trap in MyGame.Instance.ScreenInGame.Trap)
+            foreach (OneTrap trap in MyGame.Instance.ScreenInGame.CurrentLevel.ListTraps.OfType<OneTrap>())
             {
                 x.X = PosX + 14;
                 x.Y = PosY + 25;
                 if (trap.AreaTrap.Contains(x) && !trap.IsOn && trap.Type == 666)
                 {
-                    trap.SetIsOn(true);
+                    trap.IsOn = true;
                     Active = false;
                     Walker = false;
                     Dead = true;

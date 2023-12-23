@@ -6,6 +6,7 @@ using Lemmings.NET.Constants;
 using Lemmings.NET.Datatables;
 using Lemmings.NET.Helpers;
 using Lemmings.NET.Models;
+using Lemmings.NET.Models.Props;
 using Lemmings.NET.Structs;
 
 using Microsoft.Xna.Framework;
@@ -30,7 +31,6 @@ internal class InGame
     internal float Countertime { get; set; }
     internal List<OneLemming> AllLemmings { get; set; }
     internal int Frame2 { get; set; }
-    internal Varsprites[] Sprite { get; set; }
     internal int NbClimberRemaining { get; set; }
     internal int NbFloaterRemaining { get; set; }
     internal int NbExploderRemaining { get; set; }
@@ -43,14 +43,12 @@ internal class InGame
     internal double MillisecondsElapsed { get; set; }
     internal Texture2D Earth { get; set; }
     internal string LemSkill { get; set; } = "";
-    internal Vartraps[] Trap { get; set; }
     internal Varplat[] Plats { get; set; }
     internal Varadds[] Adds { get; set; }
     internal bool SteelON { get; set; }
     internal bool PlatsON { get; set; }
     internal bool ArrowsON { get; set; }
     internal bool AddsON { get; set; }
-    internal bool TrapsON { get; set; }
     internal int NumTotTraps { get; set; }
     internal int NumTotArrow { get; set; }
     internal int R1 { get; set; }
@@ -128,7 +126,7 @@ internal class InGame
     private Rectangle rectangleFill, rectangleFill2;
     private Color colorFill;
     private readonly double GRAVITY = 0.1; //0.1
-    private int z1;
+    public int Z1 { get; set; }
     private int z2;
     private int z3;
     private bool luzmas = true, luzmas2 = true;
@@ -142,7 +140,8 @@ internal class InGame
     private Texture2D salida_ani1, salida_ani1_1;
     private Texture2D puerta_ani;
     private readonly InGameMenu _inGameMenu;
-    private List<OneProp> _listTraps;
+    private List<OnePropSprite> _listSprites;
+    private List<OneTrap> _listTraps;
 
     #endregion
 
@@ -181,16 +180,15 @@ internal class InGame
         _inGameMenu.CurrentSelectedSkill = ECurrentSkill.NONE;
         Moreexits = null;
         MoreDoors = null;
-        Trap = null;
+        _listTraps = null;
         Arrow = null;
-        Sprite = null;
+        _listSprites = null;
         NumTOTexits = 1;
         NumTOTdoors = 1;
         NumTotTraps = 0;
         NumTotArrow = 0;
         doorWaveOn = false;
         initON = false;
-        TrapsON = false;
         PlatsON = false;
         AddsON = false;
         ArrowsON = false;
@@ -268,10 +266,8 @@ internal class InGame
         ScrollX = CurrentLevel.InitPosX;
         ScrollY = 0;
         AllLemmings = [];
-        if (newLevel == 1)
-            _listTraps = CurrentLevel.ListTraps.Where(t => t.TypeTrap == ETypeTrap.Sprite).ToList();
-        else
-            Levels.VariablesTraps();
+        _listSprites = CurrentLevel.ListTraps.OfType<OnePropSprite>().ToList();
+        _listTraps = CurrentLevel.ListTraps.OfType<OneTrap>().ToList();
     }
 
     private void Update_level()
@@ -323,93 +319,11 @@ internal class InGame
 
         MoverLemming();
 
-        if (Sprite != null) //sprites logic if necessary puto77
+        if (_listSprites?.Count > 0)
         {
-            for (int ssi = 0; ssi < Sprite.Length; ssi++)
+            foreach (OnePropSprite spr in _listSprites)
             {
-                Sprite[ssi].Frame++;
-                if (Sprite[ssi].Sprite.Name == MyGame.Instance.Gfx.Fire.Name && Sprite[ssi].Frame > Sprite[ssi].Framesecond)
-                {
-                    Sprite[ssi].Frame = 0;
-                    if (Sprite[ssi].Minus)
-                        Sprite[ssi].ActFrame -= 2;
-                    else
-                        Sprite[ssi].ActFrame++; // 2 frames less to return to zero better effect i think
-
-                    if (Sprite[ssi].ActFrame > 14 && !Sprite[ssi].Minus)
-                    {
-                        Sprite[ssi].ActFrame = 15;
-                        Sprite[ssi].Minus = true;
-                    }
-                    if (Sprite[ssi].ActFrame < 0 && Sprite[ssi].Minus)
-                    {
-                        Sprite[ssi].Minus = false;
-                        Sprite[ssi].ActFrame = 1;
-                    }
-                    continue;
-                }
-                if (Sprite[ssi].Frame > Sprite[ssi].Framesecond)
-                {
-                    Sprite[ssi].Frame = 0;
-                    Sprite[ssi].ActFrame++;
-                    if (Sprite[ssi].ActFrame > (Sprite[ssi].AxisX * Sprite[ssi].AxisY) - 1)
-                        Sprite[ssi].ActFrame = 0;
-                }
-                if (Sprite[ssi].Speed != 0)  // spider destination puto puto puto
-                {
-                    if (Sprite[ssi].Calc)
-                    {
-                        Sprite[ssi].Calc = false;
-                        if (!Sprite[ssi].Minus)
-                        {
-                            Sprite[ssi].Pos.X = Sprite[ssi].Path[Sprite[ssi].ActVect].X;
-                            Sprite[ssi].Pos.Y = Sprite[ssi].Path[Sprite[ssi].ActVect].Y;
-                            Sprite[ssi].Speed = Sprite[ssi].Path[Sprite[ssi].ActVect].Z;
-                            Sprite[ssi].Dest.X = Sprite[ssi].Path[Sprite[ssi].ActVect + 1].X;
-                            Sprite[ssi].Dest.Y = Sprite[ssi].Path[Sprite[ssi].ActVect + 1].Y;
-                        }
-                        else
-                        {
-                            Sprite[ssi].Dest.X = Sprite[ssi].Path[Sprite[ssi].ActVect].X;
-                            Sprite[ssi].Dest.Y = Sprite[ssi].Path[Sprite[ssi].ActVect].Y;
-                            Sprite[ssi].Speed = Sprite[ssi].Path[Sprite[ssi].ActVect].Z;
-                            Sprite[ssi].Pos.X = Sprite[ssi].Path[Sprite[ssi].ActVect + 1].X;
-                            Sprite[ssi].Pos.Y = Sprite[ssi].Path[Sprite[ssi].ActVect + 1].Y;
-                        }
-                        if (!Sprite[ssi].Minus)
-                            Sprite[ssi].ActVect++;
-                        else
-                            Sprite[ssi].ActVect--;
-                        if (Sprite[ssi].ActVect > Sprite[ssi].Path.Length - 2 && !Sprite[ssi].Minus)
-                        {
-                            Sprite[ssi].ActVect--;
-                            Sprite[ssi].Minus = true;
-                        }
-                        if (Sprite[ssi].ActVect < 0 && Sprite[ssi].Minus)
-                        {
-                            Sprite[ssi].ActVect++;
-                            Sprite[ssi].Minus = false;
-                        }
-
-                        continue; // control when arrive to LAST destination point actvect
-                    }
-                    Vector2 direction_sprite = Vector2.Normalize(Sprite[ssi].Dest - Sprite[ssi].Pos);
-                    Sprite[ssi].Pos += direction_sprite * Sprite[ssi].Speed;
-                    float distance = Vector2.Distance(Sprite[ssi].Pos, Sprite[ssi].Dest);
-                    if (distance < 1)
-                    {
-                        Sprite[ssi].Calc = true;
-                        continue; // control when arrive to destination point
-                    }
-                    Sprite[ssi].Rotation = (float)Math.Atan2(direction_sprite.X, direction_sprite.Y) * -1;
-                }
-            }
-        }
-        else if (_listTraps != null)
-        {
-            foreach (OneProp trap in _listTraps)
-            {
-                trap.Update();
+                spr.Update();
             }
         }
 
@@ -500,27 +414,11 @@ internal class InGame
             }
             Adds[0].Frame++;
         }
-        if (TrapsON && Drawing && !GlobalConst.Paused)
+        if (_listTraps?.Count > 0 && Drawing && !GlobalConst.Paused)
         {
-            for (int s = 0; s < NumTotTraps; s++)
+            foreach (OneTrap trap in _listTraps)
             {
-                if (!Trap[s].IsOn)
-                {
-                    Trap[s].ActFrame++;
-                    if (Trap[s].ActFrame > Trap[s].NumFrames - 1)
-                        Trap[s].ActFrame = 0;
-                    if (Trap[s].Type == 666)
-                        Trap[s].ActFrame = 0;
-                }
-                else
-                {
-                    Trap[s].ActFrame++;
-                    if (Trap[s].ActFrame > Trap[s].NumFrames - 1)
-                    {
-                        Trap[s].IsOn = false;
-                        Trap[s].ActFrame = 0;
-                    }
-                }
+                trap.Update();
             }
         }
         if (!GlobalConst.Paused)
@@ -575,7 +473,7 @@ internal class InGame
                 }
             }
         }// abajo calculos nubes nubes2 y waterfall
-        z1 = (int)Countertime2 / 3;
+        Z1 = (int)Countertime2 / 3;
         z2 = (int)Countertime2 / 10;
         z3 = (int)Countertime2 / 9;
         z3 %= 4; // mumero de frames del agua a ver 4 de 5 que tiene la ultima esta vacia nose porque
@@ -713,7 +611,7 @@ internal class InGame
             colorFill.G = 255;
             colorFill.B = 255;
             colorFill.A = 250;
-            rectangleFill2.X = 0 + z1;
+            rectangleFill2.X = 0 + Z1;
             rectangleFill2.Y = 0 - (int)actWaves333;
             rectangleFill2.Width = GlobalConst.GameResolution.X;
             rectangleFill2.Height = GlobalConst.GameResolution.Y - 188;
@@ -729,73 +627,11 @@ internal class InGame
             colorFill.A = 120;
             spriteBatch.Draw(logo555, rectangleFill, rectangleFill2, colorFill, 0f, Vector2.Zero, SpriteEffects.None, 0.806f);
         }
-        if (TrapsON && Trap != null) //draw traps
+        if (_listTraps?.Count > 0) //draw traps
         {
-            foreach (Vartraps trap in Trap)
+            foreach (OneTrap trap in _listTraps)
             {
-                int tYheight = trap.Sprite.Height / trap.NumFrames;
-                if (trap.Type != 555 && trap.Type != 666)
-                {
-                    int vv444 = 0;
-                    switch (trap.Vvscroll)
-                    {
-                        case 1:
-                            vv444 = z1;
-                            break;
-                        case 2:
-                            vv444 = -z1;
-                            break;
-                        default:
-                            break;
-                    }
-                    colorFill.R = 255;
-                    colorFill.G = 255;
-                    colorFill.B = 255;
-                    colorFill.A = trap.Transparency;
-                    if (trap.R != 255 && trap.R > 0)
-                        colorFill.R = trap.R;
-                    if (trap.G != 255 && trap.G > 0)
-                        colorFill.G = trap.G;
-                    if (trap.B != 255 && trap.B > 0)
-                        colorFill.B = trap.B;
-                    rectangleFill.X = trap.AreaDraw.X - ScrollX;
-                    rectangleFill.Y = trap.AreaDraw.Y - ScrollY;
-                    rectangleFill.Width = trap.AreaDraw.Width;
-                    rectangleFill.Height = tYheight;
-                    rectangleFill2.X = 0 + vv444;
-                    rectangleFill2.Y = tYheight * trap.ActFrame;
-                    rectangleFill2.Width = trap.AreaDraw.Width;
-                    rectangleFill2.Height = tYheight;
-                    spriteBatch.Draw(trap.Sprite, rectangleFill, rectangleFill2, colorFill, 0f, Vector2.Zero, SpriteEffects.None, trap.Depth);
-                }
-                else
-                {
-                    colorFill.R = 255;
-                    colorFill.G = 255;
-                    colorFill.B = 255;
-                    colorFill.A = trap.Transparency;
-                    if (trap.R != 255 && trap.R > 0)
-                        colorFill.R = trap.R;
-                    if (trap.G != 255 && trap.G > 0)
-                        colorFill.G = trap.G;
-                    if (trap.B != 255 && trap.B > 0)
-                        colorFill.B = trap.B;
-                    int spY = trap.Sprite.Height / trap.NumFrames;
-                    rectangleFill.X = (int)trap.Pos.X - ScrollX - trap.VvX;
-                    rectangleFill.Y = (int)trap.Pos.Y - trap.VvY - ScrollY;
-                    rectangleFill.Width = trap.Sprite.Width;
-                    rectangleFill.Height = spY;
-                    rectangleFill2.X = 0;
-                    rectangleFill2.Y = spY * trap.ActFrame;
-                    rectangleFill2.Width = trap.Sprite.Width;
-                    rectangleFill2.Height = spY;
-                    spriteBatch.Draw(trap.Sprite, rectangleFill, rectangleFill2, colorFill, 0f, Vector2.Zero, SpriteEffects.None, trap.Depth);
-                }
-                if (MyGame.Instance.DebugOsd.Debug)
-                {
-                    spriteBatch.Draw(MyGame.Instance.Gfx.Texture1pixel, new Rectangle(trap.AreaTrap.Left - ScrollX, trap.AreaTrap.Top - ScrollY, trap.AreaTrap.Width, trap.AreaTrap.Height),
-                        null, new Color(255, 255, 255, 140), 0f, Vector2.Zero, SpriteEffects.None, 0.1f);
-                }
+                trap.Draw(spriteBatch);
             }
         }
         switch (MyGame.Instance.CurrentLevelNumber)  // effect draws water cascade,stars,etc...
@@ -832,7 +668,7 @@ internal class InGame
                     0.4f + Contador2 * 0.001f, new Vector2(MyTexture.Width / 2, MyTexture.Height / 2), 3f, SpriteEffects.FlipHorizontally, 0.805f); // okokok
             }
             // rayligts effect
-            spriteBatch.Draw(MyGame.Instance.Sprites.Nubes_2, new Rectangle(0, 50 - (int)actWaves444, GlobalConst.GameResolution.X, MyGame.Instance.Sprites.Nubes_2.Height), new Rectangle(z1, 0, GlobalConst.GameResolution.X, MyGame.Instance.Sprites.Nubes_2.Height),
+            spriteBatch.Draw(MyGame.Instance.Sprites.Nubes_2, new Rectangle(0, 50 - (int)actWaves444, GlobalConst.GameResolution.X, MyGame.Instance.Sprites.Nubes_2.Height), new Rectangle(Z1, 0, GlobalConst.GameResolution.X, MyGame.Instance.Sprites.Nubes_2.Height),
                 new Color(255, 255, 255, 110), 0f, Vector2.Zero, SpriteEffects.None, 0.804f);
 
             spriteBatch.Draw(MyGame.Instance.Sprites.Nubes, new Rectangle(0, 220, GlobalConst.GameResolution.X, MyGame.Instance.Sprites.Nubes.Height), new Rectangle(z2, 0, GlobalConst.GameResolution.X, MyGame.Instance.Sprites.Nubes.Height), new Color(255, 255, 255, 110), 0f,
@@ -861,65 +697,11 @@ internal class InGame
         int yy55 = entry.Height;
         framereal565 = (frameDoor * yy55);
 
-        if (Sprite != null) //draw sprites
+        if (_listSprites?.Count > 0)
         {
-            foreach (Varsprites sprite in Sprite)
+            foreach (OnePropSprite spr in _listSprites)
             {
-                int swidth = sprite.Sprite.Width / sprite.AxisX;
-                int sheight = sprite.Sprite.Height / sprite.AxisY;
-                int sx1 = 0;
-                int sy1 = 0;
-                if (sprite.ActFrame != 0)
-                {
-                    sx1 = swidth * (sprite.ActFrame % sprite.AxisX);
-                    sy1 = sheight * (sprite.ActFrame / sprite.AxisX);
-                }
-                if (sprite.Typescroll > 0)
-                {
-                    sprite.SetPosX(sprite.Pos.X - sprite.Typescroll);
-                    if (sprite.Pos.X < 0 - (sprite.Sprite.Width * sprite.Scale))
-                        sprite.SetPosX(GlobalConst.GameResolution.X);
-                    if (sprite.Pos.X > GlobalConst.GameResolution.X)
-                        sprite.SetPosX(-100);
-
-                    spriteBatch.Draw(sprite.Sprite, new Vector2(sprite.Pos.X, sprite.Pos.Y - ScrollY),
-                        new Rectangle(sx1, sy1, swidth, sheight), new Color(sprite.R, sprite.G, sprite.B, sprite.Transparency),
-                        sprite.Rotation, Vector2.Zero, sprite.Scale, SpriteEffects.None, sprite.Depth);
-                }
-                else
-                {
-                    if (sprite.Sprite.Name == "touch/arana") // 64x64 sprite frame size
-                    {
-                        int xxAnim;
-                        if (sprite.MinusScrollX)
-                            xxAnim = (int)sprite.Pos.X - ScrollX + 32;
-                        else
-                            xxAnim = (int)sprite.Pos.X + 32;
-
-                        spriteBatch.Draw(sprite.Sprite, new Vector2(xxAnim, sprite.Pos.Y - ScrollY - 32),
-                            new Rectangle(sx1, sy1, swidth, sheight), new Color(sprite.R, sprite.G, sprite.B, sprite.Transparency),
-                            sprite.Rotation, sprite.Center, sprite.Scale, SpriteEffects.None, sprite.Depth);
-                    }
-                    else
-                    {
-                        int xxAnim;
-                        if (sprite.MinusScrollX)
-                            xxAnim = (int)sprite.Pos.X - ScrollX;
-                        else
-                            xxAnim = (int)sprite.Pos.X;
-
-                        spriteBatch.Draw(sprite.Sprite, new Vector2(xxAnim, sprite.Pos.Y - ScrollY),
-                            new Rectangle(sx1, sy1, swidth, sheight), new Color(sprite.R, sprite.G, sprite.B, sprite.Transparency),
-                            sprite.Rotation, Vector2.Zero, sprite.Scale, SpriteEffects.None, sprite.Depth);
-                    }
-                }
-            }
-        }
-        else if (_listTraps != null)
-        {
-            foreach (OneProp trap in _listTraps)
-            {
-                trap.Draw(spriteBatch);
+                spr.Draw(spriteBatch);
             }
         }
 

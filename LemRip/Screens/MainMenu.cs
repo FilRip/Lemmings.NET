@@ -270,7 +270,6 @@ internal class MainMenu
             int mmx = mmX;
             int mmy = 130;
             x = new Point(Input.CurrentMouseState.Position.X, Input.CurrentMouseState.Position.Y);
-            //MouseLevelChoose = 0;
             for (int s = 1; s < (_levelCategory == ELevelCategory.Bonus ? 37 : 31); s++)
             {
                 Rectangle mmlev = new(mmx, mmy, 130, 55);
@@ -311,7 +310,6 @@ internal class MainMenu
             int mmx = mmX;
             int mmy = 130;
             x = new Point(Input.CurrentMouseState.Position.X, Input.CurrentMouseState.Position.Y);
-            MouseLevelChoose = 0;
             for (int s = 1; s < 26; s++) //number user levels to show okok be careful
             {
                 Rectangle mmlev = new(mmx, mmy, 130, 55);
