@@ -80,6 +80,14 @@ internal class InGame
     internal int Lemsneeded { get; set; } = 1;
     internal EndLevel EndLevelScreen { get; set; }
     internal Dictionary<int, List<OneExplosion>> Explosion { get; set; }
+    internal int FrameReal565 { get; set; }
+    internal float DoorExitDepth { get; set; } = 0.403f;  // default value--bigger than 0.5f is behind the terrain (0.6f level 58 for example)
+    internal Color[] Colorsobre22 { get; set; } = new Color[500 * 512];
+    internal Color[] Colormasktotal { get; set; } = new Color[500 * 512];
+    internal Texture2D Salida_ani1 { get; set; }
+    internal Texture2D Salida_ani1_1 { get; set; }
+    internal Texture2D AnimatedDoor { get; set; }
+
     #endregion
 
     #region Fields
@@ -87,7 +95,6 @@ internal class InGame
     private float Countertime2;
     private double actWaves444, actWaves333, actWaves;
     private bool drawing3, LevelEnded, ExitLevel, BackToMainMenu;
-    private int amount22;
     private int rest = 0, Contador2, Counter = 1;
     private bool doorOn = true;
     private double frameWaves;
@@ -105,8 +112,6 @@ internal class InGame
     private Rectangle exit_rect; // rectangle exit
     private Point x;
     private bool initON = false;
-    private int framereal565;
-    private float DoorExitDepth = 0.403f;  // default value--bigger than 0.5f is behind the terrain (0.6f level 58 for example)
     private Vector2 vectorFill;
     private Rectangle rectangleFill, rectangleFill2;
     private Color colorFill;
@@ -114,15 +119,10 @@ internal class InGame
     private int z2;
     private int z3;
     private bool luzmas = true, luzmas2 = true;
-    private int alto;
     private int TotalNumLemmings = 1;
-    private readonly Color[] Colorsobre22 = new Color[500 * 512];
-    private readonly Color[] Colormasktotal = new Color[500 * 512];
     private bool doorWaveOn;
-    private int frameact;
+    private int Frameact;
     private readonly bool LockMouse;
-    private Texture2D salida_ani1, salida_ani1_1;
-    private Texture2D puerta_ani;
     private readonly InGameMenu _inGameMenu;
 
     #endregion
@@ -148,10 +148,10 @@ internal class InGame
         Fade = true;
         doorOn = true;
         MillisecondsElapsed = 0;
-        puerta_ani = content.Load<Texture2D>("puerta" + string.Format("{0}", CurrentLevel.TypeOfDoor)); // type of door puerta1-2-3-4 etc.
+        AnimatedDoor = content.Load<Texture2D>("puerta" + string.Format("{0}", CurrentLevel.TypeOfDoor)); // type of door puerta1-2-3-4 etc.
         string xx455 = string.Format("{0}", CurrentLevel.TypeOfExit);
-        salida_ani1 = content.Load<Texture2D>("salida" + xx455);
-        salida_ani1_1 = content.Load<Texture2D>("salida" + xx455 + "_1");
+        Salida_ani1 = content.Load<Texture2D>("salida" + xx455);
+        Salida_ani1_1 = content.Load<Texture2D>("salida" + xx455 + "_1");
         MyGame.Instance.CurrentLevelNumber = newLevel;
         LemSkill = "";
         GlobalConst.Paused = false;
@@ -183,10 +183,6 @@ internal class InGame
         if (CurrentLevel.DoorExitDepth != 0)
         {
             DoorExitDepth = CurrentLevel.DoorExitDepth;
-        }
-        else
-        {
-            DoorExitDepth = 0.403f;
         }
         NbClimberRemaining = CurrentLevel.NumberClimbers;
         NbFloaterRemaining = CurrentLevel.NumberUmbrellas;
@@ -305,47 +301,7 @@ internal class InGame
         {
             foreach (OnePlat plat in CurrentLevel.ListProps<OnePlat>())
             {
-                if (plat.Frame > plat.Framesecond)
-                {
-                    bool goUP = plat.Up;
-                    plat.Frame = 0;
-                    if (goUP)
-                        plat.ActStep++;
-                    else
-                        plat.ActStep--;
-                    if (goUP)
-                        plat.AreaDraw.X = plat.AreaDraw.Y - plat.Step;
-                    else
-                        plat.AreaDraw.Y += plat.Step;
-                    if (plat.ActStep >= plat.NumSteps - 1)
-                        plat.Up = false;
-                    if (plat.ActStep < 1)
-                        plat.Up = true;
-                    int px = plat.AreaDraw.X - (plat.AreaDraw.Width / 2);
-                    alto = plat.Step * plat.NumSteps;
-                    int positioYOrig = plat.AreaDraw.Y + (plat.ActStep * plat.Step);
-                    bool realLine = false;
-                    for (int y55 = 0; y55 < alto; y55++)
-                    {
-                        for (int x55 = 0; x55 < plat.AreaDraw.Width; x55++)
-                        {
-                            if (y55 == (alto - 1) - plat.ActStep * plat.Step)
-                                realLine = true;
-                            if (realLine)
-                            {
-                                C25[((positioYOrig - (alto - y55)) * Earth.Width) + x55 + px] = Color.White;
-                            }
-                            else
-                            {
-                                C25[((positioYOrig - (alto - y55)) * Earth.Width) + x55 + px] = Color.Transparent;
-
-                            }
-                        }
-                    }
-                    if (MyGame.Instance.DebugOsd.Debug)
-                        Earth.SetData(C25, 0, Earth.Width * Earth.Height); //set this only for debugger and see the real c25 redraw
-                }
-                plat.Frame++;
+                plat.Update();
             }
         }
 
@@ -353,40 +309,7 @@ internal class InGame
         {
             foreach (OneAdd add in CurrentLevel.ListProps<OneAdd>())
             {
-                int startposy = add.Sprite.Height / add.NumFrames; // height of each frame inside the whole sprite
-                int framepos = startposy * add.ActFrame; // actual y position of the frame
-                int ancho = add.Sprite.Width;
-                int amount = ancho * startposy; // height frame
-                rectangleFill.X = 0;
-                rectangleFill.Y = framepos;
-                rectangleFill.Width = ancho;
-                rectangleFill.Height = startposy;
-                add.Sprite.GetData(0, rectangleFill, Colormask22, 0, amount);
-                rectangleFill.X = add.AreaDraw.X;
-                rectangleFill.Y = add.AreaDraw.Y;
-                rectangleFill.Width = ancho;
-                rectangleFill.Height = startposy;
-                Earth.SetData(0, rectangleFill, Colormask22, 0, amount);
-                int py = add.AreaDraw.Y;
-                int px = add.AreaDraw.X;
-                int cantidad99 = 0;
-                for (int yy99 = 0; yy99 < startposy; yy99++)
-                {
-                    int yypos99 = (yy99 + py) * Earth.Width;
-                    for (int xx99 = 0; xx99 < ancho; xx99++)
-                    {
-                        C25[yypos99 + px + xx99].PackedValue = Colormask22[cantidad99].PackedValue;
-                        cantidad99++;
-                    }
-                }
-                if (add.Frame > add.Framesecond)
-                {
-                    add.Frame = 0;
-                    add.ActFrame++;
-                    if (add.ActFrame >= add.NumFrames)
-                        add.ActFrame = 0;
-                }
-                add.Frame++;
+                add.Update();
             }
         }
         if (CurrentLevel.ListProps<OneTrap>().Any() && Drawing && !GlobalConst.Paused)
@@ -470,75 +393,7 @@ internal class InGame
         {
             foreach (OneArrow arrow in CurrentLevel.ListProps<OneArrow>())
             {
-                amount22 = arrow.Area.Width * arrow.Area.Height;
-                arrow.Arrow.GetData(Colormask22, 0, arrow.Arrow.Height * arrow.Arrow.Width);
-                //////// optimized for hd3000 laptop ARROWS OPTIMIZED
-                int py = arrow.Area.Y;
-                int px = arrow.Area.X;
-                int alto66 = arrow.Area.Height;
-                int ancho66 = arrow.Area.Width;
-                amount22 = 0;
-                for (int yy88 = 0; yy88 < alto66; yy88++)
-                {
-                    int yypos888 = (yy88 + py) * Earth.Width;
-                    for (int xx88 = 0; xx88 < ancho66; xx88++)
-                    {
-                        Colorsobre22[amount22].PackedValue = C25[yypos888 + px + xx88].PackedValue;
-                        amount22++;
-                    }
-                }
-                if (!arrow.Right) //left arrows
-                {
-                    arrow.Moving++;
-                    if (arrow.Moving < 0)
-                    {
-                        arrow.Moving = arrow.Arrow.Width - 1;
-                    }
-                    for (int y4 = 0; y4 < arrow.Area.Height; y4++)
-                    {
-                        for (int x4 = 0; x4 < arrow.Area.Width; x4++)
-                        {
-                            int posy456 = y4 % arrow.Arrow.Height;
-                            int posx456 = x4 % arrow.Arrow.Width;
-                            posx456 = (arrow.Arrow.Width - 1) - ((posx456 + arrow.Moving) % arrow.Arrow.Width); // left perfecto
-                            Colormasktotal[(y4 * arrow.Area.Width) + x4].PackedValue = Colormask22[(posy456 * arrow.Arrow.Width) + posx456].PackedValue;
-                        }
-                    }
-                    for (int r = 0; r < amount22; r++)
-                    {
-                        if (Colorsobre22[r].R > 0 || Colorsobre22[r].G > 0 || Colorsobre22[r].B > 0)
-                        {
-                            Colorsobre22[r].PackedValue = Colormasktotal[r].PackedValue;
-                        }
-                    }
-                    arrow.EnvelopArrow.SetData(Colorsobre22, 0, arrow.EnvelopArrow.Height * arrow.EnvelopArrow.Width);
-                }
-                else //right arrows
-                {
-                    arrow.Moving--;
-                    if (arrow.Moving < 0)
-                    {
-                        arrow.Moving = arrow.Arrow.Width - 1;
-                    }
-                    for (int y4 = 0; y4 < arrow.Area.Height; y4++)
-                    {
-                        for (int x4 = 0; x4 < arrow.Area.Width; x4++)
-                        {
-                            int posy456 = y4 % arrow.Arrow.Height;
-                            int posx456 = x4 % arrow.Arrow.Width;
-                            posx456 = ((posx456 + arrow.Moving) % arrow.Arrow.Width);  //Left okok
-                            Colormasktotal[(y4 * arrow.Area.Width) + x4].PackedValue = Colormask22[(posy456 * arrow.Arrow.Width) + posx456].PackedValue;
-                        }
-                    }
-                    for (int r = 0; r < amount22; r++)
-                    {
-                        if (Colorsobre22[r].R > 0 || Colorsobre22[r].G > 0 || Colorsobre22[r].B > 0)
-                        {
-                            Colorsobre22[r].PackedValue = Colormasktotal[r].PackedValue;
-                        }
-                    }
-                    arrow.EnvelopArrow.SetData(Colorsobre22, 0, arrow.EnvelopArrow.Height * arrow.EnvelopArrow.Width);
-                }
+                arrow.Update();
             }
         }
     }
@@ -668,9 +523,7 @@ internal class InGame
         }
 
         OneEntry entry = MyGame.Instance.Props.GetEntry(CurrentLevel.TypeOfDoor);
-        int xx55 = entry.Width;
-        int yy55 = entry.Height;
-        framereal565 = (frameDoor * yy55);
+        FrameReal565 = (frameDoor * entry.Height);
 
         if (CurrentLevel.ListProps<OneScreenSprite>().Any())
         {
@@ -684,60 +537,41 @@ internal class InGame
         {
             foreach (OnePlat plat in CurrentLevel.ListProps<OnePlat>())
             {
-                int x2 = plat.AreaDraw.X - plat.AreaDraw.Width / 2;
-                int y = plat.AreaDraw.Y;
-                int w = plat.Sprite.Width;
-                int h = plat.Sprite.Height;
-                spriteBatch.Draw(plat.Sprite, new Rectangle(x2 - ScrollX, y - ScrollY - 5, plat.AreaDraw.Width, plat.AreaDraw.Height),
-                    new Rectangle(0, 0, w, h), Color.White, 0f, Vector2.Zero, SpriteEffects.None, 0.56f);
+                plat.Draw(spriteBatch);
             }
         }
         if (CurrentLevel.ListProps<OneMoreDoor>().Any())
         {
-            foreach (Vector2 moreDoor in CurrentLevel.ListProps<OneMoreDoor>().Select(m => m.DoorMoreXY))
+            foreach (OneMoreDoor moreDoor in CurrentLevel.ListProps<OneMoreDoor>())
             {
-                door1X = (int)moreDoor.X;
-                door1Y = (int)moreDoor.Y;
-                spriteBatch.Draw(puerta_ani, new Vector2(door1X - ScrollX, door1Y - ScrollY), new Rectangle(0, framereal565, xx55, yy55),
-                    Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, DoorExitDepth);
+                moreDoor.Draw(spriteBatch, entry.Width, entry.Height);
             }
         }
         else
         {
-            spriteBatch.Draw(puerta_ani, new Vector2(door1X - ScrollX, door1Y - ScrollY), new Rectangle(0, framereal565, xx55, yy55),
+            spriteBatch.Draw(AnimatedDoor, new Vector2(door1X - ScrollX, door1Y - ScrollY), new Rectangle(0, FrameReal565, entry.Width, entry.Height),
                 Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, DoorExitDepth);
         }
         OneExit exit = MyGame.Instance.Props.GetExit(CurrentLevel.TypeOfExit);
-        int xx66 = exit.Width;
-        int yy66 = exit.Height;
-        int xx88 = exit.MoreX;
-        int xx99 = exit.MoreX2;
-        int yy88 = exit.MoreY;
-        int yy99 = exit.MoreY2;
-        frameact = (frameExit * yy66);
+        int x1 = exit.Width;
+        int y1 = exit.Height;
+        int x2 = exit.MoreX;
+        int y2 = exit.MoreY;
+        int x3 = exit.MoreX2;
+        int y3 = exit.MoreY2;
+        Frameact = (frameExit * y1);
         if (CurrentLevel.ListProps<OneMoreExit>().Any())
         {
-            foreach (Vector2 moreExits in CurrentLevel.ListProps<OneMoreExit>().Select(m => m.ExitMoreXY))
+            foreach (OneMoreExit moreExit in CurrentLevel.ListProps<OneMoreExit>())
             {
-                output1X = (int)moreExits.X;
-                output1Y = (int)moreExits.Y;
-                spriteBatch.Draw(salida_ani1_1, new Vector2(output1X - ScrollX - xx88, output1Y - yy88 - ScrollY), new Rectangle(0, frameact, xx66, yy66), Color.White,
-                    0f, Vector2.Zero, 1f, SpriteEffects.None, DoorExitDepth);
-                spriteBatch.Draw(salida_ani1, new Vector2(output1X - ScrollX - xx99, output1Y - yy99 - ScrollY), new Rectangle(0, 0, salida_ani1.Width, salida_ani1.Height),
-                    Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, DoorExitDepth);
-                if (MyGame.Instance.DebugOsd.Debug) //exits debug
-                {
-                    exit_rect = new Rectangle(output1X - 5, output1Y - 5, 10, 10);
-                    spriteBatch.Draw(MyGame.Instance.Gfx.Texture1pixel, new Rectangle(exit_rect.Left - ScrollX, exit_rect.Top - ScrollY, exit_rect.Width, exit_rect.Height), null,
-                        Color.White, 0f, Vector2.Zero, SpriteEffects.None, 0.1f);
-                }
+                moreExit.Draw(spriteBatch, x1, y1, x2, y2, x3, y3, Frameact);
             }
         }
         else
         {
-            spriteBatch.Draw(salida_ani1_1, new Vector2(output1X - ScrollX - xx88, output1Y - yy88 - ScrollY), new Rectangle(0, frameact, xx66, yy66), Color.White,
+            spriteBatch.Draw(Salida_ani1_1, new Vector2(output1X - ScrollX - x2, output1Y - y2 - ScrollY), new Rectangle(0, Frameact, x1, y1), Color.White,
                 0f, Vector2.Zero, 1f, SpriteEffects.None, DoorExitDepth);
-            spriteBatch.Draw(salida_ani1, new Vector2(output1X - ScrollX - xx99, output1Y - yy99 - ScrollY), new Rectangle(0, 0, salida_ani1.Width, salida_ani1.Height),
+            spriteBatch.Draw(Salida_ani1, new Vector2(output1X - ScrollX - x3, output1Y - y3 - ScrollY), new Rectangle(0, 0, Salida_ani1.Width, Salida_ani1.Height),
                 Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, DoorExitDepth);
             if (MyGame.Instance.DebugOsd.Debug) //exits debug
             {
