@@ -5,7 +5,6 @@ using Lemmings.NET.Constants;
 using Lemmings.NET.Datatables;
 using Lemmings.NET.Helpers;
 using Lemmings.NET.Models;
-using Lemmings.NET.Models.Particles;
 using Lemmings.NET.Screens;
 
 using Microsoft.Xna.Framework;
