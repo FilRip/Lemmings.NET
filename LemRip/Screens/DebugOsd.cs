@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 
 using Lemmings.NET.Models;
+using Lemmings.NET.Models.Props;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -50,9 +51,9 @@ internal class DebugOsd
             spriteBatch.DrawString(MyGame.Instance.Fonts.Standard, string.Format("FPS={0}", _fps), new Vector2(960, 50), Color.White, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0.1f);
             spriteBatch.DrawString(MyGame.Instance.Fonts.Standard, strPositionMouse, new Vector2(960, 10), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0.1f);
 
-            if (MyGame.Instance.ScreenInGame.SteelON && MyGame.Instance.ScreenInGame.Steel != null)
+            if (MyGame.Instance.ScreenInGame.CurrentLevel.ListProps<OneSteel>().Any())
             {
-                foreach (Rectangle steelintArea in MyGame.Instance.ScreenInGame.Steel.Select(s => s.Area))
+                foreach (Rectangle steelintArea in MyGame.Instance.ScreenInGame.CurrentLevel.ListProps<OneSteel>().Select(s => s.Area))
                 {
                     Rectangle rectangleFill = new()
                     {

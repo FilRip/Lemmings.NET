@@ -6,8 +6,8 @@ using Lemmings.NET.Constants;
 using Lemmings.NET.Datatables;
 using Lemmings.NET.Helpers;
 using Lemmings.NET.Models;
+using Lemmings.NET.Models.Particles;
 using Lemmings.NET.Models.Props;
-using Lemmings.NET.Structs;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
@@ -15,19 +15,17 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
+using Windows.Services.Maps;
+
 namespace Lemmings.NET.Screens;
 
 internal class InGame
 {
     #region Properties
 
-    internal int NumTOTsteel { get; set; }
     internal int ScrollX { get; set; }
     internal int NumACTdoor { get; set; }
-    internal int NumTOTdoors { get; set; } = 1;
-    internal int NumTOTplats { get; set; }
     internal int ScrollY { get; set; }
-    internal int NumTOTexits { get; set; } = 1;
     internal float Countertime { get; set; }
     internal List<OneLemming> AllLemmings { get; set; }
     internal int Frame2 { get; set; }
@@ -43,23 +41,11 @@ internal class InGame
     internal double MillisecondsElapsed { get; set; }
     internal Texture2D Earth { get; set; }
     internal string LemSkill { get; set; } = "";
-    internal Varplat[] Plats { get; set; }
-    internal Varadds[] Adds { get; set; }
-    internal bool SteelON { get; set; }
-    internal bool PlatsON { get; set; }
-    internal bool ArrowsON { get; set; }
-    internal bool AddsON { get; set; }
-    internal int NumTotTraps { get; set; }
-    internal int NumTotArrow { get; set; }
     internal int R1 { get; set; }
     internal int R2 { get; set; }
     internal int R3 { get; set; }
     internal int ZvTime { get; set; }
     internal bool Fade { get; set; } = true;
-    internal Vararrows[] Arrow { get; set; }
-    internal Varsteel[] Steel { get; set; }
-    internal Varmoredoors[] MoreDoors { get; set; }
-    internal Varmoreexits[] Moreexits { get; set; }
     internal bool Drawing { get; set; } = true;
     internal bool Draw2 { get; set; } = true;
     internal double TotalTime { get; set; }
@@ -95,6 +81,7 @@ internal class InGame
     internal int Numlemnow { get; set; }
     internal int Lemsneeded { get; set; } = 1;
     internal EndLevel EndLevelScreen { get; set; }
+    internal Dictionary<int, List<OneExplosion>> Explosion { get; set; }
     #endregion
 
     #region Fields
@@ -125,7 +112,6 @@ internal class InGame
     private Vector2 vectorFill;
     private Rectangle rectangleFill, rectangleFill2;
     private Color colorFill;
-    private readonly double GRAVITY = 0.1; //0.1
     public int Z1 { get; set; }
     private int z2;
     private int z3;
@@ -140,8 +126,6 @@ internal class InGame
     private Texture2D salida_ani1, salida_ani1_1;
     private Texture2D puerta_ani;
     private readonly InGameMenu _inGameMenu;
-    private List<OnePropSprite> _listSprites;
-    private List<OneTrap> _listTraps;
 
     #endregion
 
@@ -178,22 +162,8 @@ internal class InGame
         actualBlow = 0;
         exitFrame = 999;
         _inGameMenu.CurrentSelectedSkill = ECurrentSkill.NONE;
-        Moreexits = null;
-        MoreDoors = null;
-        _listTraps = null;
-        Arrow = null;
-        _listSprites = null;
-        NumTOTexits = 1;
-        NumTOTdoors = 1;
-        NumTotTraps = 0;
-        NumTotArrow = 0;
         doorWaveOn = false;
         initON = false;
-        PlatsON = false;
-        AddsON = false;
-        ArrowsON = false;
-        SteelON = false;
-        NumTOTsteel = 0;
         LevelEnded = false;
         EndLevelScreen.EndSongPlayed = false;
         ExitLevel = false;
@@ -266,8 +236,13 @@ internal class InGame
         ScrollX = CurrentLevel.InitPosX;
         ScrollY = 0;
         AllLemmings = [];
-        _listSprites = CurrentLevel.ListProps.OfType<OnePropSprite>().ToList();
-        _listTraps = CurrentLevel.ListProps.OfType<OneTrap>().ToList();
+        Explosion = [];
+        for (int i = 0; i < GlobalConst.TotalExplosions; i++)
+        {
+            Explosion.Add(i, []);
+            for (int j = 0; j < GlobalConst.PARTICLE_NUM; j++)
+                Explosion[i].Add(new OneExplosion());
+        }
     }
 
     private void Update_level()
@@ -319,36 +294,35 @@ internal class InGame
 
         MoverLemming();
 
-        if (_listSprites?.Count > 0)
+        if (CurrentLevel.ListProps<OnePropSprite>().Any())
         {
-            foreach (OnePropSprite spr in _listSprites)
+            foreach (OnePropSprite spr in CurrentLevel.ListProps<OnePropSprite>())
             {
                 spr.Update();
             }
         }
 
-        if (PlatsON &&
-            !GlobalConst.Paused &&
-            Plats != null)
+        if (!GlobalConst.Paused &&
+            CurrentLevel.ListProps<OnePlat>().Any())
         {
-            foreach (Varplat plat in Plats)
+            foreach (OnePlat plat in CurrentLevel.ListProps<OnePlat>())
             {
                 if (plat.Frame > plat.Framesecond)
                 {
                     bool goUP = plat.Up;
-                    plat.SetFrame(0);
+                    plat.Frame = 0;
                     if (goUP)
-                        plat.SetActStep(plat.ActStep + 1);
+                        plat.ActStep++;
                     else
-                        plat.SetActStep(plat.ActStep - 1);
+                        plat.ActStep--;
                     if (goUP)
-                        plat.SetAreaDrawX(plat.AreaDraw.Y - plat.Step);
+                        plat.AreaDraw.X = plat.AreaDraw.Y - plat.Step;
                     else
-                        plat.SetAreaDrawY(plat.AreaDraw.Y + plat.Step);
+                        plat.AreaDraw.Y += plat.Step;
                     if (plat.ActStep >= plat.NumSteps - 1)
-                        plat.SetUp(false);
+                        plat.Up = false;
                     if (plat.ActStep < 1)
-                        plat.SetUp(true);
+                        plat.Up = true;
                     int px = plat.AreaDraw.X - (plat.AreaDraw.Width / 2);
                     alto = plat.Step * plat.NumSteps;
                     int positioYOrig = plat.AreaDraw.Y + (plat.ActStep * plat.Step);
@@ -373,50 +347,53 @@ internal class InGame
                     if (MyGame.Instance.DebugOsd.Debug)
                         Earth.SetData(C25, 0, Earth.Width * Earth.Height); //set this only for debugger and see the real c25 redraw
                 }
-                plat.SetFrame(plat.Frame + 1);
+                plat.Frame++;
             }
         }
 
-        if (AddsON && !GlobalConst.Paused)
+        if (!GlobalConst.Paused && CurrentLevel.ListProps<OneAdd>().Any())
         {
-            int startposy = Adds[0].Sprite.Height / Adds[0].NumFrames; // height of each frame inside the whole sprite
-            int framepos = startposy * Adds[0].ActFrame; // actual y position of the frame
-            int ancho = Adds[0].Sprite.Width;
-            int amount = ancho * startposy; // height frame
-            rectangleFill.X = 0;
-            rectangleFill.Y = framepos;
-            rectangleFill.Width = ancho;
-            rectangleFill.Height = startposy;
-            Adds[0].Sprite.GetData(0, rectangleFill, Colormask22, 0, amount);
-            rectangleFill.X = Adds[0].AreaDraw.X;
-            rectangleFill.Y = Adds[0].AreaDraw.Y;
-            rectangleFill.Width = ancho;
-            rectangleFill.Height = startposy;
-            Earth.SetData(0, rectangleFill, Colormask22, 0, amount);
-            int py = Adds[0].AreaDraw.Y;
-            int px = Adds[0].AreaDraw.X;
-            int cantidad99 = 0;
-            for (int yy99 = 0; yy99 < startposy; yy99++)
+            foreach (OneAdd add in CurrentLevel.ListProps<OneAdd>())
             {
-                int yypos99 = (yy99 + py) * Earth.Width;
-                for (int xx99 = 0; xx99 < ancho; xx99++)
+                int startposy = add.Sprite.Height / add.NumFrames; // height of each frame inside the whole sprite
+                int framepos = startposy * add.ActFrame; // actual y position of the frame
+                int ancho = add.Sprite.Width;
+                int amount = ancho * startposy; // height frame
+                rectangleFill.X = 0;
+                rectangleFill.Y = framepos;
+                rectangleFill.Width = ancho;
+                rectangleFill.Height = startposy;
+                add.Sprite.GetData(0, rectangleFill, Colormask22, 0, amount);
+                rectangleFill.X = add.AreaDraw.X;
+                rectangleFill.Y = add.AreaDraw.Y;
+                rectangleFill.Width = ancho;
+                rectangleFill.Height = startposy;
+                Earth.SetData(0, rectangleFill, Colormask22, 0, amount);
+                int py = add.AreaDraw.Y;
+                int px = add.AreaDraw.X;
+                int cantidad99 = 0;
+                for (int yy99 = 0; yy99 < startposy; yy99++)
                 {
-                    C25[yypos99 + px + xx99].PackedValue = Colormask22[cantidad99].PackedValue;
-                    cantidad99++;
+                    int yypos99 = (yy99 + py) * Earth.Width;
+                    for (int xx99 = 0; xx99 < ancho; xx99++)
+                    {
+                        C25[yypos99 + px + xx99].PackedValue = Colormask22[cantidad99].PackedValue;
+                        cantidad99++;
+                    }
                 }
+                if (add.Frame > add.Framesecond)
+                {
+                    add.Frame = 0;
+                    add.ActFrame++;
+                    if (add.ActFrame >= add.NumFrames)
+                        add.ActFrame = 0;
+                }
+                add.Frame++;
             }
-            if (Adds[0].Frame > Adds[0].Framesecond)
-            {
-                Adds[0].Frame = 0;
-                Adds[0].ActFrame++;
-                if (Adds[0].ActFrame >= Adds[0].NumFrames)
-                    Adds[0].ActFrame = 0;
-            }
-            Adds[0].Frame++;
         }
-        if (_listTraps?.Count > 0 && Drawing && !GlobalConst.Paused)
+        if (CurrentLevel.ListProps<OneTrap>().Any() && Drawing && !GlobalConst.Paused)
         {
-            foreach (OneTrap trap in _listTraps)
+            foreach (OneTrap trap in CurrentLevel.ListProps<OneTrap>())
             {
                 trap.Update();
             }
@@ -491,17 +468,17 @@ internal class InGame
         _inGameMenu.Update();
         MyTexture = MyGame.Instance.Content.Load<Texture2D>("luces/" + Counter);// okokokokokokokok
 
-        if (Drawing && NumTotArrow > 0) // dibuja or dibuja2 test performance-- this is the worst part of the code NEED OPTIMIZATION
+        if (Drawing && CurrentLevel.ListProps<OneArrow>().Any()) // dibuja or dibuja2 test performance-- this is the worst part of the code NEED OPTIMIZATION
         {
-            for (int xz = 0; xz < NumTotArrow; xz++)
+            foreach (OneArrow arrow in CurrentLevel.ListProps<OneArrow>())
             {
-                amount22 = Arrow[xz].Area.Width * Arrow[xz].Area.Height;
-                Arrow[xz].Arrow.GetData(Colormask22, 0, Arrow[xz].Arrow.Height * Arrow[xz].Arrow.Width);
+                amount22 = arrow.Area.Width * arrow.Area.Height;
+                arrow.Arrow.GetData(Colormask22, 0, arrow.Arrow.Height * arrow.Arrow.Width);
                 //////// optimized for hd3000 laptop ARROWS OPTIMIZED
-                int py = Arrow[xz].Area.Y;
-                int px = Arrow[xz].Area.X;
-                int alto66 = Arrow[xz].Area.Height;
-                int ancho66 = Arrow[xz].Area.Width;
+                int py = arrow.Area.Y;
+                int px = arrow.Area.X;
+                int alto66 = arrow.Area.Height;
+                int ancho66 = arrow.Area.Width;
                 amount22 = 0;
                 for (int yy88 = 0; yy88 < alto66; yy88++)
                 {
@@ -512,21 +489,21 @@ internal class InGame
                         amount22++;
                     }
                 }
-                if (!Arrow[xz].Right) //left arrows
+                if (!arrow.Right) //left arrows
                 {
-                    Arrow[xz].Moving++;
-                    if (Arrow[xz].Moving < 0)
+                    arrow.Moving++;
+                    if (arrow.Moving < 0)
                     {
-                        Arrow[xz].Moving = Arrow[xz].Arrow.Width - 1;
+                        arrow.Moving = arrow.Arrow.Width - 1;
                     }
-                    for (int y4 = 0; y4 < Arrow[xz].Area.Height; y4++)
+                    for (int y4 = 0; y4 < arrow.Area.Height; y4++)
                     {
-                        for (int x4 = 0; x4 < Arrow[xz].Area.Width; x4++)
+                        for (int x4 = 0; x4 < arrow.Area.Width; x4++)
                         {
-                            int posy456 = y4 % Arrow[xz].Arrow.Height;
-                            int posx456 = x4 % Arrow[xz].Arrow.Width;
-                            posx456 = (Arrow[xz].Arrow.Width - 1) - ((posx456 + Arrow[xz].Moving) % Arrow[xz].Arrow.Width); // left perfecto
-                            Colormasktotal[(y4 * Arrow[xz].Area.Width) + x4].PackedValue = Colormask22[(posy456 * Arrow[xz].Arrow.Width) + posx456].PackedValue;
+                            int posy456 = y4 % arrow.Arrow.Height;
+                            int posx456 = x4 % arrow.Arrow.Width;
+                            posx456 = (arrow.Arrow.Width - 1) - ((posx456 + arrow.Moving) % arrow.Arrow.Width); // left perfecto
+                            Colormasktotal[(y4 * arrow.Area.Width) + x4].PackedValue = Colormask22[(posy456 * arrow.Arrow.Width) + posx456].PackedValue;
                         }
                     }
                     for (int r = 0; r < amount22; r++)
@@ -536,23 +513,23 @@ internal class InGame
                             Colorsobre22[r].PackedValue = Colormasktotal[r].PackedValue;
                         }
                     }
-                    Arrow[xz].EnvelopArrow.SetData(Colorsobre22, 0, Arrow[xz].EnvelopArrow.Height * Arrow[xz].EnvelopArrow.Width);
+                    arrow.EnvelopArrow.SetData(Colorsobre22, 0, arrow.EnvelopArrow.Height * arrow.EnvelopArrow.Width);
                 }
                 else //right arrows
                 {
-                    Arrow[xz].Moving--;
-                    if (Arrow[xz].Moving < 0)
+                    arrow.Moving--;
+                    if (arrow.Moving < 0)
                     {
-                        Arrow[xz].Moving = Arrow[xz].Arrow.Width - 1;
+                        arrow.Moving = arrow.Arrow.Width - 1;
                     }
-                    for (int y4 = 0; y4 < Arrow[xz].Area.Height; y4++)
+                    for (int y4 = 0; y4 < arrow.Area.Height; y4++)
                     {
-                        for (int x4 = 0; x4 < Arrow[xz].Area.Width; x4++)
+                        for (int x4 = 0; x4 < arrow.Area.Width; x4++)
                         {
-                            int posy456 = y4 % Arrow[xz].Arrow.Height;
-                            int posx456 = x4 % Arrow[xz].Arrow.Width;
-                            posx456 = ((posx456 + Arrow[xz].Moving) % Arrow[xz].Arrow.Width);  //Left okok
-                            Colormasktotal[(y4 * Arrow[xz].Area.Width) + x4].PackedValue = Colormask22[(posy456 * Arrow[xz].Arrow.Width) + posx456].PackedValue;
+                            int posy456 = y4 % arrow.Arrow.Height;
+                            int posx456 = x4 % arrow.Arrow.Width;
+                            posx456 = ((posx456 + arrow.Moving) % arrow.Arrow.Width);  //Left okok
+                            Colormasktotal[(y4 * arrow.Area.Width) + x4].PackedValue = Colormask22[(posy456 * arrow.Arrow.Width) + posx456].PackedValue;
                         }
                     }
                     for (int r = 0; r < amount22; r++)
@@ -562,7 +539,7 @@ internal class InGame
                             Colorsobre22[r].PackedValue = Colormasktotal[r].PackedValue;
                         }
                     }
-                    Arrow[xz].EnvelopArrow.SetData(Colorsobre22, 0, Arrow[xz].EnvelopArrow.Height * Arrow[xz].EnvelopArrow.Width);
+                    arrow.EnvelopArrow.SetData(Colorsobre22, 0, arrow.EnvelopArrow.Height * arrow.EnvelopArrow.Width);
                 }
             }
         }
@@ -627,9 +604,9 @@ internal class InGame
             colorFill.A = 120;
             spriteBatch.Draw(logo555, rectangleFill, rectangleFill2, colorFill, 0f, Vector2.Zero, SpriteEffects.None, 0.806f);
         }
-        if (_listTraps?.Count > 0) //draw traps
+        if (CurrentLevel.ListProps<OneTrap>().Any()) //draw traps
         {
-            foreach (OneTrap trap in _listTraps)
+            foreach (OneTrap trap in CurrentLevel.ListProps<OneTrap>())
             {
                 trap.Draw(spriteBatch);
             }
@@ -676,13 +653,13 @@ internal class InGame
         }
         spriteBatch.Draw(Earth, new Vector2(0, 0), new Rectangle(ScrollX, ScrollY, GlobalConst.GameResolution.X, GlobalConst.GameResolution.Y - 188), //512 size of window draw
             Color.White, 0f, Vector2.Zero, 1, SpriteEffects.None, 0.500f);
-        if (NumTotArrow > 0)
+        if (CurrentLevel.ListProps<OneArrow>().Any())
         {
-            for (int xz = 0; xz < NumTotArrow; xz++)
+            foreach (OneArrow arrow in CurrentLevel.ListProps<OneArrow>())
             {
-                spriteBatch.Draw(Arrow[xz].EnvelopArrow, new Vector2(Arrow[xz].Area.X - ScrollX, Arrow[xz].Area.Y - ScrollY),
-                    new Rectangle(0, 0, Arrow[xz].EnvelopArrow.Width, Arrow[xz].EnvelopArrow.Height),
-                    new Color(255, 255, 255, Arrow[xz].Transparency), 0f, Vector2.Zero, 1f, SpriteEffects.None, 0.499f);
+                spriteBatch.Draw(arrow.EnvelopArrow, new Vector2(arrow.Area.X - ScrollX, arrow.Area.Y - ScrollY),
+                    new Rectangle(0, 0, arrow.EnvelopArrow.Width, arrow.EnvelopArrow.Height),
+                    new Color(255, 255, 255, arrow.Transparency), 0f, Vector2.Zero, 1f, SpriteEffects.None, 0.499f);
             }
         }
 
@@ -697,17 +674,17 @@ internal class InGame
         int yy55 = entry.Height;
         framereal565 = (frameDoor * yy55);
 
-        if (_listSprites?.Count > 0)
+        if (CurrentLevel.ListProps<OnePropSprite>().Any())
         {
-            foreach (OnePropSprite spr in _listSprites)
+            foreach (OnePropSprite spr in CurrentLevel.ListProps<OnePropSprite>())
             {
                 spr.Draw(spriteBatch);
             }
         }
 
-        if (PlatsON)
+        if (CurrentLevel.ListProps<OnePlat>().Any())
         {
-            foreach (Varplat plat in Plats)
+            foreach (OnePlat plat in CurrentLevel.ListProps<OnePlat>())
             {
                 int x2 = plat.AreaDraw.X - plat.AreaDraw.Width / 2;
                 int y = plat.AreaDraw.Y;
@@ -717,20 +694,20 @@ internal class InGame
                     new Rectangle(0, 0, w, h), Color.White, 0f, Vector2.Zero, SpriteEffects.None, 0.56f);
             }
         }
-        if (MoreDoors == null)
+        if (CurrentLevel.ListProps<OneMoreDoor>().Any())
         {
-            spriteBatch.Draw(puerta_ani, new Vector2(door1X - ScrollX, door1Y - ScrollY), new Rectangle(0, framereal565, xx55, yy55),
-                Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, DoorExitDepth);
-        }
-        else
-        {
-            foreach (Vector2 moreDoor in MoreDoors.Select(m => m.DoorMoreXY))
+            foreach (Vector2 moreDoor in CurrentLevel.ListProps<OneMoreDoor>().Select(m => m.DoorMoreXY))
             {
                 door1X = (int)moreDoor.X;
                 door1Y = (int)moreDoor.Y;
                 spriteBatch.Draw(puerta_ani, new Vector2(door1X - ScrollX, door1Y - ScrollY), new Rectangle(0, framereal565, xx55, yy55),
                     Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, DoorExitDepth);
             }
+        }
+        else
+        {
+            spriteBatch.Draw(puerta_ani, new Vector2(door1X - ScrollX, door1Y - ScrollY), new Rectangle(0, framereal565, xx55, yy55),
+                Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, DoorExitDepth);
         }
         OneExit exit = MyGame.Instance.Props.GetExit(CurrentLevel.TypeOfExit);
         int xx66 = exit.Width;
@@ -740,7 +717,25 @@ internal class InGame
         int yy88 = exit.MoreY;
         int yy99 = exit.MoreY2;
         frameact = (frameExit * yy66);
-        if (Moreexits == null)
+        if (CurrentLevel.ListProps<OneMoreExit>().Any())
+        {
+            foreach (Vector2 moreExits in CurrentLevel.ListProps<OneMoreExit>().Select(m => m.ExitMoreXY))
+            {
+                output1X = (int)moreExits.X;
+                output1Y = (int)moreExits.Y;
+                spriteBatch.Draw(salida_ani1_1, new Vector2(output1X - ScrollX - xx88, output1Y - yy88 - ScrollY), new Rectangle(0, frameact, xx66, yy66), Color.White,
+                    0f, Vector2.Zero, 1f, SpriteEffects.None, DoorExitDepth);
+                spriteBatch.Draw(salida_ani1, new Vector2(output1X - ScrollX - xx99, output1Y - yy99 - ScrollY), new Rectangle(0, 0, salida_ani1.Width, salida_ani1.Height),
+                    Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, DoorExitDepth);
+                if (MyGame.Instance.DebugOsd.Debug) //exits debug
+                {
+                    exit_rect = new Rectangle(output1X - 5, output1Y - 5, 10, 10);
+                    spriteBatch.Draw(MyGame.Instance.Gfx.Texture1pixel, new Rectangle(exit_rect.Left - ScrollX, exit_rect.Top - ScrollY, exit_rect.Width, exit_rect.Height), null,
+                        Color.White, 0f, Vector2.Zero, SpriteEffects.None, 0.1f);
+                }
+            }
+        }
+        else
         {
             spriteBatch.Draw(salida_ani1_1, new Vector2(output1X - ScrollX - xx88, output1Y - yy88 - ScrollY), new Rectangle(0, frameact, xx66, yy66), Color.White,
                 0f, Vector2.Zero, 1f, SpriteEffects.None, DoorExitDepth);
@@ -751,27 +746,6 @@ internal class InGame
                 exit_rect = new Rectangle(output1X - 5, output1Y - 5, 10, 10);
                 spriteBatch.Draw(MyGame.Instance.Gfx.Texture1pixel, new Rectangle(exit_rect.Left - ScrollX, exit_rect.Top - ScrollY, exit_rect.Width, exit_rect.Height), null,
                     Color.White, 0f, Vector2.Zero, SpriteEffects.None, 0.1f);
-            }
-        }
-        else
-        {
-            if (Moreexits != null)
-            {
-                foreach (Vector2 moreExits in Moreexits.Select(m => m.ExitMoreXY))
-                {
-                    output1X = (int)moreExits.X;
-                    output1Y = (int)moreExits.Y;
-                    spriteBatch.Draw(salida_ani1_1, new Vector2(output1X - ScrollX - xx88, output1Y - yy88 - ScrollY), new Rectangle(0, frameact, xx66, yy66), Color.White,
-                        0f, Vector2.Zero, 1f, SpriteEffects.None, DoorExitDepth);
-                    spriteBatch.Draw(salida_ani1, new Vector2(output1X - ScrollX - xx99, output1Y - yy99 - ScrollY), new Rectangle(0, 0, salida_ani1.Width, salida_ani1.Height),
-                        Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, DoorExitDepth);
-                    if (MyGame.Instance.DebugOsd.Debug) //exits debug
-                    {
-                        exit_rect = new Rectangle(output1X - 5, output1Y - 5, 10, 10);
-                        spriteBatch.Draw(MyGame.Instance.Gfx.Texture1pixel, new Rectangle(exit_rect.Left - ScrollX, exit_rect.Top - ScrollY, exit_rect.Width, exit_rect.Height), null,
-                            Color.White, 0f, Vector2.Zero, SpriteEffects.None, 0.1f);
-                    }
-                }
             }
         }
         // infos various for test only
@@ -802,19 +776,11 @@ internal class InGame
         }
         if (Exploding) // draws explosions particles explosion_particle
         {
-            for (int Qexplo = 0; Qexplo < ActItem; Qexplo++)
+            foreach (List<OneExplosion> listExplosions in Explosion.Values)
             {
-                for (int Iexplo = 0; Iexplo < GlobalConst.PARTICLE_NUM; Iexplo++)
+                foreach (OneExplosion explosion in listExplosions)
                 {
-                    if (MyGame.Instance.Explosion[Qexplo, Iexplo].LifeCtr < 0)
-                        continue;
-
-                    vectorFill.X = (float)MyGame.Instance.Explosion[Qexplo, Iexplo].x - ScrollX;
-                    vectorFill.Y = (float)MyGame.Instance.Explosion[Qexplo, Iexplo].y - ScrollY;
-                    spriteBatch.Draw(MyGame.Instance.Gfx.Explosion_particle, vectorFill, new Rectangle(0, 0, MyGame.Instance.Gfx.Explosion_particle.Width, MyGame.Instance.Gfx.Explosion_particle.Height), MyGame.Instance.Explosion[Qexplo, Iexplo].Color,
-                        MyGame.Instance.Explosion[Qexplo, Iexplo].Rotation, Vector2.Zero, MyGame.Instance.Explosion[Qexplo, Iexplo].Size, SpriteEffects.None, 0.300f);
-                    MyGame.Instance.Explosion[Qexplo, Iexplo].Rotation += 0.03f;
-                    MyGame.Instance.Explosion[Qexplo, Iexplo].Size += 0.01f;
+                    explosion.Draw(spriteBatch);
                 }
             }
         }
@@ -846,48 +812,19 @@ internal class InGame
         if (Exploding && drawing3 && !GlobalConst.Paused)  //logic explosions particles
         {
             int _totalExploding = ActItem;
-            for (int Qexplo = 0; Qexplo < ActItem; Qexplo++)
+            foreach (List<OneExplosion> listExplosions in Explosion.Values)
             {
                 int TopY = GlobalConst.GameResolution.Y;
                 if (Earth != null)
                     TopY = Earth.Height - 2;
                 int NumberAlive = 0;
-                for (int Iexplo = 0; Iexplo < GlobalConst.PARTICLE_NUM; Iexplo++)
+                foreach (OneExplosion explosion in listExplosions)
                 {
-                    if (MyGame.Instance.Explosion[Qexplo, Iexplo].LifeCtr == -100)
+                    bool result = explosion.Update(gameTime, TopY);
+                    if (result)
                         NumberAlive++;
-                    if (MyGame.Instance.Explosion[Qexplo, Iexplo].LifeCtr > 0)
-                    {
-                        //this change alpha channel from half life and fade out every particle
-                        int xx33 = MyGame.Instance.Explosion[Qexplo, Iexplo].LifeCtr;
-                        int yy33 = MyGame.Instance.Explosion[Qexplo, 0].Counter;
-                        int xx55 = (xx33 + yy33) / 2;
-                        if (yy33 > xx55)
-                        {
-                            yy33 -= xx55;
-                            int yy55 = yy33 * 100 / xx55;
-                            yy55 *= 2;
-                            if (yy55 > 255)
-                                yy55 = 255;
-                            MyGame.Instance.Explosion[Qexplo, Iexplo].SetColorA(Convert.ToByte(255 - yy55)); //total alpha - % of death value
-                        }
-                        //calculate new position
-                        MyGame.Instance.Explosion[Qexplo, Iexplo].x += MyGame.Instance.Explosion[Qexplo, Iexplo].dx;
-                        MyGame.Instance.Explosion[Qexplo, Iexplo].y += MyGame.Instance.Explosion[Qexplo, Iexplo].dy + MyGame.Instance.Explosion[Qexplo, 0].Counter * GRAVITY;
-                        if (MyGame.Instance.Explosion[Qexplo, Iexplo].y > TopY)
-                        {
-                            //explosion[qexplo, iexplo].y = topY;  //bottom of drawable sets y to max
-                            MyGame.Instance.Explosion[Qexplo, Iexplo].LifeCtr = -100;  //bottom of drawable area kills particle
-                        }
-                        // check life counter
-                        if (MyGame.Instance.Explosion[Qexplo, Iexplo].LifeCtr > 0)
-                            MyGame.Instance.Explosion[Qexplo, Iexplo].LifeCtr--;
-                        if (MyGame.Instance.Explosion[Qexplo, Iexplo].LifeCtr == 0)
-                            MyGame.Instance.Explosion[Qexplo, Iexplo].LifeCtr = -100;
-
-                    }
                 }
-                MyGame.Instance.Explosion[Qexplo, 0].Counter++;
+                listExplosions[0].Counter++;
                 if (NumberAlive >= GlobalConst.PARTICLE_NUM)
                 {
                     _totalExploding--;
@@ -1198,12 +1135,12 @@ internal class InGame
         //test to see difference with anterior process
         if (pullLemmings && AllLemmings.Count != TotalNumLemmings && !AllBlow)
         {
-            if (NumTOTdoors > 1 && MoreDoors != null) // more than 1 door is different calculation
+            if (CurrentLevel.ListProps<OneMoreDoor>().Any()) // more than 1 door is different calculation
             {
-                door1Y = (int)MoreDoors[NumACTdoor].DoorMoreXY.Y;
-                door1X = (int)MoreDoors[NumACTdoor].DoorMoreXY.X;
+                door1Y = (int)CurrentLevel.ListProps<OneMoreDoor>().ElementAt(NumACTdoor).DoorMoreXY.Y;
+                door1X = (int)CurrentLevel.ListProps<OneMoreDoor>().ElementAt(NumACTdoor).DoorMoreXY.X;
                 NumACTdoor++;
-                if (NumACTdoor >= NumTOTdoors)
+                if (NumACTdoor >= CurrentLevel.ListProps<OneMoreDoor>().Count())
                     NumACTdoor = 0;
             }
             AllLemmings.Add(new OneLemming()
@@ -1253,7 +1190,31 @@ internal class InGame
                 if (MyGame.Instance.Sfx.Yippe.State == SoundState.Stopped)
                     MyGame.Instance.Sfx.Yippe.Play();
             }
-            if (Moreexits == null)
+            if (CurrentLevel.ListProps<OneMoreExit>().Any())
+            {
+                foreach (Vector2 moreExitPos in CurrentLevel.ListProps<OneMoreExit>().Select(me => me.ExitMoreXY)) // more than one EXIT place
+                {
+                    output1X = (int)moreExitPos.X;
+                    output1Y = (int)moreExitPos.Y;
+                    exit_rect.X = output1X - 5;
+                    exit_rect.Y = output1Y - 5;
+                    exit_rect.Width = 10;
+                    exit_rect.Height = 10;
+                    if (exit_rect.Contains(x) && !lemming.Exit && !lemming.Explode)
+                    {
+                        lemming.PosX = output1X - 19; //14+5 middle of the exit rect
+                        lemming.PosY = output1Y - 30; //25+5
+                        lemming.Active = false;
+                        lemming.Walker = false;
+                        lemming.Fall = false;
+                        lemming.Falling = false;
+                        lemming.Exit = true;
+                        lemming.Numframes = SizeSprites.sale_frames;
+                        lemming.Actualframe = 0; // break; //i'm not sure if it's necessary this break
+                    }
+                }
+            }
+            else
             {
                 if (exit_rect.Contains(x) && !lemming.Exit && !lemming.Explode)
                 {
@@ -1266,33 +1227,6 @@ internal class InGame
                     lemming.Exit = true;
                     lemming.Numframes = SizeSprites.sale_frames;
                     lemming.Actualframe = 0;
-                }
-            }
-            else
-            {
-                if (Moreexits != null)
-                {
-                    foreach (Vector2 moreExitPos in Moreexits.Select(me => me.ExitMoreXY)) // more than one EXIT place
-                    {
-                        output1X = (int)moreExitPos.X;
-                        output1Y = (int)moreExitPos.Y;
-                        exit_rect.X = output1X - 5;
-                        exit_rect.Y = output1Y - 5;
-                        exit_rect.Width = 10;
-                        exit_rect.Height = 10;
-                        if (exit_rect.Contains(x) && !lemming.Exit && !lemming.Explode)
-                        {
-                            lemming.PosX = output1X - 19; //14+5 middle of the exit rect
-                            lemming.PosY = output1Y - 30; //25+5
-                            lemming.Active = false;
-                            lemming.Walker = false;
-                            lemming.Fall = false;
-                            lemming.Falling = false;
-                            lemming.Exit = true;
-                            lemming.Numframes = SizeSprites.sale_frames;
-                            lemming.Actualframe = 0; // break; //i'm not sure if it's necessary this break
-                        }
-                    }
                 }
             }
         }

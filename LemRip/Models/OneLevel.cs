@@ -1,4 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+
+using Lemmings.NET.Models.Props;
 
 namespace Lemmings.NET.Models;
 
@@ -37,5 +40,9 @@ internal class OneLevel
     internal int ExitY { get; set; }
     internal int TypeOfExit { get; set; }
     internal float DoorExitDepth { get; set; }
-    internal List<OneProp> ListProps { get; set; } = [];
+    internal List<OneProp> ListAllProps { get; set; } = [];
+    internal IEnumerable<T> ListProps<T>() where T : OneProp
+    {
+        return ListAllProps.OfType<T>();
+    }
 }

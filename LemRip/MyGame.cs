@@ -5,8 +5,8 @@ using Lemmings.NET.Constants;
 using Lemmings.NET.Datatables;
 using Lemmings.NET.Helpers;
 using Lemmings.NET.Models;
+using Lemmings.NET.Models.Particles;
 using Lemmings.NET.Screens;
-using Lemmings.NET.Structs;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
@@ -92,7 +92,6 @@ public partial class MyGame : Game
     internal int CurrentLevelNumber { get; set; }
     internal ECurrentScreen CurrentScreen { get; set; }
     public bool LevelEnded { get; set; } = false;
-    internal Particle[,] Explosion { get; set; } = new Particle[GlobalConst.totalExplosions, 24];
     #endregion
 
     internal void BackToMenu()

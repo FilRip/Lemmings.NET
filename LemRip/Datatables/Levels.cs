@@ -78,7 +78,7 @@ internal static class Levels
                         break;
                     spr.Path = spr.Path.Add(iniFile.ReadVector3(section, $"Path{j}"));
                 }
-                lvl.ListProps.Add(spr);
+                lvl.ListAllProps.Add(spr);
             }
         }
 
@@ -103,7 +103,7 @@ internal static class Levels
                     VvX = iniFile.ReadInteger(section, "vvx"),
                     VvY = iniFile.ReadInteger(section, "vvy"),
                 };
-                lvl.ListProps.Add(trap);
+                lvl.ListAllProps.Add(trap);
             }
         }
 
@@ -118,7 +118,7 @@ internal static class Levels
                 {
                     Area = iniFile.ReadRectangle(section, "area"),
                 };
-                lvl.ListProps.Add(steel);
+                lvl.ListAllProps.Add(steel);
             }
         }
 
@@ -141,7 +141,7 @@ internal static class Levels
                     Step = iniFile.ReadInteger(section, "step"),
                     Up = iniFile.ReadBoolean(section, "up"),
                 };
-                lvl.ListProps.Add(plat);
+                lvl.ListAllProps.Add(plat);
             }
         }
 
@@ -161,7 +161,7 @@ internal static class Levels
                     NumFrames = iniFile.ReadInteger(section, "numframes"),
                     Sprite = iniFile.ReadEnum<EGfxProp>(section, "sprite").GetTexture(),
                 };
-                lvl.ListProps.Add(add);
+                lvl.ListAllProps.Add(add);
             }
         }
 
@@ -183,7 +183,7 @@ internal static class Levels
                     Right = iniFile.ReadBoolean(section, "right"),
                     Transparency = iniFile.ReadInteger(section, "transparency"),
                 };
-                lvl.ListProps.Add(arrow);
+                lvl.ListAllProps.Add(arrow);
             }
         }
 
@@ -200,7 +200,7 @@ internal static class Levels
                     Frame = iniFile.ReadInteger(section, "frame"),
                     DoorMoreXY = iniFile.ReadVector2(section, "doormorexy"),
                 };
-                lvl.ListProps.Add(door);
+                lvl.ListAllProps.Add(door);
             }
         }
 
@@ -217,7 +217,7 @@ internal static class Levels
                     Frame = iniFile.ReadInteger(section, "frame"),
                     ExitMoreXY = iniFile.ReadVector2(section, "exitmorexy"),
                 };
-                lvl.ListProps.Add(exit);
+                lvl.ListAllProps.Add(exit);
             }
         }
 

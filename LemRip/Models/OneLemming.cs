@@ -4,7 +4,6 @@ using System.Linq;
 using Lemmings.NET.Constants;
 using Lemmings.NET.Helpers;
 using Lemmings.NET.Models.Props;
-using Lemmings.NET.Structs;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -129,9 +128,9 @@ internal class OneLemming
             Onmouse = true;
         } //  inside the mouse rectangle lemming ON
         if (!GlobalConst.Paused &&
-            MyGame.Instance.ScreenInGame.CurrentLevel.ListProps.OfType<OneTrap>() != null) //Traps logic and sounds
+            MyGame.Instance.ScreenInGame.CurrentLevel.ListAllProps.OfType<OneTrap>() != null) //Traps logic and sounds
         {
-            foreach (OneTrap trap in MyGame.Instance.ScreenInGame.CurrentLevel.ListProps.OfType<OneTrap>())
+            foreach (OneTrap trap in MyGame.Instance.ScreenInGame.CurrentLevel.ListAllProps.OfType<OneTrap>())
             {
                 x.X = PosX + 14;
                 x.Y = PosY + 25;
@@ -472,7 +471,7 @@ internal class OneLemming
             }
         }
         // very important to check digger and miner before change to falling
-        if (PixelsDrop > GlobalConst.useumbrella && !Falling && Umbrella
+        if (PixelsDrop > GlobalConst.UseUmbrella && !Falling && Umbrella
             && (!Digger && !Miner && !Builder) && Active)
         {
             PixelsDrop = 11;
@@ -498,7 +497,7 @@ internal class OneLemming
         }
         if ((below == 0) && (Fall || Falling) && (!Digger && !Miner)) //OJO LOCO A VECES AL CAVAR Y SIGUE WALKER
         {
-            if (PixelsDrop <= GlobalConst.maxnumberfalling)
+            if (PixelsDrop <= GlobalConst.MaxNumberFalling)
             {
                 PixelsDrop = 0;
                 Framescut = false;
@@ -559,7 +558,7 @@ internal class OneLemming
         }
         if (Miner && MyGame.Instance.ScreenInGame.Draw2 && Actualframe == 42)  // miner logic pico logic
         {
-            if (MyGame.Instance.ScreenInGame.ArrowsON) // miner arrows logic areaTrap Intersects
+            if (MyGame.Instance.ScreenInGame.CurrentLevel.ListProps<OneArrow>().Any()) // miner arrows logic areaTrap Intersects
             {
                 bool nominer = false;
                 Rectangle arrowLem;
@@ -567,19 +566,16 @@ internal class OneLemming
                 arrowLem.Y = PosY;
                 arrowLem.Width = 28;
                 arrowLem.Height = 28;
-                if (MyGame.Instance.ScreenInGame.Arrow != null)
+                foreach (OneArrow arrow in MyGame.Instance.ScreenInGame.CurrentLevel.ListProps<OneArrow>())
                 {
-                    foreach (Vararrows arrow in MyGame.Instance.ScreenInGame.Arrow)
+                    if (arrow.Area.Intersects(arrowLem) && Right && !arrow.Right)
                     {
-                        if (arrow.Area.Intersects(arrowLem) && Right && !arrow.Right)
-                        {
-                            nominer = true;
-                            continue;
-                        }
-                        if (arrow.Area.Intersects(arrowLem) && Left && arrow.Right)
-                        {
-                            nominer = true;
-                        }
+                        nominer = true;
+                        continue;
+                    }
+                    if (arrow.Area.Intersects(arrowLem) && Left && arrow.Right)
+                    {
+                        nominer = true;
                     }
                 }
                 if (nominer)
@@ -615,7 +611,6 @@ internal class OneLemming
                     top2 = MyGame.Instance.ScreenInGame.Earth.Height - py;
                 }
                 MyGame.Instance.Gfx.Mascarapared.GetData(MyGame.Instance.ScreenInGame.Colormask2);
-                //////// optimized for hd3000 laptop ARROWS OPTIMIZED
                 int amount = 0;
                 for (int yy88 = 0; yy88 < top2; yy88++)
                 {
@@ -628,14 +623,13 @@ internal class OneLemming
                 }
                 for (int r = 0; r < amount; r++)
                 {
-                    if (MyGame.Instance.ScreenInGame.SteelON)
+                    if (MyGame.Instance.ScreenInGame.CurrentLevel.ListProps<OneSteel>().Any())
                     {
                         sx = r % width2;
                         int sy = r / width2;
                         x.X = px + sx;
                         x.Y = py + sy;
-                        if (MyGame.Instance.ScreenInGame.Steel != null &&
-                            Array.Exists(MyGame.Instance.ScreenInGame.Steel, s => s.Area.Contains(x)))
+                        if (MyGame.Instance.ScreenInGame.CurrentLevel.ListProps<OneSteel>().ToList().Exists(s => s.Area.Contains(x)))
                         {
                             sx = -777;
                         }
@@ -726,13 +720,13 @@ internal class OneLemming
                 }
                 for (int r = 0; r < amount; r++)
                 {
-                    if (MyGame.Instance.ScreenInGame.SteelON)
+                    if (MyGame.Instance.ScreenInGame.CurrentLevel.ListProps<OneSteel>().Any())
                     {
                         sx = r % width2;
                         int sy = r / width2;
                         x.X = px + sx;
                         x.Y = py + sy;
-                        if (Array.Exists(MyGame.Instance.ScreenInGame.Steel, s => s.Area.Contains(x)))
+                        if (MyGame.Instance.ScreenInGame.CurrentLevel.ListProps<OneSteel>().ToList().Exists(s => s.Area.Contains(x)))
                             sx = -777;
                         if (sx == -777)
                         {
@@ -786,7 +780,7 @@ internal class OneLemming
 
         if (Basher && (Actualframe == 10 || Actualframe == 37) && MyGame.Instance.ScreenInGame.Draw2)
         {
-            if (MyGame.Instance.ScreenInGame.ArrowsON) // basher arrows logic areaTrap Intersects
+            if (MyGame.Instance.ScreenInGame.CurrentLevel.ListProps<OneArrow>().Any()) // basher arrows logic areaTrap Intersects
             {
                 bool nobasher = false;
                 Rectangle arrowLem;
@@ -794,19 +788,16 @@ internal class OneLemming
                 arrowLem.Y = PosY;
                 arrowLem.Width = 28;
                 arrowLem.Height = 28;
-                if (MyGame.Instance.ScreenInGame.Arrow != null)
+                foreach (OneArrow arrow in MyGame.Instance.ScreenInGame.CurrentLevel.ListProps<OneArrow>())
                 {
-                    foreach (Vararrows arrow in MyGame.Instance.ScreenInGame.Arrow)
+                    if (arrow.Area.Intersects(arrowLem) && Right && !arrow.Right)
                     {
-                        if (arrow.Area.Intersects(arrowLem) && Right && !arrow.Right)
-                        {
-                            nobasher = true;
-                            continue;
-                        }
-                        if (arrow.Area.Intersects(arrowLem) && Left && arrow.Right)
-                        {
-                            nobasher = true;
-                        }
+                        nobasher = true;
+                        continue;
+                    }
+                    if (arrow.Area.Intersects(arrowLem) && Left && arrow.Right)
+                    {
+                        nobasher = true;
                     }
                 }
                 if (nobasher)
@@ -862,11 +853,11 @@ internal class OneLemming
                     MyGame.Instance.ScreenInGame.Frente = 0;
                     for (int valY = 0; valY < top2; valY++)
                     {
-                        if (MyGame.Instance.ScreenInGame.SteelON)
+                        if (MyGame.Instance.ScreenInGame.CurrentLevel.ListProps<OneSteel>().Any())
                         {
                             x.X = px + valX;
                             x.Y = py + valY;
-                            if (Array.Exists(MyGame.Instance.ScreenInGame.Steel, s => s.Area.Contains(x)))
+                            if (MyGame.Instance.ScreenInGame.CurrentLevel.ListProps<OneSteel>().ToList().Exists(s => s.Area.Contains(x)))
                                 sx = -777;
                             if (sx == -777)
                             {
@@ -971,11 +962,11 @@ internal class OneLemming
                     MyGame.Instance.ScreenInGame.Frente = 0;
                     for (int valY = 0; valY < top2; valY++)
                     {
-                        if (MyGame.Instance.ScreenInGame.SteelON)
+                        if (MyGame.Instance.ScreenInGame.CurrentLevel.ListProps<OneSteel>().Any())
                         {
                             x.X = px + valX;
                             x.Y = py + valY;
-                            if (Array.Exists(MyGame.Instance.ScreenInGame.Steel, s => s.Area.Contains(x)))
+                            if (MyGame.Instance.ScreenInGame.CurrentLevel.ListProps<OneSteel>().ToList().Exists(s => s.Area.Contains(x)))
                                 sx = -777;
                             if (sx == -777)
                             {
@@ -1287,11 +1278,11 @@ internal class OneLemming
                         } // cortar si esta en el limite por debajo 512=earth.height
                         for (int xx88 = 4; xx88 <= 24; xx88++)
                         {
-                            if (MyGame.Instance.ScreenInGame.SteelON)
+                            if (MyGame.Instance.ScreenInGame.CurrentLevel.ListProps<OneSteel>().Any())
                             {
                                 x.X = PosX + xx88;
                                 x.Y = PosY + 14 + y;
-                                if (Array.Exists(MyGame.Instance.ScreenInGame.Steel, s => s.Area.Contains(x)))
+                                if (MyGame.Instance.ScreenInGame.CurrentLevel.ListProps<OneSteel>().ToList().Exists(s => s.Area.Contains(x)))
                                     sx = -777;
                                 if (sx == -777)
                                 {
@@ -1519,13 +1510,13 @@ internal class OneLemming
             }
             for (int r = 0; r < amount; r++)
             {
-                if (MyGame.Instance.ScreenInGame.SteelON)
+                if (MyGame.Instance.ScreenInGame.CurrentLevel.ListProps<OneSteel>().Any())
                 {
                     sx = r % ancho66;
                     int sy = r / ancho66;
                     x.X = px + sx;
                     x.Y = py + sy;
-                    if (Array.Exists(MyGame.Instance.ScreenInGame.Steel, s => s.Area.Contains(x)))
+                    if (MyGame.Instance.ScreenInGame.CurrentLevel.ListProps<OneSteel>().ToList().Exists(s => s.Area.Contains(x)))
                         sx = -777;
                     if (sx == -777)
                         continue;
@@ -1560,11 +1551,11 @@ internal class OneLemming
             //explosions addons emitter - particles logic add
             int xExp = PosX + 14;
             int yExp = PosY + 14;
-            MyGame.Instance.Explosion[MyGame.Instance.ScreenInGame.ActItem, 0].MaxCounter = 0;
-            MyGame.Instance.Explosion[MyGame.Instance.ScreenInGame.ActItem, 0].Counter = 0;
+            MyGame.Instance.ScreenInGame.Explosion[MyGame.Instance.ScreenInGame.ActItem][0].MaxCounter = 0;
+            MyGame.Instance.ScreenInGame.Explosion[MyGame.Instance.ScreenInGame.ActItem][0].Counter = 0;
             for (int Iexplo = 0; Iexplo < GlobalConst.PARTICLE_NUM; Iexplo++)
             {
-                MyGame.Instance.Explosion[MyGame.Instance.ScreenInGame.ActItem, Iexplo].MaxCounter = 0;
+                MyGame.Instance.ScreenInGame.Explosion[MyGame.Instance.ScreenInGame.ActItem][Iexplo].MaxCounter = 0;
                 byte colorr = (byte)GlobalConst.Rnd.Next(255);
                 byte colorg = (byte)GlobalConst.Rnd.Next(255);
                 byte colorb = (byte)GlobalConst.Rnd.Next(255);
@@ -1576,21 +1567,21 @@ internal class OneLemming
                     A = 255,
                 };
                 int LifeCount = GlobalConst.LIFE_COUNTER + (int)(GlobalConst.Rnd.NextDouble() * 2 * GlobalConst.LIFE_VARIANCE) - GlobalConst.LIFE_VARIANCE;
-                if (LifeCount > MyGame.Instance.Explosion[MyGame.Instance.ScreenInGame.ActItem, 0].MaxCounter)
-                    MyGame.Instance.Explosion[0, 0].MaxCounter = LifeCount;
-                MyGame.Instance.Explosion[MyGame.Instance.ScreenInGame.ActItem, Iexplo].dx = (GlobalConst.Rnd.NextDouble() * (SizeSprites.MAX_DX - SizeSprites.MIN_DX) + SizeSprites.MIN_DX);
-                MyGame.Instance.Explosion[MyGame.Instance.ScreenInGame.ActItem, Iexplo].dy = (GlobalConst.Rnd.NextDouble() * (SizeSprites.MAX_DY - SizeSprites.MIN_DY) + SizeSprites.MIN_DY);
-                MyGame.Instance.Explosion[MyGame.Instance.ScreenInGame.ActItem, Iexplo].x = xExp;
-                MyGame.Instance.Explosion[MyGame.Instance.ScreenInGame.ActItem, Iexplo].y = yExp;
-                MyGame.Instance.Explosion[MyGame.Instance.ScreenInGame.ActItem, Iexplo].Color = colorFill;
-                MyGame.Instance.Explosion[MyGame.Instance.ScreenInGame.ActItem, Iexplo].LifeCtr = LifeCount;
-                MyGame.Instance.Explosion[MyGame.Instance.ScreenInGame.ActItem, Iexplo].Rotation = (float)GlobalConst.Rnd.NextDouble();
-                MyGame.Instance.Explosion[MyGame.Instance.ScreenInGame.ActItem, Iexplo].Size = (float)(GlobalConst.Rnd.NextDouble() / 2);
+                if (LifeCount > MyGame.Instance.ScreenInGame.Explosion[MyGame.Instance.ScreenInGame.ActItem][0].MaxCounter)
+                    MyGame.Instance.ScreenInGame.Explosion[0][0].MaxCounter = LifeCount;
+                MyGame.Instance.ScreenInGame.Explosion[MyGame.Instance.ScreenInGame.ActItem][Iexplo].dx = (GlobalConst.Rnd.NextDouble() * (SizeSprites.MAX_DX - SizeSprites.MIN_DX) + SizeSprites.MIN_DX);
+                MyGame.Instance.ScreenInGame.Explosion[MyGame.Instance.ScreenInGame.ActItem][Iexplo].dy = (GlobalConst.Rnd.NextDouble() * (SizeSprites.MAX_DY - SizeSprites.MIN_DY) + SizeSprites.MIN_DY);
+                MyGame.Instance.ScreenInGame.Explosion[MyGame.Instance.ScreenInGame.ActItem][Iexplo].x = xExp;
+                MyGame.Instance.ScreenInGame.Explosion[MyGame.Instance.ScreenInGame.ActItem][Iexplo].y = yExp;
+                MyGame.Instance.ScreenInGame.Explosion[MyGame.Instance.ScreenInGame.ActItem][Iexplo].Color = colorFill;
+                MyGame.Instance.ScreenInGame.Explosion[MyGame.Instance.ScreenInGame.ActItem][Iexplo].LifeCtr = LifeCount;
+                MyGame.Instance.ScreenInGame.Explosion[MyGame.Instance.ScreenInGame.ActItem][Iexplo].Rotation = (float)GlobalConst.Rnd.NextDouble();
+                MyGame.Instance.ScreenInGame.Explosion[MyGame.Instance.ScreenInGame.ActItem][Iexplo].Size = (float)(GlobalConst.Rnd.NextDouble() / 2);
             }
             MyGame.Instance.ScreenInGame.Exploding = true;
             MyGame.Instance.ScreenInGame.ActItem++;
-            if (MyGame.Instance.ScreenInGame.ActItem > GlobalConst.totalExplosions - 1)
-                MyGame.Instance.ScreenInGame.ActItem = GlobalConst.totalExplosions - 1;
+            if (MyGame.Instance.ScreenInGame.ActItem > GlobalConst.TotalExplosions - 1)
+                MyGame.Instance.ScreenInGame.ActItem = GlobalConst.TotalExplosions - 1;
             return;
         }
         if (!Falling && Active)
