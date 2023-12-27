@@ -20,14 +20,15 @@ internal class OneArrow : OneBaseProp
 
     internal override void Draw(SpriteBatch spriteBatch)
     {
-        throw new System.NotImplementedException();
+        spriteBatch.Draw(EnvelopArrow, new Vector2(Area.X - MyGame.Instance.ScreenInGame.ScrollX, Area.Y - MyGame.Instance.ScreenInGame.ScrollY),
+            new Rectangle(0, 0, EnvelopArrow.Width, EnvelopArrow.Height),
+            new Color(255, 255, 255, Transparency), 0f, Vector2.Zero, 1f, SpriteEffects.None, 0.499f);
     }
 
     internal override void Update()
     {
         amount22 = Area.Width * Area.Height;
         Arrow.GetData(MyGame.Instance.ScreenInGame.Colormask22, 0, Arrow.Height * Arrow.Width);
-        //////// optimized for hd3000 laptop ARROWS OPTIMIZED
         int py = Area.Y;
         int px = Area.X;
         int alto66 = Area.Height;
@@ -42,7 +43,7 @@ internal class OneArrow : OneBaseProp
                 amount22++;
             }
         }
-        if (Right) //left arrows
+        if (Right)
         {
             Moving--;
             if (Moving < 0)
@@ -68,7 +69,7 @@ internal class OneArrow : OneBaseProp
             }
             EnvelopArrow.SetData(MyGame.Instance.ScreenInGame.Colorsobre22, 0, EnvelopArrow.Height * EnvelopArrow.Width);
         }
-        else //right arrows
+        else
         {
             Moving++;
             if (Moving < 0)

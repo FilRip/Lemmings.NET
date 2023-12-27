@@ -6,6 +6,9 @@ using Lemmings.NET.Helpers;
 using Lemmings.NET.Models;
 using Lemmings.NET.Models.Props;
 
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+
 namespace Lemmings.NET.Datatables;
 
 internal static class Levels
@@ -111,7 +114,7 @@ internal static class Levels
         if (nbSteel > 0)
         {
             OneSteel steel;
-            for (int i = 1; i < nbSteel; i++)
+            for (int i = 1; i <= nbSteel; i++)
             {
                 section = $"steel{i}";
                 steel = new OneSteel()
@@ -126,7 +129,7 @@ internal static class Levels
         if (nbPlat > 0)
         {
             OnePlat plat;
-            for (int i = 1; i < nbPlat; i++)
+            for (int i = 1; i <= nbPlat; i++)
             {
                 section = $"plat{i}";
                 plat = new OnePlat()
@@ -149,7 +152,7 @@ internal static class Levels
         if (nbAdd > 0)
         {
             OneAdd add;
-            for (int i = 1; i < nbAdd; i++)
+            for (int i = 1; i <= nbAdd; i++)
             {
                 section = $"add{i}";
                 add = new OneAdd()
@@ -169,7 +172,7 @@ internal static class Levels
         if (nbArrow > 0)
         {
             OneArrow arrow;
-            for (int i = 1; i < nbArrow; i++)
+            for (int i = 1; i <= nbArrow; i++)
             {
                 section = $"arrow{i}";
                 arrow = new OneArrow()
@@ -177,12 +180,13 @@ internal static class Levels
                     ActFrame = iniFile.ReadInteger(section, "actframe"),
                     Area = iniFile.ReadRectangle(section, "area"),
                     Arrow = iniFile.ReadEnum<EGfxProp>(section, "arrow").GetTexture(),
-                    EnvelopArrow = iniFile.ReadEnum<EGfxProp>(section, "enveloparrow").GetTexture(),
                     Frame = iniFile.ReadInteger(section, "frame"),
                     Moving = iniFile.ReadInteger(section, "moving"),
                     Right = iniFile.ReadBoolean(section, "right"),
                     Transparency = iniFile.ReadInteger(section, "transparency"),
                 };
+                Vector2 textureSize = iniFile.ReadVector2(section, "enveloparrow");
+                arrow.EnvelopArrow = new Texture2D(MyGame.Instance.GraphicsDevice, (int)textureSize.X, (int)textureSize.Y);
                 lvl.ListAllProps.Add(arrow);
             }
         }
@@ -191,7 +195,7 @@ internal static class Levels
         if (nbMoreDoor > 0)
         {
             OneMoreDoor door;
-            for (int i = 1; i < nbMoreDoor; i++)
+            for (int i = 1; i <= nbMoreDoor; i++)
             {
                 section = $"moredoors{i}";
                 door = new OneMoreDoor()
@@ -208,7 +212,7 @@ internal static class Levels
         if (nbMoreExit > 0)
         {
             OneMoreExit exit;
-            for (int i = 1; i < nbMoreExit; i++)
+            for (int i = 1; i <= nbMoreExit; i++)
             {
                 section = $"moreexits{i}";
                 exit = new OneMoreExit()

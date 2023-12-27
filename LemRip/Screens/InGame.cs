@@ -510,9 +510,7 @@ internal class InGame
         {
             foreach (OneArrow arrow in CurrentLevel.ListProps<OneArrow>())
             {
-                spriteBatch.Draw(arrow.EnvelopArrow, new Vector2(arrow.Area.X - ScrollX, arrow.Area.Y - ScrollY),
-                    new Rectangle(0, 0, arrow.EnvelopArrow.Width, arrow.EnvelopArrow.Height),
-                    new Color(255, 255, 255, arrow.Transparency), 0f, Vector2.Zero, 1f, SpriteEffects.None, 0.499f);
+                arrow.Draw(spriteBatch);
             }
         }
 
