@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Lemmings.NET.Models.Props;
 
-internal class OneArrow : OneProp
+internal class OneArrow : OneBaseProp
 {
     internal Rectangle Area;
     internal bool Right;

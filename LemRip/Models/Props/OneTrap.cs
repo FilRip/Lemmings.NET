@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Lemmings.NET.Models.Props;
 
-internal class OneTrap : OneProp
+internal class OneTrap : OneBaseProp
 {
     internal int Type, VvX, VvY, NumFrames, Vvscroll;
     internal Color Color;

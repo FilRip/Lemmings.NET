@@ -292,9 +292,9 @@ internal class InGame
 
         MoverLemming();
 
-        if (CurrentLevel.ListProps<OnePropSprite>().Any())
+        if (CurrentLevel.ListProps<OneScreenSprite>().Any())
         {
-            foreach (OnePropSprite spr in CurrentLevel.ListProps<OnePropSprite>())
+            foreach (OneScreenSprite spr in CurrentLevel.ListProps<OneScreenSprite>())
             {
                 spr.Update();
             }
@@ -672,9 +672,9 @@ internal class InGame
         int yy55 = entry.Height;
         framereal565 = (frameDoor * yy55);
 
-        if (CurrentLevel.ListProps<OnePropSprite>().Any())
+        if (CurrentLevel.ListProps<OneScreenSprite>().Any())
         {
-            foreach (OnePropSprite spr in CurrentLevel.ListProps<OnePropSprite>())
+            foreach (OneScreenSprite spr in CurrentLevel.ListProps<OneScreenSprite>())
             {
                 spr.Draw(spriteBatch);
             }

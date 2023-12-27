@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Lemmings.NET.Models.Props;
 
-internal class OneMoreDoor : OneProp
+internal class OneMoreDoor : OneBaseProp
 {
     internal Vector2 DoorMoreXY;
 

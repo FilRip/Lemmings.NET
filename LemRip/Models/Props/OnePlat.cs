@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Lemmings.NET.Models.Props;
 
-internal class OnePlat : OneProp
+internal class OnePlat : OneBaseProp
 {
     internal int Framesecond, NumSteps, ActStep, Step;
     internal bool Up;

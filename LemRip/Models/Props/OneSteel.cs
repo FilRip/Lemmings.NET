@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Lemmings.NET.Models.Props;
 
-internal class OneSteel : OneProp
+internal class OneSteel : OneBaseProp
 {
     internal Rectangle Area;
 

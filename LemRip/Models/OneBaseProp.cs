@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Lemmings.NET.Models;
 
-internal abstract class OneProp
+internal abstract class OneBaseProp
 {
     internal abstract ETypeProp TypeTrap { get; }
 

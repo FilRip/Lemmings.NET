@@ -38,8 +38,8 @@ internal class OneLevel
     internal int ExitY { get; set; }
     internal int TypeOfExit { get; set; }
     internal float DoorExitDepth { get; set; }
-    internal List<OneProp> ListAllProps { get; set; } = [];
-    internal IEnumerable<T> ListProps<T>() where T : OneProp
+    internal List<OneBaseProp> ListAllProps { get; set; } = [];
+    internal IEnumerable<T> ListProps<T>() where T : OneBaseProp
     {
         return ListAllProps.OfType<T>();
     }

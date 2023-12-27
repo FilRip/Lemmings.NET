@@ -45,11 +45,11 @@ internal static class Levels
         int nbSprite = iniFile.NumberOfSection("sprite");
         if (nbSprite > 0)
         {
-            OnePropSprite spr;
+            OneScreenSprite spr;
             for (int i = 1; i <= nbSprite; i++)
             {
                 section = $"sprite{i}";
-                spr = new OnePropSprite()
+                spr = new OneScreenSprite()
                 {
                     ActFrame = iniFile.ReadInteger(section, "actframe"),
                     AxisX = iniFile.ReadInteger(section, "axisx"),

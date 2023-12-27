@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Lemmings.NET.Models.Props;
 
-internal class OneAdd : OneProp
+internal class OneAdd : OneBaseProp
 {
     internal int Framesecond, NumFrames;
     internal Rectangle AreaDraw;

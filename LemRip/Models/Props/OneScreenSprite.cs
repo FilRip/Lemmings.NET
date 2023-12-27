@@ -7,41 +7,25 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Lemmings.NET.Models.Props;
 
-internal class OnePropSprite : OneProp
+internal class OneScreenSprite : OneBaseProp
 {
-    internal int AxisX { get; set; }
-
-    internal int AxisY { get; set; }
-
-    internal Color Color { get; set; }
-
-    internal int Framesecond { get; set; }
-
-    internal int ActVect { get; set; }
-
-    internal Vector2 Dest { get; set; }
-
-    internal Vector2 Center { get; set; }
-
-    internal float Depth { get; set; }
-
-    internal float Rotation { get; set; }
-
-    internal float Scale { get; set; }
-
-    internal float Typescroll { get; set; }
-
-    internal float Speed { get; set; }
-
-    internal bool MinusScrollX { get; set; }
-
-    internal bool Minus { get; set; }
-
-    internal bool Calc { get; set; }
-
-    internal Texture2D Sprite { get; set; }
-
-    internal Vector3[] Path { get; set; }
+    internal int AxisX;
+    internal int AxisY;
+    internal Color Color;
+    internal int Framesecond;
+    internal int ActVect;
+    internal Vector2 Dest;
+    internal Vector2 Center;
+    internal float Depth;
+    internal float Rotation;
+    internal float Scale;
+    internal float Typescroll;
+    internal float Speed;
+    internal bool MinusScrollX;
+    internal bool Minus;
+    internal bool Calc;
+    internal Texture2D Sprite;
+    internal Vector3[] Path;
 
     internal override ETypeProp TypeTrap
     {

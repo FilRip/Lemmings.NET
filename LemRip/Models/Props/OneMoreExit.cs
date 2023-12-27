@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Lemmings.NET.Models.Props;
 
-internal class OneMoreExit : OneProp
+internal class OneMoreExit : OneBaseProp
 {
     internal Vector2 ExitMoreXY;
 
