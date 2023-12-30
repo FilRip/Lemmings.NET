@@ -56,15 +56,15 @@ internal class InGame
     }
     internal int ActItem { get; set; }
     internal bool Exploding { get; set; }
-    internal int Frente2 { get; set; }
-    internal int Frente { get; set; }
+    internal int Front2 { get; set; }
+    internal int Front { get; set; }
     internal bool MouseOnLem { get; set; }
     internal bool Draw_walker { get; set; }
     internal bool Draw_builder { get; set; }
-    internal Color[] Colormask33 { get; set; } = new Color[38 * 53]; // explode mask 38*53
-    internal Color[] Colormask2 { get; set; } = new Color[20 * 20];  // miner mask 20*20 && basher too 20*20
-    internal Color[] Colorsobre2 { get; set; } = new Color[20 * 20];
-    internal Color[] C25 { get; set; } = new Color[4096 * 4096]; // Maximun size of a color array used for mask all the level
+    internal Color[] ColorExploderMask { get; set; } = new Color[38 * 53]; // explode mask 38*53
+    internal Color[] ColorBasherMask { get; set; } = new Color[20 * 20];  // miner mask 20*20 && basher too 20*20
+    internal Color[] ColorOver { get; set; } = new Color[20 * 20];
+    internal Color[] LevelOverlay { get; set; } = new Color[4096 * 4096]; // Maximun size of a color array used for mask all the level
     internal Color[] Colormask22 { get; set; } = new Color[500 * 512];
     internal int NumSaved
     {
@@ -73,7 +73,7 @@ internal class InGame
             return AllLemmings?.Count(l => l.Exit) ?? 0;
         }
     }
-    internal Color[] Colorsobre33 { get; set; } = new Color[38 * 53];
+    internal Color[] ClownLevelOverlay { get; set; } = new Color[38 * 53];
     internal OneLevel CurrentLevel { get; set; }
     internal bool ExitBad { get; set; }
     internal int Numlemnow { get; set; }
@@ -173,8 +173,8 @@ internal class InGame
         Color[] pixels = new Color[level.Width * level.Height];
         level.GetData(pixels);
         Earth.SetData(pixels);
-        Earth.GetData(C25, 0, Earth.Height * Earth.Width); //better here than moverlemming() for performance see issues 
-                                                           //see differences with old getdata, see size important (x * y)
+        Earth.GetData(LevelOverlay, 0, Earth.Height * Earth.Width); //better here than moverlemming() for performance see issues 
+                                                                    //see differences with old getdata, see size important (x * y)
         door1X = CurrentLevel.DoorX;
         door1Y = CurrentLevel.DoorY;
         output1X = CurrentLevel.ExitX;

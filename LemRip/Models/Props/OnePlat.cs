@@ -57,18 +57,18 @@ internal class OnePlat : OneBaseProp
                         realLine = true;
                     if (realLine)
                     {
-                        MyGame.Instance.ScreenInGame.C25[((positioYOrig - (alto - y55)) * MyGame.Instance.ScreenInGame.Earth.Width) + x55 + px] = Color.White;
+                        MyGame.Instance.ScreenInGame.LevelOverlay[((positioYOrig - (alto - y55)) * MyGame.Instance.ScreenInGame.Earth.Width) + x55 + px] = Color.White;
                     }
                     else
                     {
-                        MyGame.Instance.ScreenInGame.C25[((positioYOrig - (alto - y55)) * MyGame.Instance.ScreenInGame.Earth.Width) + x55 + px] = Color.Transparent;
+                        MyGame.Instance.ScreenInGame.LevelOverlay[((positioYOrig - (alto - y55)) * MyGame.Instance.ScreenInGame.Earth.Width) + x55 + px] = Color.Transparent;
 
                     }
                 }
             }
             if (MyGame.Instance.DebugOsd.Debug)
             {
-                MyGame.Instance.ScreenInGame.Earth.SetData(MyGame.Instance.ScreenInGame.C25,
+                MyGame.Instance.ScreenInGame.Earth.SetData(MyGame.Instance.ScreenInGame.LevelOverlay,
                                                            0,
                                                            MyGame.Instance.ScreenInGame.Earth.Width * MyGame.Instance.ScreenInGame.Earth.Height); //set this only for debugger and see the real c25 redraw
             }

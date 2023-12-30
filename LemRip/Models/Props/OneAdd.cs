@@ -46,7 +46,7 @@ internal class OneAdd : OneBaseProp
             int yypos99 = (yy99 + py) * MyGame.Instance.ScreenInGame.Earth.Width;
             for (int xx99 = 0; xx99 < ancho; xx99++)
             {
-                MyGame.Instance.ScreenInGame.C25[yypos99 + px + xx99].PackedValue = MyGame.Instance.ScreenInGame.Colormask22[cantidad99].PackedValue;
+                MyGame.Instance.ScreenInGame.LevelOverlay[yypos99 + px + xx99].PackedValue = MyGame.Instance.ScreenInGame.Colormask22[cantidad99].PackedValue;
                 cantidad99++;
             }
         }

@@ -39,7 +39,7 @@ internal class OneArrow : OneBaseProp
             int yypos888 = (yy88 + py) * MyGame.Instance.ScreenInGame.Earth.Width;
             for (int xx88 = 0; xx88 < ancho66; xx88++)
             {
-                MyGame.Instance.ScreenInGame.Colorsobre22[amount22].PackedValue = MyGame.Instance.ScreenInGame.C25[yypos888 + px + xx88].PackedValue;
+                MyGame.Instance.ScreenInGame.Colorsobre22[amount22].PackedValue = MyGame.Instance.ScreenInGame.LevelOverlay[yypos888 + px + xx88].PackedValue;
                 amount22++;
             }
         }

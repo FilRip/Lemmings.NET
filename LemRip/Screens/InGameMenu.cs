@@ -281,6 +281,7 @@ internal class InGameMenu
         }
         else if (rectop12.Contains(Input.CurrentMouseState.Position) && (Input.PreviousMouseState.LeftButton == ButtonState.Released && Input.CurrentMouseState.LeftButton == ButtonState.Pressed) && !_inGame.AllBlow)
         {
+            // BOMBERS ALL
             if (clickTimer1 > 0 && _inGame.MillisecondsElapsed - clickTimer1 < 300)
             {
                 MyGame.Instance.Sfx.ChangeOp.Replay();
@@ -289,7 +290,7 @@ internal class InGameMenu
             }
             else
                 clickTimer1 = _inGame.MillisecondsElapsed;
-        } // BOMBERS ALL
+        }
         else if (Input.CurrentMouseState.LeftButton == ButtonState.Released)
             _alreadyPlayed = false;
         if (rectop13.Contains(Input.CurrentMouseState.Position) && Input.CurrentMouseState.LeftButton == ButtonState.Pressed)  //FAST FORWARD
@@ -301,7 +302,7 @@ internal class InGameMenu
             }
             op13 = true;
             MyGame.Instance.TargetElapsedTime = TimeSpan.FromSeconds(1.0f / 180.0f);
-        } // 120--240 van ok mas no lo se depende creo
+        }
         else
         {
             op13 = false;

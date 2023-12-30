@@ -461,7 +461,7 @@ internal class OneLemming
                 MyGame.Instance.Sfx.Die.Replay();
                 break;
             }
-            if (MyGame.Instance.ScreenInGame.C25[(pos_real * MyGame.Instance.ScreenInGame.Earth.Width) + pixx].R == 0 && MyGame.Instance.ScreenInGame.C25[(pos_real * MyGame.Instance.ScreenInGame.Earth.Width) + pixx].G == 0 && MyGame.Instance.ScreenInGame.C25[(pos_real * MyGame.Instance.ScreenInGame.Earth.Width) + pixx].B == 0)
+            if (MyGame.Instance.ScreenInGame.LevelOverlay[(pos_real * MyGame.Instance.ScreenInGame.Earth.Width) + pixx].R == 0 && MyGame.Instance.ScreenInGame.LevelOverlay[(pos_real * MyGame.Instance.ScreenInGame.Earth.Width) + pixx].G == 0 && MyGame.Instance.ScreenInGame.LevelOverlay[(pos_real * MyGame.Instance.ScreenInGame.Earth.Width) + pixx].B == 0)
             {
                 below++;
             }
@@ -537,7 +537,7 @@ internal class OneLemming
             }
             if (pos_real < MyGame.Instance.ScreenInGame.Earth.Height && pos_real > 0)
             {
-                if (MyGame.Instance.ScreenInGame.C25[(pos_real * MyGame.Instance.ScreenInGame.Earth.Width) + pixx].R > 0 || MyGame.Instance.ScreenInGame.C25[(pos_real * MyGame.Instance.ScreenInGame.Earth.Width) + pixx].G > 0 || MyGame.Instance.ScreenInGame.C25[(pos_real * MyGame.Instance.ScreenInGame.Earth.Width) + pixx].B > 0)
+                if (MyGame.Instance.ScreenInGame.LevelOverlay[(pos_real * MyGame.Instance.ScreenInGame.Earth.Width) + pixx].R > 0 || MyGame.Instance.ScreenInGame.LevelOverlay[(pos_real * MyGame.Instance.ScreenInGame.Earth.Width) + pixx].G > 0 || MyGame.Instance.ScreenInGame.LevelOverlay[(pos_real * MyGame.Instance.ScreenInGame.Earth.Width) + pixx].B > 0)
                 {
                     above++;
                 }
@@ -610,14 +610,14 @@ internal class OneLemming
                 {
                     top2 = MyGame.Instance.ScreenInGame.Earth.Height - py;
                 }
-                MyGame.Instance.Gfx.Mascarapared.GetData(MyGame.Instance.ScreenInGame.Colormask2);
+                MyGame.Instance.Gfx.Mascarapared.GetData(MyGame.Instance.ScreenInGame.ColorBasherMask);
                 int amount = 0;
                 for (int yy88 = 0; yy88 < top2; yy88++)
                 {
                     int yypos888 = (yy88 + py) * MyGame.Instance.ScreenInGame.Earth.Width;
                     for (int xx88 = 0; xx88 < width2; xx88++)
                     {
-                        MyGame.Instance.ScreenInGame.Colorsobre2[amount].PackedValue = MyGame.Instance.ScreenInGame.C25[yypos888 + px + xx88].PackedValue;
+                        MyGame.Instance.ScreenInGame.ColorOver[amount].PackedValue = MyGame.Instance.ScreenInGame.LevelOverlay[yypos888 + px + xx88].PackedValue;
                         amount++;
                     }
                 }
@@ -642,20 +642,20 @@ internal class OneLemming
                             break;
                         }
                     }
-                    if (MyGame.Instance.ScreenInGame.Colorsobre2[r].R > 0 || MyGame.Instance.ScreenInGame.Colorsobre2[r].G > 0 || MyGame.Instance.ScreenInGame.Colorsobre2[r].B > 0)
+                    if (MyGame.Instance.ScreenInGame.ColorOver[r].R > 0 || MyGame.Instance.ScreenInGame.ColorOver[r].G > 0 || MyGame.Instance.ScreenInGame.ColorOver[r].B > 0)
                     {
-                        MyGame.Instance.ScreenInGame.Frente2++;
+                        MyGame.Instance.ScreenInGame.Front2++;
                     }
-                    if (MyGame.Instance.ScreenInGame.Colormask2[r].R > 0 || MyGame.Instance.ScreenInGame.Colormask2[r].G > 0 || MyGame.Instance.ScreenInGame.Colormask2[r].B > 0)
+                    if (MyGame.Instance.ScreenInGame.ColorBasherMask[r].R > 0 || MyGame.Instance.ScreenInGame.ColorBasherMask[r].G > 0 || MyGame.Instance.ScreenInGame.ColorBasherMask[r].B > 0)
                     {
-                        MyGame.Instance.ScreenInGame.Colorsobre2[r].PackedValue = 0;
+                        MyGame.Instance.ScreenInGame.ColorOver[r].PackedValue = 0;
                     }
                 }
                 rectangleFill.X = px;
                 rectangleFill.Y = py;
                 rectangleFill.Width = width2;
                 rectangleFill.Height = top2;
-                MyGame.Instance.ScreenInGame.Earth.SetData(0, rectangleFill, MyGame.Instance.ScreenInGame.Colorsobre2, 0, amount);
+                MyGame.Instance.ScreenInGame.Earth.SetData(0, rectangleFill, MyGame.Instance.ScreenInGame.ColorOver, 0, amount);
                 // this code update c25 rectangle px-py-ancho66-alto66 only not all like before
                 amount = 0;
                 for (int yy33 = 0; yy33 < top2; yy33++)
@@ -663,7 +663,7 @@ internal class OneLemming
                     int yypos555 = (yy33 + py) * MyGame.Instance.ScreenInGame.Earth.Width;
                     for (int xx33 = 0; xx33 < width2; xx33++)
                     {
-                        MyGame.Instance.ScreenInGame.C25[yypos555 + px + xx33].PackedValue = MyGame.Instance.ScreenInGame.Colorsobre2[amount].PackedValue;
+                        MyGame.Instance.ScreenInGame.LevelOverlay[yypos555 + px + xx33].PackedValue = MyGame.Instance.ScreenInGame.ColorOver[amount].PackedValue;
                         amount++;
                     }
                 }
@@ -671,7 +671,7 @@ internal class OneLemming
                     return;
                 PosX += 12;
                 PosY++;
-                if (MyGame.Instance.ScreenInGame.Frente2 == 0)
+                if (MyGame.Instance.ScreenInGame.Front2 == 0)
                 {
                     Miner = false;
                     Walker = true;
@@ -706,15 +706,14 @@ internal class OneLemming
                 {
                     top2 = MyGame.Instance.ScreenInGame.Earth.Height - py;
                 }
-                MyGame.Instance.Gfx.Mascarapared.GetData(MyGame.Instance.ScreenInGame.Colormask2);
-                //////// optimized for hd3000 laptop ARROWS OPTIMIZED
+                MyGame.Instance.Gfx.Mascarapared.GetData(MyGame.Instance.ScreenInGame.ColorBasherMask);
                 int amount = 0;
                 for (int yy88 = 0; yy88 < top2; yy88++)
                 {
                     int yypos888 = (yy88 + py) * MyGame.Instance.ScreenInGame.Earth.Width;
                     for (int xx88 = 0; xx88 < width2; xx88++)
                     {
-                        MyGame.Instance.ScreenInGame.Colorsobre2[amount].PackedValue = MyGame.Instance.ScreenInGame.C25[yypos888 + px + xx88].PackedValue;
+                        MyGame.Instance.ScreenInGame.ColorOver[amount].PackedValue = MyGame.Instance.ScreenInGame.LevelOverlay[yypos888 + px + xx88].PackedValue;
                         amount++;
                     }
                 }
@@ -737,20 +736,20 @@ internal class OneLemming
                             break;
                         }
                     }
-                    if (MyGame.Instance.ScreenInGame.Colorsobre2[amount - 1 - r].R > 0 || MyGame.Instance.ScreenInGame.Colorsobre2[amount - 1 - r].G > 0 || MyGame.Instance.ScreenInGame.Colorsobre2[amount - 1 - r].B > 0)
+                    if (MyGame.Instance.ScreenInGame.ColorOver[amount - 1 - r].R > 0 || MyGame.Instance.ScreenInGame.ColorOver[amount - 1 - r].G > 0 || MyGame.Instance.ScreenInGame.ColorOver[amount - 1 - r].B > 0)
                     {
-                        MyGame.Instance.ScreenInGame.Frente2++;
+                        MyGame.Instance.ScreenInGame.Front2++;
                     }
-                    if (MyGame.Instance.ScreenInGame.Colormask2[amount - 1 - r].R > 0 || MyGame.Instance.ScreenInGame.Colormask2[amount - 1 - r].G > 0 || MyGame.Instance.ScreenInGame.Colormask2[amount - 1 - r].B > 0)
+                    if (MyGame.Instance.ScreenInGame.ColorBasherMask[amount - 1 - r].R > 0 || MyGame.Instance.ScreenInGame.ColorBasherMask[amount - 1 - r].G > 0 || MyGame.Instance.ScreenInGame.ColorBasherMask[amount - 1 - r].B > 0)
                     {
-                        MyGame.Instance.ScreenInGame.Colorsobre2[r].PackedValue = 0;
+                        MyGame.Instance.ScreenInGame.ColorOver[r].PackedValue = 0;
                     }
                 }
                 rectangleFill.X = px;
                 rectangleFill.Y = py;
                 rectangleFill.Width = width2;
                 rectangleFill.Height = top2;
-                MyGame.Instance.ScreenInGame.Earth.SetData(0, rectangleFill, MyGame.Instance.ScreenInGame.Colorsobre2, 0, amount);
+                MyGame.Instance.ScreenInGame.Earth.SetData(0, rectangleFill, MyGame.Instance.ScreenInGame.ColorOver, 0, amount);
                 // this code update c25 rectangle px-py-ancho66-alto66 only not all like before
                 amount = 0;
                 for (int yy33 = 0; yy33 < top2; yy33++)
@@ -758,7 +757,7 @@ internal class OneLemming
                     int yypos555 = (yy33 + py) * MyGame.Instance.ScreenInGame.Earth.Width;
                     for (int xx33 = 0; xx33 < width2; xx33++)
                     {
-                        MyGame.Instance.ScreenInGame.C25[yypos555 + px + xx33].PackedValue = MyGame.Instance.ScreenInGame.Colorsobre2[amount].PackedValue;
+                        MyGame.Instance.ScreenInGame.LevelOverlay[yypos555 + px + xx33].PackedValue = MyGame.Instance.ScreenInGame.ColorOver[amount].PackedValue;
                         amount++;
                     }
                 }
@@ -766,7 +765,7 @@ internal class OneLemming
                     return;
                 PosX -= 12;
                 PosY++;
-                if (MyGame.Instance.ScreenInGame.Frente2 == 0)
+                if (MyGame.Instance.ScreenInGame.Front2 == 0)
                 {
                     Basher = false;
                     Walker = true;
@@ -775,7 +774,7 @@ internal class OneLemming
                     return;
                 }
             }
-            MyGame.Instance.ScreenInGame.Frente2 = 0;  /////// PPPPPPPPIIIIIIIIIICCCCCCCCCCCCCCCCCOOOOOOOOOOOOOOOOOOO  BASHER LOGIC puto33
+            MyGame.Instance.ScreenInGame.Front2 = 0;  /////// PPPPPPPPIIIIIIIIIICCCCCCCCCCCCCCCCCOOOOOOOOOOOOOOOOOOO  BASHER LOGIC puto33
         }
 
         if (Basher && (Actualframe == 10 || Actualframe == 37) && MyGame.Instance.ScreenInGame.Draw2)
@@ -832,7 +831,7 @@ internal class OneLemming
                 {
                     top2 = MyGame.Instance.ScreenInGame.Earth.Height - py;
                 }
-                MyGame.Instance.Gfx.Mascarapared.GetData(MyGame.Instance.ScreenInGame.Colormask2);
+                MyGame.Instance.Gfx.Mascarapared.GetData(MyGame.Instance.ScreenInGame.ColorBasherMask);
                 //////// optimized for hd3000 laptop
                 int amount = 0;
                 for (int yy88 = 0; yy88 < top2; yy88++)
@@ -840,17 +839,17 @@ internal class OneLemming
                     int yypos888 = (yy88 + py) * MyGame.Instance.ScreenInGame.Earth.Width;
                     for (int xx88 = 0; xx88 < width2; xx88++)
                     {
-                        MyGame.Instance.ScreenInGame.Colorsobre2[amount].PackedValue = MyGame.Instance.ScreenInGame.C25[yypos888 + px + xx88].PackedValue;
+                        MyGame.Instance.ScreenInGame.ColorOver[amount].PackedValue = MyGame.Instance.ScreenInGame.LevelOverlay[yypos888 + px + xx88].PackedValue;
                         amount++;
                     }
                 }
                 int xEmpty = 0;
                 int xErase = width2;
-                MyGame.Instance.ScreenInGame.Frente = 0;
+                MyGame.Instance.ScreenInGame.Front = 0;
                 sx = 0;
                 for (int valX = 0; valX < width2; valX++)
                 {
-                    MyGame.Instance.ScreenInGame.Frente = 0;
+                    MyGame.Instance.ScreenInGame.Front = 0;
                     for (int valY = 0; valY < top2; valY++)
                     {
                         if (MyGame.Instance.ScreenInGame.CurrentLevel.ListProps<OneSteel>().Any())
@@ -868,18 +867,18 @@ internal class OneLemming
                                 break;
                             }
                         }
-                        if ((MyGame.Instance.ScreenInGame.Colormask2[(valY * width2) + valX].R > 0 || MyGame.Instance.ScreenInGame.Colormask2[(valY * width2) + valX].G > 0 || MyGame.Instance.ScreenInGame.Colormask2[(valY * width2) + valX].B > 0) &&
-                            (MyGame.Instance.ScreenInGame.Colorsobre2[(valY * width2) + valX].R > 0 || MyGame.Instance.ScreenInGame.Colorsobre2[(valY * width2) + valX].G > 0 || MyGame.Instance.ScreenInGame.Colorsobre2[(valY * width2) + valX].B > 0))
+                        if ((MyGame.Instance.ScreenInGame.ColorBasherMask[(valY * width2) + valX].R > 0 || MyGame.Instance.ScreenInGame.ColorBasherMask[(valY * width2) + valX].G > 0 || MyGame.Instance.ScreenInGame.ColorBasherMask[(valY * width2) + valX].B > 0) &&
+                            (MyGame.Instance.ScreenInGame.ColorOver[(valY * width2) + valX].R > 0 || MyGame.Instance.ScreenInGame.ColorOver[(valY * width2) + valX].G > 0 || MyGame.Instance.ScreenInGame.ColorOver[(valY * width2) + valX].B > 0))
                         {
-                            MyGame.Instance.ScreenInGame.Colorsobre2[(valY * width2) + valX].PackedValue = 0;
-                            MyGame.Instance.ScreenInGame.Frente++;
+                            MyGame.Instance.ScreenInGame.ColorOver[(valY * width2) + valX].PackedValue = 0;
+                            MyGame.Instance.ScreenInGame.Front++;
                         }
                     }
                     if (sx == -777)
                         break;
-                    if (MyGame.Instance.ScreenInGame.Frente == 0)
+                    if (MyGame.Instance.ScreenInGame.Front == 0)
                         xEmpty = valX;
-                    if (MyGame.Instance.ScreenInGame.Frente > 0)
+                    if (MyGame.Instance.ScreenInGame.Front > 0)
                     {
                         xErase = valX;
                     }
@@ -892,7 +891,7 @@ internal class OneLemming
                 rectangleFill.Y = py;
                 rectangleFill.Width = width2;
                 rectangleFill.Height = top2;
-                MyGame.Instance.ScreenInGame.Earth.SetData(0, rectangleFill, MyGame.Instance.ScreenInGame.Colorsobre2, 0, amount);
+                MyGame.Instance.ScreenInGame.Earth.SetData(0, rectangleFill, MyGame.Instance.ScreenInGame.ColorOver, 0, amount);
                 // this code update c25 rectangle px-py-ancho66-alto66 only not all like before
                 amount = 0;
                 for (int yy33 = 0; yy33 < top2; yy33++)
@@ -900,7 +899,7 @@ internal class OneLemming
                     int yypos555 = (yy33 + py) * MyGame.Instance.ScreenInGame.Earth.Width;
                     for (int xx33 = 0; xx33 < width2; xx33++)
                     {
-                        MyGame.Instance.ScreenInGame.C25[yypos555 + px + xx33].PackedValue = MyGame.Instance.ScreenInGame.Colorsobre2[amount].PackedValue;
+                        MyGame.Instance.ScreenInGame.LevelOverlay[yypos555 + px + xx33].PackedValue = MyGame.Instance.ScreenInGame.ColorOver[amount].PackedValue;
                         amount++;
                     }
                 }
@@ -949,17 +948,17 @@ internal class OneLemming
                     int yypos888 = (yy88 + py) * MyGame.Instance.ScreenInGame.Earth.Width;
                     for (int xx88 = 0; xx88 < width2; xx88++)
                     {
-                        MyGame.Instance.ScreenInGame.Colorsobre2[amount].PackedValue = MyGame.Instance.ScreenInGame.C25[yypos888 + px + xx88].PackedValue;
+                        MyGame.Instance.ScreenInGame.ColorOver[amount].PackedValue = MyGame.Instance.ScreenInGame.LevelOverlay[yypos888 + px + xx88].PackedValue;
                         amount++;
                     }
                 }
                 int xEmpty = width2;
                 int xErase = 0;
-                MyGame.Instance.ScreenInGame.Frente = 0;
+                MyGame.Instance.ScreenInGame.Front = 0;
                 sx = 0;
                 for (int valX = width2 - 1; valX >= 0; valX--)
                 {
-                    MyGame.Instance.ScreenInGame.Frente = 0;
+                    MyGame.Instance.ScreenInGame.Front = 0;
                     for (int valY = 0; valY < top2; valY++)
                     {
                         if (MyGame.Instance.ScreenInGame.CurrentLevel.ListProps<OneSteel>().Any())
@@ -977,18 +976,18 @@ internal class OneLemming
                                 break;
                             }
                         }
-                        if ((MyGame.Instance.ScreenInGame.Colormask2[valY * width2 + valX].R > 0 || MyGame.Instance.ScreenInGame.Colormask2[valY * width2 + valX].G > 0 || MyGame.Instance.ScreenInGame.Colormask2[valY * width2 + valX].B > 0) &&
-                            (MyGame.Instance.ScreenInGame.Colorsobre2[valY * width2 + valX].R > 0 || MyGame.Instance.ScreenInGame.Colorsobre2[valY * width2 + valX].G > 0 || MyGame.Instance.ScreenInGame.Colorsobre2[valY * width2 + valX].B > 0))
+                        if ((MyGame.Instance.ScreenInGame.ColorBasherMask[valY * width2 + valX].R > 0 || MyGame.Instance.ScreenInGame.ColorBasherMask[valY * width2 + valX].G > 0 || MyGame.Instance.ScreenInGame.ColorBasherMask[valY * width2 + valX].B > 0) &&
+                            (MyGame.Instance.ScreenInGame.ColorOver[valY * width2 + valX].R > 0 || MyGame.Instance.ScreenInGame.ColorOver[valY * width2 + valX].G > 0 || MyGame.Instance.ScreenInGame.ColorOver[valY * width2 + valX].B > 0))
                         {
-                            MyGame.Instance.ScreenInGame.Colorsobre2[valY * width2 + valX].PackedValue = 0;
-                            MyGame.Instance.ScreenInGame.Frente++;
+                            MyGame.Instance.ScreenInGame.ColorOver[valY * width2 + valX].PackedValue = 0;
+                            MyGame.Instance.ScreenInGame.Front++;
                         }
                     }
                     if (sx == -777)
                         break;
-                    if (MyGame.Instance.ScreenInGame.Frente == 0)
+                    if (MyGame.Instance.ScreenInGame.Front == 0)
                         xEmpty = valX;
-                    if (MyGame.Instance.ScreenInGame.Frente > 0)
+                    if (MyGame.Instance.ScreenInGame.Front > 0)
                     {
                         xErase = valX;
                     }
@@ -1001,7 +1000,7 @@ internal class OneLemming
                 rectangleFill.Y = py;
                 rectangleFill.Width = width2;
                 rectangleFill.Height = top2;
-                MyGame.Instance.ScreenInGame.Earth.SetData(0, rectangleFill, MyGame.Instance.ScreenInGame.Colorsobre2, 0, amount);
+                MyGame.Instance.ScreenInGame.Earth.SetData(0, rectangleFill, MyGame.Instance.ScreenInGame.ColorOver, 0, amount);
                 // this code update c25 rectangle px-py-ancho66-alto66 only not all like before
                 amount = 0;
                 for (int yy33 = 0; yy33 < top2; yy33++)
@@ -1009,7 +1008,7 @@ internal class OneLemming
                     int yypos555 = (yy33 + py) * MyGame.Instance.ScreenInGame.Earth.Width;
                     for (int xx33 = 0; xx33 < width2; xx33++)
                     {
-                        MyGame.Instance.ScreenInGame.C25[yypos555 + px + xx33].PackedValue = MyGame.Instance.ScreenInGame.Colorsobre2[amount].PackedValue;
+                        MyGame.Instance.ScreenInGame.LevelOverlay[yypos555 + px + xx33].PackedValue = MyGame.Instance.ScreenInGame.ColorOver[amount].PackedValue;
                         amount++;
                     }
                 }
@@ -1026,7 +1025,7 @@ internal class OneLemming
                     return;
                 }
             }
-            MyGame.Instance.ScreenInGame.Frente2 = 0;
+            MyGame.Instance.ScreenInGame.Front2 = 0;
             ////////////////////////////////////////////////////////////////////// PPPPPPPPPAAAAAAARRRRRRRRRRRRRRRREEEEEEEDDDDDDDDD
         }
         if (Basher && below > 3)
@@ -1041,7 +1040,7 @@ internal class OneLemming
         {
             if (Actualframe >= 48 && Numstairs < 12) // >=33 old with dibuja2
             {
-                MyGame.Instance.ScreenInGame.Frente = 0;
+                MyGame.Instance.ScreenInGame.Front = 0;
                 Actualframe = SizeSprites.builder_frames + 1;  // erase with // no compiling//  to see full frames
                 if (Right)
                 {
@@ -1072,7 +1071,7 @@ internal class OneLemming
                         int posi_real = (PosY + 24 + y) * MyGame.Instance.ScreenInGame.Earth.Width + PosX;
                         for (int xx88 = 14; xx88 <= 28; xx88++)
                         {
-                            if (MyGame.Instance.ScreenInGame.C25[posi_real + xx88].R == 0 && MyGame.Instance.ScreenInGame.C25[posi_real + xx88].G == 0 && MyGame.Instance.ScreenInGame.C25[posi_real + xx88].B == 0)
+                            if (MyGame.Instance.ScreenInGame.LevelOverlay[posi_real + xx88].R == 0 && MyGame.Instance.ScreenInGame.LevelOverlay[posi_real + xx88].G == 0 && MyGame.Instance.ScreenInGame.LevelOverlay[posi_real + xx88].B == 0)
                             {
                                 Color colorFill = new()
                                 {
@@ -1081,12 +1080,12 @@ internal class OneLemming
                                     B = Convert.ToByte(255 - (Numstairs * 10)),
                                     A = 255,
                                 };
-                                MyGame.Instance.ScreenInGame.C25[posi_real + xx88] = colorFill;
+                                MyGame.Instance.ScreenInGame.LevelOverlay[posi_real + xx88] = colorFill;
                             } //steps color stairs
                             else
                             {
                                 if (xx88 == 19)
-                                    MyGame.Instance.ScreenInGame.Frente++;
+                                    MyGame.Instance.ScreenInGame.Front++;
                             }
                         }
                     }
@@ -1103,7 +1102,7 @@ internal class OneLemming
                         int posi_real = (PosY + ykk) * MyGame.Instance.ScreenInGame.Earth.Width + PosX;
                         for (int xkk = 0; xkk < 28; xkk++)
                         {
-                            MyGame.Instance.ScreenInGame.Colormask22[amount] = MyGame.Instance.ScreenInGame.C25[posi_real + xkk];
+                            MyGame.Instance.ScreenInGame.Colormask22[amount] = MyGame.Instance.ScreenInGame.LevelOverlay[posi_real + xkk];
                             amount++;
                         }
                     }
@@ -1112,7 +1111,7 @@ internal class OneLemming
                     rectangleFill.Width = 28;
                     rectangleFill.Height = 4;
                     MyGame.Instance.ScreenInGame.Earth.SetData(0, rectangleFill, MyGame.Instance.ScreenInGame.Colormask22, 0, 28 * 4);
-                    if (MyGame.Instance.ScreenInGame.Frente == 3)
+                    if (MyGame.Instance.ScreenInGame.Front == 3)
                     {
                         Builder = false;
                         Walker = true;
@@ -1153,7 +1152,7 @@ internal class OneLemming
                         int posi_real = (PosY + 24 + y) * MyGame.Instance.ScreenInGame.Earth.Width + PosX;
                         for (int xx88 = 0; xx88 <= 14; xx88++)
                         {
-                            if (MyGame.Instance.ScreenInGame.C25[posi_real + xx88].R == 0 && MyGame.Instance.ScreenInGame.C25[posi_real + xx88].G == 0 && MyGame.Instance.ScreenInGame.C25[posi_real + xx88].B == 0)
+                            if (MyGame.Instance.ScreenInGame.LevelOverlay[posi_real + xx88].R == 0 && MyGame.Instance.ScreenInGame.LevelOverlay[posi_real + xx88].G == 0 && MyGame.Instance.ScreenInGame.LevelOverlay[posi_real + xx88].B == 0)
                             {
                                 Color colorFill = new()
                                 {
@@ -1162,12 +1161,12 @@ internal class OneLemming
                                     B = Convert.ToByte(255 - (Numstairs * 10)),
                                     A = 255,
                                 };
-                                MyGame.Instance.ScreenInGame.C25[posi_real + xx88] = colorFill;
+                                MyGame.Instance.ScreenInGame.LevelOverlay[posi_real + xx88] = colorFill;
                             }//magenta stairs
                             else
                             {
                                 if (xx88 == 9)
-                                    MyGame.Instance.ScreenInGame.Frente++;
+                                    MyGame.Instance.ScreenInGame.Front++;
                             }
                         }
                     }
@@ -1188,7 +1187,7 @@ internal class OneLemming
                         int posi_real = (PosY + ykk) * MyGame.Instance.ScreenInGame.Earth.Width + px;
                         for (int xkk = 0; xkk < 28; xkk++)
                         {
-                            MyGame.Instance.ScreenInGame.Colormask22[amount] = MyGame.Instance.ScreenInGame.C25[posi_real + xkk];
+                            MyGame.Instance.ScreenInGame.Colormask22[amount] = MyGame.Instance.ScreenInGame.LevelOverlay[posi_real + xkk];
                             amount++;
                         }
                     }
@@ -1197,7 +1196,7 @@ internal class OneLemming
                     rectangleFill.Width = 28;
                     rectangleFill.Height = 4;
                     MyGame.Instance.ScreenInGame.Earth.SetData(0, rectangleFill, MyGame.Instance.ScreenInGame.Colormask22, 0, 28 * 4);
-                    if (MyGame.Instance.ScreenInGame.Frente == 3)
+                    if (MyGame.Instance.ScreenInGame.Front == 3)
                     {
                         Builder = false;
                         Walker = true;
@@ -1257,7 +1256,7 @@ internal class OneLemming
                     {
                         pos_real2 = MyGame.Instance.ScreenInGame.Earth.Height;
                     }
-                    if (MyGame.Instance.ScreenInGame.C25[(pos_real2 * MyGame.Instance.ScreenInGame.Earth.Width) + pixx2].R > 0 || MyGame.Instance.ScreenInGame.C25[(pos_real2 * MyGame.Instance.ScreenInGame.Earth.Width) + pixx2].G > 0 || MyGame.Instance.ScreenInGame.C25[(pos_real2 * MyGame.Instance.ScreenInGame.Earth.Width) + pixx2].B > 0)
+                    if (MyGame.Instance.ScreenInGame.LevelOverlay[(pos_real2 * MyGame.Instance.ScreenInGame.Earth.Width) + pixx2].R > 0 || MyGame.Instance.ScreenInGame.LevelOverlay[(pos_real2 * MyGame.Instance.ScreenInGame.Earth.Width) + pixx2].G > 0 || MyGame.Instance.ScreenInGame.LevelOverlay[(pos_real2 * MyGame.Instance.ScreenInGame.Earth.Width) + pixx2].B > 0)
                     {
                         abajo2++;
                     }
@@ -1302,7 +1301,7 @@ internal class OneLemming
                                 B = 0,
                                 A = 0,
                             };
-                            MyGame.Instance.ScreenInGame.C25[posi_real + xx88] = colorFill; // Color.TransparentBlack is the same i think. 0,0,0,0.
+                            MyGame.Instance.ScreenInGame.LevelOverlay[posi_real + xx88] = colorFill; // Color.TransparentBlack is the same i think. 0,0,0,0.
                         }
                     }
                     //earth.SetData<Color>(c25); //OPTIMIZED digger SETDATA
@@ -1312,7 +1311,7 @@ internal class OneLemming
                         int posi_real = (PosY + 14 + ykk) * MyGame.Instance.ScreenInGame.Earth.Width + PosX;
                         for (int xkk = 0; xkk < 28; xkk++)
                         {
-                            MyGame.Instance.ScreenInGame.Colormask22[amount] = MyGame.Instance.ScreenInGame.C25[posi_real + xkk];
+                            MyGame.Instance.ScreenInGame.Colormask22[amount] = MyGame.Instance.ScreenInGame.LevelOverlay[posi_real + xkk];
                             amount++;
                         }
                     }
@@ -1372,7 +1371,7 @@ internal class OneLemming
             if (Right)
             {
                 int pos_real2 = PosY + 27;
-                if (MyGame.Instance.ScreenInGame.C25[(pos_real2 * MyGame.Instance.ScreenInGame.Earth.Width) + pixx - 2].R > 0 || MyGame.Instance.ScreenInGame.C25[(pos_real2 * MyGame.Instance.ScreenInGame.Earth.Width) + pixx - 2].G > 0 || MyGame.Instance.ScreenInGame.C25[(pos_real2 * MyGame.Instance.ScreenInGame.Earth.Width) + pixx - 2].B > 0)
+                if (MyGame.Instance.ScreenInGame.LevelOverlay[(pos_real2 * MyGame.Instance.ScreenInGame.Earth.Width) + pixx - 2].R > 0 || MyGame.Instance.ScreenInGame.LevelOverlay[(pos_real2 * MyGame.Instance.ScreenInGame.Earth.Width) + pixx - 2].G > 0 || MyGame.Instance.ScreenInGame.LevelOverlay[(pos_real2 * MyGame.Instance.ScreenInGame.Earth.Width) + pixx - 2].B > 0)
                 {
                     Right = false;
                     PosX -= 2;   // 1 o 2 LOOK
@@ -1386,7 +1385,7 @@ internal class OneLemming
             else
             {
                 int pos_real2 = PosY + 27;
-                if (MyGame.Instance.ScreenInGame.C25[(pos_real2 * MyGame.Instance.ScreenInGame.Earth.Width) + pixx + 2].R > 0 || MyGame.Instance.ScreenInGame.C25[(pos_real2 * MyGame.Instance.ScreenInGame.Earth.Width) + pixx + 2].G > 0 || MyGame.Instance.ScreenInGame.C25[(pos_real2 * MyGame.Instance.ScreenInGame.Earth.Width) + pixx + 2].B > 0)
+                if (MyGame.Instance.ScreenInGame.LevelOverlay[(pos_real2 * MyGame.Instance.ScreenInGame.Earth.Width) + pixx + 2].R > 0 || MyGame.Instance.ScreenInGame.LevelOverlay[(pos_real2 * MyGame.Instance.ScreenInGame.Earth.Width) + pixx + 2].G > 0 || MyGame.Instance.ScreenInGame.LevelOverlay[(pos_real2 * MyGame.Instance.ScreenInGame.Earth.Width) + pixx + 2].B > 0)
                 {
                     Right = true;
                     PosX += 2; // 1 o 2 LOOK
@@ -1497,14 +1496,14 @@ internal class OneLemming
             rectangleFill.Y = py2;
             rectangleFill.Width = ancho66;
             rectangleFill.Height = alto66;
-            MyGame.Instance.ScreenMainMenu.MainMenuGfx.Mascaraexplosion.GetData(0, rectangleFill, MyGame.Instance.ScreenInGame.Colormask33, 0, amount);
+            MyGame.Instance.ScreenMainMenu.MainMenuGfx.Mascaraexplosion.GetData(0, rectangleFill, MyGame.Instance.ScreenInGame.ColorExploderMask, 0, amount);
             amount = 0;
             for (int yy88 = 0; yy88 < alto66; yy88++)
             {
                 int yypos888 = (yy88 + py) * MyGame.Instance.ScreenInGame.Earth.Width;
                 for (int xx88 = 0; xx88 < ancho66; xx88++)
                 {
-                    MyGame.Instance.ScreenInGame.Colorsobre33[amount].PackedValue = MyGame.Instance.ScreenInGame.C25[yypos888 + px + xx88].PackedValue;
+                    MyGame.Instance.ScreenInGame.ClownLevelOverlay[amount].PackedValue = MyGame.Instance.ScreenInGame.LevelOverlay[yypos888 + px + xx88].PackedValue;
                     amount++;
                 }
             }
@@ -1521,16 +1520,16 @@ internal class OneLemming
                     if (sx == -777)
                         continue;
                 }
-                if (MyGame.Instance.ScreenInGame.Colormask33[r].R > 0 || MyGame.Instance.ScreenInGame.Colormask33[r].G > 0 || MyGame.Instance.ScreenInGame.Colormask33[r].B > 0)
+                if (MyGame.Instance.ScreenInGame.ColorExploderMask[r].R > 0 || MyGame.Instance.ScreenInGame.ColorExploderMask[r].G > 0 || MyGame.Instance.ScreenInGame.ColorExploderMask[r].B > 0)
                 {
-                    MyGame.Instance.ScreenInGame.Colorsobre33[r].PackedValue = 0;
+                    MyGame.Instance.ScreenInGame.ClownLevelOverlay[r].PackedValue = 0;
                 }
             }
             rectangleFill.X = px;
             rectangleFill.Y = py;
             rectangleFill.Width = ancho66;
             rectangleFill.Height = alto66;
-            MyGame.Instance.ScreenInGame.Earth.SetData(0, rectangleFill, MyGame.Instance.ScreenInGame.Colorsobre33, 0, amount);
+            MyGame.Instance.ScreenInGame.Earth.SetData(0, rectangleFill, MyGame.Instance.ScreenInGame.ClownLevelOverlay, 0, amount);
             // this code update c25 rectangle px-py-ancho66-alto66 only not all like before
             amount = 0;
             for (int yy33 = 0; yy33 < alto66; yy33++)
@@ -1538,7 +1537,7 @@ internal class OneLemming
                 int yypos555 = (yy33 + py) * MyGame.Instance.ScreenInGame.Earth.Width;
                 for (int xx33 = 0; xx33 < ancho66; xx33++)
                 {
-                    MyGame.Instance.ScreenInGame.C25[yypos555 + px + xx33].PackedValue = MyGame.Instance.ScreenInGame.Colorsobre33[amount].PackedValue;
+                    MyGame.Instance.ScreenInGame.LevelOverlay[yypos555 + px + xx33].PackedValue = MyGame.Instance.ScreenInGame.ClownLevelOverlay[amount].PackedValue;
                     amount++;
                 }
             }
