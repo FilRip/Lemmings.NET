@@ -985,12 +985,10 @@ internal class OneLemming
                     }
                     if (sx == -777)
                         break;
-                    if (MyGame.Instance.ScreenInGame.Front == 0)
+                    else if (MyGame.Instance.ScreenInGame.Front == 0)
                         xEmpty = valX;
-                    if (MyGame.Instance.ScreenInGame.Front > 0)
-                    {
+                    else if (MyGame.Instance.ScreenInGame.Front > 0)
                         xErase = valX;
-                    }
                     if (xEmpty < xErase)
                         break;
                 }

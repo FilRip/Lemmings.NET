@@ -31,9 +31,9 @@ internal class OneMoreExit : OneBaseProp
     {
         int output1X = (int)ExitMoreXY.X;
         int output1Y = (int)ExitMoreXY.Y;
-        spriteBatch.Draw(MyGame.Instance.ScreenInGame.Salida_ani1_1, new Vector2(output1X - MyGame.Instance.ScreenInGame.ScrollX - X2, output1Y - Y2 - MyGame.Instance.ScreenInGame.ScrollY), new Rectangle(0, FrameAct, X1, Y1), Color.White,
+        spriteBatch.Draw(MyGame.Instance.ScreenInGame.Exit2Animation, new Vector2(output1X - MyGame.Instance.ScreenInGame.ScrollX - X2, output1Y - Y2 - MyGame.Instance.ScreenInGame.ScrollY), new Rectangle(0, FrameAct, X1, Y1), Color.White,
             0f, Vector2.Zero, 1f, SpriteEffects.None, MyGame.Instance.ScreenInGame.DoorExitDepth);
-        spriteBatch.Draw(MyGame.Instance.ScreenInGame.Salida_ani1, new Vector2(output1X - MyGame.Instance.ScreenInGame.ScrollX - X3, output1Y - Y3 - MyGame.Instance.ScreenInGame.ScrollY), new Rectangle(0, 0, MyGame.Instance.ScreenInGame.Salida_ani1.Width, MyGame.Instance.ScreenInGame.Salida_ani1.Height),
+        spriteBatch.Draw(MyGame.Instance.ScreenInGame.Exit1Animation, new Vector2(output1X - MyGame.Instance.ScreenInGame.ScrollX - X3, output1Y - Y3 - MyGame.Instance.ScreenInGame.ScrollY), new Rectangle(0, 0, MyGame.Instance.ScreenInGame.Exit1Animation.Width, MyGame.Instance.ScreenInGame.Exit1Animation.Height),
             Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, MyGame.Instance.ScreenInGame.DoorExitDepth);
 
         if (MyGame.Instance.DebugOsd.Debug) //exits debug

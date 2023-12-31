@@ -51,7 +51,7 @@ internal class DebugOsd
             spriteBatch.DrawString(MyGame.Instance.Fonts.Standard, string.Format("FPS={0}", _fps), new Vector2(960, 50), Color.White, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0.1f);
             spriteBatch.DrawString(MyGame.Instance.Fonts.Standard, strPositionMouse, new Vector2(960, 10), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0.1f);
 
-            if (MyGame.Instance.ScreenInGame.CurrentLevel.ListProps<OneSteel>().Any())
+            if (MyGame.Instance.ScreenInGame.CurrentLevel?.ListProps<OneSteel>()?.Any() == true)
             {
                 foreach (Rectangle steelintArea in MyGame.Instance.ScreenInGame.CurrentLevel.ListProps<OneSteel>().Select(s => s.Area))
                 {

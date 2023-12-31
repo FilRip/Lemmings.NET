@@ -22,7 +22,6 @@ internal class InGame
     #region Properties
 
     internal int ScrollX { get; set; }
-    internal int NumACTdoor { get; set; }
     internal int ScrollY { get; set; }
     internal float Countertime { get; set; }
     internal List<OneLemming> AllLemmings { get; set; }
@@ -84,14 +83,16 @@ internal class InGame
     internal float DoorExitDepth { get; set; } = 0.403f;  // default value--bigger than 0.5f is behind the terrain (0.6f level 58 for example)
     internal Color[] Colorsobre22 { get; set; } = new Color[500 * 512];
     internal Color[] Colormasktotal { get; set; } = new Color[500 * 512];
-    internal Texture2D Salida_ani1 { get; set; }
-    internal Texture2D Salida_ani1_1 { get; set; }
+    internal Texture2D Exit1Animation { get; set; }
+    internal Texture2D Exit2Animation { get; set; }
     internal Texture2D AnimatedDoor { get; set; }
+    internal int Z1 { get; set; }
 
     #endregion
 
     #region Fields
 
+    private int NumACTdoor;
     private float Countertime2;
     private double actWaves444, actWaves333, actWaves;
     private bool drawing3, LevelEnded, ExitLevel, BackToMainMenu;
@@ -115,7 +116,6 @@ internal class InGame
     private Vector2 vectorFill;
     private Rectangle rectangleFill, rectangleFill2;
     private Color colorFill;
-    public int Z1 { get; set; }
     private int z2;
     private int z3;
     private bool luzmas = true, luzmas2 = true;
@@ -150,8 +150,8 @@ internal class InGame
         MillisecondsElapsed = 0;
         AnimatedDoor = content.Load<Texture2D>("puerta" + string.Format("{0}", CurrentLevel.TypeOfDoor)); // type of door puerta1-2-3-4 etc.
         string xx455 = string.Format("{0}", CurrentLevel.TypeOfExit);
-        Salida_ani1 = content.Load<Texture2D>("salida" + xx455);
-        Salida_ani1_1 = content.Load<Texture2D>("salida" + xx455 + "_1");
+        Exit1Animation = content.Load<Texture2D>("salida" + xx455);
+        Exit2Animation = content.Load<Texture2D>("salida" + xx455 + "_1");
         MyGame.Instance.CurrentLevelNumber = newLevel;
         LemSkill = "";
         GlobalConst.Paused = false;
@@ -567,9 +567,9 @@ internal class InGame
         }
         else
         {
-            spriteBatch.Draw(Salida_ani1_1, new Vector2(output1X - ScrollX - x2, output1Y - y2 - ScrollY), new Rectangle(0, Frameact, x1, y1), Color.White,
+            spriteBatch.Draw(Exit2Animation, new Vector2(output1X - ScrollX - x2, output1Y - y2 - ScrollY), new Rectangle(0, Frameact, x1, y1), Color.White,
                 0f, Vector2.Zero, 1f, SpriteEffects.None, DoorExitDepth);
-            spriteBatch.Draw(Salida_ani1, new Vector2(output1X - ScrollX - x3, output1Y - y3 - ScrollY), new Rectangle(0, 0, Salida_ani1.Width, Salida_ani1.Height),
+            spriteBatch.Draw(Exit1Animation, new Vector2(output1X - ScrollX - x3, output1Y - y3 - ScrollY), new Rectangle(0, 0, Exit1Animation.Width, Exit1Animation.Height),
                 Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, DoorExitDepth);
             if (MyGame.Instance.DebugOsd.Debug) //exits debug
             {
