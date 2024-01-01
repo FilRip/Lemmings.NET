@@ -180,7 +180,7 @@ internal class MainMenu
         rectangleFill.Y = 0;
         rectangleFill.Width = GlobalConst.GameResolution.X;
         rectangleFill.Height = GlobalConst.GameResolution.Y;
-        rectangleFill2.X = 0 + (int)frameWater * 4;
+        rectangleFill2.X = (int)frameWater * 4;
         rectangleFill2.Y = 0;
         rectangleFill2.Width = GlobalConst.GameResolution.X;
         rectangleFill2.Height = GlobalConst.GameResolution.Y;

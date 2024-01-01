@@ -92,37 +92,32 @@ internal class InGame
 
     #region Fields
 
-    private int NumACTdoor;
-    private float Countertime2;
-    private double actWaves444, actWaves333, actWaves;
-    private bool drawing3, LevelEnded, ExitLevel, BackToMainMenu;
-    private int rest = 0, Contador2, Counter = 1;
-    private bool doorOn = true;
-    private double frameWaves;
-    private int walker_frame;
-    private int builder_frame;
-    private readonly int builder_frame_second = 1;
-    private int Frame3;
-    private readonly int Framesecond = 6;
-    private readonly int Framesecond2 = 2;
-    private readonly int Framesecond3 = 1;  // frame speed less all go crazy 6->ok framesecond=6 default framesecond2=3 default
-    private int door1X, door1Y;
-    private int output1X, output1Y;
-    private int frameDoor, frameExit; // 0--10   0--6
-    private int exitFrame = 999, actualBlow; // frecuency lemmings go in
-    private Rectangle exit_rect; // rectangle exit
-    private Point x;
-    private bool initON = false;
-    private Vector2 vectorFill;
-    private Rectangle rectangleFill, rectangleFill2;
-    private Color colorFill;
-    private int z2;
-    private int z3;
-    private bool luzmas = true, luzmas2 = true;
-    private int TotalNumLemmings = 1;
-    private bool doorWaveOn;
-    private int Frameact;
-    private readonly bool LockMouse;
+    private int _numActiveDoor;
+    private float _counterTime2;
+    private double _backgroundWave, _backgroundWave2, _backgroundWave3;
+    private bool _drawing3, _levelEnded, _exitLevel, _backToMainMenu;
+    private int _rest = 0, _counter2, _counter = 1;
+    private bool _doorOn = true;
+    private double _frameWaves;
+    private int _walker_frame;
+    private int _builder_frame;
+    private readonly int _builder_frame_second = 1;
+    private int _frame3;
+    private readonly int _frameSecond = 6;
+    private readonly int _frameSecond2 = 2;
+    private readonly int _frameSecond3 = 1;  // frame speed less all go crazy 6->ok framesecond=6 default framesecond2=3 default
+    private int _door1X, _door1Y;
+    private int _output1X, _output1Y;
+    private int _frameDoor, _frameExit; // 0--10   0--6
+    private int _exitFrame = 999, _actualBlow; // frecuency lemmings go in
+    private bool _initOn = false;
+    private int _z2;
+    private int _z3;
+    private bool _luzmas = true, _luzmas2 = true;
+    private int _totalNumLemmings = 1;
+    private bool _doorWaveOn;
+    private int _frameAct;
+    private readonly bool _lockMouse;
     private readonly InGameMenu _inGameMenu;
 
     #endregion
@@ -131,7 +126,7 @@ internal class InGame
     {
         _inGameMenu = new InGameMenu(this);
         EndLevelScreen = new EndLevel();
-        LockMouse = false;
+        _lockMouse = false;
     }
 
     internal void LoadLevel(int newLevel, ContentManager content)
@@ -142,30 +137,30 @@ internal class InGame
             MyGame.Instance.Music.MenuMusic.Stop();
         CurrentLevel = Levels.GetLevel(newLevel);
         Numlemnow = 0;
-        frameDoor = 0;
-        frameExit = 0;
-        Frame3 = 0;
+        _frameDoor = 0;
+        _frameExit = 0;
+        _frame3 = 0;
         Fade = true;
-        doorOn = true;
+        _doorOn = true;
         MillisecondsElapsed = 0;
         AnimatedDoor = content.Load<Texture2D>("puerta" + string.Format("{0}", CurrentLevel.TypeOfDoor)); // type of door puerta1-2-3-4 etc.
-        string xx455 = string.Format("{0}", CurrentLevel.TypeOfExit);
-        Exit1Animation = content.Load<Texture2D>("salida" + xx455);
-        Exit2Animation = content.Load<Texture2D>("salida" + xx455 + "_1");
+        string exitName = string.Format("{0}", CurrentLevel.TypeOfExit);
+        Exit1Animation = content.Load<Texture2D>("salida" + exitName);
+        Exit2Animation = content.Load<Texture2D>("salida" + exitName + "_1");
         MyGame.Instance.CurrentLevelNumber = newLevel;
         LemSkill = "";
         GlobalConst.Paused = false;
         ZvTime = 0;
         AllBlow = false;
-        actualBlow = 0;
-        exitFrame = 999;
+        _actualBlow = 0;
+        _exitFrame = 999;
         _inGameMenu.CurrentSelectedSkill = ECurrentSkill.NONE;
-        doorWaveOn = false;
-        initON = false;
-        LevelEnded = false;
+        _doorWaveOn = false;
+        _initOn = false;
+        _levelEnded = false;
         EndLevelScreen.EndSongPlayed = false;
-        ExitLevel = false;
-        BackToMainMenu = false;
+        _exitLevel = false;
+        _backToMainMenu = false;
         ExitBad = false;
 
         Texture2D level = MyGame.Instance.Content.Load<Texture2D>(CurrentLevel.NameLev);
@@ -175,10 +170,10 @@ internal class InGame
         Earth.SetData(pixels);
         Earth.GetData(LevelOverlay, 0, Earth.Height * Earth.Width); //better here than moverlemming() for performance see issues 
                                                                     //see differences with old getdata, see size important (x * y)
-        door1X = CurrentLevel.DoorX;
-        door1Y = CurrentLevel.DoorY;
-        output1X = CurrentLevel.ExitX;
-        output1Y = CurrentLevel.ExitY;
+        _door1X = CurrentLevel.DoorX;
+        _door1Y = CurrentLevel.DoorY;
+        _output1X = CurrentLevel.ExitX;
+        _output1Y = CurrentLevel.ExitY;
         // this is the depth of the exit and doors animated sprites -- See level 58 the exit is behind the mountain (0.6f)
         if (CurrentLevel.DoorExitDepth != 0)
         {
@@ -225,7 +220,7 @@ internal class InGame
             _inGameMenu.CurrentSelectedSkill = ECurrentSkill.DIGGER;
         }
         _inGameMenu.Init();
-        TotalNumLemmings = CurrentLevel.TotalLemmings;
+        _totalNumLemmings = CurrentLevel.TotalLemmings;
         Lemsneeded = CurrentLevel.NbLemmingsToSave;
         ScrollX = CurrentLevel.InitPosX;
         ScrollY = 0;
@@ -241,47 +236,47 @@ internal class InGame
 
     private void Update_level()
     {
-        builder_frame++;
-        walker_frame++;
-        frameWaves++;
+        _builder_frame++;
+        _walker_frame++;
+        _frameWaves++;
         Frame2++;
-        Frame3++;
+        _frame3++;
         Drawing = false;
         Draw2 = false;
-        drawing3 = false;
+        _drawing3 = false;
         Draw_walker = false;
         Draw_builder = false;
-        if (walker_frame > SizeSprites.walker_framesecond)
+        if (_walker_frame > SizeSprites.walker_framesecond)
         {
-            walker_frame = 0;
+            _walker_frame = 0;
             Draw_walker = true;
         }
-        if (builder_frame > builder_frame_second)
+        if (_builder_frame > _builder_frame_second)
         {
-            builder_frame = 0;
+            _builder_frame = 0;
             Draw_builder = true;
         }
-        if (Frame2 > Framesecond)
+        if (Frame2 > _frameSecond)
         {
             Frame2 = 0;
             Drawing = true;
             if (!GlobalConst.Paused)
                 Frame++;
         } //without this Frame affects door speed exit
-        if (Frame3 > Framesecond2)
+        if (_frame3 > _frameSecond2)
         {
-            Frame3 = 0;
+            _frame3 = 0;
             Draw2 = true;
         }
-        if (frameWaves > Framesecond3)
+        if (_frameWaves > _frameSecond3)
         {
-            frameWaves = 0;
-            drawing3 = true;
-            actWaves++;
+            _frameWaves = 0;
+            _drawing3 = true;
+            _backgroundWave3++;
         } // change add of actwaves to see differences in speed  +=2,+=5
 
         // stop all things for exit prepare
-        if (LevelEnded)
+        if (_levelEnded)
         {
             GlobalConst.Paused = true;
         }
@@ -323,71 +318,71 @@ internal class InGame
         {
             Countertime++;
         }
-        Countertime2++;
+        _counterTime2++;
         TotalTime = Countertime / 60; //real time of the level see to stop when finish or zvtime<0
-        if (doorOn)
+        if (_doorOn)
         {
             Countertime = 0;
             TotalTime = 0;
         }
         int maxluz = 14; // numero de ciclos de variar el rectangle del EFECTO DE LUCES 50 normalmente
         int maxluz2 = 200;
-        if (luzmas2)
+        if (_luzmas2)
         {
-            Contador2++;
-            if (Contador2 >= maxluz2)
+            _counter2++;
+            if (_counter2 >= maxluz2)
             {
-                Contador2 = maxluz2 - 2;
-                luzmas2 = false;
+                _counter2 = maxluz2 - 2;
+                _luzmas2 = false;
             }
         }
         else
         {
-            Contador2--;
-            if (Contador2 <= 0)
+            _counter2--;
+            if (_counter2 <= 0)
             {
-                Contador2 = 2;
-                luzmas2 = true;
+                _counter2 = 2;
+                _luzmas2 = true;
             }
         }
-        if ((Countertime2 / 4) % 2 == 0) //velocidad del refresco efecto de luces
+        if ((_counterTime2 / 4) % 2 == 0) //velocidad del refresco efecto de luces
         {
-            if (luzmas)
+            if (_luzmas)
             {
-                Counter++;
-                if (Counter >= maxluz)
+                _counter++;
+                if (_counter >= maxluz)
                 {
-                    Counter = maxluz - 2;
-                    luzmas = false;
+                    _counter = maxluz - 2;
+                    _luzmas = false;
                 }
             }
             else
             {
-                Counter--;
-                if (Counter <= 0)
+                _counter--;
+                if (_counter <= 0)
                 {
-                    Counter = 2;
-                    luzmas = true;
+                    _counter = 2;
+                    _luzmas = true;
                 }
             }
         }// abajo calculos nubes nubes2 y waterfall
-        Z1 = (int)Countertime2 / 3;
-        z2 = (int)Countertime2 / 10;
-        z3 = (int)Countertime2 / 9;
-        z3 %= 4; // mumero de frames del agua a ver 4 de 5 que tiene la ultima esta vacia nose porque
+        Z1 = (int)_counterTime2 / 3;
+        _z2 = (int)_counterTime2 / 10;
+        _z3 = (int)_counterTime2 / 9;
+        _z3 %= 4; // mumero de frames del agua a ver 4 de 5 que tiene la ultima esta vacia nose porque
         if (Drawing)
         {
             int xx66 = MyGame.Instance.Props.GetExit(CurrentLevel.TypeOfExit).NumFrame - 1;
-            frameExit++;
-            if (frameExit > xx66)
+            _frameExit++;
+            if (_frameExit > xx66)
             {
-                frameExit = 0;
+                _frameExit = 0;
             }
         }
         if (!GlobalConst.Paused)
             Door();
         _inGameMenu.Update();
-        MyTexture = MyGame.Instance.Content.Load<Texture2D>("luces/" + Counter);// okokokokokokokok
+        MyTexture = MyGame.Instance.Content.Load<Texture2D>("luces/" + _counter);// okokokokokokokok
 
         if (Drawing && CurrentLevel.ListProps<OneArrow>().Any()) // dibuja or dibuja2 test performance-- this is the worst part of the code NEED OPTIMIZATION
         {
@@ -402,7 +397,7 @@ internal class InGame
     {
         MouseOnLem = false;  // scroll mouse on level landscape
         Scrolling();
-        if (doorOn)
+        if (_doorOn)
             return; // start when door finish opening
         foreach (OneLemming lemming in AllLemmings) // NumLemmings
         {
@@ -417,45 +412,20 @@ internal class InGame
 
         bool rayLigths = true;
         // logic of background stars moving from -50 to 50
-        actWaves333 = 50 * Math.Sin(actWaves / 60);  // 50 height of the wave  // 60 length of it
-        actWaves444 = -70 * Math.Sin(actWaves / -80); // 10,100 -70,100
+        _backgroundWave2 = 50 * Math.Sin(_backgroundWave3 / 60);  // 50 height of the wave  // 60 length of it
+        _backgroundWave = -70 * Math.Sin(_backgroundWave3 / -80); // 10,100 -70,100
+        Rectangle rectFill = new(0, 0, GlobalConst.GameResolution.X, (int)(GlobalConst.GameResolution.Y * 0.732));
         if (MyGame.Instance.CurrentLevelNumber != 159)
         {
-            rectangleFill.X = 0;
-            rectangleFill.Y = 0;
-            rectangleFill.Width = GlobalConst.GameResolution.X;
-            rectangleFill.Height = (int)(GlobalConst.GameResolution.Y * 0.732);
-            colorFill.R = 150;
-            colorFill.G = 150;
-            colorFill.B = 150;
-            colorFill.A = 160;
-            spriteBatch.Draw(MyGame.Instance.Gfx.Logo_fondo, rectangleFill, rectangleFill, colorFill, 0f, Vector2.Zero, SpriteEffects.None, 0.806f);
+            spriteBatch.Draw(MyGame.Instance.Gfx.Logo_fondo, rectFill, rectFill, new Color(150, 150, 150, 160), 0f, Vector2.Zero, SpriteEffects.None, 0.806f);
         }
         else
         {
-            rectangleFill.X = 0;
-            rectangleFill.Y = 0;
-            rectangleFill.Width = GlobalConst.GameResolution.X;
-            rectangleFill.Height = (int)(GlobalConst.GameResolution.Y * 0.732);
-            colorFill.R = 255;
-            colorFill.G = 255;
-            colorFill.B = 255;
-            colorFill.A = 250;
-            rectangleFill2.X = 0 + Z1;
-            rectangleFill2.Y = 0 - (int)actWaves333;
-            rectangleFill2.Width = GlobalConst.GameResolution.X;
-            rectangleFill2.Height = GlobalConst.GameResolution.Y - 188;
-            spriteBatch.Draw(MyGame.Instance.InGameMenuGfx.Logo666, rectangleFill, rectangleFill2, colorFill, 0f, Vector2.Zero, SpriteEffects.None, 0.8091f);
+            Rectangle rectSrc = new(0 + Z1, 0 - (int)_backgroundWave2, GlobalConst.GameResolution.X, GlobalConst.GameResolution.Y - 188);
+            spriteBatch.Draw(MyGame.Instance.InGameMenuGfx.Logo666, rectFill, rectSrc, new Color(255, 255, 255, 250), 0f, Vector2.Zero, SpriteEffects.None, 0.8091f);
             Texture2D logo555 = MyGame.Instance.Content.Load<Texture2D>("fondos/ice outttt");
-            rectangleFill2.X = 0 + (int)actWaves444;
-            rectangleFill2.Y = 0 + (int)actWaves444;
-            rectangleFill2.Width = GlobalConst.GameResolution.X;
-            rectangleFill2.Height = GlobalConst.GameResolution.Y - 188;
-            colorFill.R = 150;
-            colorFill.G = 150;
-            colorFill.B = 150;
-            colorFill.A = 120;
-            spriteBatch.Draw(logo555, rectangleFill, rectangleFill2, colorFill, 0f, Vector2.Zero, SpriteEffects.None, 0.806f);
+            rectSrc = new((int)_backgroundWave, (int)_backgroundWave, GlobalConst.GameResolution.X, GlobalConst.GameResolution.Y - 188);
+            spriteBatch.Draw(logo555, rectFill, rectSrc, new Color(150, 150, 150, 120), 0f, Vector2.Zero, SpriteEffects.None, 0.806f);
         }
         if (CurrentLevel.ListProps<OneTrap>().Any()) //draw traps
         {
@@ -467,23 +437,23 @@ internal class InGame
         switch (MyGame.Instance.CurrentLevelNumber)  // effect draws water cascade,stars,etc...
         {
             case 1:
-                spriteBatch.Draw(MyGame.Instance.Sprites.Water2, new Rectangle(1560 - ScrollX, -80, 260, 750), new Rectangle(0 + z3 * 192, 0, 192, 192), new Color(230, 50, 255, 160), 0f,
+                spriteBatch.Draw(MyGame.Instance.Sprites.Water2, new Rectangle(1560 - ScrollX, -80, 260, 750), new Rectangle(0 + _z3 * 192, 0, 192, 192), new Color(230, 50, 255, 160), 0f,
                     Vector2.Zero, SpriteEffects.None, 0.802f); //0.802f  
                 rayLigths = false;
                 break;
             case 4:
-                spriteBatch.Draw(MyGame.Instance.Sprites.Water2, new Rectangle(1530 - ScrollX, -80, 260, 650), new Rectangle(0 + z3 * 192, 0, 192, 192), new Color(50, 255, 240, 100), 0f,
+                spriteBatch.Draw(MyGame.Instance.Sprites.Water2, new Rectangle(1530 - ScrollX, -80, 260, 650), new Rectangle(0 + _z3 * 192, 0, 192, 192), new Color(50, 255, 240, 100), 0f,
                     Vector2.Zero, SpriteEffects.None, 0.802f); //0.802f
-                spriteBatch.Draw(MyGame.Instance.Sprites.Water2, new Rectangle(1560 - ScrollX, -80, 260, 750), new Rectangle(0 + z3 * 192, 0, 192, 192), new Color(230, 50, 255, 160), 0f,
+                spriteBatch.Draw(MyGame.Instance.Sprites.Water2, new Rectangle(1560 - ScrollX, -80, 260, 750), new Rectangle(0 + _z3 * 192, 0, 192, 192), new Color(230, 50, 255, 160), 0f,
                     Vector2.Zero, SpriteEffects.None, 0.803f); //0.802f  
                 rayLigths = false;
                 break;
             case 5:
-                spriteBatch.Draw(MyGame.Instance.Sprites.Water2, new Rectangle(760 - ScrollX, -80, 260, 650), new Rectangle(0 + z3 * 192, 0, 192, 192), new Color(50, 255, 240, 100), 0f,
+                spriteBatch.Draw(MyGame.Instance.Sprites.Water2, new Rectangle(760 - ScrollX, -80, 260, 650), new Rectangle(0 + _z3 * 192, 0, 192, 192), new Color(50, 255, 240, 100), 0f,
                     Vector2.Zero, SpriteEffects.None, 0.802f); //0.802f  
                 break;
             case 6:
-                spriteBatch.Draw(MyGame.Instance.Sprites.Water2, new Rectangle(2000 - ScrollX, -80, 260, 680), new Rectangle(0 + z3 * 192, 0, 192, 192),
+                spriteBatch.Draw(MyGame.Instance.Sprites.Water2, new Rectangle(2000 - ScrollX, -80, 260, 680), new Rectangle(0 + _z3 * 192, 0, 192, 192),
                     new Color(255, 50, 80, 170), 0f, Vector2.Zero, SpriteEffects.None, 0.802f); //0.802f                            
                 break;
             default:
@@ -494,14 +464,14 @@ internal class InGame
         {
             if (rayLigths)
             {
-                spriteBatch.Draw(MyTexture, new Vector2(GlobalConst.GameResolution.X / 2, (GlobalConst.GameResolution.Y - 188) / 2), new Rectangle(0, 0, MyTexture.Width, MyTexture.Height), new Color(255, 255, 255, 10 + Counter * 2),
-                    0.4f + Contador2 * 0.001f, new Vector2(MyTexture.Width / 2, MyTexture.Height / 2), 3f, SpriteEffects.FlipHorizontally, 0.805f); // okokok
+                spriteBatch.Draw(MyTexture, new Vector2(GlobalConst.GameResolution.X / 2, (GlobalConst.GameResolution.Y - 188) / 2), new Rectangle(0, 0, MyTexture.Width, MyTexture.Height), new Color(255, 255, 255, 10 + _counter * 2),
+                    0.4f + _counter2 * 0.001f, new Vector2(MyTexture.Width / 2, MyTexture.Height / 2), 3f, SpriteEffects.FlipHorizontally, 0.805f); // okokok
             }
             // rayligts effect
-            spriteBatch.Draw(MyGame.Instance.Sprites.Nubes_2, new Rectangle(0, 50 - (int)actWaves444, GlobalConst.GameResolution.X, MyGame.Instance.Sprites.Nubes_2.Height), new Rectangle(Z1, 0, GlobalConst.GameResolution.X, MyGame.Instance.Sprites.Nubes_2.Height),
+            spriteBatch.Draw(MyGame.Instance.Sprites.Nubes_2, new Rectangle(0, 50 - (int)_backgroundWave, GlobalConst.GameResolution.X, MyGame.Instance.Sprites.Nubes_2.Height), new Rectangle(Z1, 0, GlobalConst.GameResolution.X, MyGame.Instance.Sprites.Nubes_2.Height),
                 new Color(255, 255, 255, 110), 0f, Vector2.Zero, SpriteEffects.None, 0.804f);
 
-            spriteBatch.Draw(MyGame.Instance.Sprites.Nubes, new Rectangle(0, 220, GlobalConst.GameResolution.X, MyGame.Instance.Sprites.Nubes.Height), new Rectangle(z2, 0, GlobalConst.GameResolution.X, MyGame.Instance.Sprites.Nubes.Height), new Color(255, 255, 255, 110), 0f,
+            spriteBatch.Draw(MyGame.Instance.Sprites.Nubes, new Rectangle(0, 220, GlobalConst.GameResolution.X, MyGame.Instance.Sprites.Nubes.Height), new Rectangle(_z2, 0, GlobalConst.GameResolution.X, MyGame.Instance.Sprites.Nubes.Height), new Color(255, 255, 255, 110), 0f,
                 Vector2.Zero, SpriteEffects.None, 0.803f);
         }
         spriteBatch.Draw(Earth, new Vector2(0, 0), new Rectangle(ScrollX, ScrollY, GlobalConst.GameResolution.X, GlobalConst.GameResolution.Y - 188), //512 size of window draw
@@ -515,13 +485,13 @@ internal class InGame
         }
 
         //menu for ending level or not
-        if (LevelEnded)
+        if (_levelEnded)
         {
             EndLevelScreen.Draw(spriteBatch);
         }
 
         OneEntry entry = MyGame.Instance.Props.GetEntry(CurrentLevel.TypeOfDoor);
-        FrameReal565 = (frameDoor * entry.Height);
+        FrameReal565 = (_frameDoor * entry.Height);
 
         if (CurrentLevel.ListProps<OneScreenSprite>().Any())
         {
@@ -547,7 +517,7 @@ internal class InGame
         }
         else
         {
-            spriteBatch.Draw(AnimatedDoor, new Vector2(door1X - ScrollX, door1Y - ScrollY), new Rectangle(0, FrameReal565, entry.Width, entry.Height),
+            spriteBatch.Draw(AnimatedDoor, new Vector2(_door1X - ScrollX, _door1Y - ScrollY), new Rectangle(0, FrameReal565, entry.Width, entry.Height),
                 Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, DoorExitDepth);
         }
         OneExit exit = MyGame.Instance.Props.GetExit(CurrentLevel.TypeOfExit);
@@ -557,49 +527,49 @@ internal class InGame
         int y2 = exit.MoreY;
         int x3 = exit.MoreX2;
         int y3 = exit.MoreY2;
-        Frameact = (frameExit * y1);
+        _frameAct = (_frameExit * y1);
         if (CurrentLevel.ListProps<OneMoreExit>().Any())
         {
             foreach (OneMoreExit moreExit in CurrentLevel.ListProps<OneMoreExit>())
             {
-                moreExit.Draw(spriteBatch, x1, y1, x2, y2, x3, y3, Frameact);
+                moreExit.Draw(spriteBatch, x1, y1, x2, y2, x3, y3, _frameAct);
             }
         }
         else
         {
-            spriteBatch.Draw(Exit2Animation, new Vector2(output1X - ScrollX - x2, output1Y - y2 - ScrollY), new Rectangle(0, Frameact, x1, y1), Color.White,
+            spriteBatch.Draw(Exit2Animation, new Vector2(_output1X - ScrollX - x2, _output1Y - y2 - ScrollY), new Rectangle(0, _frameAct, x1, y1), Color.White,
                 0f, Vector2.Zero, 1f, SpriteEffects.None, DoorExitDepth);
-            spriteBatch.Draw(Exit1Animation, new Vector2(output1X - ScrollX - x3, output1Y - y3 - ScrollY), new Rectangle(0, 0, Exit1Animation.Width, Exit1Animation.Height),
+            spriteBatch.Draw(Exit1Animation, new Vector2(_output1X - ScrollX - x3, _output1Y - y3 - ScrollY), new Rectangle(0, 0, Exit1Animation.Width, Exit1Animation.Height),
                 Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, DoorExitDepth);
             if (MyGame.Instance.DebugOsd.Debug) //exits debug
             {
-                exit_rect = new Rectangle(output1X - 5, output1Y - 5, 10, 10);
-                spriteBatch.Draw(MyGame.Instance.Gfx.Texture1pixel, new Rectangle(exit_rect.Left - ScrollX, exit_rect.Top - ScrollY, exit_rect.Width, exit_rect.Height), null,
-                    Color.White, 0f, Vector2.Zero, SpriteEffects.None, 0.1f);
+                Rectangle exitRect = new(_output1X - 5, _output1Y - 5, 10, 10);
+                spriteBatch.Draw(MyGame.Instance.Gfx.Texture1pixel, new Rectangle(exitRect.Left - ScrollX, exitRect.Top - ScrollY, exitRect.Width, exitRect.Height),
+                    null, Color.White, 0f, Vector2.Zero, SpriteEffects.None, 0.1f);
             }
         }
         // infos various for test only
 
-        if (!doorOn)
+        if (!_doorOn)
             foreach (OneLemming lemming in AllLemmings) //si lo hace de 100 a cero dibujara los primeros encima y mejorara el aspecto
                 lemming.Draw(spriteBatch);
 
         if (Fade)
         {
-            rest++;
-            int rest2 = rest * 7;
+            _rest++;
+            int rest2 = _rest * 7;
             if (rest2 < 70)
                 rest2 = 0;
             MyGame.Instance.Gfx.DrawLine(spriteBatch, new Vector2(0, 0), new Vector2(GlobalConst.GameResolution.X, 0), new Color(0, 0, 0, 255 - rest2), GlobalConst.GameResolution.Y, 0f);
             if (Frame > 19)
             {
                 Fade = false;
-                rest = 0;
+                _rest = 0;
                 TotalTime = 0;
-                if (MyGame.Instance.Sfx.Letsgo.State == SoundState.Stopped && !initON)
+                if (MyGame.Instance.Sfx.Letsgo.State == SoundState.Stopped && !_initOn)
                 {
                     MyGame.Instance.Sfx.Letsgo.Play();
-                    initON = true;
+                    _initOn = true;
                 }
             }
 
@@ -619,15 +589,9 @@ internal class InGame
             LemSkill = "";
         }
 
-        vectorFill.X = 650;
-        vectorFill.Y = 518;
-        MyGame.Instance.Fonts.TextLem("Home:" + string.Format("{0}", NumSaved) + "/" + string.Format("{0}", Lemsneeded), vectorFill, Color.Cyan, 1f, 0.1f, spriteBatch);
-        vectorFill.X = 320;
-        vectorFill.Y = 518;
-        MyGame.Instance.Fonts.TextLem("Out:" + string.Format("{0}", AllLemmings.Count) + "/" + string.Format("{0}", TotalNumLemmings), vectorFill, Color.Magenta, 1f, 0.1f, spriteBatch);
-        vectorFill.X = 530;
-        vectorFill.Y = 518;
-        MyGame.Instance.Fonts.TextLem("In:" + string.Format("{0}", Numlemnow), vectorFill, Color.AliceBlue, 1f, 0.1f, spriteBatch);
+        MyGame.Instance.Fonts.TextLem("Home:" + string.Format("{0}", NumSaved) + "/" + string.Format("{0}", Lemsneeded), new Vector2(650, 518), Color.Cyan, 1f, 0.1f, spriteBatch);
+        MyGame.Instance.Fonts.TextLem("Out:" + string.Format("{0}", AllLemmings.Count) + "/" + string.Format("{0}", _totalNumLemmings), new Vector2(320, 518), Color.Magenta, 1f, 0.1f, spriteBatch);
+        MyGame.Instance.Fonts.TextLem("In:" + string.Format("{0}", Numlemnow), new Vector2(530, 518), Color.AliceBlue, 1f, 0.1f, spriteBatch);
 
         _inGameMenu.Draw(spriteBatch);
 
@@ -639,7 +603,7 @@ internal class InGame
     internal void Update(GameTime gameTime)
     {
         MillisecondsElapsed += gameTime.ElapsedGameTime.Milliseconds;
-        if (Exploding && drawing3 && !GlobalConst.Paused)  //logic explosions particles
+        if (Exploding && _drawing3 && !GlobalConst.Paused)  //logic explosions particles
         {
             int _totalExploding = ActItem;
             foreach (List<OneExplosion> listExplosions in Explosion.Values)
@@ -666,15 +630,15 @@ internal class InGame
                 ActItem = 0;
             }
         }
-        if (!LevelEnded && ((AllBlow && Numlemnow == 0) || ZvTime < 0 || (AllLemmings.Count == TotalNumLemmings && Numlemnow == 0)))
+        if (!_levelEnded && ((AllBlow && Numlemnow == 0) || ZvTime < 0 || (AllLemmings.Count == _totalNumLemmings && Numlemnow == 0)))
         {
             if (!GlobalConst.Paused)
-                rest++;  // var to wait until menu appears gives this way 4 seconds plus more
-            if (rest > 180)
+                _rest++;  // var to wait until menu appears gives this way 4 seconds plus more
+            if (_rest > 180)
             {
                 Exploding = false;
                 ActItem = 0;  //see when finish time and are more particles ON
-                LevelEnded = true;
+                _levelEnded = true;
                 GlobalConst.Paused = true;
                 if (NumSaved < Lemsneeded)
                     ExitBad = true;
@@ -710,46 +674,46 @@ internal class InGame
         }
         else if (Input.PreviousKeyState.IsKeyDown(Keys.Escape) && Input.CurrentKeyState.IsKeyUp(Keys.Escape))
         {
-            if (ExitBad && LevelEnded)
-                ExitLevel = true;
-            else if (NumSaved >= Lemsneeded && LevelEnded)
-                ExitLevel = true;
+            if (ExitBad && _levelEnded)
+                _exitLevel = true;
+            else if (NumSaved >= Lemsneeded && _levelEnded)
+                _exitLevel = true;
             else
             {
-                if (!LevelEnded)
+                if (!_levelEnded)
                 {
                     ExitBad = true;
-                    LevelEnded = true;
+                    _levelEnded = true;
                     GlobalConst.Paused = true;
                 }
                 else
                 {
                     GlobalConst.Paused = false;
-                    LevelEnded = false;
+                    _levelEnded = false;
                 }
             }
         }
         if (((Input.PreviousKeyState.IsKeyDown(Keys.Enter) && Input.CurrentKeyState.IsKeyUp(Keys.Enter)) ||
             (Input.PreviousMouseState.RightButton == ButtonState.Released && Input.CurrentMouseState.RightButton == ButtonState.Pressed))
-            && LevelEnded)
+            && _levelEnded)
         {
-            ExitLevel = true;
+            _exitLevel = true;
             ExitBad = false;
-            BackToMainMenu = true;
+            _backToMainMenu = true;
         }
-        if ((Input.PreviousMouseState.LeftButton == ButtonState.Released && Input.CurrentMouseState.LeftButton == ButtonState.Pressed) && LevelEnded)
+        if ((Input.PreviousMouseState.LeftButton == ButtonState.Released && Input.CurrentMouseState.LeftButton == ButtonState.Pressed) && _levelEnded)
         {
             if (!ExitBad)
             {
                 GlobalConst.Paused = false;
-                LevelEnded = false;
+                _levelEnded = false;
             }
             else
-                ExitLevel = true;
+                _exitLevel = true;
             if (NumSaved >= Lemsneeded)
-                ExitLevel = true;
+                _exitLevel = true;
         }
-        if (ExitLevel)
+        if (_exitLevel)
         {
             if (ExitBad) //repeat level
             {
@@ -757,15 +721,15 @@ internal class InGame
                 Numlemnow = 0;
                 Fade = true;
                 MillisecondsElapsed = 0;
-                doorOn = true;
+                _doorOn = true;
                 Frame = 0;
                 Frame2 = 0;
-                Frame3 = 0;
-                frameDoor = 0;
-                frameExit = 0;
-                rest = 0;
-                LevelEnded = false;
-                ExitLevel = false;
+                _frame3 = 0;
+                _frameDoor = 0;
+                _frameExit = 0;
+                _rest = 0;
+                _levelEnded = false;
+                _exitLevel = false;
                 AllBlow = false;
                 ZvTime = 0;
                 ExitBad = false;
@@ -776,7 +740,7 @@ internal class InGame
             if (NumSaved >= Lemsneeded) //see here if level is finished or not
             {
                 SaveGame.AddFinishedGame(MyGame.Instance.CurrentLevelNumber, 0, AllLemmings.Count(l => l.Exit));
-                if (!BackToMainMenu)
+                if (!_backToMainMenu)
                 {
                     MyGame.Instance.CurrentLevelNumber++;
                     if (MyGame.Instance.CurrentLevelNumber >= GlobalConst.NumTotalLevels - 1)
@@ -786,15 +750,15 @@ internal class InGame
                     Numlemnow = 0;
                     Fade = true;
                     MillisecondsElapsed = 0;
-                    doorOn = true;
+                    _doorOn = true;
                     Frame = 0;
                     Frame2 = 0;
-                    Frame3 = 0;
-                    frameDoor = 0;
-                    frameExit = 0;
-                    rest = 0;
-                    LevelEnded = false;
-                    ExitLevel = false;
+                    _frame3 = 0;
+                    _frameDoor = 0;
+                    _frameExit = 0;
+                    _rest = 0;
+                    _levelEnded = false;
+                    _exitLevel = false;
                     AllBlow = false;
                     ZvTime = 0;
                     ExitBad = false;
@@ -805,22 +769,22 @@ internal class InGame
 
             CurrentMusic.Stop();
             MyGame.Instance.ScreenMainMenu.MouseLevelChoose = 0;
-            LevelEnded = false;
-            ExitLevel = false;
+            _levelEnded = false;
+            _exitLevel = false;
             AllBlow = false;
             ZvTime = 0;
             ExitBad = false;
-            BackToMainMenu = false;
+            _backToMainMenu = false;
             MyGame.Instance.ReloadContent();
             MyGame.Instance.BackToMenu();
             return;
         }
 
-        if (AllBlow && actualBlow < AllLemmings.Count) // crash crash TEST TEST
+        if (AllBlow && _actualBlow < AllLemmings.Count) // crash crash TEST TEST
         {
-            if (!AllLemmings[actualBlow].Dead && !AllLemmings[actualBlow].Explode)
-                AllLemmings[actualBlow].Exploser = true;
-            actualBlow++;
+            if (!AllLemmings[_actualBlow].Dead && !AllLemmings[_actualBlow].Explode)
+                AllLemmings[_actualBlow].Exploser = true;
+            _actualBlow++;
         }
         if (Input.PreviousKeyState.IsKeyDown(Keys.P) && Input.CurrentKeyState.IsKeyUp(Keys.P))
         {
@@ -922,62 +886,59 @@ internal class InGame
             mousepos.X = -14;
         if (mousepos.X > GlobalConst.GameResolution.X * (MyGame.Instance.Scaled ? 2 : 1))
             mousepos.X = GlobalConst.GameResolution.X * (MyGame.Instance.Scaled ? 2 : 1);
-        if (LockMouse)
+        if (_lockMouse)
             Mouse.SetPosition(mousepos.X, mousepos.Y); // setposition //this is for my son kids don't know move mouse so good  
     }
 
     private void Door()
     {
-        exit_rect.X = output1X - 5;
-        exit_rect.Y = output1Y - 5;
-        exit_rect.Width = 10;
-        exit_rect.Height = 10;
-        if (Draw2 && doorOn && Frame > 30)
+        Rectangle exitRect = new(_output1X - 5, _output1Y - 5, 10, 10);
+        if (Draw2 && _doorOn && Frame > 30)
         {
             TotalTime = 0;
             int xx55 = MyGame.Instance.Props.GetEntry(CurrentLevel.TypeOfDoor).NumFrame - 1;
-            frameDoor++;
-            if (frameDoor == 1 && MyGame.Instance.Sfx.EntryLemmings.State == SoundState.Stopped && !doorWaveOn)
+            _frameDoor++;
+            if (_frameDoor == 1 && MyGame.Instance.Sfx.EntryLemmings.State == SoundState.Stopped && !_doorWaveOn)
             {
                 MyGame.Instance.Sfx.EntryLemmings.Play();
-                doorWaveOn = true;
+                _doorWaveOn = true;
             }
-            if (frameDoor > xx55)
+            if (_frameDoor > xx55)
             {
                 CurrentMusic.IsLooped = true;
                 if (!SaveGame.MuteMusic)
                     CurrentMusic.Play();
-                doorOn = false;
-                frameDoor = xx55;
+                _doorOn = false;
+                _frameDoor = xx55;
             }
         }
         bool pullLemmings = false;
         float delayPercent = 27 - _inGameMenu.FrequencyNumber * 0.26f; // see to fix speed of lemmings release on door only when change frecuency (not so good)
-        if (Drawing && !doorOn)
+        if (Drawing && !_doorOn)
         {
-            exitFrame++;
-            if (exitFrame >= (int)delayPercent)
+            _exitFrame++;
+            if (_exitFrame >= (int)delayPercent)
             {
-                exitFrame = 0;
+                _exitFrame = 0;
                 pullLemmings = true;
             }
         }
         //test to see difference with anterior process
-        if (pullLemmings && AllLemmings.Count != TotalNumLemmings && !AllBlow)
+        if (pullLemmings && AllLemmings.Count != _totalNumLemmings && !AllBlow)
         {
             if (CurrentLevel.ListProps<OneMoreDoor>().Any()) // more than 1 door is different calculation
             {
-                door1Y = (int)CurrentLevel.ListProps<OneMoreDoor>().ElementAt(NumACTdoor).DoorMoreXY.Y;
-                door1X = (int)CurrentLevel.ListProps<OneMoreDoor>().ElementAt(NumACTdoor).DoorMoreXY.X;
-                NumACTdoor++;
-                if (NumACTdoor >= CurrentLevel.ListProps<OneMoreDoor>().Count())
-                    NumACTdoor = 0;
+                _door1Y = (int)CurrentLevel.ListProps<OneMoreDoor>().ElementAt(_numActiveDoor).DoorMoreXY.Y;
+                _door1X = (int)CurrentLevel.ListProps<OneMoreDoor>().ElementAt(_numActiveDoor).DoorMoreXY.X;
+                _numActiveDoor++;
+                if (_numActiveDoor >= CurrentLevel.ListProps<OneMoreDoor>().Count())
+                    _numActiveDoor = 0;
             }
             AllLemmings.Add(new OneLemming()
             {
                 NumLemming = AllLemmings.Count,
-                PosY = door1Y,
-                PosX = door1X + 35,
+                PosY = _door1Y,
+                PosX = _door1X + 35,
                 Numframes = SizeSprites.faller_frames,
                 Right = true,
                 Fall = true,
@@ -1011,6 +972,7 @@ internal class InGame
 
         foreach (OneLemming lemming in AllLemmings)
         {
+            Point x;
             x.X = lemming.PosX + 14;
             x.Y = lemming.PosY + 25;
             if (lemming.Exit && lemming.Actualframe == 13) // change frame of yipee sound, old frame was init or 0 now different for frames
@@ -1024,16 +986,13 @@ internal class InGame
             {
                 foreach (Vector2 moreExitPos in CurrentLevel.ListProps<OneMoreExit>().Select(me => me.ExitMoreXY)) // more than one EXIT place
                 {
-                    output1X = (int)moreExitPos.X;
-                    output1Y = (int)moreExitPos.Y;
-                    exit_rect.X = output1X - 5;
-                    exit_rect.Y = output1Y - 5;
-                    exit_rect.Width = 10;
-                    exit_rect.Height = 10;
-                    if (exit_rect.Contains(x) && !lemming.Exit && !lemming.Explode)
+                    _output1X = (int)moreExitPos.X;
+                    _output1Y = (int)moreExitPos.Y;
+                    exitRect = new(_output1X - 5, _output1Y - 5, 10, 10);
+                    if (exitRect.Contains(x) && !lemming.Exit && !lemming.Explode)
                     {
-                        lemming.PosX = output1X - 19; //14+5 middle of the exit rect
-                        lemming.PosY = output1Y - 30; //25+5
+                        lemming.PosX = _output1X - 19; //14+5 middle of the exit rect
+                        lemming.PosY = _output1Y - 30; //25+5
                         lemming.Active = false;
                         lemming.Walker = false;
                         lemming.Fall = false;
@@ -1046,10 +1005,10 @@ internal class InGame
             }
             else
             {
-                if (exit_rect.Contains(x) && !lemming.Exit && !lemming.Explode)
+                if (exitRect.Contains(x) && !lemming.Exit && !lemming.Explode)
                 {
-                    lemming.PosX = output1X - 19;
-                    lemming.PosY = output1Y - 30;
+                    lemming.PosX = _output1X - 19;
+                    lemming.PosY = _output1Y - 30;
                     lemming.Active = false;
                     lemming.Walker = false;
                     lemming.Fall = false;

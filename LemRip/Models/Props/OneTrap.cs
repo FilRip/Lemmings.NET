@@ -50,7 +50,7 @@ internal class OneTrap : OneBaseProp
             };
             Rectangle rectangleFill2 = new()
             {
-                X = 0 + vv444,
+                X = vv444,
                 Y = tYheight * ActFrame,
                 Width = AreaDraw.Width,
                 Height = tYheight,
